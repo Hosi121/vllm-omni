@@ -278,6 +278,29 @@ def _conditioning_cache_salt(request, tts_params: dict | None = None) -> str:
     return h.hexdigest()[:32]
 
 
+def _coerce_codec_snapshots(codes: Any) -> Any:
+    """Normalize the per-step ``codes.audio`` payload to one ``[rows, codebooks]`` array.
+
+    In DELTA output mode the output processor accumulates the talker's
+    per-step payloads as a list (deferred concatenation). The talker publishes
+    the *cumulative* code matrix each step, so the last snapshot is the current
+    state; a list of single-row entries (a true per-step delta producer) is
+    concatenated instead.
+    """
+    if codes is None or not isinstance(codes, (list, tuple)):
+        return codes
+    items = [c for c in codes if c is not None]
+    if not items:
+        return None
+    import numpy as np
+
+    arrays = [c.detach().cpu().numpy() if hasattr(c, "detach") else np.asarray(c) for c in items]
+    arrays = [a.reshape(1, -1) if a.ndim == 1 else a for a in arrays]
+    if len(arrays) > 1 and all(a.ndim == 2 and a.shape[0] == 1 for a in arrays):
+        return np.concatenate(arrays, axis=0)
+    return arrays[-1]
+
+
 class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
     _diffusion_mode: bool = False
     _media_connector: MediaConnector | None = None
@@ -3280,7 +3303,7 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
         if codes is None:
             return None
         if hasattr(codes, "get"):
-            return codes.get("audio")
+            return _coerce_codec_snapshots(codes.get("audio"))
         return None
 
     async def _generate_codec_chunks(

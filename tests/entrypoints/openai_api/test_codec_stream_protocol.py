@@ -199,3 +199,26 @@ def test_talker_only_deployment_detection():
     assert probe._is_talker_only_deployment() is False
     probe._tts_stage = None
     assert probe._is_talker_only_deployment() is False
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_codec_snapshot_list_is_normalized():
+    import numpy as np
+    import torch
+
+    from vllm_omni.entrypoints.openai.serving_speech import _coerce_codec_snapshots
+
+    assert _coerce_codec_snapshots(None) is None
+    t = torch.arange(32).reshape(2, 16)
+    assert _coerce_codec_snapshots(t) is t
+    # DELTA-mode list of cumulative snapshots -> last one
+    snaps = [torch.arange(16).reshape(1, 16), torch.arange(32).reshape(2, 16), torch.arange(48).reshape(3, 16)]
+    out = _coerce_codec_snapshots(snaps)
+    assert out.shape == (3, 16) and int(out[2, 15]) == 47
+    # list of single-row deltas -> concatenation
+    deltas = [torch.full((1, 16), i) for i in range(4)]
+    out = _coerce_codec_snapshots(deltas)
+    assert out.shape == (4, 16) and list(out[:, 0]) == [0, 1, 2, 3]
+    assert _coerce_codec_snapshots([None]) is None
+    assert isinstance(_coerce_codec_snapshots([np.zeros(16)]), np.ndarray)
