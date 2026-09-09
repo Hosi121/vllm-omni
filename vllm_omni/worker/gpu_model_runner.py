@@ -1957,8 +1957,13 @@ class OmniGPUModelRunner(GPUModelRunner):
             talker_kwargs["req_infos"] = [
                 self.model_intermediate_buffer.setdefault(req_id, {}) for req_id in decode_req_ids
             ]
-        with current_omni_platform.set_forward_context(
-            None, self.vllm_config, cudagraph_runtime_mode=_cudagraph_mode, batch_descriptor=batch_desc
+        from vllm_omni.edge.step_stats import StepStats
+
+        with (
+            current_omni_platform.set_forward_context(
+                None, self.vllm_config, cudagraph_runtime_mode=_cudagraph_mode, batch_descriptor=batch_desc
+            ),
+            StepStats.get().timed("model.mtp_graph_ms", sync_device=getattr(self, "device", None)),
         ):
             req_embeds, code_predictor_codes = self.talker_mtp(
                 req_input_ids,
