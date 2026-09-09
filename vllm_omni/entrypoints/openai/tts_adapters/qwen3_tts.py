@@ -44,6 +44,17 @@ class Qwen3TTSAdapter(ARTTSAdapter):
     stage_keys = frozenset({"qwen3_tts"})
     name = "qwen3_tts"
     supported_output_sample_rates = frozenset({8000, 24000})
+    # Talker-only deployments (qwen3_tts_talker_only.yaml) stream 16-codebook
+    # frames at 12.5 Hz for on-device decoding with Qwen3TTSTokenizerV2Decoder.
+    supports_codec_stream = True
+    codec_stream_spec = {
+        "codebooks": 16,
+        "codebook_size": 2048,
+        "frame_rate_hz": 12.5,
+        "sample_rate": 24000,
+        "decoder_id": "qwen3_tts_tokenizer_v2_12hz",
+        "eos_token_id": 2150,
+    }
 
     def _get_model_variant(self) -> str | None:
         """Return the task supported by the loaded Qwen3-TTS checkpoint.

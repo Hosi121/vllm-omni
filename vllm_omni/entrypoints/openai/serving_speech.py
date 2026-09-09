@@ -3251,6 +3251,77 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
         ):
             yield chunk
 
+    @staticmethod
+    def _extract_codec_output(res) -> Any:
+        """Return the cumulative ``codes.audio`` tensor from an engine output, or ``None``."""
+        outputs = getattr(res, "outputs", None)
+        if not outputs:
+            return None
+        mm = getattr(outputs[0], "multimodal_output", None)
+        if mm is None:
+            return None
+        getter = mm.get if hasattr(mm, "get") else None
+        codes = getter("codes") if getter else None
+        if codes is None:
+            return None
+        if hasattr(codes, "get"):
+            return codes.get("audio")
+        return None
+
+    async def _generate_codec_chunks(
+        self,
+        generator,
+        request_id: str,
+        *,
+        tts_params: dict[str, Any] | None = None,
+        min_frames: int = 1,
+    ):
+        """Yield ``(codes[int64, n, codebooks], eos)`` deltas from a talker-only pipeline.
+
+        The AR stage publishes the *cumulative* ``codes.audio`` tensor on every
+        step (``omni_client_multimodal_output_keys``); this generator aligns the
+        rows to the output token ids (dropping the prefill placeholder and the
+        EOS row) and emits only the new rows. The final item always carries
+        ``eos=True`` (possibly with zero frames).
+        """
+        from vllm_omni.entrypoints.openai.codec_stream import align_codec_rows
+
+        adapter = self._get_tts_adapter()
+        spec = getattr(adapter, "codec_stream_spec", None) or {}
+        codebook_size = int(spec.get("codebook_size", 2048))
+        usage_acc = SpeechOutputTokenCounter() if (adapter is not None and adapter.validates_generation) else None
+        token_ids: list[int] = []
+        sent = 0
+        finished = False
+        try:
+            async for res in generator:
+                if usage_acc is not None:
+                    usage_acc.observe(res)
+                outputs = getattr(res, "outputs", None)
+                if outputs:
+                    new_ids = getattr(outputs[0], "token_ids", None) or []
+                    # DELTA outputs carry per-step ids; CUMULATIVE ones carry the whole prefix.
+                    if len(new_ids) > len(token_ids) and list(new_ids[: len(token_ids)]) == token_ids:
+                        token_ids = list(new_ids)
+                    else:
+                        token_ids.extend(int(t) for t in new_ids)
+                codes_cum = self._extract_codec_output(res)
+                done = bool(getattr(res, "finished", False))
+                if codes_cum is not None:
+                    aligned = align_codec_rows(codes_cum, token_ids, codebook_size)
+                    delta = aligned[sent:]
+                    if delta.shape[0] >= min_frames or (done and delta.shape[0] > 0):
+                        sent = int(aligned.shape[0])
+                        yield delta, done
+                        if done:
+                            finished = True
+                if done and not finished:
+                    finished = True
+                    yield None, True
+        finally:
+            if usage_acc is not None and tts_params is not None and finished:
+                self._validate_tts_generation(tts_params, usage_acc)
+
     async def _iter_pcm_audio_bytes(self, request: OpenAICreateSpeechRequest):
         """Yield raw PCM bytes for a speech request as soon as chunks are decoded."""
         request_id, generator, tts_params = await self._prepare_speech_generation(request)
