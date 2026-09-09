@@ -204,6 +204,9 @@ class AsyncOmniEngine:
         from vllm_omni.entrypoints.utils import apply_deploy_profile
 
         apply_deploy_profile(model, kwargs)
+        # A profile may carry orchestrator defaults (e.g. ``parallel_stage_init``);
+        # re-read the flag now that the profile has been applied.
+        self._parallel_stage_init = bool(kwargs.get("parallel_stage_init") or False)
 
         # Stage resolution pops deploy_config, so get pipeline-wide settings beforehand.
         deploy_config_path = kwargs.get("deploy_config")

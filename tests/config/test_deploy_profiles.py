@@ -81,3 +81,20 @@ def test_modify_stage_config_keeps_relative_base_config_resolvable():
     cfg = load_deploy_config(Path(tmp_yaml))
     assert cfg.stages[0].max_num_seqs == 1
     assert cfg.stages[1].max_num_seqs == 4
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_edge_profile_carries_parallel_stage_init():
+    from vllm_omni.entrypoints.utils import apply_deploy_profile, profile_orchestrator_defaults
+
+    args = apply_deploy_profile("Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice", {"deploy_profile": "edge"})
+    assert args["parallel_stage_init"] is True
+    assert profile_orchestrator_defaults(args["deploy_config"]) == {"parallel_stage_init": True}
+    # explicit values win over the profile default
+    args = apply_deploy_profile(
+        "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice", {"deploy_profile": "edge", "parallel_stage_init": True}
+    )
+    assert args["parallel_stage_init"] is True
+    # unknown block keys are ignored
+    assert "init_timeout" not in args

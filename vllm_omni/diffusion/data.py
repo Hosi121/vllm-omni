@@ -11,7 +11,7 @@ from enum import Enum
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:  # heavy; only needed for annotations here
-    import diffusers
+    import diffusers  # noqa: TC004 - string annotation only
 
 import huggingface_hub
 import torch

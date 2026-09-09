@@ -23,6 +23,7 @@ from vllm_omni.edge.hardware_probe import (
     HardwareProfile,
     hardware_class,
 )
+from vllm_omni.edge.scheduling import KVGeometry, max_seqs_without_preemption
 
 GiB = 2**30
 
@@ -114,6 +115,7 @@ def derive_overrides(
     weights_bytes: int = 0,
     n_stages: int = 2,
     max_cpus: int | None = None,
+    kv_geometry: KVGeometry | None = None,
 ) -> dict[str, Any]:
     """Derive deploy overrides for an AR-talker + generation-decoder pipeline."""
     cls = hardware_class(profile)
@@ -122,12 +124,15 @@ def derive_overrides(
     budget = memory_budget_bytes(profile, weights_bytes, d)
     kv0 = int(budget * d.kv_fraction_stage0)
     kv1 = int(budget - kv0)
-    # Never let KV budgets allow preemption: require room for max_num_seqs x max_model_len
-    # at a conservative 8 KiB/token for the talker (measured later, see WP8 tests).
-    max_num_seqs = d.max_num_seqs
-    per_seq_bytes = d.max_model_len_stage0 * 8 * 1024
-    while max_num_seqs > 1 and max_num_seqs * per_seq_bytes > max(kv0, 1):
-        max_num_seqs -= 1
+    # No-preemption admission (WP8): the talker KV budget must hold
+    # max_num_seqs x max_model_len tokens, otherwise vLLM preempts by recompute.
+    # Exact bytes/token when the model's KV geometry is known (Qwen3-TTS 0.6B/1.7B:
+    # 28 layers x 8 KV heads x 128 x 2 B x 2 = 112 KiB), else a 8 KiB/token floor
+    # that keeps the historical behaviour for unknown models.
+    bytes_per_token = kv_geometry.bytes_per_token(dtype) if kv_geometry is not None else 8 * 1024
+    max_num_seqs = max(
+        1, min(d.max_num_seqs, max_seqs_without_preemption(kv0, d.max_model_len_stage0, bytes_per_token))
+    )
 
     small_vram = (
         profile.accelerator.startswith("cuda")

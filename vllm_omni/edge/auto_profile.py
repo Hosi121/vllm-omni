@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import atexit
 import copy
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -23,6 +24,7 @@ from vllm_omni.config.stage_config import _DEPLOY_DIR, resolve_deploy_yaml
 from vllm_omni.edge import calibrate
 from vllm_omni.edge.adapt import derive_overrides, estimate_weights_bytes
 from vllm_omni.edge.hardware_probe import HardwareProfile, describe, hardware_class, load_profile
+from vllm_omni.edge.scheduling import KVGeometry
 
 logger = init_logger(__name__)
 
@@ -112,6 +114,18 @@ def _model_dir(model: str) -> str | None:
         return None
 
 
+def load_kv_geometry(model_dir: str | Path | None) -> KVGeometry | None:
+    """Talker KV geometry from ``<model_dir>/config.json`` (None when unavailable)."""
+    if not model_dir:
+        return None
+    cfg_path = Path(model_dir) / "config.json"
+    try:
+        with open(cfg_path, encoding="utf-8") as f:
+            return KVGeometry.from_hf_config(json.load(f))
+    except (OSError, ValueError):
+        return None
+
+
 def materialize_auto_deploy(
     model: str,
     base_yaml: str | Path,
@@ -130,8 +144,14 @@ def materialize_auto_deploy(
     # the hardware-class overlay + derivation supersede them in auto mode.
     doc.pop("platforms", None)
     doc = apply_hardware_overlay(doc, hw_class)
-    weights = estimate_weights_bytes(_model_dir(model))
-    overrides = derive_overrides(prof, weights_bytes=weights, n_stages=len(doc.get("stages", [])) or 2)
+    model_dir = _model_dir(model)
+    weights = estimate_weights_bytes(model_dir)
+    overrides = derive_overrides(
+        prof,
+        weights_bytes=weights,
+        n_stages=len(doc.get("stages", [])) or 2,
+        kv_geometry=load_kv_geometry(model_dir),
+    )
     doc = apply_derived_overrides(doc, overrides)
     cal = None
     if use_calibration:

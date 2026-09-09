@@ -65,6 +65,11 @@ def parse_bench_args(argv: list[str]) -> tuple[argparse.Namespace, list[str]]:
     p.add_argument("--gpu-poll-interval-s", type=float, default=0.2)
     p.add_argument("--parallel-stage-init", action="store_true", help="Pass parallel_stage_init=True to the engine")
     p.add_argument("--deploy-profile", default=None, help="Named deploy profile (e.g. edge); forwarded to Omni")
+    p.add_argument(
+        "--step-stats",
+        action="store_true",
+        help="Collect per-step overhead attribution (VLLM_OMNI_STEP_STATS_DIR) and embed it in the JSON",
+    )
     p.add_argument("--bench-help", action="store_true")
     bench, rest = p.parse_known_args(argv)
     if bench.bench_help:
@@ -289,6 +294,12 @@ async def main() -> int:
     example_args = end2end.parse_args()
     model_name, inputs = build_inputs(example_args, bench.model)
 
+    if bench.step_stats and not os.environ.get("VLLM_OMNI_STEP_STATS_DIR"):
+        # Must be exported before the stage processes spawn (they inherit it).
+        stats_dir = Path(bench.output_dir) / "step_stats" / _dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+        stats_dir.mkdir(parents=True, exist_ok=True)
+        os.environ["VLLM_OMNI_STEP_STATS_DIR"] = str(stats_dir)
+
     omni_kwargs = vars(example_args).copy()
     omni_kwargs["model"] = model_name
     if bench.parallel_stage_init:
@@ -328,6 +339,15 @@ async def main() -> int:
     measured = [r for r in results if not r["warmup"]]
     summary = metrics.summarize(measured)
 
+    step_stats = None
+    if bench.step_stats:
+        from vllm_omni.edge.step_stats import StepStats, format_table, merge_dir
+
+        StepStats.get().dump()  # orchestrator-side counters live in this process
+        step_stats = merge_dir(os.environ["VLLM_OMNI_STEP_STATS_DIR"])
+        print("[bench] step overhead attribution (share of the 80 ms frame budget):", flush=True)
+        print(format_table(step_stats["attribution"]), flush=True)
+
     timeline = None
     tl_path = os.environ.get("VLLM_OMNI_INIT_TIMELINE")
     if tl_path and os.path.exists(tl_path):
@@ -366,6 +386,7 @@ async def main() -> int:
             "init_only": bench.init_only,
         },
         "init": {"init_s": init_s, "init_timeline": timeline},
+        "step_stats": step_stats,
         "resources": resources,
         "requests": results,
         "summary": summary,

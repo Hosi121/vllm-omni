@@ -191,6 +191,10 @@ class StageEngineCoreProc(EngineCoreProc):
                     engine_index=dp_rank,
                     **kwargs,
                 )
+            # Steady-state overhead attribution (no-op unless VLLM_OMNI_STEP_STATS_DIR).
+            from vllm_omni.edge.step_stats import StepStats, instrument_engine_core
+
+            instrument_engine_core(engine_core)
 
             # Each subprocess corresponds to exactly one omni replica with
             # its own OmniMasterServer allocation, so the heartbeat client
@@ -241,6 +245,8 @@ class StageEngineCoreProc(EngineCoreProc):
                 engine_core._send_engine_dead()
             raise
         finally:
+            with contextlib.suppress(Exception):
+                StepStats.get().dump()
             signal.signal(signal.SIGTERM, signal.SIG_DFL)
             signal.signal(signal.SIGINT, signal.SIG_DFL)
             if signal_callback is not None:

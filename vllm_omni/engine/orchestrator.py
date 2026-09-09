@@ -36,6 +36,7 @@ from vllm.v1.metrics.stats import IterationStats
 
 from vllm_omni.config.stage_config import DuplexSessionRuntimeConfig
 from vllm_omni.distributed.omni_connectors.utils.config import stage_receives_chunks
+from vllm_omni.edge.step_stats import StepStats
 from vllm_omni.engine import OmniEngineCoreRequest
 from vllm_omni.engine.cfg_companion_tracker import CfgCompanionTracker
 from vllm_omni.engine.duplex.contracts import (
@@ -1383,7 +1384,12 @@ class Orchestrator:
         pending_get: asyncio.Task | None = None
         next_reconcile = _time.monotonic() + _ORCH_READER_RECONCILE_INTERVAL_S
         try:
+            _stats = StepStats.get()
+            _dispatch_t0: float | None = None
             while not self._shutdown_event.is_set():
+                if _dispatch_t0 is not None:
+                    _stats.add("orch.dispatch_ms", (_time.perf_counter() - _dispatch_t0) * 1000.0)
+                    _dispatch_t0 = None
                 if pending_get is None:
                     pending_get = asyncio.create_task(ready_q.get(), name="orch-dispatch-get")
                 done, _ = await asyncio.wait(
@@ -1406,6 +1412,8 @@ class Orchestrator:
                     continue
                 kind, stage_id, replica_id, payload = pending_get.result()
                 pending_get = None
+                if _stats.enabled:
+                    _dispatch_t0 = _time.perf_counter()
 
                 if kind == "error":
                     # replica_id < 0 means the failure was raised by a poller
