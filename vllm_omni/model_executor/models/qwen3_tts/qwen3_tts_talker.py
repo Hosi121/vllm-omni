@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import os
 from collections.abc import Iterable, Mapping, Sequence
 from typing import Any
 
@@ -23,6 +24,7 @@ from vllm.sequence import IntermediateTensors
 
 from vllm_omni.data_entry_keys import OmniPayload
 from vllm_omni.model_executor.models.output_templates import OmniOutput
+from vllm_omni.platforms import current_omni_platform
 from vllm_omni.utils.speaker_cache import (
     get_speaker_cache,
     iter_custom_voice_profiles,
@@ -303,6 +305,12 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
         self.have_multimodal_outputs = True
         self.has_preprocess = True
         self.has_postprocess = True
+        # CPU: vLLM's stock sampler spends ~8.5 ms per step in a torch.compile'd
+        # random-sample kernel (measured, Xeon 8480C); the model-side sampler
+        # below reproduces the same math eagerly in <0.5 ms. GPU keeps the stock path.
+        self.prefer_model_sampler = current_omni_platform.is_cpu() and os.environ.get(
+            "VLLM_OMNI_CPU_FAST_SAMPLER", "1"
+        ).strip().lower() not in ("0", "false", "off", "no")
         # Qwen3-TTS postprocess() only reads hidden_states[-1, :]. On a prefix-
         # cache hit, the last hidden state is in the newly computed tail, so
         # reconstructing the full cached_prefix + new_tail span is wasted work.
@@ -640,6 +648,46 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
         return logits
 
     # -------------------- Omni multimodal output plumbing --------------------
+
+    # ------------------------------------------------------------------
+    # CPU fast sampler (prefer_model_sampler): same math as vLLM's Sampler.forward
+    # (logits processors, penalties, temperature, top-k/top-p, exponential-noise
+    # sampling with per-request generators) without the compiled random-sample
+    # kernel that dominates the CPU step. Returns None to fall back to the stock
+    # sampler whenever logprobs are requested or the tensor is not on CPU.
+    # ------------------------------------------------------------------
+    def sample(self, logits: torch.Tensor, sampling_metadata: Any) -> Any:
+        if logits is None or logits.device.type != "cpu" or sampling_metadata.max_num_logprobs is not None:
+            return None
+        if getattr(sampling_metadata, "logprob_token_ids", None):
+            return None
+        from vllm.v1.outputs import SamplerOutput
+        from vllm.v1.sample.ops.topk_topp_sampler import apply_top_k_top_p
+        from vllm.v1.sample.sampler import Sampler
+
+        sampler = getattr(self, "_stock_sampler", None)
+        if sampler is None:
+            sampler = self._stock_sampler = Sampler()
+        logits = logits.to(torch.float32)
+        # apply_logits_processors applies penalties, bad words and min-tokens (vLLM 0.28)
+        logits = sampler.apply_logits_processors(logits, sampling_metadata, False)
+        if sampling_metadata.all_greedy:
+            sampled = logits.argmax(dim=-1)
+        else:
+            greedy = logits.argmax(dim=-1) if not sampling_metadata.all_random else None
+            logits = sampler.apply_temperature(logits, sampling_metadata.temperature, sampling_metadata.all_random)
+            k, p = sampling_metadata.top_k, sampling_metadata.top_p
+            if k is not None or p is not None:
+                logits = apply_top_k_top_p(logits, k, p)
+            probs = logits.softmax(dim=-1, dtype=torch.float32)
+            q = torch.empty_like(probs)
+            q.exponential_()
+            for i, generator in sampling_metadata.generators.items():
+                q[i].exponential_(generator=generator)
+            sampled = probs.div_(q).argmax(dim=-1)
+            if greedy is not None:
+                sampled = torch.where(sampling_metadata.temperature < 1e-5, greedy, sampled)
+        return SamplerOutput(sampled_token_ids=sampled.view(-1, 1), logprobs_tensors=None)
 
     def make_omni_output(self, model_outputs: torch.Tensor | OmniOutput, **kwargs: Any) -> OmniOutput:
         if isinstance(model_outputs, OmniOutput):

@@ -212,6 +212,28 @@ def instrument_engine_core(engine_core: Any) -> None:
         engine_core.step_fn = stats.wrap("core.step_ms", step_fn)
 
 
+def instrument_sampler(sampler: Any) -> None:
+    """Time the phases of vLLM's v1 ``Sampler`` in place (idempotent, no-op when disabled)."""
+    stats = StepStats.get()
+    if not stats.enabled or sampler is None or getattr(sampler, "_omni_step_stats_instrumented", False):
+        return
+    for name in (
+        "apply_logits_processors",
+        "apply_penalties",
+        "apply_temperature",
+        "sample",
+        "compute_logprobs",
+        "gather_logprobs",
+    ):
+        fn = getattr(sampler, name, None)
+        if callable(fn):
+            setattr(sampler, name, stats.wrap(f"sampler.{name}_ms", fn))
+    tk = getattr(sampler, "topk_topp_sampler", None)
+    if tk is not None and callable(getattr(tk, "forward", None)):
+        tk.forward = stats.wrap("sampler.topk_topp_ms", tk.forward)
+    sampler._omni_step_stats_instrumented = True
+
+
 def shm_lockfile_age_ms(key: str, now: float | None = None) -> float | None:
     """Age of the SharedMemoryConnector lock file for ``key`` (written at put time)."""
     try:

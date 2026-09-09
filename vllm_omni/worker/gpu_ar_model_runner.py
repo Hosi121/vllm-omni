@@ -1394,10 +1394,13 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
         fallthrough is load-bearing, not an error path; it is logged once per
         model for visibility.
         """
-        sampling_metadata = self.input_batch.sampling_metadata
+        _stats = _step_stats()
+        with _stats.timed("model.sample_meta_ms"):
+            sampling_metadata = self.input_batch.sampling_metadata
         if spec_decode_metadata is None:
             model_sample = getattr(self.model, "sample", None)
-            self.input_batch.update_async_output_token_ids()
+            with _stats.timed("model.sample_async_ids_ms"):
+                self.input_batch.update_async_output_token_ids()
             if logits is not None and callable(model_sample) and getattr(self.model, "prefer_model_sampler", False):
                 # Apply logit bias (min_tokens, allowed_token_ids) before
                 # the custom model sampler — the standard GPU sampler does
@@ -1422,10 +1425,15 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
                     "prefer_model_sampler model %s returned None from sample(); falling back to the default sampler.",
                     type(self.model).__name__,
                 )
-            return self.sampler(
-                logits=logits,
-                sampling_metadata=sampling_metadata,
-            )
+            if _stats.enabled:
+                from vllm_omni.edge.step_stats import instrument_sampler
+
+                instrument_sampler(self.sampler)
+            with _stats.timed("model.sampler_call_ms", sync_device=self.device):
+                return self.sampler(
+                    logits=logits,
+                    sampling_metadata=sampling_metadata,
+                )
 
         return super()._sample(logits, spec_decode_metadata)
 
