@@ -1173,7 +1173,11 @@ class CodePredictorWrapper(nn.Module):
         self._cpu_fast_path_done = True
         if device.type != "cpu" or current_omni_platform.is_npu():
             return
-        mode = os.environ.get(self._INT8_ENV, "ao").strip().lower()  # "ao": torch.ao dynamic int8 (validated)
+        # Default "fp32": fp32 weights + compiled shape-static step. Measured in situ against the
+        # bf16 model (VLLM_OMNI_PREDICTOR_PARITY_CHECK=1): fp32 keeps 93.8 % top-1 / KL 0.0015,
+        # while torch.ao dynamic int8 ("ao") drops to 22 % top-1 (per-tensor activation
+        # quantization of the residual stream), so int8 is opt-in only.
+        mode = os.environ.get(self._INT8_ENV, "fp32").strip().lower()
         if mode in ("0", "false", "off", "no"):
             return
         self._parity_ref = None
@@ -1214,8 +1218,12 @@ class CodePredictorWrapper(nn.Module):
             from torch.ao.quantization import quantize_dynamic
 
             self.model = quantize_dynamic(self.model.float(), {nn.Linear}, dtype=torch.qint8)
-            self.lm_head = quantize_dynamic(self.lm_head.float(), {nn.Linear}, dtype=torch.qint8)
-            kind = "torch.ao dynamic int8 Linear (eager)"
+            if mode == "ao-nohead":  # keep the 15 lm heads (logits) in fp32
+                self.lm_head = self.lm_head.float()
+                kind = "torch.ao dynamic int8 Linear, fp32 lm heads (eager)"
+            else:
+                self.lm_head = quantize_dynamic(self.lm_head.float(), {nn.Linear}, dtype=torch.qint8)
+                kind = "torch.ao dynamic int8 Linear (eager)"
         self.small_to_mtp_projection = self.small_to_mtp_projection.float()
         self._model_dtype = torch.float32
         self._lm_heads_list = list(self.lm_head)
