@@ -109,6 +109,63 @@ class LocalDecoder:
         return wav.float().cpu().numpy().reshape(-1)
 
 
+class ExecutorchWindowedDecoder:
+    """Decoder backend for phone/NPU targets: exported windowed programs (see vllm_omni.edge.decoder_export).
+
+    Keeps the last ``context_frames`` decoded frames as explicit state and runs
+    the ``.pte`` program matching the chunk size (falls back to the closest
+    larger program with zero-padded context when a size is missing). Untested
+    in this checkout (executorch not installed); mirrors ``LocalDecoder``'s API.
+    """
+
+    def __init__(self, manifest_path: str):
+        import json as _json
+
+        from executorch.runtime import Runtime  # type: ignore[import-not-found]
+
+        self.manifest = _json.loads(Path(manifest_path).read_text())
+        self.num_quantizers = int(self.manifest["num_quantizers"])
+        self.sample_rate = int(self.manifest["sample_rate"])
+        self.hop = int(self.manifest["hop"])
+        self.context = int(self.manifest["context_frames"])
+        rt = Runtime.get()
+        self.methods = {}
+        for chunk, entry in self.manifest["programs"].items():
+            program = rt.load_program(entry["path"])
+            self.methods[int(chunk)] = program.load_method("forward")
+        self.reset()
+
+    def reset(self) -> None:
+        self.history = np.zeros((0, self.num_quantizers), dtype=np.int64)
+        self.frames_decoded = 0
+
+    def decode(self, codes: np.ndarray) -> np.ndarray:
+        if codes.shape[0] == 0:
+            return np.zeros(0, dtype=np.float32)
+        n = int(codes.shape[0])
+        sizes = sorted(self.methods)
+        size = next((s for s in sizes if s >= n), sizes[-1])
+        window = np.concatenate([self.history, codes], axis=0)[-(self.context + size) :]
+        pad = self.context + size - window.shape[0]
+        if pad > 0:
+            window = np.concatenate([np.zeros((pad, self.num_quantizers), dtype=np.int64), window], axis=0)
+        inp = torch.as_tensor(window.T[None], dtype=torch.long)  # [1, Q, ctx+size]
+        out = self.methods[size].execute([inp])[0]
+        wav = out.reshape(-1).float().numpy()[-size * self.hop :]
+        self.history = np.concatenate([self.history, codes], axis=0)[-self.context :]
+        self.frames_decoded += n
+        return wav[-n * self.hop :] if n < size else wav
+
+
+def build_decoder(args: argparse.Namespace, steady: int):
+    backend = getattr(args, "decoder_backend", "torch")
+    if backend == "executorch":
+        if not getattr(args, "pte_manifest", None):
+            raise SystemExit("--decoder-backend executorch needs --pte-manifest <export dir>/manifest.json")
+        return ExecutorchWindowedDecoder(args.pte_manifest)
+    return LocalDecoder(args.model, device=args.device, left_context=args.left_context, chunk_frames=steady)
+
+
 # ------------------------------------------------------------------- client
 async def run(args: argparse.Namespace) -> dict[str, Any]:
     import websockets
@@ -116,7 +173,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     ramp = args.ramp or DEFAULT_RAMP
     schedule = parse_chunk_ramp({"codec_chunk_ramp": ramp}, steady=ramp[-1]) or ramp
     steady = schedule[-1]
-    decoder = LocalDecoder(args.model, device=args.device, left_context=args.left_context, chunk_frames=steady)
+    decoder = build_decoder(args, steady)
     url = f"ws://{args.host}:{args.port}/v1/audio/speech/stream"
     config: dict[str, Any] = {
         "type": "session.config",
@@ -235,6 +292,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--max-new-tokens", dest="max_new_tokens", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--device", default="cpu")
+    p.add_argument("--decoder-backend", dest="decoder_backend", choices=["torch", "executorch"], default="torch")
+    p.add_argument("--pte-manifest", dest="pte_manifest", default=None, help="manifest.json from decoder_export")
     p.add_argument("--left-context", type=int, default=72)
     p.add_argument("--ramp", type=int, nargs="*", default=None, help="chunk schedule in frames, default 2 4 8 16 25")
     p.add_argument("--out", default=None)
