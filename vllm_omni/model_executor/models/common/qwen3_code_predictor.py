@@ -462,6 +462,36 @@ class CodePredictorDecoderLayer(nn.Module):
 # ===================================================================
 
 
+def _post_step_sample(
+    hidden: torch.Tensor,
+    head_w: torch.Tensor,
+    embed_w: torch.Tensor,
+    proj_w: torch.Tensor,
+    proj_b: torch.Tensor | None,
+    u: torch.Tensor,
+    inv_temperature: float,
+    top_k: int,
+    use_sampling: bool,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """lm head -> top-k mask -> Gumbel-max sample (noise ``u`` drawn by the caller) -> embed -> project.
+
+    Shape-static and generator-free so it compiles into one graph per (top_k, use_sampling).
+    Returns ``(code [B, 1], proj_row [B, H])``.
+    """
+    logits = F.linear(hidden, head_w)
+    if use_sampling:
+        scaled = logits * inv_temperature
+        if top_k > 0:
+            topk_vals, _ = scaled.topk(top_k, dim=-1)
+            scaled = scaled.masked_fill(scaled < topk_vals[:, -1:], float("-inf"))
+        code = (scaled.float() - torch.log(-torch.log(u))).argmax(dim=-1, keepdim=True)
+    else:
+        code = logits.argmax(dim=-1, keepdim=True)
+    new_embed = F.embedding(code, embed_w)  # [B, 1, H]
+    proj_row = F.linear(new_embed.reshape(code.shape[0], -1), proj_w, proj_b)
+    return code, proj_row
+
+
 class CodePredictorBaseModel(nn.Module):
     """Inner transformer for code predictor.
 
@@ -1206,6 +1236,7 @@ class CodePredictorWrapper(nn.Module):
                 quantize_(self.model, Int8WeightOnlyConfig())
                 quantize_(self.lm_head, Int8WeightOnlyConfig())
             self._static_step_fn = torch.compile(self.model.forward_static_step, dynamic=False)
+            self._post_step_fn = torch.compile(_post_step_sample, dynamic=False)
             model = self.model
 
             def _prefill(x, pos_ids, caches):
@@ -1446,6 +1477,40 @@ class CodePredictorWrapper(nn.Module):
                         step,
                     )
                     hidden_step = hidden_new[:, 0, :]
+                post_step = getattr(self, "_post_step_fn", None)
+                if (
+                    post_step is not None
+                    and not stored_mode
+                    and getattr(self, "_parity_ref", None) is None
+                    and not self._wrapper_config.return_proj_buf
+                    and isinstance(projection, nn.Linear)
+                ):
+                    head = lm_heads[step - 1]
+                    proj = projection
+                    u = torch.empty(bsz, head.weight.shape[0], dtype=torch.float32, device=device)
+                    row_generators = self._normalize_generators(sample_generator, bsz)
+                    if isinstance(row_generators, list):
+                        for row, row_generator in enumerate(row_generators):
+                            u[row : row + 1].uniform_(_UNIFORM_EPS, 1.0 - _UNIFORM_EPS, generator=row_generator)
+                    else:
+                        u.uniform_(_UNIFORM_EPS, 1.0 - _UNIFORM_EPS, generator=row_generators)
+                    code, proj_row = post_step(
+                        hidden_step,
+                        head.weight,
+                        codec_embeds[step - 1].weight,
+                        proj.weight,
+                        proj.bias,
+                        u,
+                        float(sample_kwargs["inv_temperature"]),
+                        int(sample_kwargs["top_k"]),
+                        bool(sample_kwargs["use_sampling"]),
+                    )
+                    all_codes[:, step] = code.reshape(bsz)
+                    if step < num_groups - 1:
+                        proj_buf[:bsz, step + 1, :] = proj_row
+                    if _stats.enabled:
+                        _stats.add("predictor.substep_ms", (time.perf_counter() - _t_sub) * 1000.0)
+                    continue
                 logits = lm_heads[step - 1](hidden_step)
                 if getattr(self, "_parity_ref", None) is not None:
                     if step == 1:

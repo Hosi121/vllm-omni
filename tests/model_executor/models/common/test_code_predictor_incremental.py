@@ -97,3 +97,31 @@ def test_compiled_static_step_matches_eager():
         mask = (torch.arange(max_seq) <= step).view(1, 1, 1, max_seq).expand(bsz, 1, 1, max_seq)
         out = step_fn(x[:, step : step + 1], pos[:, step : step + 1], caches, pos_t, mask)
         assert torch.allclose(out[:, 0], full[:, step], atol=1e-4, rtol=1e-4), step
+
+
+@torch.inference_mode()
+def test_post_step_sample_matches_eager_gumbel():
+    from vllm_omni.model_executor.models.common.qwen3_code_predictor import _post_step_sample
+
+    torch.manual_seed(3)
+    bsz, hidden, vocab = 2, 64, 32
+    h = torch.randn(bsz, hidden)
+    head_w = torch.randn(vocab, hidden)
+    embed_w = torch.randn(vocab, hidden)
+    proj_w = torch.randn(hidden, hidden)
+    proj_b = torch.randn(hidden)
+    u = torch.rand(bsz, vocab).clamp_(1e-20, 1 - 1e-20)
+    # eager reference (the loop body of the predictor): top-k mask + Gumbel-max
+    logits = h @ head_w.T
+    scaled = logits * (1 / 0.9)
+    topk_vals, _ = scaled.topk(5, dim=-1)
+    scaled = scaled.masked_fill(scaled < topk_vals[:, -1:], float("-inf"))
+    ref_code = (scaled.float() - torch.log(-torch.log(u))).argmax(-1, keepdim=True)
+    ref_proj = torch.nn.functional.linear(embed_w[ref_code.view(-1)], proj_w, proj_b)
+    code, proj_row = _post_step_sample(h, head_w, embed_w, proj_w, proj_b, u, 1 / 0.9, 5, True)
+    assert torch.equal(code, ref_code) and torch.allclose(proj_row, ref_proj, atol=1e-5)
+    code_g, _ = _post_step_sample(h, head_w, embed_w, proj_w, proj_b, u, 0.0, 0, False)
+    assert torch.equal(code_g.view(-1), logits.argmax(-1))
+    compiled = torch.compile(_post_step_sample, dynamic=False)
+    code_c, proj_c = compiled(h, head_w, embed_w, proj_w, proj_b, u, 1 / 0.9, 5, True)
+    assert torch.equal(code_c, ref_code) and torch.allclose(proj_c, ref_proj, atol=1e-4)
