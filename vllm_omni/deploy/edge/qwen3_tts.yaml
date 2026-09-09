@@ -15,10 +15,19 @@
 #   * Both stages share logical device "0" (one GPU). Memory fractions are
 #     what the two 0.6B/1.7B stages actually need with these limits, not the
 #     server defaults; raise stage 1 if the KV-profile log reports OOM.
-#   * ``enforce_eager`` / ``parallel_stage_init`` are intentionally not set
-#     here yet; benchmarks/tts/init_profile.py results decide them (WP2).
+#   * Init-time knobs come from benchmarks/tts/init_profile.py run
+#     20260909-112200 (1.7B, L20X, warm caches): default 152.0 s,
+#     eager_stage1 149.9 s, eager_both 110.9 s but first-request TTFA 15 s
+#     (no talker/predictor graphs), parallel_stage_init 94.6 s with unchanged
+#     TTFA. So graphs stay on (``enforce_eager`` untouched) and both stages
+#     initialise concurrently on the shared device.
 base_config: ../qwen3_tts.yaml
 async_chunk: true
+
+# Orchestrator arguments carried by the profile (applied by the ``deploy_profile``
+# selector; explicit CLI/engine values win). Not part of the stage schema.
+orchestrator:
+  parallel_stage_init: true
 
 connectors:
   connector_of_shared_memory:

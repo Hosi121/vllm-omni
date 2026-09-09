@@ -29,6 +29,7 @@ import argparse
 import datetime as _dt
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -191,7 +192,13 @@ def run_case(case: Case, args: argparse.Namespace, out_dir: Path, passthrough: l
             rc = proc.returncode
         except subprocess.TimeoutExpired:
             rc = -1
-    row: dict[str, Any] = {"case": case.name, "note": case.note, "returncode": rc, "cmd": cmd, "hardware_class": None}
+    row: dict[str, Any] = {
+        "case": case.name,
+        "note": case.note,
+        "returncode": rc,
+        "cmd": cmd,
+        "hardware_class": parse_hardware_class(case_dir / "stdout.log"),
+    }
     files = sorted((case_dir / "bench").rglob("*.json"))
     if files:
         doc = json.loads(files[-1].read_text())
@@ -206,6 +213,19 @@ def run_case(case: Case, args: argparse.Namespace, out_dir: Path, passthrough: l
             peak_gpu_mib=doc["resources"]["peak_gpu_mem_mib"],
         )
     return row
+
+
+_AUTO_PROFILE_RE = re.compile(r"\[auto_profile\] (\S+) -> ")
+
+
+def parse_hardware_class(log_path: Path) -> str | None:
+    """Hardware class chosen by ``deploy_profile=auto`` as logged by auto_profile."""
+    try:
+        text = log_path.read_text(errors="replace")
+    except OSError:
+        return None
+    m = _AUTO_PROFILE_RE.search(text)
+    return m.group(1) if m else None
 
 
 def render_table(rows: list[dict[str, Any]]) -> str:

@@ -337,9 +337,39 @@ def apply_deploy_profile(model: str, args_dict: dict[str, Any]) -> dict[str, Any
         edge_path = deploy_path_for_profile(Path(default_path).stem, "edge")
         base = str(edge_path) if edge_path is not None else default_path
         args_dict["deploy_config"], _ = materialize_auto_deploy(model, base)
+        _apply_profile_orchestrator_defaults(base, args_dict)
         return args_dict
     args_dict["deploy_config"] = resolve_deploy_profile_path(model, profile)
+    _apply_profile_orchestrator_defaults(args_dict["deploy_config"], args_dict)
     return args_dict
+
+
+# Orchestrator-level settings a deploy profile may carry under a top-level
+# ``orchestrator:`` block. They are engine/CLI arguments, not stage config, so
+# ``load_deploy_config`` ignores the block and the profile selector applies it
+# here (explicit user values win; only unset/False defaults are replaced).
+PROFILE_ORCHESTRATOR_KEYS = frozenset({"parallel_stage_init", "init_timeout", "stage_init_timeout"})
+
+
+def profile_orchestrator_defaults(deploy_path: str | Path) -> dict[str, Any]:
+    """Return the ``orchestrator:`` block of a deploy YAML (only known keys)."""
+    try:
+        import yaml
+
+        with open(deploy_path, encoding="utf-8") as f:
+            doc = yaml.safe_load(f) or {}
+    except (OSError, ValueError):
+        return {}
+    block = doc.get("orchestrator") if isinstance(doc, dict) else None
+    if not isinstance(block, dict):
+        return {}
+    return {k: v for k, v in block.items() if k in PROFILE_ORCHESTRATOR_KEYS}
+
+
+def _apply_profile_orchestrator_defaults(deploy_path: str | Path, args_dict: dict[str, Any]) -> None:
+    for key, value in profile_orchestrator_defaults(deploy_path).items():
+        if args_dict.get(key) in (None, False):
+            args_dict[key] = value
 
 
 def resolve_model_config_path(model: str) -> str | None:
