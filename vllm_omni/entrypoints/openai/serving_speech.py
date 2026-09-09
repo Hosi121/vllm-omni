@@ -3293,8 +3293,12 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
         token_ids: list[int] = []
         sent = 0
         finished = False
+        n_outputs = 0
+        n_with_codes = 0
+        first_codes_at = -1
         try:
             async for res in generator:
+                n_outputs += 1
                 if usage_acc is not None:
                     usage_acc.observe(res)
                 outputs = getattr(res, "outputs", None)
@@ -3308,6 +3312,9 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
                 codes_cum = self._extract_codec_output(res)
                 done = bool(getattr(res, "finished", False))
                 if codes_cum is not None:
+                    n_with_codes += 1
+                    if first_codes_at < 0:
+                        first_codes_at = n_outputs
                     aligned = align_codec_rows(codes_cum, token_ids, codebook_size)
                     delta = aligned[sent:]
                     if delta.shape[0] >= min_frames or (done and delta.shape[0] > 0):
@@ -3319,6 +3326,14 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
                     finished = True
                     yield None, True
         finally:
+            logger.info(
+                "[codec_stream] req=%s engine outputs=%d with codes=%d first codes at output #%d rows sent=%d",
+                request_id,
+                n_outputs,
+                n_with_codes,
+                first_codes_at,
+                sent,
+            )
             if usage_acc is not None and tts_params is not None and finished:
                 self._validate_tts_generation(tts_params, usage_acc)
 

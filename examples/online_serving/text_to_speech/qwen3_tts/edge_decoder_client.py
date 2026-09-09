@@ -199,6 +199,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         if val is not None:
             config[key] = val
     pcm_parts: list[np.ndarray] = []
+    codes_all: list[np.ndarray] = []
     chunk_log: list[dict[str, Any]] = []
     pending = np.zeros((0, decoder.num_quantizers), dtype=np.int64)
     chunk_idx = 0
@@ -222,6 +223,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                 total_frames += n
                 if n:
                     pending = np.concatenate([pending, arr.astype(np.int64)], axis=0)
+                    codes_all.append(arr.astype(np.int64))
                 eos = bool(flags & FLAG_EOS)
                 target = schedule[min(chunk_idx, len(schedule) - 1)]
                 while pending.shape[0] >= target or (eos and pending.shape[0] > 0):
@@ -283,6 +285,10 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
 
         sf.write(args.out, audio, sr, format="WAV")
         result["wav"] = args.out
+        # Raw received codec rows (frames x codebooks) for offline parity checks.
+        codes_path = str(Path(args.out).with_suffix(".codes.npy"))
+        np.save(codes_path, np.concatenate(codes_all, axis=0) if codes_all else np.zeros((0, 0), dtype=np.int64))
+        result["codes"] = codes_path
     if args.json:
         Path(args.json).write_text(json.dumps(result, indent=1))
     print(json.dumps({k: v for k, v in result.items() if k != "chunks"}, indent=1))
