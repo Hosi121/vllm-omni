@@ -64,6 +64,11 @@ _PUBLIC_OMNI = (
     "SPEAKER_MAX_UPLOADED",
     "SPEAKER_SAMPLES_DIR",
     "VLLM_OMNI_ASYNC_OUTPUT_TIMEOUT",
+    # edge branch (vllm_omni/edge, init timeline, CPU platform)
+    "VLLM_OMNI_CPU_INDUCTOR",
+    "VLLM_OMNI_HW_PROFILE",
+    "VLLM_OMNI_INIT_TIMELINE",
+    "VLLM_OMNI_STEP_STATS_DIR",
     "VLLM_OMNI_EVENT_DRIVEN_ORCH",
     "VLLM_OMNI_INPUT_WAIT_TIMEOUT_S",
     "VLLM_OMNI_ORCH_MONITOR_PATH",
@@ -238,6 +243,9 @@ _BENCHMARK_TRANSITIONAL = (
 _INTERNAL = (
     "VLLM_OMNI_DLO_DP_WAVE_TIMEOUT",
     "VLLM_OMNI_REPLICA_ID",
+    # edge branch: set by the orchestrator for its stage subprocesses
+    "VLLM_OMNI_STAGE_ID",
+    "VLLM_OMNI_INIT_TIMELINE_DIR",
 )
 
 _REDACTED = frozenset(

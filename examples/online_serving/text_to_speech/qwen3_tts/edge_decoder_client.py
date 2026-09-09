@@ -42,7 +42,13 @@ class LocalDecoder:
     """Stateful chunked Qwen3-TTS decoder mirroring the Code2Wav stage."""
 
     def __init__(
-        self, model: str, device: str = "cpu", left_context: int = 72, chunk_frames: int = 25, dtype: str = "float32"
+        self,
+        model: str,
+        device: str = "cpu",
+        left_context: int = 72,
+        chunk_frames: int = 25,
+        dtype: str = "float32",
+        ramp: list[int] | None = None,
     ):
         from safetensors.torch import load_file
 
@@ -66,8 +72,12 @@ class LocalDecoder:
         self.decoder.eval().to(device=device, dtype=getattr(torch, dtype))
         if hasattr(self.decoder, "precompute_snake_caches"):
             self.decoder.precompute_snake_caches()
-        if hasattr(self.decoder, "_incremental_chunk_frames"):
-            self.decoder._incremental_chunk_frames = chunk_frames
+        # Mirror the Code2Wav stage's chunk-schedule attributes so the decoder's
+        # prefix/suffix transitions match the server's (qwen3_tts_code2wav.py).
+        ramp = list(ramp or [])
+        self.decoder._initial_codec_chunk_frames = int(ramp[0]) if ramp else 1
+        self.decoder._incremental_chunk_frames = chunk_frames
+        self.decoder._incremental_chunk_ramp = ramp
         self.device = device
         self.num_quantizers = int(cfg.decoder_config.num_quantizers)
         self.sample_rate = int(cfg.output_sample_rate)
@@ -95,7 +105,7 @@ class LocalDecoder:
             return np.zeros(0, dtype=np.float32)
         qf = torch.as_tensor(codes.T, dtype=torch.long, device=self.device)  # [Q, F]
         wavs = self.decoder.batched_chunked_decode(
-            [qf],
+            qf.unsqueeze(0),  # [B=1, Q, F]; the decoder slices rows itself
             [int(qf.shape[-1])],
             caches=[self.state],
             chunk_size=self.chunk_frames,
@@ -157,13 +167,15 @@ class ExecutorchWindowedDecoder:
         return wav[-n * self.hop :] if n < size else wav
 
 
-def build_decoder(args: argparse.Namespace, steady: int):
+def build_decoder(args: argparse.Namespace, steady: int, schedule: list[int] | None = None):
     backend = getattr(args, "decoder_backend", "torch")
     if backend == "executorch":
         if not getattr(args, "pte_manifest", None):
             raise SystemExit("--decoder-backend executorch needs --pte-manifest <export dir>/manifest.json")
         return ExecutorchWindowedDecoder(args.pte_manifest)
-    return LocalDecoder(args.model, device=args.device, left_context=args.left_context, chunk_frames=steady)
+    return LocalDecoder(
+        args.model, device=args.device, left_context=args.left_context, chunk_frames=steady, ramp=list(schedule)
+    )
 
 
 # ------------------------------------------------------------------- client
@@ -173,7 +185,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     ramp = args.ramp or DEFAULT_RAMP
     schedule = parse_chunk_ramp({"codec_chunk_ramp": ramp}, steady=ramp[-1]) or ramp
     steady = schedule[-1]
-    decoder = build_decoder(args, steady)
+    decoder = build_decoder(args, steady, list(schedule))
     url = f"ws://{args.host}:{args.port}/v1/audio/speech/stream"
     config: dict[str, Any] = {
         "type": "session.config",
