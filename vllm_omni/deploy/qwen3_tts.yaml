@@ -136,3 +136,41 @@ platforms:
       - stage_id: 1
         compilation_config:
           cudagraph_mode: PIECEWISE
+  # CPU OmniPlatform (VLLM_TARGET_DEVICE=cpu or a +cpu vLLM wheel). vLLM's
+  # CpuPlatform already forces async_scheduling=False, no CUDA graphs and
+  # CPU_ATTN; the values below size the two stages for a CPU box. Nested
+  # layout: engine args under ``engine_args``, placement under ``runtime``.
+  # gpu_memory_utilization is read by the CPU worker as a NUMA-node memory
+  # fraction, so an absolute kv_cache_memory_bytes is set instead.
+  # Thread ranges are per-stage (disjoint) so the two workers do not pin the
+  # same cores; deploy_profile="auto" derives them from the probed topology.
+  cpu:
+    stages:
+      - stage_id: 0
+        engine_args:
+          enforce_eager: true
+          async_scheduling: false
+          max_num_seqs: 2
+          max_num_batched_tokens: 2048
+          max_model_len: 2048
+          gpu_memory_utilization: 0.05
+          dtype: bfloat16
+          kv_cache_memory_bytes: 4294967296
+        runtime:
+          devices: "cpu"
+          env:
+            VLLM_CPU_OMP_THREADS_BIND: "0-11"
+      - stage_id: 1
+        engine_args:
+          enforce_eager: true
+          async_scheduling: false
+          max_num_seqs: 2
+          max_num_batched_tokens: 8192
+          max_model_len: 8192
+          gpu_memory_utilization: 0.05
+          dtype: bfloat16
+          kv_cache_memory_bytes: 2147483648
+        runtime:
+          devices: "cpu"
+          env:
+            VLLM_CPU_OMP_THREADS_BIND: "12-15"

@@ -328,8 +328,8 @@ def _patch_chat_template_registry():
         )
 
         if "qwen3_omni_moe" not in _MODEL_TYPE_TO_CHAT_TEMPLATE_FALLBACK:
-            _MODEL_TYPE_TO_CHAT_TEMPLATE_FALLBACK["qwen3_omni_moe"] = (
-                lambda _: CHAT_TEMPLATES_DIR / "template_chatml.jinja"
+            _MODEL_TYPE_TO_CHAT_TEMPLATE_FALLBACK["qwen3_omni_moe"] = lambda _: (
+                CHAT_TEMPLATES_DIR / "template_chatml.jinja"
             )
     except ImportError:
         pass
@@ -529,6 +529,14 @@ _patch_inductor_factorable_divisibility()
 # (not a slot or C extension).  If CuMemAllocator is rewritten in C/Cython,
 # this monkey-patch will silently become a no-op.
 def _patch_cumem_free_callback_cuda() -> None:
+    try:
+        import torch
+
+        if torch.version.cuda is None and getattr(torch.version, "hip", None) is None:
+            _PATCH_LOGGER.debug("[cumem-cuda] CPU-only torch; skipping patch")
+            return
+    except Exception:
+        pass
     try:
         from vllm.device_allocator.cumem import CuMemAllocator
     except ImportError:

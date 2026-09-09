@@ -352,6 +352,13 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
         self.use_async_omni_output = True
         self.eager_omni_postprocess_before_async_output = True
         self.omni_pooler_payload_include_hidden = False
+        # Terminal talker (no downstream stage, e.g. qwen3_tts_talker_only):
+        # publish the per-step codec frames to the client so an on-device
+        # decoder can consume them (codec-token streaming).
+        if getattr(vllm_config.model_config, "custom_process_next_stage_input_func", None) is None and not getattr(
+            vllm_config.model_config, "async_chunk_process_next_stage_input_func", None
+        ):
+            self.omni_client_multimodal_output_keys = ("codes.audio",)
         self.model = Qwen3Model(vllm_config=vllm_config, prefix=maybe_prefix(prefix, "model"))
 
         if get_pp_group().is_last_rank:
@@ -465,7 +472,9 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
             torch.zeros(1, int(self.talker_config.hidden_size), dtype=model_dtype),
             persistent=False,
         )
-        self._embedding_dtype = torch.bfloat16
+        # Follows the model dtype so CPU deployments can run float32/float16;
+        # on CUDA this is bfloat16 as before.
+        self._embedding_dtype = model_dtype if isinstance(model_dtype, torch.dtype) else torch.bfloat16
 
         tokenizer_config = Qwen3TTSTokenizerV2Config.from_pretrained(
             self.model_path,
@@ -475,7 +484,7 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
             tokenizer_config.encoder_config,
         )
         self.encoder.eval()
-        self.encoder.to(dtype=torch.bfloat16)
+        self.encoder.to(dtype=self._embedding_dtype)
         self._encoder_valid_num_quantizers = int(tokenizer_config.encoder_valid_num_quantizers)
         self._encoder_downsample_rate = int(tokenizer_config.encode_downsample_rate)
 
@@ -1048,7 +1057,7 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
             sampling_rate=target_sr,
             return_tensors="pt",
         )
-        inputs = inputs.to(device).to(torch.bfloat16)
+        inputs = inputs.to(device).to(self._embedding_dtype)
 
         input_values = inputs["input_values"].squeeze(1)
         padding_mask = inputs["padding_mask"].squeeze(1)
@@ -1125,7 +1134,7 @@ class Qwen3TTSTalkerForConditionalGeneration(nn.Module):
                 loaded.add(name)
 
         device = self.vllm_config.device_config.device
-        self.encoder.to(device=device, dtype=torch.bfloat16)
+        self.encoder.to(device=device, dtype=self._embedding_dtype)
 
         self._init_runtime_buffers()
         self._init_silence_mask()
