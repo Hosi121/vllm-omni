@@ -77,6 +77,38 @@ def unpack_codec_frame(buf: bytes, codebooks: int) -> tuple[int, int, int, np.nd
     return seq, n_frames, flags, arr
 
 
+def accumulate_codec_rows(acc: np.ndarray | None, step: Any) -> np.ndarray:
+    """Fold a per-step ``codes.audio`` payload into the growing ``[rows, codebooks]`` matrix.
+
+    DELTA-mode outputs carry only the newest row(s); the final consolidated
+    output (and CUMULATIVE mode) carries the whole matrix, possibly with a
+    leading placeholder row the deltas never had. A payload whose tail equals
+    the rows already accumulated (and that is longer) replaces the matrix; an
+    identical payload is a duplicate; anything else is appended.
+    """
+    if hasattr(step, "detach"):
+        step = step.detach().cpu().numpy()
+    arr = np.asarray(step)
+    if arr.ndim == 1:
+        arr = arr.reshape(1, -1)
+    if arr.ndim != 2 or arr.size == 0:
+        return acc if acc is not None else np.zeros((0, arr.shape[-1] if arr.ndim >= 1 else 0), dtype=np.int64)
+    arr = arr.astype(np.int64, copy=False)
+    if acc is None or acc.size == 0:
+        return arr
+    n = acc.shape[0]
+    if arr.shape[0] > n and arr.shape[1] == acc.shape[1]:
+        # A longer payload that contains the accumulated rows as a contiguous
+        # block is a cumulative snapshot (it may add a placeholder row in
+        # front and/or newer rows behind): replace.
+        for i in range(arr.shape[0] - n + 1):
+            if np.array_equal(arr[i : i + n], acc):
+                return arr
+    if arr.shape == acc.shape and np.array_equal(arr, acc):
+        return acc
+    return np.concatenate([acc, arr], axis=0)
+
+
 def align_codec_rows(codes_cum: Any, token_ids_cum: list[int], codebook_size: int) -> np.ndarray:
     """Keep the codec rows that correspond to real codebook-0 tokens.
 

@@ -3316,19 +3316,23 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
     ):
         """Yield ``(codes[int64, n, codebooks], eos)`` deltas from a talker-only pipeline.
 
-        The AR stage publishes the *cumulative* ``codes.audio`` tensor on every
-        step (``omni_client_multimodal_output_keys``); this generator aligns the
-        rows to the output token ids (dropping the prefill placeholder and the
-        EOS row) and emits only the new rows. The final item always carries
-        ``eos=True`` (possibly with zero frames).
+        The AR stage publishes ``codes.audio`` on every step
+        (``omni_client_multimodal_output_keys``): in DELTA output mode only the
+        newest row(s), and a consolidated cumulative matrix on the final
+        output. ``accumulate_codec_rows`` folds both shapes into one growing
+        matrix; this generator aligns its rows to the output token ids
+        (dropping the prefill placeholder and the EOS row) and emits only the
+        new rows. The final item always carries ``eos=True`` (possibly with
+        zero frames).
         """
-        from vllm_omni.entrypoints.openai.codec_stream import align_codec_rows
+        from vllm_omni.entrypoints.openai.codec_stream import accumulate_codec_rows, align_codec_rows
 
         adapter = self._get_tts_adapter()
         spec = getattr(adapter, "codec_stream_spec", None) or {}
         codebook_size = int(spec.get("codebook_size", 2048))
         usage_acc = SpeechOutputTokenCounter() if (adapter is not None and adapter.validates_generation) else None
         token_ids: list[int] = []
+        codes_cum: np.ndarray | None = None
         sent = 0
         finished = False
         n_outputs = 0
@@ -3347,12 +3351,13 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
                         token_ids = list(new_ids)
                     else:
                         token_ids.extend(int(t) for t in new_ids)
-                codes_cum = self._extract_codec_output(res)
+                codes_step = self._extract_codec_output(res)
                 done = bool(getattr(res, "finished", False))
-                if codes_cum is not None:
+                if codes_step is not None:
                     n_with_codes += 1
                     if first_codes_at < 0:
                         first_codes_at = n_outputs
+                    codes_cum = accumulate_codec_rows(codes_cum, codes_step)
                     aligned = align_codec_rows(codes_cum, token_ids, codebook_size)
                     delta = aligned[sent:]
                     if delta.shape[0] >= min_frames or (done and delta.shape[0] > 0):

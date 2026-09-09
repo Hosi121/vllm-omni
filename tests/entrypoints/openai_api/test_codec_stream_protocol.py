@@ -222,3 +222,61 @@ def test_codec_snapshot_list_is_normalized():
     assert out.shape == (4, 16) and list(out[:, 0]) == [0, 1, 2, 3]
     assert _coerce_codec_snapshots([None]) is None
     assert isinstance(_coerce_codec_snapshots([np.zeros(16)]), np.ndarray)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_accumulate_codec_rows_handles_deltas_and_snapshots():
+    import numpy as np
+
+    from vllm_omni.entrypoints.openai.codec_stream import accumulate_codec_rows
+
+    r = lambda i: np.full((1, 16), i, dtype=np.int64)  # noqa: E731
+    acc = accumulate_codec_rows(None, r(0))
+    acc = accumulate_codec_rows(acc, r(1))
+    acc = accumulate_codec_rows(acc, r(2))
+    assert acc.shape == (3, 16) and list(acc[:, 0]) == [0, 1, 2]
+    # duplicate of the last delta is not appended twice
+    assert accumulate_codec_rows(acc, acc).shape == (3, 16)
+    # final cumulative snapshot with a leading placeholder row replaces the matrix
+    final = np.concatenate([np.full((1, 16), -1), acc, r(3)], axis=0)
+    out = accumulate_codec_rows(acc, final)
+    assert out.shape == (5, 16) and out[0, 0] == -1 and out[-1, 0] == 3
+    # 1-D row payload
+    assert accumulate_codec_rows(None, np.arange(16)).shape == (1, 16)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+@pytest.mark.asyncio
+async def test_generate_codec_chunks_yields_per_step():
+    from types import SimpleNamespace
+
+    import numpy as np
+
+    from vllm_omni.entrypoints.openai.serving_speech import OmniOpenAIServingSpeech
+
+    svc = OmniOpenAIServingSpeech.__new__(OmniOpenAIServingSpeech)
+    svc._get_tts_adapter = lambda: SimpleNamespace(
+        codec_stream_spec={"codebook_size": 2048}, validates_generation=False
+    )
+
+    def out(token_ids, codes, finished):
+        return SimpleNamespace(
+            outputs=[SimpleNamespace(token_ids=token_ids, multimodal_output={"codes": {"audio": codes}})],
+            finished=finished,
+        )
+
+    rows = [np.full((1, 16), i + 10, dtype=np.int64) for i in range(4)]
+
+    async def gen():
+        # step k: token k and its codes row arrive together (DELTA mode: newest row only)
+        for k in range(4):
+            yield out([100 + k], rows[k], False)
+        # final: EOS token plus the consolidated cumulative matrix (EOS row is all zeros)
+        final = np.concatenate(rows + [np.zeros((1, 16), dtype=np.int64)], axis=0)
+        yield out([2150], final, True)
+
+    got = [(None if c is None else c.shape[0], eos) async for c, eos in svc._generate_codec_chunks(gen(), "r1")]
+    assert got[:4] == [(1, False), (1, False), (1, False), (1, False)]
+    assert got[-1][1] is True and sum(n for n, _ in got if n) == 4
