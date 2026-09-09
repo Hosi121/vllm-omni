@@ -586,6 +586,15 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
                 return stage
         return None
 
+    def _is_talker_only_deployment(self) -> bool:
+        """True when the TTS stage is the final stage and emits latents (codec tokens) per step."""
+        stage = self._tts_stage
+        if stage is None:
+            return False
+        return bool(getattr(stage, "final_output", False)) and (
+            str(getattr(stage, "final_output_type", "") or "").lower() == "latent"
+        )
+
     def _detect_tts_model_type(self) -> str | None:
         """Detect TTS model type from the resolved stage's deployment metadata.
 
@@ -3096,7 +3105,13 @@ class OmniOpenAIServingSpeech(OpenAIServing, AudioMixin):
         # list() makes a copy to avoid mutating the params.
         sampling_params_list = list(self.engine_client.default_sampling_params_list)
         async_chunk = getattr(self.model_config, "async_chunk", True)
-        qwen3_full_payload = self._tts_model_type == "qwen3_tts" and not bool(async_chunk)
+        # A talker-only (codec-token) deployment has no code2wav stage and no
+        # async chunks either, but its per-step ``codes.audio`` payloads are the
+        # stream itself, so it must keep DELTA outputs (otherwise the engine
+        # emits one FINAL_ONLY output and every codec frame arrives at once).
+        qwen3_full_payload = (
+            self._tts_model_type == "qwen3_tts" and not bool(async_chunk) and not self._is_talker_only_deployment()
+        )
         is_streaming_request = request.is_streaming() and not qwen3_full_payload
         sampling_params_list = coerce_param_message_types(sampling_params_list, is_streaming_request)
 

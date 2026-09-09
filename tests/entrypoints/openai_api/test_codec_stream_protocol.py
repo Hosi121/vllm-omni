@@ -181,3 +181,21 @@ def test_input_cancel_mid_stream_aborts_request(mocker):
                 assert payload["cancelled"] is True
         assert "codec.done" in types and types[-1] == "session.done"
     svc.engine_client.abort.assert_awaited()
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_talker_only_deployment_detection():
+    from types import SimpleNamespace
+
+    from vllm_omni.entrypoints.openai.serving_speech import OmniOpenAIServingSpeech
+
+    probe = OmniOpenAIServingSpeech.__new__(OmniOpenAIServingSpeech)
+    probe._tts_stage = SimpleNamespace(final_output=True, final_output_type="latent")
+    assert probe._is_talker_only_deployment() is True
+    probe._tts_stage = SimpleNamespace(final_output=False, final_output_type="latent")
+    assert probe._is_talker_only_deployment() is False
+    probe._tts_stage = SimpleNamespace(final_output=True, final_output_type="audio")
+    assert probe._is_talker_only_deployment() is False
+    probe._tts_stage = None
+    assert probe._is_talker_only_deployment() is False
