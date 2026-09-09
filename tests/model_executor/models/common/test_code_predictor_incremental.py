@@ -77,3 +77,23 @@ def test_forward_static_step_matches_full_prefix():
         mask = (torch.arange(max_seq) <= step).view(1, 1, 1, max_seq).expand(bsz, 1, 1, max_seq)
         out = model.forward_static_step(x[:, step : step + 1], pos[:, step : step + 1], caches, pos_t, mask)
         assert torch.allclose(out[:, 0], full[:, step], atol=1e-4, rtol=1e-4), step
+
+
+@torch.inference_mode()
+def test_compiled_static_step_matches_eager():
+    torch.manual_seed(2)
+    model = CodePredictorBaseModel(_tiny_config()).eval()
+    for p in model.parameters():
+        p.normal_(0, 0.2)
+    bsz, max_seq = 1, 17
+    x = torch.randn(bsz, max_seq, 64)
+    pos = torch.arange(max_seq).unsqueeze(0).expand(bsz, -1)
+    full = model(x, pos)
+    step_fn = torch.compile(model.forward_static_step, dynamic=False)
+    caches = model.new_kv_caches(bsz, max_seq, x.device, x.dtype)
+    model.forward_cached(x[:, :2], pos[:, :2], caches, 0)
+    for step in range(2, max_seq):
+        pos_t = torch.tensor([step])
+        mask = (torch.arange(max_seq) <= step).view(1, 1, 1, max_seq).expand(bsz, 1, 1, max_seq)
+        out = step_fn(x[:, step : step + 1], pos[:, step : step + 1], caches, pos_t, mask)
+        assert torch.allclose(out[:, 0], full[:, step], atol=1e-4, rtol=1e-4), step

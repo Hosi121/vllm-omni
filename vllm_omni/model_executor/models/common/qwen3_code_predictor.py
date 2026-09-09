@@ -1149,9 +1149,17 @@ class CodePredictorWrapper(nn.Module):
             ]
         ref_logits = ref_heads[step - 1](h).float()
         stats = StepStats.get()
-        agree = (ref_logits.argmax(-1) == logits_int8.float().argmax(-1)).float().mean().item()
+        test_logits = logits_int8.float()
+        agree = (ref_logits.argmax(-1) == test_logits.argmax(-1)).float().mean().item()
         stats.add("predictor.parity_top1_agree", agree)
-        stats.add("predictor.parity_logit_maxdiff", (ref_logits - logits_int8.float()).abs().max().item())
+        stats.add("predictor.parity_logit_maxdiff", (ref_logits - test_logits).abs().max().item())
+        ref_top5 = ref_logits.topk(5, dim=-1).indices
+        test_top5 = test_logits.topk(5, dim=-1).indices
+        overlap = (ref_top5.unsqueeze(-1) == test_top5.unsqueeze(-2)).any(-1).float().mean().item()
+        stats.add("predictor.parity_top5_overlap", overlap)
+        ref_lp = ref_logits.log_softmax(-1)
+        test_lp = test_logits.log_softmax(-1)
+        stats.add("predictor.parity_kl_ref_test", (ref_lp.exp() * (ref_lp - test_lp)).sum(-1).mean().item())
 
     def _setup_cpu_fast_path(self, device: torch.device) -> None:
         """CPU: dynamic int8 quantization of every Linear (weights int8 per-channel, activations per call).
@@ -1165,25 +1173,56 @@ class CodePredictorWrapper(nn.Module):
         self._cpu_fast_path_done = True
         if device.type != "cpu" or current_omni_platform.is_npu():
             return
-        if os.environ.get(self._INT8_ENV, "1").strip().lower() in ("0", "false", "off", "no"):
+        mode = os.environ.get(self._INT8_ENV, "ao").strip().lower()  # "ao": torch.ao dynamic int8 (validated)
+        if mode in ("0", "false", "off", "no"):
             return
-        from torch.ao.quantization import quantize_dynamic
-
         self._parity_ref = None
         if os.environ.get(self._PARITY_ENV, "0").strip().lower() in ("1", "true", "on", "yes"):
             # keep an unquantized copy to measure int8 fidelity in situ (see _parity_check)
             import copy as _copy
 
             self._parity_ref = (_copy.deepcopy(self.model), _copy.deepcopy(self.lm_head))
-        self.model = quantize_dynamic(self.model.float(), {nn.Linear}, dtype=torch.qint8)
-        self.lm_head = quantize_dynamic(self.lm_head.float(), {nn.Linear}, dtype=torch.qint8)
+        # "torchao" / "torchao-wo": int8 weight-only + compiled static step (numerically faithful;
+        # torchao's dynamic-activation int8 is wrong under torch.compile on CPU, so it is not offered).
+        use_torchao = mode in ("torchao", "torchao-wo", "fp32")
+        if use_torchao:
+            try:
+                from torchao.quantization import Int8WeightOnlyConfig, quantize_
+            except ImportError:
+                use_torchao = False
+        if use_torchao:
+            # torchao's int8 Linear variants are plain PyTorch math, so the shape-static one-token
+            # step (and the 2-token prefill) compile into single graphs: micro-benchmark 70 ms
+            # (bf16 eager) -> 21 ms per frame for the 15 sub-steps with dynamic activations.
+            # "fp32" keeps the weights unquantized (compiled fp32 control for parity checks),
+            # "torchao-wo" quantizes weights only (activations fp32).
+            self.model.float()
+            self.lm_head.float()
+            if mode != "fp32":
+                quantize_(self.model, Int8WeightOnlyConfig())
+                quantize_(self.lm_head, Int8WeightOnlyConfig())
+            self._static_step_fn = torch.compile(self.model.forward_static_step, dynamic=False)
+            model = self.model
+
+            def _prefill(x, pos_ids, caches):
+                return model.forward_cached(x, pos_ids, caches, 0)
+
+            self._prefill_fn = torch.compile(_prefill, dynamic=False)
+            self._incremental_compiled = True
+            kind = ("fp32 (control)" if mode == "fp32" else "torchao int8 weight-only") + " + compiled static step"
+        else:
+            from torch.ao.quantization import quantize_dynamic
+
+            self.model = quantize_dynamic(self.model.float(), {nn.Linear}, dtype=torch.qint8)
+            self.lm_head = quantize_dynamic(self.lm_head.float(), {nn.Linear}, dtype=torch.qint8)
+            kind = "torch.ao dynamic int8 Linear (eager)"
         self.small_to_mtp_projection = self.small_to_mtp_projection.float()
         self._model_dtype = torch.float32
         self._lm_heads_list = list(self.lm_head)
         self._codec_embeds_list = list(self.model.codec_embedding)
         self._compiled_model_fwd = self.model.forward
         self._proj_buf = None  # re-allocated in fp32 by _ensure_buffers
-        logger.info("code_predictor: CPU fast path (KV-cached sub-steps, dynamic int8 Linear, fp32 activations)")
+        logger.info("code_predictor: CPU fast path (KV-cached sub-steps, %s, fp32 activations)", kind)
 
     _THREADS_ENV = "VLLM_OMNI_PREDICTOR_THREADS"  # CPU: OpenMP threads for the residual loop (0 = unchanged)
     _COMPILE_ENV = (
@@ -1206,6 +1245,8 @@ class CodePredictorWrapper(nn.Module):
         if getattr(self, "_incremental_compiled", False):
             return
         self._incremental_compiled = True
+        if getattr(self, "_static_step_fn", None) is not None:
+            return
         self._static_step_fn = None
         if os.environ.get(self._COMPILE_ENV, "0").strip().lower() not in ("1", "true", "on", "yes", "step"):
             return
@@ -1366,11 +1407,17 @@ class CodePredictorWrapper(nn.Module):
             if incremental:
                 # KV-cached: prefill positions 0..1 at the first sub-step, then one new position per sub-step.
                 if step == 1:
-                    hidden_new = self.model.forward_cached(
-                        proj_buf[:bsz, :2, :], self._incremental_pos_ids(bsz, 0, 2, device), kv_caches, 0
-                    )
+                    prefill = getattr(self, "_prefill_fn", None)
+                    if prefill is not None:
+                        hidden_new = prefill(
+                            proj_buf[:bsz, :2, :], self._incremental_pos_ids(bsz, 0, 2, device), kv_caches
+                        )
+                    else:
+                        hidden_new = self.model.forward_cached(
+                            proj_buf[:bsz, :2, :], self._incremental_pos_ids(bsz, 0, 2, device), kv_caches, 0
+                        )
                     hidden_step = hidden_new[:, 1, :]
-                elif self._static_step_fn is not None:
+                elif getattr(self, "_static_step_fn", None) is not None:
                     pos_t = torch.tensor([step], device=device, dtype=torch.long)
                     attn_mask = (
                         (torch.arange(max_seq, device=device) <= step).view(1, 1, 1, max_seq).expand(bsz, 1, 1, max_seq)
