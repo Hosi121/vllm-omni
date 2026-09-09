@@ -15,6 +15,7 @@ Shared by Qwen3-Omni and Qwen3-TTS talker models.
 from __future__ import annotations
 
 import dataclasses
+import time
 from collections.abc import Iterable, Sequence
 
 import torch
@@ -1062,7 +1063,12 @@ class CodePredictorWrapper(nn.Module):
             all_codes[:, 0] = layer0_code.reshape(bsz)
 
         # Autoregressive loop: predict layers 1..G-1
+        from vllm_omni.edge.step_stats import StepStats
+
+        _stats = StepStats.get()
+        _t_loop = time.perf_counter() if _stats.enabled else 0.0
         for step in range(1, num_groups):
+            _t_sub = time.perf_counter() if _stats.enabled else 0.0
             graph_key: int | tuple[int, int] = padded_bsz
             seq_len = max_seq
             if self._prefix_graphs_enabled:
@@ -1136,6 +1142,10 @@ class CodePredictorWrapper(nn.Module):
             if step < num_groups - 1 or self._wrapper_config.return_proj_buf:
                 new_embed = codec_embeds[step - 1](code)
                 proj_buf[:bsz, step + 1, :] = projection(new_embed.reshape(bsz, 1, -1)).reshape(bsz, -1)
+            if _stats.enabled:
+                _stats.add("predictor.substep_ms", (time.perf_counter() - _t_sub) * 1000.0)
+        if _stats.enabled:
+            _stats.add("predictor.loop_ms", (time.perf_counter() - _t_loop) * 1000.0)
 
         if self._wrapper_config.return_proj_buf:
             return all_codes, proj_buf[:bsz].clone()

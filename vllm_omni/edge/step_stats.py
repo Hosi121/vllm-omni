@@ -28,6 +28,7 @@ from pathlib import Path
 from typing import Any
 
 ENV_DIR = "VLLM_OMNI_STEP_STATS_DIR"
+ENV_SYNC = "VLLM_OMNI_STEP_STATS_SYNC"  # "1": synchronize the accelerator around model-level timers
 ENV_STAGE_ID = "VLLM_OMNI_STAGE_ID"
 FRAME_BUDGET_MS = 80.0  # one Qwen3-TTS codec frame at 12.5 Hz
 _MAX_SAMPLES = 20000
@@ -81,6 +82,7 @@ class StepStats:
     def __init__(self, out_dir: str | None, role: str | None = None) -> None:
         self.out_dir = out_dir
         self.enabled = bool(out_dir)
+        self.sync = os.environ.get(ENV_SYNC, "0").strip().lower() in ("1", "true", "yes", "on")
         self.role = role or _default_role()
         self.pid = os.getpid()
         self._series: dict[str, _Series] = {}
@@ -127,14 +129,23 @@ class StepStats:
             self.dump()
 
     @contextmanager
-    def timed(self, name: str) -> Iterator[None]:
+    def timed(self, name: str, sync_device: Any = None) -> Iterator[None]:
+        """Time a block; with ``sync_device`` (a torch device) and ``VLLM_OMNI_STEP_STATS_SYNC=1``
+        the accelerator is synchronized before and after so async kernels are included."""
         if not self.enabled:
             yield
             return
+        sync = sync_device is not None and self.sync and getattr(sync_device, "type", "cpu") == "cuda"
+        if sync:
+            import torch
+
+            torch.accelerator.synchronize(sync_device)
         t0 = time.perf_counter()
         try:
             yield
         finally:
+            if sync:
+                torch.accelerator.synchronize(sync_device)
             self.add(name, (time.perf_counter() - t0) * 1000.0)
 
     def wrap(self, name: str, fn: Callable[..., Any]) -> Callable[..., Any]:

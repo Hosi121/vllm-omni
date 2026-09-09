@@ -66,6 +66,13 @@ from vllm_omni.worker.sparse_audio import resolve_sparse_mm_routing
 logger = init_logger(__name__)
 
 
+def _step_stats():
+    """Process-local per-step counters (no-op unless VLLM_OMNI_STEP_STATS_DIR is set)."""
+    from vllm_omni.edge.step_stats import StepStats
+
+    return StepStats.get()
+
+
 def _to_cpu_contiguous(tensor: torch.Tensor) -> torch.Tensor:
     tensor = tensor.detach()
     if tensor.device.type == "cpu":
@@ -1218,16 +1225,18 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
                     defer_finalize=defer_kv_connector_finalize,
                 ) as kv_connector_output,
             ):
-                model_output = self._model_forward(
-                    input_ids=input_ids,
-                    positions=positions,
-                    intermediate_tensors=intermediate_tensors,
-                    inputs_embeds=inputs_embeds,
-                    **model_kwargs,
-                    sampling_metadata=self.input_batch.sampling_metadata,
-                    logits_index=logits_indices,
-                    sampler=self.sampler,
-                )
+                _stats = _step_stats()
+                with _stats.timed("model.forward_ms", sync_device=self.device):
+                    model_output = self._model_forward(
+                        input_ids=input_ids,
+                        positions=positions,
+                        intermediate_tensors=intermediate_tensors,
+                        inputs_embeds=inputs_embeds,
+                        **model_kwargs,
+                        sampling_metadata=self.input_batch.sampling_metadata,
+                        logits_index=logits_indices,
+                        sampler=self.sampler,
+                    )
 
                 # [Omni] Map pending ropes metadata to req_ids.
                 flush_pending_metadata = getattr(self.model, "flush_pending_metadata", None)
@@ -2051,7 +2060,8 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
             )
 
         with record_function_or_nullcontext("gpu_model_runner: sample"):
-            sampler_output = self._sample(logits, spec_decode_metadata)
+            with _step_stats().timed("model.sample_ms", sync_device=self.device):
+                sampler_output = self._sample(logits, spec_decode_metadata)
 
         self._update_states_after_model_execute(sampler_output.sampled_token_ids, scheduler_output)
 
@@ -2128,6 +2138,8 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
                 scheduler_output.total_num_scheduled_tokens,
             )
 
+        _mtp_timer = _step_stats().timed("model.talker_mtp_ms", sync_device=self.device)
+        _mtp_timer.__enter__()
         multimodal_outputs = self._run_post_sample_talker_mtp(
             req_ids=req_ids_output_copy,
             valid_sampled_token_ids=valid_sampled_token_ids,
@@ -2136,6 +2148,7 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
             sample_hidden_states=sample_hidden_states,
             multimodal_outputs=multimodal_outputs,
         )
+        _mtp_timer.__exit__(None, None, None)
 
         if propose_drafts_after_bookkeeping:
             # ngram and other speculative decoding methods use the sampled
