@@ -10,7 +10,9 @@ from dataclasses import dataclass, field, fields
 from enum import Enum
 from typing import TYPE_CHECKING, Any
 
-import diffusers
+if TYPE_CHECKING:  # heavy; only needed for annotations here
+    import diffusers
+
 import huggingface_hub
 import torch
 from PIL import Image
@@ -897,7 +899,7 @@ class OmniDiffusionConfig:
     # kwargs forwarded to pipeline.__call__()
     diffusers_call_kwargs: dict[str, Any] = field(default_factory=dict)
     # Actual diffusers pipeline object (to determine inputs of the dummy run)
-    diffusers_pipeline_cls: type[diffusers.DiffusionPipeline] | None = None  # pyright: ignore[reportPrivateImportUsage]
+    diffusers_pipeline_cls: "type[diffusers.DiffusionPipeline] | None" = None  # pyright: ignore[reportPrivateImportUsage]
 
     # http server endpoint config, would be ignored in local mode
     host: str | None = None

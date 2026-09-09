@@ -35,6 +35,12 @@ classifiers = [
 
 [project.optional-dependencies]
 
+# Edge / on-device clients (codec-token streaming client, playback).
+edge = [
+    "websockets>=13.0",
+    "sounddevice>=0.5.0",
+]
+
 dev = [
     "pytest==9.1.1",
     "pytest-asyncio==1.4.0",

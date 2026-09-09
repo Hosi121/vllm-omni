@@ -1,0 +1,10 @@
+# Diffusion / image / video / extra-audio deps (not needed by AR-only edge builds).
+diffusers==0.40.0
+kernels==0.15.2
+cache-dit==1.5.0
+torchsde>=0.2.6
+openai-whisper>=20250625
+imageio[ffmpeg]>=2.37.2
+x-transformers>=2.12.2
+gguf>=0.10.0
+cosmos-guardrail>=0.3.1
