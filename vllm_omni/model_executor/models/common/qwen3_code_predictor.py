@@ -466,7 +466,7 @@ def _post_step_sample(
     hidden: torch.Tensor,
     head_w: torch.Tensor,
     embed_w: torch.Tensor,
-    proj_w: torch.Tensor,
+    proj_w: torch.Tensor | None,
     proj_b: torch.Tensor | None,
     u: torch.Tensor,
     inv_temperature: float,
@@ -487,8 +487,8 @@ def _post_step_sample(
         code = (scaled.float() - torch.log(-torch.log(u))).argmax(dim=-1, keepdim=True)
     else:
         code = logits.argmax(dim=-1, keepdim=True)
-    new_embed = F.embedding(code, embed_w)  # [B, 1, H]
-    proj_row = F.linear(new_embed.reshape(code.shape[0], -1), proj_w, proj_b)
+    new_embed = F.embedding(code, embed_w).reshape(code.shape[0], -1)  # [B, H]
+    proj_row = new_embed if proj_w is None else F.linear(new_embed, proj_w, proj_b)
     return code, proj_row
 
 
@@ -1483,10 +1483,11 @@ class CodePredictorWrapper(nn.Module):
                     and not stored_mode
                     and getattr(self, "_parity_ref", None) is None
                     and not self._wrapper_config.return_proj_buf
-                    and isinstance(projection, nn.Linear)
+                    and isinstance(projection, (nn.Linear, nn.Identity))
                 ):
                     head = lm_heads[step - 1]
-                    proj = projection
+                    proj_w = projection.weight if isinstance(projection, nn.Linear) else None
+                    proj_b = projection.bias if isinstance(projection, nn.Linear) else None
                     u = torch.empty(bsz, head.weight.shape[0], dtype=torch.float32, device=device)
                     row_generators = self._normalize_generators(sample_generator, bsz)
                     if isinstance(row_generators, list):
@@ -1498,8 +1499,8 @@ class CodePredictorWrapper(nn.Module):
                         hidden_step,
                         head.weight,
                         codec_embeds[step - 1].weight,
-                        proj.weight,
-                        proj.bias,
+                        proj_w,
+                        proj_b,
                         u,
                         float(sample_kwargs["inv_temperature"]),
                         int(sample_kwargs["top_k"]),
