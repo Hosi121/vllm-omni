@@ -3,7 +3,7 @@
 This recipe covers the edge deploy profile, the CPU platform, hardware
 auto-adaptation, codec-token streaming with on-device decoding, and the
 profiling tools added on the `edge/omni-edge` branch. Numbers quoted here were
-measured on one L20X (48 GB) and a 2x56-core Xeon 8480C host on 2026-09-09; the
+measured on one NVIDIA L20X (143 GB) and a 2x56-core Xeon 8480C host on 2026-09-09; the
 JSON files are committed under `benchmarks/tts/edge_results/`
 (`python benchmarks/tts/edge_results/summarize.py` renders them).
 
