@@ -276,6 +276,13 @@ class OmniServeCommand(CLISubcommand):
             help="Path to a deploy config YAML (new format with stages/engine_args).",
         )
         omni_config_group.add_argument(
+            "--deploy-profile",
+            type=str,
+            default=None,
+            help="Named deploy profile resolved to vllm_omni/deploy/<profile>/<model_type>.yaml "
+            "(e.g. 'edge'). Mutually exclusive with --deploy-config.",
+        )
+        omni_config_group.add_argument(
             "--strategy-config",
             type=str,
             default=None,
@@ -1001,6 +1008,10 @@ def run_headless(args: TrackingNamespace) -> None:
     # engine path (AsyncOmniEngine._resolve_stage_configs) so headless and
     # standard launches resolve to the same per-stage device layout.
     stage_overrides = parse_stage_overrides(args_dict.get("stage_overrides"))
+
+    from vllm_omni.entrypoints.utils import apply_deploy_profile
+
+    apply_deploy_profile(model, args_dict)
 
     config_path, stage_configs, _ = load_and_resolve_stage_configs(
         model,

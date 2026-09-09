@@ -518,6 +518,9 @@ class OrchestratorArgs:
 
     # === Config Files ===
     deploy_config: str | None = None
+    # Named deploy profile (e.g. ``edge``) resolved to ``deploy/<profile>/<model_type>.yaml``
+    # by the orchestrator; mutually exclusive with ``deploy_config``.
+    deploy_profile: str | None = None
     stage_overrides: str | None = None  # raw JSON string; parsed downstream
     # Optional composable-parallel strategy.yaml; orchestrator reads it, overlays
     # derived sizing onto merged stages, then drops it before per-stage engine args.

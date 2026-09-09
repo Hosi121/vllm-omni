@@ -14,6 +14,7 @@ import asyncio
 import concurrent.futures
 import copy
 import json
+import os
 import queue
 import shutil
 import threading
@@ -65,6 +66,7 @@ from vllm_omni.engine.duplex.runtime import (
     load_duplex_runtime_extension,
     validate_duplex_runtime_extension,
 )
+from vllm_omni.engine.init_timeline import ENV_OUT, InitTimeline, worker_phase
 from vllm_omni.engine.messages import (
     AbortRequestMessage,
     AbortResultMessage,
@@ -198,6 +200,12 @@ class AsyncOmniEngine:
                 self._omni_master_port,
             )
 
+        # A named deploy profile (``deploy_profile="edge"``) resolves to a concrete
+        # ``deploy_config`` path before anything reads it.
+        from vllm_omni.entrypoints.utils import apply_deploy_profile
+
+        apply_deploy_profile(model, kwargs)
+
         # Stage resolution pops deploy_config, so get pipeline-wide settings beforehand.
         deploy_config_path = kwargs.get("deploy_config")
         # ``trust_remote_code`` is tri-state (bool | None): ``None`` means "not
@@ -260,6 +268,19 @@ class AsyncOmniEngine:
         self._running_counter = OmniRequestCounter()
         self._engines_waiting_counter = OmniRequestCounter()
 
+        # Init timeline: on when VLLM_OMNI_INIT_TIMELINE is set (JSON dump) or
+        # log_stats is requested (INFO table only). Must exist before stages
+        # spawn so children inherit VLLM_OMNI_INIT_TIMELINE_DIR.
+        timeline_out = os.environ.get(ENV_OUT)
+        InitTimeline.start(
+            enabled=bool(timeline_out) or bool(log_stats),
+            run_dir=(
+                os.path.join(os.path.dirname(os.path.abspath(timeline_out)), "init_timeline_workers")
+                if timeline_out
+                else None
+            ),
+        )
+
         logger.info(f"[AsyncOmniEngine] Launching Orchestrator thread with {self.num_stages} stages")
 
         # Launch orchestrator background thread
@@ -276,6 +297,7 @@ class AsyncOmniEngine:
         )
         self.orchestrator_thread.start()
         self._wait_for_orchestrator_init(startup_future, startup_timeout)
+        self._report_init_timeline(partial=False)
         self._correlated_rpc_client = CorrelatedRpcClient(
             self.request_queue.sync_q,
             self.rpc_output_queue.sync_q,
@@ -318,6 +340,10 @@ class AsyncOmniEngine:
 
     def _initialize_stages(self, stage_init_timeout: int) -> None:
         """Initialize stage clients/processors via StageRuntime and assign to self."""
+        with worker_phase("stages_init"):
+            self._initialize_stages_impl(stage_init_timeout)
+
+    def _initialize_stages_impl(self, stage_init_timeout: int) -> None:
         self._runtime = create_stage_runtime(
             stage_configs=self.stage_configs,
             model=self.model,
@@ -465,6 +491,25 @@ class AsyncOmniEngine:
                 asyncio.set_event_loop(None)
                 loop.close()
 
+    def _report_init_timeline(self, partial: bool) -> None:
+        """Merge worker phase records and log/dump the init timeline (no-op when disabled)."""
+        tl = InitTimeline.current()
+        if tl is None or not tl.enabled:
+            return
+        try:
+            tl.finish()
+            tl.ingest_workers()
+            status = "PARTIAL (startup timed out)" if partial else "complete"
+            logger.info("[AsyncOmniEngine] init timeline %s\n%s", status, tl.format_table())
+            if not partial:
+                logger.info("[AsyncOmniEngine] init timeline suggested timeouts: %s", tl.suggest_timeouts())
+            out = os.environ.get(ENV_OUT)
+            if out:
+                tl.dump(out)
+                logger.info("[AsyncOmniEngine] init timeline written to %s", out)
+        except Exception as exc:  # telemetry must never break start-up
+            logger.warning("[AsyncOmniEngine] init timeline reporting failed: %s", exc)
+
     def _wait_for_orchestrator_init(self, startup_future: concurrent.futures.Future, startup_timeout: int) -> None:
         """
         Wait for orchestrator startup future to return ready. Raises exception on any failures to the init process.
@@ -480,6 +525,7 @@ class AsyncOmniEngine:
                     "--stage-init-timeout values.",
                     startup_timeout,
                 )
+                self._report_init_timeline(partial=True)
                 self._try_shutdown("[AsyncOmniEngine] Failed to cleanup after orchestrator startup timeout")
                 raise TimeoutError(f"Orchestrator did not become ready within {startup_timeout}s")
             try:

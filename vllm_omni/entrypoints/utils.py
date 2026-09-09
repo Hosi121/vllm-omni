@@ -261,6 +261,87 @@ def _registry_default_deploy_path(model: str) -> str | None:
     return None
 
 
+def deploy_path_for_profile(model_type: str, profile: str) -> Path | None:
+    """Return ``deploy/<profile>/<model_type>.yaml`` if it exists (pure path lookup).
+
+    Looks first under the platform's default stage-config directory, then under
+    the packaged ``vllm_omni/deploy`` directory. ``model_type`` is the deploy
+    YAML stem (the same key ``resolve_model_config_path`` resolves to).
+    """
+    if not profile or not model_type:
+        return None
+    file_name = f"{model_type}.yaml"
+    candidates = []
+    try:
+        candidates.append(PROJECT_ROOT / current_omni_platform.get_default_stage_config_path() / profile / file_name)
+    except NotImplementedError:
+        pass
+    candidates.append(_DEPLOY_DIR / profile / file_name)
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def available_deploy_profiles(model_type: str | None = None) -> list[str]:
+    """List profile directories under ``vllm_omni/deploy`` (optionally only those defining ``model_type``)."""
+    profiles = []
+    if not _DEPLOY_DIR.exists():
+        return profiles
+    for entry in sorted(_DEPLOY_DIR.iterdir()):
+        if not entry.is_dir() or entry.name.startswith(("_", ".")):
+            continue
+        if model_type is None or (entry / f"{model_type}.yaml").exists():
+            profiles.append(entry.name)
+    return profiles
+
+
+def resolve_deploy_profile_path(model: str, profile: str) -> str:
+    """Resolve a named deploy profile (e.g. ``edge``) for ``model`` to a YAML path.
+
+    The model's default deploy YAML stem (from ``resolve_model_config_path``)
+    is the key under ``deploy/<profile>/``. An explicit profile never silently
+    falls back to the default deploy config.
+
+    Raises:
+        FileNotFoundError: if the profile does not define a YAML for the model.
+    """
+    default_path = resolve_model_config_path(model)
+    model_type = Path(default_path).stem if default_path else None
+    if model_type is None:
+        raise FileNotFoundError(f"Cannot resolve a deploy profile for {model!r}: no default deploy config found.")
+    path = deploy_path_for_profile(model_type, profile)
+    if path is None:
+        raise FileNotFoundError(
+            f"Deploy profile {profile!r} has no config for model type {model_type!r}. "
+            f"Profiles defining it: {available_deploy_profiles(model_type)}; "
+            f"all profiles: {available_deploy_profiles()}."
+        )
+    logger.info("[deploy_profile] %s -> %s", profile, path)
+    return str(path)
+
+
+def apply_deploy_profile(model: str, args_dict: dict[str, Any]) -> dict[str, Any]:
+    """Translate ``deploy_profile`` into ``deploy_config`` in-place (used by CLI and engine)."""
+    profile = args_dict.pop("deploy_profile", None)
+    if not profile:
+        return args_dict
+    if args_dict.get("deploy_config"):
+        raise ValueError("`deploy_profile` and `deploy_config` are mutually exclusive; pass only one.")
+    if profile == "auto":
+        from vllm_omni.edge.auto_profile import materialize_auto_deploy
+
+        default_path = resolve_model_config_path(model)
+        if default_path is None:
+            raise FileNotFoundError(f"Cannot resolve a deploy config for {model!r} (needed by deploy_profile='auto').")
+        edge_path = deploy_path_for_profile(Path(default_path).stem, "edge")
+        base = str(edge_path) if edge_path is not None else default_path
+        args_dict["deploy_config"], _ = materialize_auto_deploy(model, base)
+        return args_dict
+    args_dict["deploy_config"] = resolve_deploy_profile_path(model, profile)
+    return args_dict
+
+
 def resolve_model_config_path(model: str) -> str | None:
     """Resolve the stage/deploy config file path from the model name.
 
