@@ -451,6 +451,9 @@ class OmniChunkTransferAdapter(OmniTransferAdapterBase):
         # Use timeout=0 for non-blocking poll
         _stats = StepStats.get()
         try:
+            # The shm lock file is written at put time and removed by get, so
+            # sample its age before the get (None while the chunk is not there).
+            _age = shm_lockfile_age_ms(connector_get_key) if _stats.enabled else None
             _t_get = time.perf_counter()
             result = self.connector.get(
                 str(target_stage_id),
@@ -458,14 +461,11 @@ class OmniChunkTransferAdapter(OmniTransferAdapterBase):
                 connector_get_key,
             )
             if _stats.enabled:
-                _now = time.time()
                 _stats.add(
                     "hop.get_ms" if result is not None else "hop.poll_miss_ms", (time.perf_counter() - _t_get) * 1000.0
                 )
-                if result is not None:
-                    age = shm_lockfile_age_ms(connector_get_key, _now)
-                    if age is not None:
-                        _stats.add("hop.put_to_get_ms", age)
+                if result is not None and _age is not None:
+                    _stats.add("hop.put_to_get_ms", _age)
         except Exception as e:
             logger.error(f"SharedMemoryConnector get failed for req {connector_get_key}: {e}")
             with self._receiver_state_lock:
