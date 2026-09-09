@@ -45,6 +45,7 @@ from vllm.v1.worker.utils import is_residual_scattered_for_sp
 from vllm_omni.data_entry_keys import flatten_payload
 from vllm_omni.distributed.omni_connectors.kv_transfer_manager import OmniKVTransferManager
 from vllm_omni.distributed.omni_connectors.utils.config import stage_sends_async_output
+from vllm_omni.engine.init_timeline import worker_phase
 from vllm_omni.model_executor.duplex_sampling import DuplexSamplingRunnerMixin
 from vllm_omni.outputs import OmniModelRunnerOutput
 from vllm_omni.utils.mm_outputs import (
@@ -469,8 +470,10 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
         return engine_output_type, downstream_req_ids
 
     def capture_model(self) -> int:
-        result = super().capture_model()
-        self._capture_talker_mtp_graphs()
+        with worker_phase("cudagraph_capture"):
+            result = super().capture_model()
+        with worker_phase("talker_mtp_capture"):
+            self._capture_talker_mtp_graphs()
         return result
 
     def shutdown(self) -> None:
@@ -522,11 +525,13 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
         # 5. Release all CUDA graphs unconditionally (upstream only does this
         #    on ROCm; on CUDA the graphs are only freed by Python GC during
         #    interpreter shutdown, which is too late to prevent memory spikes).
-        from vllm.compilation.breakable_cudagraph import BreakableCUDAGraphWrapper
-        from vllm.compilation.cuda_graph import CUDAGraphWrapper
+        #    Skipped on CPU, where no graph wrapper is ever instantiated.
+        if getattr(self.device, "type", "cuda") != "cpu":
+            from vllm.compilation.breakable_cudagraph import BreakableCUDAGraphWrapper
+            from vllm.compilation.cuda_graph import CUDAGraphWrapper
 
-        CUDAGraphWrapper.clear_all_graphs()
-        BreakableCUDAGraphWrapper.clear_all_graphs()
+            CUDAGraphWrapper.clear_all_graphs()
+            BreakableCUDAGraphWrapper.clear_all_graphs()
 
         # 6. Delegate to upstream shutdown (model = None, KV caches, workspace).
         super().shutdown()

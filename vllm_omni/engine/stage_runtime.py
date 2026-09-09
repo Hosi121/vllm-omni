@@ -29,6 +29,7 @@ from vllm_omni.distributed.omni_coordinator import (
     RandomBalancer,
     RoundRobinBalancer,
 )
+from vllm_omni.engine.init_timeline import worker_phase
 from vllm_omni.engine.messages import (
     EngineQueueMessage,
     RegisterRemoteReplicaMessage,
@@ -753,7 +754,10 @@ class StageRuntime:
             # READY handshake.
             if not self._parallel_stage_init:
                 g3_start = time.perf_counter()
-                with self._scoped_spawn_device_env(physical_devices):
+                with (
+                    worker_phase("g3_device_lock", stage_id=plan.metadata.stage_id, replica_id=plan.replica_id),
+                    self._scoped_spawn_device_env(physical_devices),
+                ):
                     lock_fds = acquire_device_locks(
                         plan.metadata.stage_id,
                         plan.engine_args_dict,
@@ -792,11 +796,13 @@ class StageRuntime:
                 # and only needs to cover the spawn (__enter__) — children
                 # inherit the env at spawn time; the READY-wait needs no env.
                 g2_start = time.perf_counter()
-                with self._replica_launch_lock:
-                    with stage_runtime_env(plan.metadata.stage_id, plan.metadata.runtime_cfg):
-                        resources = launch_cm.__enter__()
+                with worker_phase("g2_spawn", stage_id=plan.metadata.stage_id, replica_id=plan.replica_id):
+                    with self._replica_launch_lock:
+                        with stage_runtime_env(plan.metadata.stage_id, plan.metadata.runtime_cfg):
+                            resources = launch_cm.__enter__()
                 g2_spawned = time.perf_counter()
-                launch_cm.__exit__(None, None, None)
+                with worker_phase("g2_ready_wait", stage_id=plan.metadata.stage_id, replica_id=plan.replica_id):
+                    launch_cm.__exit__(None, None, None)
                 logger.debug(
                     "[stage_init] Stage-%s G2 spawn(locked)=%.3fs, READY(unlocked)=%.3fs",
                     plan.metadata.stage_id,
@@ -805,10 +811,21 @@ class StageRuntime:
                 )
             else:
                 g2_start = time.perf_counter()
-                with self._replica_launch_lock, stage_runtime_env(plan.metadata.stage_id, plan.metadata.runtime_cfg):
-                    g2_locked = time.perf_counter()
-                    with launch_cm as resources:
-                        pass
+                with worker_phase(
+                    "g2_launch_lock_wait", stage_id=plan.metadata.stage_id, replica_id=plan.replica_id
+                ) as lock_info:
+                    self._replica_launch_lock.acquire()
+                    lock_info["acquired"] = True
+                try:
+                    with stage_runtime_env(plan.metadata.stage_id, plan.metadata.runtime_cfg):
+                        g2_locked = time.perf_counter()
+                        with worker_phase(
+                            "g2_spawn_and_ready", stage_id=plan.metadata.stage_id, replica_id=plan.replica_id
+                        ):
+                            with launch_cm as resources:
+                                pass
+                finally:
+                    self._replica_launch_lock.release()
                 logger.debug(
                     "[stage_init] Stage-%s G2 launch-lock wait=%.3fs, spawn+READY=%.3fs",
                     plan.metadata.stage_id,

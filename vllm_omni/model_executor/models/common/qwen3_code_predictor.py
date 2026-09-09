@@ -26,6 +26,7 @@ from vllm.model_executor.layers.vocab_parallel_embedding import VocabParallelEmb
 from vllm.model_executor.model_loader.weight_utils import default_weight_loader
 
 from vllm_omni.diffusion.layers.custom_op import CustomOp
+from vllm_omni.engine.init_timeline import timed_phase
 from vllm_omni.platforms import current_omni_platform
 
 logger = init_logger(__name__)
@@ -716,6 +717,7 @@ class CodePredictorWrapper(nn.Module):
             return
         self._proj_buf = torch.zeros(bsz, max_seq, self._cp_hidden, dtype=dtype, device=device)
 
+    @timed_phase("predictor_setup_compile")
     def _setup_compile(self) -> None:
         """Lazily set up torch.compile with optional device graph capture."""
         if self._compiled_model_fwd is not None:
@@ -842,6 +844,7 @@ class CodePredictorWrapper(nn.Module):
         allowed = set(all_seq_lens)
         return sorted(seq_len for seq_len in self._prefix_graph_seq_lens if seq_len in allowed)
 
+    @timed_phase("predictor_warmup")
     def _warmup_buckets(self) -> None:
         """Warmup power-of-2 batch-size buckets to front-load Inductor compilation."""
         max_bsz = self._vllm_config.scheduler_config.max_num_seqs
@@ -897,6 +900,7 @@ class CodePredictorWrapper(nn.Module):
                     self._compiled_model_fwd(proj_buf[:bsz, :max_seq, :], pos_ids)
             logger.info("code_predictor: warmup done for buckets %s", self._bucket_sizes)
 
+    @timed_phase("predictor_cudagraph")
     def _capture_cuda_graphs(self) -> None:
         """Capture a CUDA graph per bucket using vLLM's global graph pool."""
         from vllm.platforms import current_platform

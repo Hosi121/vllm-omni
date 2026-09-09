@@ -34,6 +34,7 @@ from vllm.v1.worker.gpu_model_runner import GPUModelRunner, PerLayerAttnMetadata
 from vllm.v1.worker.ubatch_utils import maybe_create_ubatch_slices
 
 from vllm_omni.core.prefix_cache import OmniTensorPrefixCache
+from vllm_omni.engine.init_timeline import timed_phase, worker_phase
 from vllm_omni.engine.serialization import deserialize_additional_information
 from vllm_omni.model_executor.layers.rotary_embedding.mrope import OmniMRotaryEmbedding as MRotaryEmbedding
 from vllm_omni.model_executor.models.output_templates import OmniOutput
@@ -179,8 +180,10 @@ class OmniGPUModelRunner(GPUModelRunner):
             )
 
     @instrument(span_name="Loading (GPU)")
+    @timed_phase("load_model")
     def load_model(self, *args, **kwargs) -> None:
-        super().load_model(*args, **kwargs)
+        with worker_phase("load_weights"):
+            super().load_model(*args, **kwargs)
         model = getattr(self, "model", None)
         override_fn = None
         if bool(getattr(model, "supports_sampled_token_ids_cpu_override", False)):
@@ -197,6 +200,7 @@ class OmniGPUModelRunner(GPUModelRunner):
         if getattr(self.model, "logitsprocs_need_output_token_ids", False):
             self.input_batch.logitsprocs_need_output_token_ids = True
 
+    @timed_phase("talker_mtp_init")
     def _init_talker_mtp(self) -> None:
         # TODO move this model specific logic to a separate class
         # TTS model IS the talker (no .talker sub-attr); use getattr to support both Omni and TTS.
@@ -221,12 +225,14 @@ class OmniGPUModelRunner(GPUModelRunner):
         hidden_size = int(
             getattr(self.model, "mtp_hidden_size", 0) or getattr(self.model_config.hf_text_config, "hidden_size")
         )
-        max_batch_size = max(self.max_num_reqs, self.compilation_config.max_cudagraph_capture_size)
+        # max_cudagraph_capture_size is None when graphs are disabled (e.g. the CPU platform).
+        max_batch_size = max(self.max_num_reqs, self.compilation_config.max_cudagraph_capture_size or 0)
         self.talker_mtp_input_ids = self._make_buffer(max_batch_size, dtype=torch.int32)
         self.talker_mtp_inputs_embeds = self._make_buffer(max_batch_size, hidden_size, dtype=self.dtype, numpy=False)
         self.last_talker_hidden = self._make_buffer(max_batch_size, hidden_size, dtype=self.dtype, numpy=False)
         self.text_step = self._make_buffer(max_batch_size, hidden_size, dtype=self.dtype, numpy=False)
 
+    @timed_phase("attn_prewarm")
     def _prewarm_attention_capture_workspaces(self) -> None:
         capture_sizes = getattr(self.compilation_config, "cudagraph_capture_sizes", None)
         if not capture_sizes:

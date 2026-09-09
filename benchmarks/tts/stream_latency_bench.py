@@ -133,6 +133,8 @@ class ResourcePoller(threading.Thread):
         return total
 
     def _sample_gpu(self, pids: set[int]) -> int | None:
+        if os.environ.get("VLLM_TARGET_DEVICE", "").lower() == "cpu":
+            return None  # CPU platform: no GPU belongs to this run
         try:
             out = subprocess.run(
                 ["nvidia-smi", "--query-compute-apps=pid,used_memory", "--format=csv,noheader,nounits"],

@@ -13,6 +13,7 @@ from vllm.logger import init_logger
 from vllm.model_executor.model_loader import DefaultModelLoader
 from vllm.model_executor.models.utils import AutoWeightsLoader
 
+from vllm_omni.engine.init_timeline import timed_phase
 from vllm_omni.model_executor.models.output_templates import OmniOutput
 from vllm_omni.model_executor.stage_input_processors.chunk_size_utils import parse_chunk_ramp
 
@@ -148,6 +149,7 @@ class Qwen3TTSCode2Wav(nn.Module):
                 return [ids[boundaries[i] : boundaries[i + 1]] for i in range(len(boundaries) - 1)]
         return [ids]
 
+    @timed_phase("code2wav_cudagraph")
     def _maybe_enable_decoder_cudagraph(
         self,
         *,
