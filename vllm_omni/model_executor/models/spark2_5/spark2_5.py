@@ -1,0 +1,407 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# Copyright 2026 The XHToken team. All rights reserved.
+"""Inference-only Spark-X2.5 model compatible with HuggingFace weights.
+
+Spark-X2.5 (XHToken/iFlytek) is a small on-device model built for agentic
+tool use. Three traits separate it from a Llama-style decoder and drive the
+implementation below:
+
+* **Hybrid attention.** ``layer_types`` interleaves three 512-token
+  ``sliding_attention`` layers with one ``full_attention`` layer, which is what
+  keeps the 1M-token context affordable on a phone.
+* **Per-layer-type RoPE.** Sliding layers rotate every one of the 256 head
+  dims with theta 1e4; full layers rotate only the first quarter with theta
+  5e6. Both come out of the nested ``rope_parameters`` dict.
+* **Head-wise attention output gate.** A ``g_proj`` of shape
+  ``[hidden, num_heads]`` reads the *same* post-norm input as QKV and scales
+  each head's attention output by a sigmoid before ``out_proj``.
+
+The checkpoint stores QKV pre-fused as a single ``q_k_v_proj``; load_weights
+splits it so vLLM's sharded ``QKVParallelLinear`` can take it.
+"""
+
+from collections.abc import Iterable
+
+import torch
+from torch import nn
+
+from vllm.compilation.decorators import support_torch_compile
+from vllm.config import CacheConfig, VllmConfig
+from vllm.distributed import get_pp_group, get_tensor_model_parallel_world_size
+from vllm.model_executor.layers.activation import get_act_and_mul_fn
+from vllm.model_executor.layers.attention import Attention
+from vllm.model_executor.layers.layernorm import RMSNorm
+from vllm.model_executor.layers.linear import (
+    ColumnParallelLinear,
+    MergedColumnParallelLinear,
+    QKVParallelLinear,
+    RowParallelLinear,
+)
+from vllm.model_executor.layers.logits_processor import LogitsProcessor
+from vllm.model_executor.layers.quantization import QuantizationConfig
+from vllm.model_executor.layers.rotary_embedding import get_rope
+from vllm.model_executor.layers.vocab_parallel_embedding import (
+    ParallelLMHead,
+    VocabParallelEmbedding,
+)
+from vllm.model_executor.models.interfaces import SupportsLoRA, SupportsPP
+from vllm.model_executor.models.utils import (
+    AutoWeightsLoader,
+    WeightsMapper,
+    extract_layer_index,
+    make_empty_intermediate_tensors_factory,
+    make_layers,
+    maybe_prefix,
+)
+from vllm.sequence import IntermediateTensors
+
+from .configuration_spark2_5 import Spark2_5Config
+
+
+class Spark2_5MLP(nn.Module):
+    def __init__(
+        self,
+        config: Spark2_5Config,
+        quant_config: QuantizationConfig | None = None,
+        prefix: str = "",
+    ) -> None:
+        super().__init__()
+        self.gate_up_proj = MergedColumnParallelLinear(
+            config.hidden_size,
+            [config.intermediate_size] * 2,
+            bias=config.mlp_bias,
+            quant_config=quant_config,
+            prefix=f"{prefix}.gate_up_proj",
+        )
+        self.down_proj = RowParallelLinear(
+            config.intermediate_size,
+            config.hidden_size,
+            bias=config.mlp_bias,
+            quant_config=quant_config,
+            prefix=f"{prefix}.down_proj",
+        )
+        # Spark's config validator rejects anything but exact GELU.
+        if config.hidden_act != "gelu":
+            raise ValueError(
+                f"Spark-X2.5 only supports hidden_act='gelu', got {config.hidden_act!r}"
+            )
+        self.act_fn = get_act_and_mul_fn(config.hidden_act)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        gate_up, _ = self.gate_up_proj(x)
+        x = self.act_fn(gate_up)
+        x, _ = self.down_proj(x)
+        return x
+
+
+class Spark2_5Attention(nn.Module):
+    def __init__(
+        self,
+        config: Spark2_5Config,
+        cache_config: CacheConfig | None = None,
+        quant_config: QuantizationConfig | None = None,
+        prefix: str = "",
+    ) -> None:
+        super().__init__()
+        self.config = config
+        tp_size = get_tensor_model_parallel_world_size()
+
+        self.total_num_heads = config.num_attention_heads
+        assert self.total_num_heads % tp_size == 0
+        self.num_heads = self.total_num_heads // tp_size
+
+        self.total_num_kv_heads = config.num_key_value_heads
+        if self.total_num_kv_heads >= tp_size:
+            assert self.total_num_kv_heads % tp_size == 0
+        else:
+            assert tp_size % self.total_num_kv_heads == 0
+        self.num_kv_heads = max(1, self.total_num_kv_heads // tp_size)
+
+        self.head_dim = config.head_dim
+        self.q_size = self.num_heads * self.head_dim
+        self.kv_size = self.num_kv_heads * self.head_dim
+        self.scaling = self.head_dim**-0.5
+
+        self.qkv_proj = QKVParallelLinear(
+            config.hidden_size,
+            self.head_dim,
+            self.total_num_heads,
+            self.total_num_kv_heads,
+            bias=config.attention_bias,
+            quant_config=quant_config,
+            prefix=f"{prefix}.qkv_proj",
+        )
+        self.out_proj = RowParallelLinear(
+            self.total_num_heads * self.head_dim,
+            config.hidden_size,
+            bias=config.attention_bias,
+            quant_config=quant_config,
+            prefix=f"{prefix}.out_proj",
+        )
+
+        # One scalar gate per attention head. Sharded column-wise so each rank
+        # gets exactly the gates for the query heads it owns.
+        self.headwise_attn_output_gate = config.headwise_attn_output_gate
+        if self.headwise_attn_output_gate:
+            self.g_proj = ColumnParallelLinear(
+                config.hidden_size,
+                self.total_num_heads,
+                bias=config.attention_bias,
+                quant_config=quant_config,
+                prefix=f"{prefix}.g_proj",
+            )
+            if config.gate_attn_act_mode not in ("sigmoid", "silu"):
+                raise ValueError(
+                    f"Unsupported gate_attn_act_mode: {config.gate_attn_act_mode}"
+                )
+            self.gate_attn_act_mode = config.gate_attn_act_mode
+        else:
+            self.g_proj = None
+
+        layer_idx = extract_layer_index(prefix)
+        layer_type = config.layer_types[layer_idx]
+        self.is_sliding = layer_type == "sliding_attention"
+        sliding_window = config.sliding_window if self.is_sliding else None
+
+        # Sliding and full layers are trained with different theta and
+        # different partial-rotary factors; both live under rope_parameters.
+        rope_parameters = dict(config.rope_parameters[layer_type])
+        rope_parameters.setdefault("rope_type", "default")
+        self.rotary_emb = get_rope(
+            self.head_dim,
+            max_position=config.max_position_embeddings,
+            rope_parameters=rope_parameters,
+            is_neox_style=True,
+        )
+
+        self.attn = Attention(
+            self.num_heads,
+            self.head_dim,
+            self.scaling,
+            num_kv_heads=self.num_kv_heads,
+            cache_config=cache_config,
+            quant_config=quant_config,
+            per_layer_sliding_window=sliding_window,
+            prefix=f"{prefix}.attn",
+        )
+
+    def forward(
+        self,
+        positions: torch.Tensor,
+        hidden_states: torch.Tensor,
+    ) -> torch.Tensor:
+        qkv, _ = self.qkv_proj(hidden_states)
+        q, k, v = qkv.split([self.q_size, self.kv_size, self.kv_size], dim=-1)
+        q, k = self.rotary_emb(positions, q, k)
+        attn_output = self.attn(q, k, v)
+
+        if self.g_proj is not None:
+            gate_score, _ = self.g_proj(hidden_states)
+            if self.gate_attn_act_mode == "sigmoid":
+                gate = torch.sigmoid(gate_score.float())
+            else:
+                gate = nn.functional.silu(gate_score.float())
+            gate = gate.to(attn_output.dtype)
+            attn_output = (
+                attn_output.view(-1, self.num_heads, self.head_dim)
+                * gate.view(-1, self.num_heads, 1)
+            ).view(-1, self.num_heads * self.head_dim)
+
+        output, _ = self.out_proj(attn_output)
+        return output
+
+
+class Spark2_5DecoderLayer(nn.Module):
+    def __init__(
+        self,
+        config: Spark2_5Config,
+        cache_config: CacheConfig | None = None,
+        quant_config: QuantizationConfig | None = None,
+        prefix: str = "",
+    ) -> None:
+        super().__init__()
+        self.self_attn = Spark2_5Attention(
+            config,
+            cache_config=cache_config,
+            quant_config=quant_config,
+            prefix=f"{prefix}.self_attn",
+        )
+        self.mlp = Spark2_5MLP(config, quant_config=quant_config, prefix=f"{prefix}.mlp")
+        self.input_layernorm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
+        self.post_attention_layernorm = RMSNorm(
+            config.hidden_size, eps=config.rms_norm_eps
+        )
+
+    def forward(
+        self,
+        positions: torch.Tensor,
+        hidden_states: torch.Tensor,
+        residual: torch.Tensor | None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        if residual is None:
+            residual = hidden_states
+            hidden_states = self.input_layernorm(hidden_states)
+        else:
+            hidden_states, residual = self.input_layernorm(hidden_states, residual)
+        hidden_states = self.self_attn(positions=positions, hidden_states=hidden_states)
+
+        hidden_states, residual = self.post_attention_layernorm(hidden_states, residual)
+        hidden_states = self.mlp(hidden_states)
+        return hidden_states, residual
+
+
+@support_torch_compile
+class Spark2_5Model(nn.Module):
+    hf_to_vllm_mapper = WeightsMapper(
+        orig_to_new_substr={"model.embedding.": "model.embed_tokens."},
+        orig_to_new_stacked={
+            ".q_proj": (".qkv_proj", "q"),
+            ".k_proj": (".qkv_proj", "k"),
+            ".v_proj": (".qkv_proj", "v"),
+            ".gate_proj": (".gate_up_proj", 0),
+            ".up_proj": (".gate_up_proj", 1),
+        },
+    )
+
+    def __init__(self, *, vllm_config: VllmConfig, prefix: str = ""):
+        super().__init__()
+        config = vllm_config.model_config.hf_config
+        cache_config = vllm_config.cache_config
+        quant_config = vllm_config.quant_config
+        self.config = config
+        self.quant_config = quant_config
+
+        self.embed_tokens = VocabParallelEmbedding(
+            config.vocab_size,
+            config.hidden_size,
+            quant_config=quant_config,
+            prefix=f"{prefix}.embed_tokens",
+        )
+        self.start_layer, self.end_layer, self.layers = make_layers(
+            config.num_hidden_layers,
+            lambda prefix: Spark2_5DecoderLayer(
+                config, cache_config, quant_config, prefix=prefix
+            ),
+            prefix=f"{prefix}.layers",
+        )
+        self.norm = RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
+        self.make_empty_intermediate_tensors = make_empty_intermediate_tensors_factory(
+            ["hidden_states", "residual"], config.hidden_size
+        )
+
+    def embed_input_ids(self, input_ids: torch.Tensor) -> torch.Tensor:
+        return self.embed_tokens(input_ids)
+
+    def forward(
+        self,
+        input_ids: torch.Tensor | None,
+        positions: torch.Tensor,
+        intermediate_tensors: IntermediateTensors | None = None,
+        inputs_embeds: torch.Tensor | None = None,
+    ) -> torch.Tensor | IntermediateTensors:
+        if get_pp_group().is_first_rank:
+            if inputs_embeds is not None:
+                hidden_states = inputs_embeds
+            else:
+                hidden_states = self.embed_input_ids(input_ids)
+            residual = None
+        else:
+            assert intermediate_tensors is not None
+            hidden_states = intermediate_tensors["hidden_states"]
+            residual = intermediate_tensors["residual"]
+
+        for layer in self.layers[self.start_layer : self.end_layer]:
+            hidden_states, residual = layer(positions, hidden_states, residual)
+
+        if not get_pp_group().is_last_rank:
+            return IntermediateTensors(
+                {"hidden_states": hidden_states, "residual": residual}
+            )
+
+        hidden_states, _ = self.norm(hidden_states, residual)
+        return hidden_states
+
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]) -> set[str]:
+        loader = AutoWeightsLoader(self)
+        return loader.load_weights(weights, mapper=self.hf_to_vllm_mapper)
+
+
+def _split_fused_qkv(
+    weights: Iterable[tuple[str, torch.Tensor]],
+    config: Spark2_5Config,
+) -> Iterable[tuple[str, torch.Tensor]]:
+    """Split the checkpoint's fused ``q_k_v_proj`` into q/k/v.
+
+    vLLM's ``QKVParallelLinear`` loads one shard at a time so that tensor
+    parallelism can slice heads; the Spark checkpoint ships the three
+    projections already concatenated, so undo that here.
+    """
+    q_dim = config.num_attention_heads * config.head_dim
+    kv_dim = config.num_key_value_heads * config.head_dim
+    for name, loaded in weights:
+        if ".self_attn.q_k_v_proj." in name:
+            q, k, v = loaded.split([q_dim, kv_dim, kv_dim], dim=0)
+            for shard, tensor in (("q_proj", q), ("k_proj", k), ("v_proj", v)):
+                yield name.replace("q_k_v_proj", shard), tensor
+        else:
+            yield name, loaded
+
+
+class Spark2_5ForCausalLM(nn.Module, SupportsLoRA, SupportsPP):
+    hf_to_vllm_mapper = Spark2_5Model.hf_to_vllm_mapper
+    packed_modules_mapping = {
+        "qkv_proj": ["q_proj", "k_proj", "v_proj"],
+        "gate_up_proj": ["gate_proj", "up_proj"],
+    }
+
+    def __init__(self, *, vllm_config: VllmConfig, prefix: str = ""):
+        super().__init__()
+        config = vllm_config.model_config.hf_config
+        quant_config = vllm_config.quant_config
+        self.config = config
+        self.quant_config = quant_config
+
+        self.model = Spark2_5Model(
+            vllm_config=vllm_config, prefix=maybe_prefix(prefix, "model")
+        )
+        self.lm_head = ParallelLMHead(
+            config.vocab_size,
+            config.hidden_size,
+            quant_config=quant_config,
+            prefix=maybe_prefix(prefix, "lm_head"),
+        )
+        if config.tie_word_embeddings:
+            self.lm_head = self.lm_head.tie_weights(self.model.embed_tokens)
+
+        self.logits_processor = LogitsProcessor(config.vocab_size)
+        self.make_empty_intermediate_tensors = (
+            self.model.make_empty_intermediate_tensors
+        )
+
+    def embed_input_ids(self, input_ids: torch.Tensor) -> torch.Tensor:
+        return self.model.embed_input_ids(input_ids)
+
+    def forward(
+        self,
+        input_ids: torch.Tensor | None,
+        positions: torch.Tensor,
+        intermediate_tensors: IntermediateTensors | None = None,
+        inputs_embeds: torch.Tensor | None = None,
+        **kwargs,
+    ) -> torch.Tensor | IntermediateTensors:
+        return self.model(
+            input_ids, positions, intermediate_tensors, inputs_embeds, **kwargs
+        )
+
+    def compute_logits(self, hidden_states: torch.Tensor) -> torch.Tensor | None:
+        return self.logits_processor(self.lm_head, hidden_states)
+
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]) -> set[str]:
+        loader = AutoWeightsLoader(
+            self,
+            skip_prefixes=(["lm_head."] if self.config.tie_word_embeddings else None),
+        )
+        return loader.load_weights(
+            _split_fused_qkv(weights, self.config), mapper=self.hf_to_vllm_mapper
+        )

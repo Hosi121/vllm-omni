@@ -9,6 +9,11 @@ from vllm.model_executor.models.registry import (
 )
 
 _OMNI_MODELS = {
+    "Spark2_5ForCausalLM": (
+        "spark2_5",
+        "spark2_5",
+        "Spark2_5ForCausalLM",
+    ),
     "Qwen2_5OmniForConditionalGeneration": (
         "qwen2_5_omni",
         "qwen2_5_omni",
