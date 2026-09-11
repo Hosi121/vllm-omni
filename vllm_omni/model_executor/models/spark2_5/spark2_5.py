@@ -28,12 +28,15 @@ from torch import nn
 
 from vllm.compilation.decorators import support_torch_compile
 from vllm.config import CacheConfig, VllmConfig
-from vllm.distributed import get_pp_group, get_tensor_model_parallel_world_size
+from vllm.distributed import (
+    get_pp_group,
+    get_tensor_model_parallel_rank,
+    get_tensor_model_parallel_world_size,
+)
 from vllm.model_executor.layers.activation import get_act_and_mul_fn
 from vllm.model_executor.layers.attention import Attention
 from vllm.model_executor.layers.layernorm import RMSNorm
 from vllm.model_executor.layers.linear import (
-    ColumnParallelLinear,
     MergedColumnParallelLinear,
     QKVParallelLinear,
     RowParallelLinear,
@@ -46,6 +49,7 @@ from vllm.model_executor.layers.vocab_parallel_embedding import (
     VocabParallelEmbedding,
 )
 from vllm.model_executor.models.interfaces import SupportsLoRA, SupportsPP
+from vllm.model_executor.utils import set_weight_attrs
 from vllm.model_executor.models.utils import (
     AutoWeightsLoader,
     WeightsMapper,
@@ -140,24 +144,34 @@ class Spark2_5Attention(nn.Module):
             prefix=f"{prefix}.out_proj",
         )
 
-        # One scalar gate per attention head. Sharded column-wise so each rank
-        # gets exactly the gates for the query heads it owns.
+        # One scalar gate per attention head, so this projection is only
+        # [hidden, num_heads] wide. It is deliberately a plain parameter
+        # rather than a ColumnParallelLinear: vLLM's CPU backend routes any
+        # narrow linear to the sgl-kernel packed GEMM, whose fake tensor rule
+        # assumes the packed weight keeps N in dim 0. VNNI packing does not
+        # for N this small, so the shape it reports is K rather than N and
+        # torch.compile dies tracing the gate multiply. A 2048x8 matmul has
+        # nothing to gain from the packed AMX kernel anyway.
         self.headwise_attn_output_gate = config.headwise_attn_output_gate
         if self.headwise_attn_output_gate:
-            self.g_proj = ColumnParallelLinear(
-                config.hidden_size,
-                self.total_num_heads,
-                bias=config.attention_bias,
-                quant_config=quant_config,
-                prefix=f"{prefix}.g_proj",
-            )
+            if config.attention_bias:
+                raise NotImplementedError(
+                    "Spark-X2.5 with attention_bias and a head-wise gate is "
+                    "not supported"
+                )
             if config.gate_attn_act_mode not in ("sigmoid", "silu"):
                 raise ValueError(
                     f"Unsupported gate_attn_act_mode: {config.gate_attn_act_mode}"
                 )
             self.gate_attn_act_mode = config.gate_attn_act_mode
+            self.g_weight = nn.Parameter(
+                torch.empty(
+                    self.num_heads, config.hidden_size, dtype=torch.get_default_dtype()
+                )
+            )
+            set_weight_attrs(self.g_weight, {"weight_loader": self._load_g_weight})
         else:
-            self.g_proj = None
+            self.g_weight = None
 
         layer_idx = extract_layer_index(prefix)
         layer_type = config.layer_types[layer_idx]
@@ -186,6 +200,12 @@ class Spark2_5Attention(nn.Module):
             prefix=f"{prefix}.attn",
         )
 
+    def _load_g_weight(self, param: nn.Parameter, loaded_weight: torch.Tensor) -> None:
+        """Take just the gates belonging to this rank's query heads."""
+        tp_rank = get_tensor_model_parallel_rank()
+        shard = loaded_weight.narrow(0, tp_rank * self.num_heads, self.num_heads)
+        param.data.copy_(shard)
+
     def forward(
         self,
         positions: torch.Tensor,
@@ -196,17 +216,19 @@ class Spark2_5Attention(nn.Module):
         q, k = self.rotary_emb(positions, q, k)
         attn_output = self.attn(q, k, v)
 
-        if self.g_proj is not None:
-            gate_score, _ = self.g_proj(hidden_states)
+        if self.g_weight is not None:
+            gate_score = torch.nn.functional.linear(hidden_states, self.g_weight)
             if self.gate_attn_act_mode == "sigmoid":
                 gate = torch.sigmoid(gate_score.float())
             else:
                 gate = nn.functional.silu(gate_score.float())
             gate = gate.to(attn_output.dtype)
-            attn_output = (
-                attn_output.view(-1, self.num_heads, self.head_dim)
-                * gate.view(-1, self.num_heads, 1)
-            ).view(-1, self.num_heads * self.head_dim)
+            # Reshape only the feature dim: a view(-1, ...) here would make
+            # torch.compile re-derive the symbolic token count and fail.
+            attn_output = attn_output.unflatten(
+                -1, (self.num_heads, self.head_dim)
+            ) * gate.unsqueeze(-1)
+            attn_output = attn_output.flatten(-2)
 
         output, _ = self.out_proj(attn_output)
         return output
@@ -254,7 +276,10 @@ class Spark2_5DecoderLayer(nn.Module):
 @support_torch_compile
 class Spark2_5Model(nn.Module):
     hf_to_vllm_mapper = WeightsMapper(
-        orig_to_new_substr={"model.embedding.": "model.embed_tokens."},
+        orig_to_new_substr={
+            "model.embedding.": "model.embed_tokens.",
+            ".self_attn.g_proj.weight": ".self_attn.g_weight",
+        },
         orig_to_new_stacked={
             ".q_proj": (".qkv_proj", "q"),
             ".k_proj": (".qkv_proj", "k"),
