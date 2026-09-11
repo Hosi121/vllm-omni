@@ -140,6 +140,10 @@ def register_omni_models_to_vllm():
     # Register omni-specific reasoning parsers (e.g., step_audio).
     import vllm_omni.reasoning  # noqa: F401
 
+    # Register out-of-tree quantization methods (e.g. cpu_int4, which gives
+    # the CPU backend the 4-bit weight path vLLM 0.28 does not ship).
+    import vllm_omni.model_executor.layers.quantization  # noqa: F401
+
 
 @dataclass
 class OmniEngineArgs(EngineArgs):
