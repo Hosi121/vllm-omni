@@ -47,7 +47,7 @@ def _cfg(**kw) -> SparkStepConfig:
 @pytest.mark.core_model
 @pytest.mark.cpu
 def test_sliding_cache_is_capped_but_full_cache_grows():
-    cfg = _cfg()
+    cfg = _cfg(cache_layout="roll")
     assert cfg.cache_len(SLIDING, 4) == 4  # shorter than the window
     assert cfg.cache_len(SLIDING, 1024) == 8  # capped at sliding_window
     assert cfg.cache_len(SLIDING, 1_000_000) == 8
@@ -91,31 +91,65 @@ def test_example_inputs_match_the_declared_signature():
 
 @pytest.mark.core_model
 @pytest.mark.cpu
-def test_sliding_layer_rolls_the_window_and_full_layer_appends():
-    cfg = _cfg()
+@pytest.mark.parametrize("layout", ["ring", "roll"])
+def test_every_layer_returns_what_the_runtime_must_write(layout):
+    cfg = _cfg(cache_layout=layout)
     step = SparkDecodeStep(cfg).eval()
     context = 1024
-    args = example_inputs(cfg, context)
     with torch.no_grad():
-        out = step(*args)
+        out = step(*example_inputs(cfg, context))
     logits, caches = out[0], out[1:]
     assert logits.shape == (1, cfg.vocab_size)
     for i, layer_type in enumerate(cfg.layer_types):
         k_new = caches[2 * i]
-        if layer_type == SLIDING:
-            # A sliding layer returns the whole rolled window, same size in.
+        if layout == "ring":
+            # One entry per layer, dropped into the ring slot for this
+            # position -- nothing cache-sized crosses the graph boundary.
+            assert k_new.shape[2] == 1
+        elif layer_type == SLIDING:
             assert k_new.shape[2] == cfg.cache_len(SLIDING, context)
         else:
-            # A full layer returns only the new entry for the runtime to append.
             assert k_new.shape[2] == 1
 
 
 @pytest.mark.core_model
 @pytest.mark.cpu
-def test_sliding_window_drops_the_oldest_entry():
-    """The rolled window must equal the old cache shifted by one, with the new
-    key appended -- that is what makes a masked pad slot safe to prepend."""
-    cfg = _cfg(layer_slice=slice(0, 1))
+def test_ring_and_roll_agree_on_the_same_history():
+    """Both layouts must attend over the same window of tokens.
+
+    Roll keeps `sliding_window` entries and drops the oldest after appending;
+    ring keeps one fewer and appends in score space. Given a shared history
+    they have to produce identical output, or the device numbers measure a
+    different model.
+    """
+    torch.manual_seed(0)
+    ring = _cfg(cache_layout="ring", layer_slice=slice(0, 1))
+    roll = _cfg(cache_layout="roll", layer_slice=slice(0, 1))
+    step_ring = SparkDecodeStep(ring).eval()
+    step_roll = SparkDecodeStep(roll).eval()
+    step_roll.load_state_dict(step_ring.state_dict())
+
+    context = 64
+    args_roll = list(example_inputs(roll, context))
+    k_hist, v_hist = args_roll[7], args_roll[8]
+    # Ring sees the same history minus the entry roll is about to discard.
+    args_ring = list(args_roll)
+    args_ring[5] = torch.zeros(1, 1, 1, ring.cache_len(SLIDING, context) + 1)
+    args_ring[7] = k_hist[:, :, 1:]
+    args_ring[8] = v_hist[:, :, 1:]
+
+    with torch.no_grad():
+        out_ring = step_ring(*args_ring)
+        out_roll = step_roll(*args_roll)
+    assert torch.allclose(out_ring[0], out_roll[0], atol=2e-4, rtol=2e-4)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_roll_layout_drops_the_oldest_entry():
+    """Roll's rolled window is the old cache shifted by one with the new key
+    appended -- what makes a masked pad slot safe to prepend."""
+    cfg = _cfg(cache_layout="roll", layer_slice=slice(0, 1))
     step = SparkDecodeStep(cfg).eval()
     args = list(example_inputs(cfg, context=1024))
     k_cache = args[7]
@@ -123,6 +157,16 @@ def test_sliding_window_drops_the_oldest_entry():
         out = step(*args)
     k_new = out[1]
     assert torch.allclose(k_new[:, :, :-1], k_cache[:, :, 1:])
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_ring_sliding_cache_holds_one_less_than_the_window():
+    ring, roll = _cfg(cache_layout="ring"), _cfg(cache_layout="roll")
+    assert ring.cache_len(SLIDING, 1024) == HF_CONFIG["sliding_window"] - 1
+    assert roll.cache_len(SLIDING, 1024) == HF_CONFIG["sliding_window"]
+    # Full-attention layers are unaffected by the layout.
+    assert ring.cache_len(FULL, 1024) == roll.cache_len(FULL, 1024) == 1024
 
 
 @pytest.mark.core_model
@@ -142,3 +186,35 @@ def test_unknown_layer_type_is_rejected():
     bad = dict(HF_CONFIG, layer_types=[SLIDING, "linear_attention", SLIDING, FULL])
     with pytest.raises(ValueError, match="unknown layer types"):
         config_from_spark(bad)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_gelu_modes_stay_close_to_the_exact_form():
+    """The approximations are offered because erf GELU is ~12% of a layer on
+    device, but they are only adoptable if they track the trained activation."""
+    x = torch.linspace(-6, 6, 4096)
+    exact = torch.nn.functional.gelu(x)
+    from vllm_omni.edge.spark_export import _gelu
+
+    tanh_err = (_gelu(x, "tanh") - exact).abs().max().item()
+    sigmoid_err = (_gelu(x, "sigmoid") - exact).abs().max().item()
+    assert torch.equal(_gelu(x, "exact"), exact)
+    assert tanh_err < 2e-3
+    # The sigmoid form is markedly looser; it is kept for measurement only.
+    assert 1e-2 < sigmoid_err < 3e-2
+    assert tanh_err < sigmoid_err
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_unknown_gelu_mode_is_rejected():
+    with pytest.raises(ValueError, match="unknown gelu_mode"):
+        _cfg(gelu_mode="relu")
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_unknown_cache_layout_is_rejected():
+    with pytest.raises(ValueError, match="unknown cache_layout"):
+        _cfg(cache_layout="linked_list")

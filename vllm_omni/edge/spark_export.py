@@ -66,6 +66,17 @@ class SparkStepConfig:
     partial_rotary_factor: dict[str, float]
     rms_norm_eps: float = 1e-6
     include_lm_head: bool = True
+    gelu_mode: str = "exact"
+    """``exact`` is the erf GELU the model was trained with (and the only one
+    its own config accepts). ``tanh`` and ``sigmoid`` are the usual cheaper
+    approximations, exposed because the erf form is 11-13% of every layer on
+    the Hexagon NPU -- adopt one only if its fidelity is measured."""
+    cache_layout: str = "ring"
+    """``ring``: the cache is a fixed ring buffer the runtime writes into, and
+    the graph returns only the new K/V entry. ``roll``: the graph concatenates
+    the new entry, re-slices the window and hands the whole window back. Roll
+    was the first layout measured on device and is kept for A/B only -- it
+    spends 20% of a sliding layer moving the window in and out."""
     first_layer: int = 0
     """Index of the first exported layer, so a subset can be profiled on its own."""
 
@@ -78,6 +89,10 @@ class SparkStepConfig:
         bad = set(self.layer_types) - {SLIDING, FULL}
         if bad:
             raise ValueError(f"unknown layer types: {sorted(bad)}")
+        if self.cache_layout not in ("ring", "roll"):
+            raise ValueError(f"unknown cache_layout: {self.cache_layout}")
+        if self.gelu_mode not in ("exact", "tanh", "sigmoid"):
+            raise ValueError(f"unknown gelu_mode: {self.gelu_mode}")
 
     @property
     def group_size(self) -> int:
@@ -91,8 +106,25 @@ class SparkStepConfig:
         return int(self.head_dim * self.partial_rotary_factor[layer_type])
 
     def cache_len(self, layer_type: str, context: int) -> int:
-        """KV entries a layer of this type holds at ``context`` tokens."""
-        return min(context, self.sliding_window) if layer_type == SLIDING else context
+        """KV entries a layer of this type holds at ``context`` tokens.
+
+        A 512-token window counts the current token, so a ring buffer holds
+        511 previous entries and the graph scores those plus the new one.
+        The roll layout instead keeps 512 and drops the oldest after
+        appending. (transformers' own sliding cache holds 511, same reason.)
+        """
+        if layer_type != SLIDING:
+            return context
+        window = self.sliding_window - 1 if self.cache_layout == "ring" else self.sliding_window
+        return min(context, window)
+
+
+def _gelu(x: torch.Tensor, mode: str) -> torch.Tensor:
+    if mode == "exact":
+        return torch.nn.functional.gelu(x)
+    if mode == "tanh":
+        return torch.nn.functional.gelu(x, approximate="tanh")
+    return x * torch.sigmoid(1.702 * x)
 
 
 def _rms(x: torch.Tensor, weight: torch.Tensor, eps: float) -> torch.Tensor:
@@ -117,6 +149,7 @@ class _Layer(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.layer_type = layer_type
+        self.cache_layout = cfg.cache_layout
         h, d = cfg.hidden_size, cfg.head_dim
         q_dim = cfg.num_attention_heads * d
         kv_dim = cfg.num_key_value_heads * d
@@ -145,31 +178,64 @@ class _Layer(nn.Module):
         gate = torch.sigmoid(self.g_proj(h)).view(1, heads, 1, 1)
         q, k = _rope(q, cos, sin), _rope(k, cos, sin)
 
-        # Roll the window: the oldest entry falls off the front. Full-attention
-        # layers keep everything, so their cache simply grows.
-        keys = torch.cat([k_cache, k], dim=2)
-        vals = torch.cat([v_cache, v], dim=2)
-        if self.layer_type == SLIDING:
-            keys, vals = keys[:, :, 1:], vals[:, :, 1:]
-
         # GQA without materialising expanded K/V: fold the query heads that
         # share a kv head into their own axis.
-        scores = torch.matmul(q.view(1, kv, g, d), keys.transpose(2, 3))
-        scores = scores * (1.0 / math.sqrt(d)) + mask
-        attn = torch.matmul(torch.softmax(scores, dim=-1), vals)
+        scale = 1.0 / math.sqrt(d)
+        qg = q.view(1, kv, g, d)
+
+        if self.cache_layout == "ring":
+            # Score the cache and the new token separately, then join in score
+            # space. The join is over a length-(N+1) vector per head instead of
+            # an N x head_dim key matrix, so nothing the size of the cache is
+            # ever copied, and the layer returns one entry for the runtime to
+            # drop into the ring slot. Softmax over keys does not care what
+            # order the slots are in, and each cached key already carries its
+            # own rotary phase, so a ring buffer needs no reordering -- only a
+            # mask marking slots that have not been written yet.
+            # Both score terms are matmuls against a key matrix -- the cache
+            # (n entries) and the new token (1). Writing the second as a
+            # broadcast multiply plus ReduceSum is equivalent but QNN's
+            # context-binary converter rejects that shape at w4a16.
+            s_cache = torch.matmul(qg, k_cache.transpose(2, 3)) * scale
+            s_new = torch.matmul(qg, k.transpose(2, 3)) * scale
+            scores = torch.cat([s_cache, s_new], dim=-1) + mask
+            w = torch.softmax(scores, dim=-1)
+            n = k_cache.shape[2]
+            w_cache, w_new = w[..., :n], w[..., n:]
+            # The new token's contribution is an outer product, written as a
+            # matmul rather than a broadcast multiply: [g,1] @ [1,d] -> [g,d].
+            # The broadcast form (which broadcasts along two axes at once)
+            # compiles at fp16 but fails QNN's context-binary converter under
+            # w4a16, and a matmul is the cheaper op on HTP anyway.
+            attn = torch.matmul(w_cache, v_cache) + torch.matmul(w_new, v)
+            k_out, v_out = k, v
+        else:
+            # Roll the window: the oldest entry falls off the front.
+            keys = torch.cat([k_cache, k], dim=2)
+            vals = torch.cat([v_cache, v], dim=2)
+            if self.layer_type == SLIDING:
+                keys, vals = keys[:, :, 1:], vals[:, :, 1:]
+            scores = torch.matmul(qg, keys.transpose(2, 3)) * scale + mask
+            attn = torch.matmul(torch.softmax(scores, dim=-1), vals)
+            k_out = keys if self.layer_type == SLIDING else k
+            v_out = vals if self.layer_type == SLIDING else v
+
         attn = (attn.view(1, heads, 1, d) * gate).view(1, 1, heads * d)
 
         x = x + self.out_proj(attn)
         h = _rms(x, self.post_attention_layernorm, cfg.rms_norm_eps)
-        x = x + self.down_proj(
-            torch.nn.functional.gelu(self.gate_proj(h)) * self.up_proj(h)
-        )
-        return x, keys if self.layer_type == SLIDING else k, vals if self.layer_type == SLIDING else v
+        x = x + self.down_proj(_gelu(self.gate_proj(h), cfg.gelu_mode) * self.up_proj(h))
+        return x, k_out, v_out
 
 
 class SparkDecodeStep(nn.Module):
-    """One decode step. Sliding layers return their whole rolled window; full
-    layers return only the new entry, which the runtime appends."""
+    """One decode step.
+
+    Under the default ``ring`` cache layout every layer returns just the new
+    K/V entry and the runtime drops it into the ring slot for this position.
+    Under ``roll`` a sliding layer hands back its whole recomputed window,
+    which costs a fifth of the layer on device.
+    """
 
     def __init__(self, cfg: SparkStepConfig):
         super().__init__()
@@ -202,6 +268,8 @@ def config_from_spark(
     hf_config: dict[str, Any],
     layer_slice: slice | None = None,
     include_lm_head: bool = True,
+    cache_layout: str = "ring",
+    gelu_mode: str = "exact",
 ) -> SparkStepConfig:
     """Build a step config from a Spark ``config.json``.
 
@@ -229,6 +297,8 @@ def config_from_spark(
         },
         rms_norm_eps=hf_config.get("rms_norm_eps", 1e-6),
         include_lm_head=include_lm_head,
+        cache_layout=cache_layout,
+        gelu_mode=gelu_mode,
         first_layer=first,
     )
 
@@ -274,9 +344,12 @@ def example_inputs(
     full_len = cfg.cache_len(FULL, context)
     cos_sw, sin_sw = _angles(pos, cfg.rotary_dim(SLIDING), cfg.rope_theta[SLIDING], dtype)
     cos_full, sin_full = _angles(pos, cfg.rotary_dim(FULL), cfg.rope_theta[FULL], dtype)
-    # Sliding layers drop the oldest slot, so their score row is sw_len wide;
-    # full layers score against everything cached plus the new token.
-    mask_sw = torch.zeros(1, 1, 1, sw_len, dtype=dtype)
+    # Ring layout scores every cache slot plus the new token, for both layer
+    # types. Roll layout drops the oldest sliding slot, so its row is sw_len.
+    if cfg.cache_layout == "ring":
+        mask_sw = torch.zeros(1, 1, 1, sw_len + 1, dtype=dtype)
+    else:
+        mask_sw = torch.zeros(1, 1, 1, sw_len, dtype=dtype)
     mask_full = torch.zeros(1, 1, 1, full_len + 1, dtype=dtype)
     x = (torch.randn(1, 1, cfg.hidden_size) * 0.1).to(dtype)
     caches: list[torch.Tensor] = []
@@ -385,6 +458,8 @@ def _main(argv: list[str] | None = None) -> int:
         help="'all', 'sliding', 'full', or START:STOP",
     )
     ap.add_argument("--no-lm-head", action="store_true")
+    ap.add_argument("--cache-layout", default="ring", choices=["ring", "roll"])
+    ap.add_argument("--gelu", default="exact", choices=["exact", "tanh", "sigmoid"])
     a = ap.parse_args(argv)
 
     hf = json.loads(Path(a.config).read_text())
@@ -401,7 +476,8 @@ def _main(argv: list[str] | None = None) -> int:
         start, stop = (int(v) for v in a.layers.split(":"))
         sl = slice(start, stop)
 
-    cfg = config_from_spark(hf, sl, include_lm_head=not a.no_lm_head)
+    cfg = config_from_spark(hf, sl, include_lm_head=not a.no_lm_head,
+                            cache_layout=a.cache_layout, gelu_mode=a.gelu)
     step = SparkDecodeStep(cfg)
     if a.weights:
         print(f"loaded {load_spark_weights(step, a.weights)} tensors")
