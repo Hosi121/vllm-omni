@@ -218,3 +218,30 @@ def test_unknown_gelu_mode_is_rejected():
 def test_unknown_cache_layout_is_rejected():
     with pytest.raises(ValueError, match="unknown cache_layout"):
         _cfg(cache_layout="linked_list")
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_auto_layout_picks_ring_for_sliding_and_roll_for_full():
+    """Ring pays off only on sliding layers, and only there does it compile at
+    w4a16, so the default mixes them."""
+    cfg = _cfg()  # default cache_layout="auto"
+    assert cfg.layout_for(SLIDING) == "ring"
+    assert cfg.layout_for(FULL) == "roll"
+    assert cfg.cache_len(SLIDING, 1024) == HF_CONFIG["sliding_window"] - 1
+    forced = _cfg(cache_layout="roll")
+    assert forced.layout_for(SLIDING) == forced.layout_for(FULL) == "roll"
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_auto_layout_returns_one_entry_for_sliding_and_a_window_for_full():
+    cfg = _cfg()
+    step = SparkDecodeStep(cfg).eval()
+    with torch.no_grad():
+        out = step(*example_inputs(cfg, 1024))
+    caches = out[1:]
+    for i, layer_type in enumerate(cfg.layer_types):
+        # Both layouts hand back exactly one new entry here: ring by design,
+        # roll because a full layer only ever appends.
+        assert caches[2 * i].shape[2] == 1, layer_type

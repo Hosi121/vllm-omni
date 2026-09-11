@@ -71,12 +71,17 @@ class SparkStepConfig:
     its own config accepts). ``tanh`` and ``sigmoid`` are the usual cheaper
     approximations, exposed because the erf form is 11-13% of every layer on
     the Hexagon NPU -- adopt one only if its fidelity is measured."""
-    cache_layout: str = "ring"
-    """``ring``: the cache is a fixed ring buffer the runtime writes into, and
+    cache_layout: str = "auto"
+    """``ring``: the cache is a fixed ring buffer the runtime writes into and
     the graph returns only the new K/V entry. ``roll``: the graph concatenates
-    the new entry, re-slices the window and hands the whole window back. Roll
-    was the first layout measured on device and is kept for A/B only -- it
-    spends 20% of a sliding layer moving the window in and out."""
+    the new entry, re-slices the window and hands the whole window back.
+
+    ``auto`` (the default) picks per layer type, which is what the device
+    measurements say to do. Ring takes 12.2% off a sliding layer, because roll
+    made it hand a 512-entry window back every token. A full-attention layer
+    gains nothing (1.567 vs 1.559 ms: the concat ring saves is spent on its
+    extra score matmul) and ring additionally fails QNN's context-binary
+    converter at w4a16 there, so full layers keep roll."""
     first_layer: int = 0
     """Index of the first exported layer, so a subset can be profiled on its own."""
 
@@ -89,7 +94,7 @@ class SparkStepConfig:
         bad = set(self.layer_types) - {SLIDING, FULL}
         if bad:
             raise ValueError(f"unknown layer types: {sorted(bad)}")
-        if self.cache_layout not in ("ring", "roll"):
+        if self.cache_layout not in ("auto", "ring", "roll"):
             raise ValueError(f"unknown cache_layout: {self.cache_layout}")
         if self.gelu_mode not in ("exact", "tanh", "sigmoid"):
             raise ValueError(f"unknown gelu_mode: {self.gelu_mode}")
@@ -105,6 +110,12 @@ class SparkStepConfig:
     def rotary_dim(self, layer_type: str) -> int:
         return int(self.head_dim * self.partial_rotary_factor[layer_type])
 
+    def layout_for(self, layer_type: str) -> str:
+        """Effective cache layout for a layer of this type."""
+        if self.cache_layout != "auto":
+            return self.cache_layout
+        return "ring" if layer_type == SLIDING else "roll"
+
     def cache_len(self, layer_type: str, context: int) -> int:
         """KV entries a layer of this type holds at ``context`` tokens.
 
@@ -115,8 +126,8 @@ class SparkStepConfig:
         """
         if layer_type != SLIDING:
             return context
-        window = self.sliding_window - 1 if self.cache_layout == "ring" else self.sliding_window
-        return min(context, window)
+        ring = self.layout_for(SLIDING) == "ring"
+        return min(context, self.sliding_window - 1 if ring else self.sliding_window)
 
 
 def _gelu(x: torch.Tensor, mode: str) -> torch.Tensor:
@@ -149,7 +160,7 @@ class _Layer(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.layer_type = layer_type
-        self.cache_layout = cfg.cache_layout
+        self.cache_layout = cfg.layout_for(layer_type)
         h, d = cfg.hidden_size, cfg.head_dim
         q_dim = cfg.num_attention_heads * d
         kv_dim = cfg.num_key_value_heads * d
@@ -184,30 +195,26 @@ class _Layer(nn.Module):
         qg = q.view(1, kv, g, d)
 
         if self.cache_layout == "ring":
-            # Score the cache and the new token separately, then join in score
-            # space. The join is over a length-(N+1) vector per head instead of
-            # an N x head_dim key matrix, so nothing the size of the cache is
-            # ever copied, and the layer returns one entry for the runtime to
-            # drop into the ring slot. Softmax over keys does not care what
-            # order the slots are in, and each cached key already carries its
-            # own rotary phase, so a ring buffer needs no reordering -- only a
-            # mask marking slots that have not been written yet.
-            # Both score terms are matmuls against a key matrix -- the cache
-            # (n entries) and the new token (1). Writing the second as a
-            # broadcast multiply plus ReduceSum is equivalent but QNN's
-            # context-binary converter rejects that shape at w4a16.
-            s_cache = torch.matmul(qg, k_cache.transpose(2, 3)) * scale
-            s_new = torch.matmul(qg, k.transpose(2, 3)) * scale
-            scores = torch.cat([s_cache, s_new], dim=-1) + mask
-            w = torch.softmax(scores, dim=-1)
-            n = k_cache.shape[2]
-            w_cache, w_new = w[..., :n], w[..., n:]
-            # The new token's contribution is an outer product, written as a
-            # matmul rather than a broadcast multiply: [g,1] @ [1,d] -> [g,d].
-            # The broadcast form (which broadcasts along two axes at once)
-            # compiles at fp16 but fails QNN's context-binary converter under
-            # w4a16, and a matmul is the cheaper op on HTP anyway.
-            attn = torch.matmul(w_cache, v_cache) + torch.matmul(w_new, v)
+            # The cache is a ring buffer the runtime writes into, so the graph
+            # never has to hand a window back: it returns the one new entry and
+            # the runtime drops it into the slot for this position, evicting
+            # the oldest. That removes both the cache-sized Output (13% of the
+            # layer on device) and the window Slice (7.4%).
+            #
+            # Ring order is arbitrary, which is fine: softmax over keys is
+            # order-independent and each cached key already carries its own
+            # rotary phase. Only slots not yet written need masking.
+            #
+            # Attention itself stays exactly as roll computes it -- concat the
+            # keys, one fused Softmax. Splitting it into an online softmax over
+            # two key sets removes the concat too, and is numerically identical
+            # (140.3 dB), but the explicit exp/max/div it needs cannot be
+            # quantized: QNN's context-binary converter exits 14 at w4a16,
+            # while the fused Softmax form compiles.
+            keys = torch.cat([k_cache, k], dim=2)
+            vals = torch.cat([v_cache, v], dim=2)
+            scores = torch.matmul(qg, keys.transpose(2, 3)) * scale + mask
+            attn = torch.matmul(torch.softmax(scores, dim=-1), vals)
             k_out, v_out = k, v
         else:
             # Roll the window: the oldest entry falls off the front.
@@ -268,7 +275,7 @@ def config_from_spark(
     hf_config: dict[str, Any],
     layer_slice: slice | None = None,
     include_lm_head: bool = True,
-    cache_layout: str = "ring",
+    cache_layout: str = "auto",
     gelu_mode: str = "exact",
 ) -> SparkStepConfig:
     """Build a step config from a Spark ``config.json``.
@@ -344,12 +351,10 @@ def example_inputs(
     full_len = cfg.cache_len(FULL, context)
     cos_sw, sin_sw = _angles(pos, cfg.rotary_dim(SLIDING), cfg.rope_theta[SLIDING], dtype)
     cos_full, sin_full = _angles(pos, cfg.rotary_dim(FULL), cfg.rope_theta[FULL], dtype)
-    # Ring layout scores every cache slot plus the new token, for both layer
-    # types. Roll layout drops the oldest sliding slot, so its row is sw_len.
-    if cfg.cache_layout == "ring":
-        mask_sw = torch.zeros(1, 1, 1, sw_len + 1, dtype=dtype)
-    else:
-        mask_sw = torch.zeros(1, 1, 1, sw_len, dtype=dtype)
+    # Both layouts score the same number of keys: ring scores its cache plus
+    # the new token, roll scores the window it just rebuilt (which already
+    # contains it). Ring's sliding cache is one shorter, so the widths match.
+    mask_sw = torch.zeros(1, 1, 1, sw_len + (1 if cfg.layout_for(SLIDING) == "ring" else 0), dtype=dtype)
     mask_full = torch.zeros(1, 1, 1, full_len + 1, dtype=dtype)
     x = (torch.randn(1, 1, cfg.hidden_size) * 0.1).to(dtype)
     caches: list[torch.Tensor] = []
@@ -458,7 +463,7 @@ def _main(argv: list[str] | None = None) -> int:
         help="'all', 'sliding', 'full', or START:STOP",
     )
     ap.add_argument("--no-lm-head", action="store_true")
-    ap.add_argument("--cache-layout", default="ring", choices=["ring", "roll"])
+    ap.add_argument("--cache-layout", default="auto", choices=["auto", "ring", "roll"])
     ap.add_argument("--gelu", default="exact", choices=["exact", "tanh", "sigmoid"])
     a = ap.parse_args(argv)
 
