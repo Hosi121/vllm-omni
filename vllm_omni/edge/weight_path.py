@@ -7,11 +7,17 @@ model, and the reason is not preference -- it is that the fast kernel on each
 one needs a different weight layout, and the layouts are mutually exclusive:
 
 * an x86 core with AMX tiles has a 4-bit GEMM (`_C::int4_scaled_mm_cpu`) that
-  wants GPTQ-packed weights and quantizes activations to int8 -- the same
-  arithmetic llama.cpp's Q4_K_M does, and the fastest thing measured here;
-* an x86 core without AMX has no such kernel, so 4-bit has to go through
-  PyTorch's tinygemm path, which wants its own packing and keeps activations
-  in bf16 -- slower, but more faithful, and the only option;
+  wants GPTQ-packed weights and quantizes activations to int8 -- int8
+  activations are what llama.cpp's Q4_K_M does too, though not at the same bit
+  budget (see below) -- and it is the fastest thing measured here;
+* an x86 core without AMX falls back to PyTorch's tinygemm path, which wants
+  its own packing and keeps activations in bf16 -- slower, but more faithful.
+  This is *not* the only option there, as this module previously claimed:
+  vLLM 0.28 also has `ops.cpu_gemm_wna16`, a vector-ISA W4A16 kernel it
+  selects whenever `layer.use_w4a8` is off
+  (`vllm/model_executor/kernels/linear/mixed_precision/cpu.py:202`). It has
+  never been measured here, so the selector does not route to it yet -- but
+  "no AMX means tinygemm" is an untested assumption, not a fact;
 * a phone NPU does not run vLLM at all. The deliverable there is an exported
   graph, and its quantization is decided by the export toolchain, not by us.
 
@@ -40,8 +46,17 @@ embedding to its head, so the head has to be untied and emitted separately;
 
 Fidelity is the reason both 4-bit rows stay: against each build's own bf16
 output over 12 greedy prompts, llama.cpp's Q4_K_M reproduced 4/12 exactly,
-w4a16 2/12 and w4a8 1/12. W4A8 pins the zero point at 8 (so the grid must be
-symmetric) *and* quantizes activations to int8; W4A16 does neither.
+w4a16 2/12 and w4a8 1/12.
+
+Two caveats on that comparison, both of which were stated wrongly here before.
+It is **not** at a matched bit budget: w4a16 and w4a8 store 4 bits plus two
+bf16 per 128-weight group = **4.25 bits/weight**, while plain Q4_K is 4.5 bits
+over groups of 32 and Q4_K_M promotes some tensors further. And the symmetric
+grid is **our export's choice, not the kernel's limit**: vLLM's W4A8 path uses
+the checkpoint's zero points whenever `config.zero_points` is set and
+synthesises the constant 8 only otherwise (same file, `:98`). Our exporter
+passes `"sym": true`. An asymmetric export is a config change, and it is the
+cheapest untried fidelity experiment.
 
 That difference has a task-level consequence, which is why ``priority`` is not
 a matter of taste. Driving a phone through the Android agent harness
@@ -81,7 +96,16 @@ class WeightPath:
     """vLLM ``--quantization`` name, or None to keep the model dtype."""
     group_size: int | None
     bits_per_weight: float | None
+    """Stored bits per weight, group overhead included: a 4-bit code plus a
+    bf16 scale and a bf16 zero per group is ``4 + 32 / group_size``, i.e.
+    **4.25** at g128. (This field read 4.16 until 2026-09-13, which matched no
+    arithmetic and made the llama.cpp fidelity comparison look budget-matched
+    when it is not.)"""
     fused_cpu_norms: bool
+    """vLLM's fused CPU RMSNorm. False everywhere on measurement: it is
+    3.6-4.5x faster in isolation and *slower* in situ, because inductor already
+    fuses the native form with the residual add. ``VLLM_OMNI_CPU_FUSED_NORMS``
+    defaults to "0" for the same reason."""
     runs_in_vllm: bool
     """False means vLLM cannot execute here and an exported artifact is the
     deliverable -- the phone case."""
@@ -166,8 +190,8 @@ def select_weight_path(
             name="w4a16-tinygemm",
             quantization="cpu_int4",
             group_size=128,
-            bits_per_weight=4.16,
-            fused_cpu_norms=True,
+            bits_per_weight=4.25,
+            fused_cpu_norms=False,
             runs_in_vllm=True,
             verified=False,
             rationale=(
@@ -185,8 +209,8 @@ def select_weight_path(
             name="w4a8-amx",
             quantization="gptq",
             group_size=128,
-            bits_per_weight=4.16,
-            fused_cpu_norms=True,
+            bits_per_weight=4.25,
+            fused_cpu_norms=False,
             runs_in_vllm=True,
             verified=True,
             rationale=(
@@ -207,8 +231,8 @@ def select_weight_path(
         name="w4a16-tinygemm",
         quantization="cpu_int4",
         group_size=128,
-        bits_per_weight=4.16,
-        fused_cpu_norms=True,
+        bits_per_weight=4.25,
+        fused_cpu_norms=False,
         runs_in_vllm=True,
         verified=True,
         rationale=(

@@ -4,9 +4,22 @@
 
 ``VLLM_CPU_KVCACHE_SPACE`` defaults to a server-shaped budget and is parsed
 with ``int()``, so it cannot even express an edge-sized cache -- the smallest
-non-zero value it accepts is 1 GiB. Measured on Spark-X2.5-1.7B (Xeon 8480C,
-2048-token single stream), asking for what the model actually needs instead of
-the 4 GiB default takes resident memory from **8329 MB to 5254 MB**.
+non-zero value it accepts is 1 GiB.
+
+**Retraction (2026-09-13).** This module used to claim that right-sizing the
+budget took resident memory from 8329 MB to 5254 MB. That number was wrong
+twice over: it was read from ``VmRSS``, which counts the mmap'd checkpoint's
+pages and moved 1-2 GB between identical runs, and the two arms were not the
+same model file. Re-measured on ``RssAnon``, which repeats to 0.2%, the saving
+is **188 MB**.
+
+That is small because of *when* it was measured, not because the budget does
+not matter: the benchmark generated 8 tokens, so almost no cache was ever
+touched. Allocation is what this module sizes, and the two coincide only at
+long context -- see the arithmetic below, where the flat and hybrid budgets at
+32 k differ by 1323 MiB. Sizing the cache is worth re-opening on a benchmark
+that actually fills it (harness item H3), and worth nothing on one that does
+not.
 
 A hybrid-attention model does not *need* a full-length cache in every layer.
 Spark-X2.5 is 3 sliding layers (window 512) to 1 full layer over 28 layers, so
@@ -15,8 +28,13 @@ at a 32 k context its real cache is 3.8x smaller than a flat budget:
     flat      28 x 32768               = 917 504 token-layers
     hybrid    21 x 512 + 7 x 32768     = 240 128 token-layers
 
-But vLLM's CPU path does not currently take that discount: for a 4 GiB budget
-it reported 71 527 tokens, i.e. 56 KiB/token, which is the flat figure. So
+But vLLM's CPU path did not take that discount when this was measured: for a
+4 GiB budget it reported 71 527 tokens, i.e. 56 KiB/token, which is the flat
+figure. That observation now needs re-checking rather than trusting --
+``CpuPlatform.support_hybrid_kv_cache()`` returns ``True`` in vLLM 0.28
+(``vllm/platforms/cpu.py:545``), so either the model's attention groups are not
+being reported as hybrid, or the budget is applied before that is known. Until
+someone establishes which, the conservative number is the one to pass. So
 ``bytes_total`` is the **flat** number -- the one that is safe to pass today --
 and the hybrid number is reported alongside it as ``bytes_total_hybrid``, for
 a backend that accounts per layer type. A budget that is too small is not a
