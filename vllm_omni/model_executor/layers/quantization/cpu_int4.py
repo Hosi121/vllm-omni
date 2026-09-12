@@ -27,33 +27,59 @@ Checkpoints carry, per quantized linear:
     <name>.weight_zero     bf16   [N, K // group]
 
 and dequantize as ``w = (q - 8) * scale + zero``.  The row-major nibble layout
-is the portable one; the tinygemm layout the kernel wants blends rows within a
-block of 16 and is built in ``process_weights_after_loading``.
+is the portable one; the tinygemm layout the kernel wants is built in
+``process_weights_after_loading``.  That layout was long treated as opaque
+here, which is what made the second copy below look unavoidable.  Measured on
+this host -- pack an index pattern, read back where each nibble landed -- it
+is ``[N/64][K][32 bytes]``: K is the middle axis, so a K range is contiguous
+inside each n-block, and within every 32-byte run byte ``d`` holds output
+channel ``d`` in its low nibble and ``d + 32`` in its high one, the same
+permutation for every ``k`` and every block.  See ``TINYGEMM_N_BLOCK``.
 
 The tinygemm kernel dequantizes once per row of activations, so its cost is
 linear in the batch and it loses to AMX bf16 above about eight rows -- fine
 for decode, ruinous for prefill.  Large batches therefore take a second path:
 the weight is unpacked to bf16 once per call and handed to the ordinary
 oneDNN/AMX GEMM, which costs one extra pass over the weights and wins back
-prefill.  That path reads a row-major copy, so with ``prefill_dequant`` on
-(the default) a layer holds both layouts -- 8 bits per weight resident, but
-still 4.5 bits per weight *read* in a decode step, which is what sets the
-token rate.
+prefill.
 
-Measured on Spark-X2.5-1.7B (Xeon 8480C, anonymous RSS, median of three
-interleaved passes, spread under 1.5%):
+That path used to read a row-major duplicate, so a layer held two packed
+layouts -- 8 bits per weight resident against 4.25 stored.  It can instead
+dequantize straight from the tinygemm layout (``_dequantize_from_int4pack``),
+bit-exact against the old path, and then the duplicate is never allocated: on
+Spark-X2.5-1.7B, **615 MB of resident memory and ~915 MB of peak** (3 arms x 2
+interleaved passes, RssAnon over the process tree).
 
-    prefill_dequant   resident      prefill        decode
-    true (default)     3542 MB     3252 tok/s    76.9 tok/s
-    false              2802 MB      448 tok/s    78.5 tok/s
+It is not free, because the duplicate was not only a copy.
+``to_split_halves`` de-interleaves the nibbles *once at load*, so each prefill
+call reads two contiguous planes; reading the kernel layout redoes that
+de-interleave every call, and prefill drops **2272 -> 1210 tok/s** (pp512, same
+grid).  Dequantizing to ``[K, N]`` and using ``matmul`` to dodge the transpose
+was tried and is worse still (20.3 ms vs 14.4 per ``gate_up`` at 8 threads).
+Recovering it wants a C++ de-interleave, not an ATen expression chain.
 
-So the second layout costs **740 MB** and buys **7.3x prefill**, because the
-tinygemm kernel dequantizes once per row of activations and its cost is linear
-in the batch. Keep it on unless memory is tighter than prefill -- on a device
-where it is, ``prefill_dequant: false`` is the smallest resident build here.
+So this is a dial, not a free win:
+
+* versus ``prefill_dequant: false`` it is strictly better -- same memory to
+  within the noise, 2.7x the prefill (1210 vs ~450), and it keeps
+  ``dequant_threshold`` in force so multi-row batches never reach the tinygemm
+  kernel, avoiding the SIGILL hazard below.  That setting is dominated.
+* versus keeping both layouts it trades 615 MB for 1.9x prefill.  Default on,
+  because this path exists for devices picked for their memory ceiling;
+  ``VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT=0`` restores the old behaviour.
+
+``supports_direct_dequant`` gates it: N has to tile the 64-channel block, which
+every Spark linear does (2048, 3072, 13312, 131072).  An N like 80 packs as one
+64 block plus a 16 tail that the reshape would mis-read, so those layers keep
+the duplicate rather than being quietly wrong.
+``VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT=0`` restores the old path, which is how the
+two were compared under identical code.
 
 ``dequant_threshold`` defaults to 2, i.e. only a single-row step takes the
-tinygemm path.  That is not just a speed choice.  On a Sapphire Rapids host,
+tinygemm path.  That is not just a speed choice -- and it is now also the only
+safe setting, since ``prefill_dequant: false`` (which routes every batch into
+the tinygemm kernel) no longer saves memory but still carries the hazard
+below.  On a Sapphire Rapids host,
 running the tinygemm kernel on a multi-row batch and then vLLM's
 ``cpu_attention_with_kv_cache`` in the same forward kills the process with
 SIGILL inside the attention kernel -- the signature of an AMX instruction
@@ -67,6 +93,8 @@ case 4-bit weights exist for, does not.
 """
 
 from typing import Any
+
+import os
 
 import torch
 
@@ -145,6 +173,81 @@ def to_split_halves(packed: torch.Tensor) -> torch.Tensor:
     return (lo.to(torch.uint8) | (hi.to(torch.uint8) << 4)).contiguous()
 
 
+TINYGEMM_N_BLOCK = 64
+"""Output channels per block in the AVX-512 tinygemm layout.
+
+Measured on this host rather than assumed: packing an index pattern and
+reading it back shows the buffer is ``[N/64][K][32 bytes]`` -- K is the middle
+axis, so a K range is contiguous inside each n-block -- and that within each
+32-byte run, byte ``d`` holds output channel ``d`` in its low nibble and
+channel ``d + 32`` in its high nibble, the same permutation for every ``k`` and
+every n-block. Below 64 the block is N itself (16, 32 and 48 were measured);
+between, e.g. N=80, there is a 64 block plus a 16 tail this does not handle.
+"""
+
+
+def direct_dequant_enabled(config_value: bool = True) -> bool:
+    """Whether to dequantize from the tinygemm layout instead of a duplicate.
+
+    The supported way to choose is the ``direct_dequant`` field of the
+    checkpoint's ``quantization_config``, because that lives in the model
+    config and so lands in vLLM's compile-cache key
+    (``ModelConfig.compute_hash`` hashes its fields against an ignore list).
+    The two paths build *different graphs* -- one passes ``weight_halves`` into
+    the custom op and the other passes ``None`` -- so they must not share a
+    cached artifact.
+
+    ``VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT`` overrides it for experiments, and
+    **does not** participate in that key. Flipping it against a warm compile
+    cache loads an artifact built for the other path and dies with
+    ``KeyError: 'weight_halves'`` inside the AOT-loaded graph -- observed, not
+    theorised. Give each arm its own ``VLLM_CACHE_ROOT`` when A/B-ing, which
+    is what the benchmark specs now do.
+    """
+    override = os.environ.get("VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT")
+    if override is not None:
+        return override != "0"
+    return config_value
+
+
+def supports_direct_dequant(n: int) -> bool:
+    """Whether ``n`` output channels tile the block cleanly.
+
+    Every Spark linear does (2048, 3072, 13312, 131072). An N like 80 packs as
+    one 64 block plus a 16 tail, which the reshape below would mis-read, so
+    those layers keep the second copy rather than being silently wrong.
+    """
+    if n < TINYGEMM_N_BLOCK:
+        return n % 16 == 0
+    return n % TINYGEMM_N_BLOCK == 0
+
+
+def _dequantize_from_int4pack(
+    int4pack: torch.Tensor, sz: torch.Tensor, group: int
+) -> torch.Tensor:
+    """bf16 weight straight from the kernel's own layout.
+
+    This is what lets the prefill path exist without a second weight copy: the
+    layout was previously treated as opaque, so a row-major duplicate was kept
+    beside it purely to have something to dequantize from.
+    """
+    n = int4pack.shape[0]
+    k = int4pack.shape[1] * 2
+    b = TINYGEMM_N_BLOCK if n >= TINYGEMM_N_BLOCK else n
+    blocks = int4pack.reshape(n // b, k, b // 2)
+    lo = (blocks & 0x0F).to(torch.bfloat16)
+    hi = (blocks >> 4).to(torch.bfloat16)
+    # index 2 is the output channel within the block: d from the low nibble,
+    # d + 32 from the high one.
+    codes = torch.cat([lo, hi], dim=2).permute(0, 2, 1).reshape(n, k)
+    scale = sz[..., 0].transpose(0, 1)          # [G, N] -> [N, G]
+    zero = sz[..., 1].transpose(0, 1)
+    w = (codes.reshape(n, k // group, group) - 8.0) * scale.unsqueeze(
+        -1
+    ) + zero.unsqueeze(-1)
+    return w.reshape(n, k)
+
+
 def _dequantize_halves(
     halves: torch.Tensor,
     scale: torch.Tensor,
@@ -161,6 +264,17 @@ def _dequantize_halves(
 
 
 _compiled_dequant = None
+_compiled_dequant_direct = None
+
+
+def dequantize_direct(int4pack, sz, group):
+    """bf16 weight from the tinygemm layout; compiled, like the halves path."""
+    global _compiled_dequant_direct
+    if _compiled_dequant_direct is None:
+        _compiled_dequant_direct = torch.compile(
+            _dequantize_from_int4pack, dynamic=False
+        )
+    return _compiled_dequant_direct(int4pack, sz, group)
 
 
 def dequantize(halves, scale, zero, group):
@@ -182,12 +296,17 @@ def _cpu_int4_linear(
     zero: torch.Tensor | None,
     group: int,
     threshold: int,
+    direct_dequant: bool = False,
 ) -> torch.Tensor:
     if x.dtype != torch.bfloat16:
         x = x.to(torch.bfloat16)
-    if halves is not None and x.shape[0] >= threshold:
-        weight = dequantize(halves, scale, zero, group)
-        return torch.nn.functional.linear(x, weight)
+    if x.shape[0] >= threshold:
+        if direct_dequant:
+            weight = dequantize_direct(int4pack, scales_and_zeros, group)
+            return torch.nn.functional.linear(x, weight)
+        if halves is not None:
+            weight = dequantize(halves, scale, zero, group)
+            return torch.nn.functional.linear(x, weight)
     return torch.ops.aten._weight_int4pack_mm_for_cpu(
         x, int4pack, group, scales_and_zeros
     )
@@ -202,6 +321,7 @@ def _cpu_int4_linear_fake(
     zero: torch.Tensor | None,
     group: int,
     threshold: int,
+    direct_dequant: bool = False,
 ) -> torch.Tensor:
     return x.new_empty((x.shape[0], int4pack.shape[0]), dtype=torch.bfloat16)
 
@@ -227,6 +347,7 @@ class CPUInt4Config(QuantizationConfig):
         prefill_dequant: bool = True,
         dequant_threshold: int = 2,
         use_custom_op: bool = True,
+        direct_dequant: bool = True,
     ) -> None:
         super().__init__()
         self.group_size = group_size
@@ -235,6 +356,10 @@ class CPUInt4Config(QuantizationConfig):
         self.prefill_dequant = prefill_dequant
         self.dequant_threshold = dequant_threshold
         self.use_custom_op = use_custom_op
+        # In the checkpoint config, so it reaches the compile-cache key: the
+        # two prefill paths produce different graphs and must not share an
+        # AOT artifact.
+        self.direct_dequant = direct_dequant
 
     def __repr__(self) -> str:
         return (
@@ -242,7 +367,8 @@ class CPUInt4Config(QuantizationConfig):
             f"ignore={self.ignore}, quantize_embedding={self.quantize_embedding}, "
             f"prefill_dequant={self.prefill_dequant}, "
             f"dequant_threshold={self.dequant_threshold}, "
-            f"use_custom_op={self.use_custom_op})"
+            f"use_custom_op={self.use_custom_op}, "
+            f"direct_dequant={self.direct_dequant})"
         )
 
     def get_name(self) -> str:
@@ -272,6 +398,7 @@ class CPUInt4Config(QuantizationConfig):
             prefill_dequant=cls.get_from_keys_or(config, ["prefill_dequant"], True),
             dequant_threshold=cls.get_from_keys_or(config, ["dequant_threshold"], 2),
             use_custom_op=cls.get_from_keys_or(config, ["use_custom_op"], True),
+            direct_dequant=cls.get_from_keys_or(config, ["direct_dequant"], True),
         )
 
     def _is_ignored(self, prefix: str) -> bool:
@@ -342,7 +469,10 @@ def _create_int4_weights(
 
 
 def _finalize_int4(
-    layer: torch.nn.Module, keep_row_major: bool, prefill_dequant: bool
+    layer: torch.nn.Module,
+    keep_row_major: bool,
+    prefill_dequant: bool,
+    direct_dequant: bool = True,
 ) -> None:
     """Repack into the layouts the two GEMM paths want; once per layer."""
     if getattr(layer, "_cpu_int4_ready", False):
@@ -353,16 +483,30 @@ def _finalize_int4(
     inner, sz = _to_tinygemm(packed, scale, zero)
     layer.weight_int4pack = torch.nn.Parameter(inner, requires_grad=False)
     layer.weight_scales_and_zeros = torch.nn.Parameter(sz, requires_grad=False)
+    layer.weight_halves = None
+    layer.weight_group_scale = None
+    layer.weight_group_zero = None
+    layer.cpu_int4_direct_dequant = False
     if prefill_dequant:
-        layer.weight_halves = torch.nn.Parameter(
-            to_split_halves(packed), requires_grad=False
-        )
-        layer.weight_group_scale = torch.nn.Parameter(scale.clone(), requires_grad=False)
-        layer.weight_group_zero = torch.nn.Parameter(zero.clone(), requires_grad=False)
-    else:
-        layer.weight_halves = None
-        layer.weight_group_scale = None
-        layer.weight_group_zero = None
+        if direct_dequant_enabled(direct_dequant) and supports_direct_dequant(
+            inner.shape[0]
+        ):
+            # The prefill path reads the kernel's own layout, so there is no
+            # second copy and no duplicated scale/zero. This is the whole
+            # 740 MB.
+            layer.cpu_int4_direct_dequant = True
+        else:
+            # N does not tile the 64-channel block (e.g. 80 = 64 + 16), so
+            # keep the row-major duplicate rather than mis-read the layout.
+            layer.weight_halves = torch.nn.Parameter(
+                to_split_halves(packed), requires_grad=False
+            )
+            layer.weight_group_scale = torch.nn.Parameter(
+                scale.clone(), requires_grad=False
+            )
+            layer.weight_group_zero = torch.nn.Parameter(
+                zero.clone(), requires_grad=False
+            )
     if keep_row_major:
         # Only the vocab table needs this: the tinygemm layout interleaves
         # rows inside blocks of 16, so a single-token embedding lookup cannot
@@ -404,6 +548,14 @@ def _int4_mm(
             layer.weight_group_zero,
             group,
             threshold,
+            getattr(layer, "cpu_int4_direct_dequant", False),
+        )
+    elif getattr(layer, "cpu_int4_direct_dequant", False) and x2d.shape[0] >= threshold:
+        out = torch.nn.functional.linear(
+            x2d,
+            _dequantize_from_int4pack(
+                layer.weight_int4pack, layer.weight_scales_and_zeros, group
+            ),
         )
     elif layer.weight_halves is not None and x2d.shape[0] >= threshold:
         out = torch.nn.functional.linear(
@@ -452,6 +604,7 @@ class CPUInt4LinearMethod(QuantizeMethodBase):
             layer,
             keep_row_major=False,
             prefill_dequant=self.quant_config.prefill_dequant,
+            direct_dequant=self.quant_config.direct_dequant,
         )
 
     def apply(
@@ -519,6 +672,9 @@ class CPUInt4EmbeddingMethod(CPUInt4LinearMethod):
             src = getattr(embed_tokens, name, None)
             if src is not None:
                 setattr(layer, name, src)
+        layer.cpu_int4_direct_dequant = getattr(
+            embed_tokens, "cpu_int4_direct_dequant", False
+        )
         layer._cpu_int4_tied_to = embed_tokens
         return layer
 
