@@ -17,14 +17,26 @@ one needs a different weight layout, and the layouts are mutually exclusive:
 
 So the choice is a property of the device, and picking it at deploy time from
 a probe is the difference between "4-bit is 22% faster" and "4-bit is broken
-here". Measured on a Xeon 8480C (24 threads, Spark-X2.5-1.7B, best of three
-interleaved passes, tok/s decode / prefill):
+here". Measured on a Xeon 8480C, 24 threads, Spark-X2.5-1.7B. The two 4-bit
+rows are from per-op profiles taken back to back on the same cores, because
+this host's throughput swings ~30% and the gap between them is ~8%:
 
-    bf16                     41.0 / 4796     no 4-bit kernel used
-    w4a16 tinygemm g64       75.1 / 3207
-    w4a16 tinygemm g128      78.7 / 3346     more faithful of the two
-    w4a8 AMX g128            84.5 / 3347     fastest; least faithful
-    llama.cpp Q4_K_M         90.0 / 1121     the bar
+    path                 GEMM/step   step     tok/s
+    w4a8 AMX g128          5.91 ms   11.55    86.6    fastest; least faithful
+    w4a16 tinygemm g128    6.85 ms   12.51    80.0    more faithful
+    llama.cpp Q4_K_M            --   11.11    90.0    the bar
+    bf16 (no 4-bit kernel)      --      --    41.0
+
+W4A8 wins twice over: `int4_scaled_mm_cpu` is 0.94 ms cheaper than tinygemm
+per step, and it is reached through vLLM's own kernel dispatch, so it also
+avoids the 0.48 ms/step custom-op boundary the tinygemm path needs to route
+prefill and decode to different kernels.
+
+One trap worth naming: a GPTQ checkpoint must quantize the output head
+(`lm_head`), or that one GEMM runs in bf16 through `onednn_mm` and costs
+2.97 ms/step by itself -- more than the whole 4-bit saving. Spark ties its
+embedding to its head, so the head has to be untied and emitted separately;
+`quantize_gptq_int4.py` does that by default.
 
 Fidelity is the reason both 4-bit rows stay: against each build's own bf16
 output over 12 greedy prompts, llama.cpp's Q4_K_M reproduced 4/12 exactly,
