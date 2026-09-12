@@ -637,3 +637,60 @@ def _patch_cpu_aot_compile_cache_load() -> None:
 
 
 _patch_cpu_aot_compile_cache_load()
+
+
+def _patch_cpu_explicit_kv_cache_memory() -> None:
+    """Stop a legacy env var from overriding an explicit KV budget on CPU.
+
+    ``CpuPlatform.check_and_update_config`` ends with (vLLM 0.28, the comment
+    is theirs)::
+
+        # Lagecy setting
+        env_key = "VLLM_CPU_KVCACHE_SPACE"
+        if env_key in os.environ and os.environ[env_key] != "":
+            cache_config.kv_cache_memory_bytes = int(os.environ[env_key]) * GiB
+
+    -- unconditionally, so ``--kv-cache-memory-bytes`` is silently discarded
+    whenever the env var is set, which it must be on CPU or the engine tries to
+    claim most of the machine. Verified: with the env at 1 GiB, asking for
+    128 MiB produced the same 17 881 tokens as asking for nothing, and with the
+    env at 4 GiB it produced 71 527 -- the explicit value never applied.
+
+    Two consequences for edge serving, which is where KV size actually matters:
+    the budget can only be set in whole GiB (the env is parsed with ``int()``,
+    so the smallest non-zero cache is 1 GiB), and a deploy config that sets
+    ``kv_cache_memory_bytes`` per stage -- which is how vllm-omni expresses
+    per-stage budgets -- has no effect at all on CPU.
+
+    This restores the obvious precedence: an explicit budget wins, and the env
+    remains the default for callers that set nothing. Spark-X2.5 needs 56 KiB
+    per token, so a 2048-token single-stream deployment wants 112 MiB where the
+    env's floor is 1 GiB.
+    """
+    from vllm.platforms.cpu import CpuPlatform
+
+    if getattr(CpuPlatform, "_omni_explicit_kv_bytes", False):
+        return
+
+    base = CpuPlatform.check_and_update_config.__func__
+
+    def check_and_update_config(cls, vllm_config):
+        cache_config = getattr(vllm_config, "cache_config", None)
+        explicit = getattr(cache_config, "kv_cache_memory_bytes", None)
+        base(cls, vllm_config)
+        if explicit is None or cache_config is None:
+            return
+        if cache_config.kv_cache_memory_bytes != explicit:
+            cache_config.kv_cache_memory_bytes = explicit
+            _PATCH_LOGGER.info(
+                "Restored explicit kv_cache_memory_bytes=%d (%.3f GiB); "
+                "VLLM_CPU_KVCACHE_SPACE would have overridden it.",
+                explicit,
+                explicit / (1024**3),
+            )
+
+    CpuPlatform.check_and_update_config = classmethod(check_and_update_config)
+    CpuPlatform._omni_explicit_kv_bytes = True
+
+
+_patch_cpu_explicit_kv_cache_memory()
