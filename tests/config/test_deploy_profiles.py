@@ -98,3 +98,55 @@ def test_edge_profile_carries_parallel_stage_init():
     assert args["parallel_stage_init"] is True
     # unknown block keys are ignored
     assert "init_timeout" not in args
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_orchestrator_block_applies_however_the_config_was_loaded(tmp_path):
+    """A deploy YAML must mean the same thing whichever flag loaded it.
+
+    Applying the `orchestrator:` block only on the profile path made
+    `--deploy-config deploy/edge/qwen3_tts.yaml` load the stages but drop
+    `parallel_stage_init: true`, so an edge deployment started sequentially
+    (63.8 s against 30.5 s on Qwen3-TTS) with nothing in the log to say why.
+    """
+    from vllm_omni.entrypoints import utils as entry_utils
+
+    path = tmp_path / "profile.yaml"
+    path.write_text(
+        "pipeline: qwen3_tts\n"
+        "orchestrator:\n"
+        "  parallel_stage_init: true\n"
+        "  stage_init_timeout: 900\n",
+        encoding="utf-8",
+    )
+    out = entry_utils.apply_deploy_profile("m", {"deploy_config": str(path)})
+    assert out["parallel_stage_init"] is True
+    assert out["stage_init_timeout"] == 900
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_explicit_arguments_still_beat_the_orchestrator_block(tmp_path):
+    from vllm_omni.entrypoints import utils as entry_utils
+
+    path = tmp_path / "profile.yaml"
+    path.write_text("orchestrator:\n  stage_init_timeout: 900\n", encoding="utf-8")
+    out = entry_utils.apply_deploy_profile(
+        "m", {"deploy_config": str(path), "stage_init_timeout": 120})
+    assert out["stage_init_timeout"] == 120
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_unknown_orchestrator_keys_are_ignored(tmp_path):
+    """The block is a narrow allow-list, not a way to inject arbitrary args."""
+    from vllm_omni.entrypoints import utils as entry_utils
+
+    path = tmp_path / "profile.yaml"
+    path.write_text(
+        "orchestrator:\n  parallel_stage_init: true\n  rm_rf_slash: true\n",
+        encoding="utf-8")
+    out = entry_utils.apply_deploy_profile("m", {"deploy_config": str(path)})
+    assert out["parallel_stage_init"] is True
+    assert "rm_rf_slash" not in out

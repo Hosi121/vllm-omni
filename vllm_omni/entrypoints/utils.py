@@ -325,6 +325,15 @@ def apply_deploy_profile(model: str, args_dict: dict[str, Any]) -> dict[str, Any
     """Translate ``deploy_profile`` into ``deploy_config`` in-place (used by CLI and engine)."""
     profile = args_dict.pop("deploy_profile", None)
     if not profile:
+        # A deploy YAML carries the same `orchestrator:` block whichever flag
+        # loaded it. Applying it only on the profile path made the file mean
+        # different things depending on how it was passed, silently: pointing
+        # --deploy-config at deploy/edge/qwen3_tts.yaml loaded its stages but
+        # dropped `parallel_stage_init: true`, so an edge deployment started
+        # sequentially -- 63.8 s instead of 30.5 s on Qwen3-TTS -- with nothing
+        # in the log to say why.
+        if args_dict.get("deploy_config"):
+            _apply_profile_orchestrator_defaults(args_dict["deploy_config"], args_dict)
         return args_dict
     if args_dict.get("deploy_config"):
         raise ValueError("`deploy_profile` and `deploy_config` are mutually exclusive; pass only one.")
