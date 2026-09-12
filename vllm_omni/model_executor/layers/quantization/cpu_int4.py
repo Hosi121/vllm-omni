@@ -38,8 +38,19 @@ oneDNN/AMX GEMM, which costs one extra pass over the weights and wins back
 prefill.  That path reads a row-major copy, so with ``prefill_dequant`` on
 (the default) a layer holds both layouts -- 8 bits per weight resident, but
 still 4.5 bits per weight *read* in a decode step, which is what sets the
-token rate.  Set ``prefill_dequant: false`` to trade prefill for the smaller
-footprint.
+token rate.
+
+Measured on Spark-X2.5-1.7B (Xeon 8480C, anonymous RSS, median of three
+interleaved passes, spread under 1.5%):
+
+    prefill_dequant   resident      prefill        decode
+    true (default)     3542 MB     3252 tok/s    76.9 tok/s
+    false              2802 MB      448 tok/s    78.5 tok/s
+
+So the second layout costs **740 MB** and buys **7.3x prefill**, because the
+tinygemm kernel dequantizes once per row of activations and its cost is linear
+in the batch. Keep it on unless memory is tighter than prefill -- on a device
+where it is, ``prefill_dequant: false`` is the smallest resident build here.
 
 ``dequant_threshold`` defaults to 2, i.e. only a single-row step takes the
 tinygemm path.  That is not just a speed choice.  On a Sapphire Rapids host,
