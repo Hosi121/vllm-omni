@@ -42,6 +42,18 @@ Fidelity is the reason both 4-bit rows stay: against each build's own bf16
 output over 12 greedy prompts, llama.cpp's Q4_K_M reproduced 4/12 exactly,
 w4a16 2/12 and w4a8 1/12. W4A8 pins the zero point at 8 (so the grid must be
 symmetric) *and* quantizes activations to int8; W4A16 does neither.
+
+That difference has a task-level consequence, which is why ``priority`` is not
+a matter of taste. Driving a phone through the Android agent harness
+(``analysis/experiments/spark_edge/android_agent``), every build navigates a
+multi-screen task correctly -- and only some of them notice they have arrived.
+W4A8 turned Wi-Fi on and then tapped the switch off again, on both runs;
+W4A16 called ``task_complete`` citing the switch reading ``checked=true``, and
+on a second task it picked the right app where bf16 picked the wrong one.
+**Navigation survives quantization; recognising completion does not.** For
+agentic work choose ``priority="fidelity"``; the 8% of decode it costs buys
+the difference between finishing a task and undoing it. (Two tasks, one run
+per cell -- enough to show the failure reproduces, not to rank success rates.)
 """
 
 from dataclasses import dataclass, field
