@@ -109,15 +109,23 @@ def fused_add_rms_norm(
 
 
 def prefer_cpu_fused_norms() -> None:
-    """Make the CPU platform rank these kernels ahead of the native path.
+    """Rank these kernels ahead of the native path -- opt-in only.
 
-    The platform hook only fills in ops the user left unset, so an explicit
-    ``kernel_config.ir_op_priority`` still wins.
+    The implementations are always registered (so they can be selected through
+    ``kernel_config.ir_op_priority`` like any other provider); this function
+    only changes the *default* ranking, and it does nothing unless
+    ``VLLM_OMNI_CPU_FUSED_NORMS=1``. The platform hook fills in ops the user
+    left unset, so an explicit priority still wins either way.
     """
     if not CPU_FUSED_NORMS:
         return
-    if os.environ.get("VLLM_OMNI_CPU_FUSED_NORMS", "1") != "1":
-        logger.info("CPU fused RMSNorm kernels disabled by environment.")
+    # Off by default, and the default is the measurement: in isolation these
+    # kernels are 3.6x and 4.5x faster than the native path, but in the
+    # compiled model they measured 72.7 tok/s against 74.0, because inductor
+    # was already fusing the native norm into the residual add and an opaque
+    # call breaks that fusion. Set VLLM_OMNI_CPU_FUSED_NORMS=1 to try them on
+    # a machine where that trade may land differently.
+    if os.environ.get("VLLM_OMNI_CPU_FUSED_NORMS", "0") != "1":
         return
     from vllm.platforms.cpu import CpuPlatform
 

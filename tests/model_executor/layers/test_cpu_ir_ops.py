@@ -79,11 +79,25 @@ def test_declines_arguments_the_kernel_cannot_take():
     assert not impl.supports_args(x, w.float(), 1e-6)
 
 
-def test_priority_patch_is_idempotent_and_puts_us_first():
+def test_priority_patch_is_opt_in_and_idempotent(monkeypatch):
+    """Off by default, because that is what the measurement says.
+
+    In isolation these kernels are 3.6x and 4.5x faster than the native path;
+    in the compiled model they measured 72.7 tok/s against 74.0, because
+    inductor already fuses the native norm into the residual add. So the
+    registration always happens -- the provider stays selectable through
+    `kernel_config.ir_op_priority` -- but the default ranking does not change
+    unless it is asked for.
+    """
     if not cpu_ir_ops.CPU_FUSED_NORMS:
         pytest.skip(_REASON)
     from vllm.platforms.cpu import CpuPlatform
 
+    monkeypatch.delenv("VLLM_OMNI_CPU_FUSED_NORMS", raising=False)
+    cpu_ir_ops.prefer_cpu_fused_norms()
+    assert CpuPlatform.get_default_ir_op_priority(None).rms_norm == ["native"]
+
+    monkeypatch.setenv("VLLM_OMNI_CPU_FUSED_NORMS", "1")
     cpu_ir_ops.prefer_cpu_fused_norms()
     cpu_ir_ops.prefer_cpu_fused_norms()  # second call must not double-wrap
     priority = CpuPlatform.get_default_ir_op_priority(None)
