@@ -694,3 +694,56 @@ def _patch_cpu_explicit_kv_cache_memory() -> None:
 
 
 _patch_cpu_explicit_kv_cache_memory()
+
+
+def _patch_cpu_release_memory_after_load() -> None:
+    """Return the weight-loading churn to the OS on CPU.
+
+    Loading a quantized checkpoint allocates far more than the weights occupy
+    -- the GPTQ path unpacks 4-bit codes to int32, four bytes per weight, to
+    permute and repack them -- and the intermediates, though freed, stay
+    resident because a caching allocator keeps the arenas. On Spark-X2.5-1.7B
+    that is 3828 MiB held after a W4A8 load and 1612 MiB after W4A16; released,
+    both land at ~3.5 GiB, so W4A8's apparent memory penalty over W4A16 was
+    entirely this and not a real difference in footprint.
+
+    Hooked in two places because they churn separately: after weights are
+    loaded and processed, and after the compile/warm-up pass.
+    """
+    from vllm.platforms import current_platform
+
+    if not current_platform.is_cpu():
+        return
+    if os.environ.get("VLLM_OMNI_CPU_RELEASE_MEMORY", "1") != "1":
+        return
+
+    from vllm.v1.worker.cpu_worker import CPUWorker
+
+    if getattr(CPUWorker, "_omni_release_memory", False):
+        return
+
+    from vllm_omni.edge.memory import release_after_load
+
+    base_load = CPUWorker.load_model
+    base_warm = CPUWorker.compile_or_warm_up_model
+
+    def load_model(self, *args, **kwargs):
+        out = base_load(self, *args, **kwargs)
+        release_after_load("weight load")
+        return out
+
+    def compile_or_warm_up_model(self, *args, **kwargs):
+        out = base_warm(self, *args, **kwargs)
+        release_after_load("warm-up")
+        return out
+
+    CPUWorker.load_model = load_model
+    CPUWorker.compile_or_warm_up_model = compile_or_warm_up_model
+    CPUWorker._omni_release_memory = True
+    _PATCH_LOGGER.info(
+        "CPU weight-load memory release installed (set "
+        "VLLM_OMNI_CPU_RELEASE_MEMORY=0 to disable)."
+    )
+
+
+_patch_cpu_release_memory_after_load()
