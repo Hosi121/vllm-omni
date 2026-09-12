@@ -149,6 +149,49 @@ def test_headwise_gate_scales_each_head_independently():
 
 @pytest.mark.core_model
 @pytest.mark.cpu
+@pytest.mark.parametrize("tokens", [1, 2, 3, 16])
+def test_head_gate_branches_compute_the_same_projection(tokens):
+    """The gate op picks a reduction at one or two tokens and a GEMM above.
+
+    Both arms have to be the same linear map, or a sequence would be gated
+    one way while it is prefilled and another way while it decodes.
+    """
+    from vllm_omni.model_executor.models.spark2_5.spark2_5 import _head_gate_score
+
+    torch.manual_seed(0)
+    g = torch.randn(8, 2048, dtype=torch.bfloat16)
+    x = torch.randn(tokens, 2048, dtype=torch.bfloat16)
+
+    got = _head_gate_score(x, g)
+    expected = torch.nn.functional.linear(x.float(), g.float())
+    assert got.shape == (tokens, 8)
+    assert got.dtype == torch.float32
+    # The reduction accumulates in fp32 and the GEMM in bf16, so the GEMM arm
+    # is the looser of the two against an fp32 reference.
+    torch.testing.assert_close(got, expected, rtol=2e-2, atol=2e-2)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_head_gate_op_is_registered_and_traceable():
+    """It must stay opaque. Written inline the reduction gets traced, and
+    inductor's generated loop made the whole decode step 1.8x slower --
+    78.8 tok/s to 44.5 -- than leaving the matmul alone."""
+    from vllm_omni.model_executor.models.spark2_5 import spark2_5  # noqa: F401
+
+    g = torch.randn(8, 64, dtype=torch.bfloat16)
+    x = torch.randn(1, 64, dtype=torch.bfloat16)
+    out = torch.ops.vllm.spark_head_gate(x, g)
+    assert out.shape == (1, 8)
+
+    compiled = torch.compile(
+        lambda a, b: torch.ops.vllm.spark_head_gate(a, b), dynamic=True
+    )
+    torch.testing.assert_close(compiled(x, g), out)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
 def test_registered_in_the_omni_registry():
     from vllm_omni.model_executor.models.registry import _OMNI_MODELS
 

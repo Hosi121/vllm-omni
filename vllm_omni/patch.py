@@ -579,3 +579,61 @@ def _patch_cumem_free_callback_cuda() -> None:
 
 
 _patch_cumem_free_callback_cuda()
+
+
+def _patch_cpu_aot_compile_cache_load() -> None:
+    """Let the CPU backend actually reuse its compiled model across starts.
+
+    ``vllm.compilation.decorators._try_load_aot_compiled_fn`` finishes a cache
+    load with ``loaded_fn._artifacts.compiled_fn.finalize_loading(cfg)``. On
+    CUDA that artifact is a wrapper object carrying the method; with the
+    inductor CPU backend it is a plain function, so the call raises
+    ``AttributeError``, the exception handler treats the whole load as a cache
+    miss ("Compiling model again due to a load failure"), and **every engine
+    start recompiles the model from scratch** -- most of a 50-100 s init on a
+    28-layer model, paid again on every restart.
+
+    Rather than copy vLLM's loader, attach the missing no-op: a plain Python
+    function accepts attribute assignment, and the CPU artifact loads its
+    generated shared object lazily on first call anyway (that call is the
+    warm-up run, so a genuine failure still surfaces during init, not in
+    production traffic).
+
+    Self-disabling: if the artifact already has ``finalize_loading`` -- as it
+    does on GPU, and as it will if upstream gives the CPU path one -- this
+    changes nothing.
+    """
+    import torch
+
+    from vllm.platforms import current_platform
+
+    if not current_platform.is_cpu():
+        return
+    if os.environ.get("VLLM_OMNI_AOT_CACHE_SHIM", "1") != "1":
+        return
+    if getattr(torch.compiler, "_omni_aot_finalize_shim", False):
+        return
+
+    original = torch.compiler.load_compiled_function
+
+    def load_compiled_function(*args, **kwargs):
+        loaded = original(*args, **kwargs)
+        artifacts = getattr(loaded, "_artifacts", None)
+        compiled_fn = getattr(artifacts, "compiled_fn", None)
+        if compiled_fn is not None and not hasattr(compiled_fn, "finalize_loading"):
+            try:
+                compiled_fn.finalize_loading = lambda *_a, **_k: None
+            except (AttributeError, TypeError):
+                # Slot-based artifact: leave it alone and let vLLM recompile.
+                pass
+        return loaded
+
+    torch.compiler.load_compiled_function = load_compiled_function
+    torch.compiler._omni_aot_finalize_shim = True
+    _PATCH_LOGGER.info(
+        "CPU AOT compile-cache load shim installed: compiled models are reused "
+        "across engine starts instead of being recompiled."
+    )
+
+
+_patch_cpu_aot_compile_cache_load()

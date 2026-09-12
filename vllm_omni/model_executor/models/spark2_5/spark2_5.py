@@ -21,6 +21,7 @@ The checkpoint stores QKV pre-fused as a single ``q_k_v_proj``; load_weights
 splits it so vLLM's sharded ``QKVParallelLinear`` can take it.
 """
 
+import os
 from collections.abc import Iterable
 
 import torch
@@ -49,7 +50,6 @@ from vllm.model_executor.layers.vocab_parallel_embedding import (
     VocabParallelEmbedding,
 )
 from vllm.model_executor.models.interfaces import SupportsLoRA, SupportsPP
-from vllm.model_executor.utils import set_weight_attrs
 from vllm.model_executor.models.utils import (
     AutoWeightsLoader,
     WeightsMapper,
@@ -58,7 +58,10 @@ from vllm.model_executor.models.utils import (
     make_layers,
     maybe_prefix,
 )
+from vllm.model_executor.utils import set_weight_attrs
+from vllm.platforms import current_platform
 from vllm.sequence import IntermediateTensors
+from vllm.utils.torch_utils import direct_register_custom_op
 
 from .configuration_spark2_5 import Spark2_5Config
 
@@ -173,6 +176,15 @@ class Spark2_5Attention(nn.Module):
         else:
             self.g_weight = None
 
+        # Only CPU pays a thread barrier per op that a 2048x8 projection
+        # cannot amortize; on GPU the plain matmul is already free. The
+        # override exists so the choice can be ablated on a new machine
+        # rather than assumed.
+        override = os.environ.get("VLLM_OMNI_SPARK_GATE_REDUCTION", "auto")
+        self.gate_via_reduction = (
+            current_platform.is_cpu() if override == "auto" else override == "1"
+        )
+
         layer_idx = extract_layer_index(prefix)
         layer_type = config.layer_types[layer_idx]
         self.is_sliding = layer_type == "sliding_attention"
@@ -217,11 +229,18 @@ class Spark2_5Attention(nn.Module):
         attn_output = self.attn(q, k, v)
 
         if self.g_weight is not None:
-            gate_score = torch.nn.functional.linear(hidden_states, self.g_weight)
-            if self.gate_attn_act_mode == "sigmoid":
-                gate = torch.sigmoid(gate_score.float())
+            if self.gate_via_reduction:
+                gate_score = torch.ops.vllm.spark_head_gate(
+                    hidden_states, self.g_weight
+                )
             else:
-                gate = nn.functional.silu(gate_score.float())
+                gate_score = torch.nn.functional.linear(
+                    hidden_states, self.g_weight
+                ).float()
+            if self.gate_attn_act_mode == "sigmoid":
+                gate = torch.sigmoid(gate_score)
+            else:
+                gate = nn.functional.silu(gate_score)
             gate = gate.to(attn_output.dtype)
             # Reshape only the feature dim: a view(-1, ...) here would make
             # torch.compile re-derive the symbolic token count and fail.
@@ -350,6 +369,46 @@ class Spark2_5Model(nn.Module):
     def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]) -> set[str]:
         loader = AutoWeightsLoader(self)
         return loader.load_weights(weights, mapper=self.hf_to_vllm_mapper)
+
+
+def _head_gate_score(
+    hidden_states: torch.Tensor, g_weight: torch.Tensor
+) -> torch.Tensor:
+    """Head-gate projection, routed by token count.
+
+    Eight outputs is far too narrow for a GEMM to pay for its thread fan-out:
+    at one token `aten::mm` costs 34 us on 24 cores, 0.9 ms of a decode step,
+    nearly all of it barrier. The same arithmetic as a broadcast-and-reduce
+    costs 8 us, because ATen's grain size keeps a 16 K-element reduction on
+    one thread. Above a couple of tokens the GEMM wins again.
+
+    It has to be an opaque op. Written inline the reduction is traced by
+    `@support_torch_compile`, and inductor's generated loop is far slower than
+    either eager form -- measured 44.5 tok/s against 78.8.
+    """
+    if hidden_states.shape[0] <= _GATE_REDUCE_MAX_TOKENS:
+        return (hidden_states.unsqueeze(-2).float() * g_weight.float()).sum(-1)
+    return torch.nn.functional.linear(hidden_states, g_weight).float()
+
+
+def _head_gate_score_fake(
+    hidden_states: torch.Tensor, g_weight: torch.Tensor
+) -> torch.Tensor:
+    return torch.empty(
+        (hidden_states.shape[0], g_weight.shape[0]),
+        dtype=torch.float32,
+        device=hidden_states.device,
+    )
+
+
+_GATE_REDUCE_MAX_TOKENS = 2
+
+direct_register_custom_op(
+    op_name="spark_head_gate",
+    op_func=_head_gate_score,
+    mutates_args=[],
+    fake_impl=_head_gate_score_fake,
+)
 
 
 def _split_fused_qkv(

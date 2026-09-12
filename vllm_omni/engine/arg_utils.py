@@ -144,6 +144,12 @@ def register_omni_models_to_vllm():
     # the CPU backend the 4-bit weight path vLLM 0.28 does not ship).
     import vllm_omni.model_executor.layers.quantization  # noqa: F401
 
+    # Let the CPU backend use the fused RMSNorm kernels it already ships but
+    # marks unsupported (see cpu_ir_ops): ~1.8 ms of a 12 ms decode step.
+    from vllm_omni.model_executor.layers import cpu_ir_ops
+
+    cpu_ir_ops.prefer_cpu_fused_norms()
+
 
 @dataclass
 class OmniEngineArgs(EngineArgs):
