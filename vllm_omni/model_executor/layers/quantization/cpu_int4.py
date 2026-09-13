@@ -155,10 +155,43 @@ def quantize_groupwise(w: torch.Tensor, group: int):
     return pack_nibbles(q.reshape(n, k)), scale, zero
 
 
+REPACK_ROWS = 512
+"""Output channels repacked at a time, to bound the load-time peak.
+
+``unpack_nibbles`` expands 4-bit codes to int32 -- 4 bytes per weight, eight
+times the packed form -- and the kernel's packer wants int32. Doing that for a
+whole matrix makes the transient the largest thing in the process: 104 MiB for
+``gate_up``, and **1024 MiB for the 131072-row tied embedding**, against 24 MiB
+of packed weights for an entire layer. Since the packed layout is
+``[N/64][K][32 bytes]``, n-blocks are independent, so the expansion can cover
+one chunk at a time: verified byte-identical to packing the whole matrix at
+13312x2048, 2048x6656, 3072x2048 and 131072x2048.
+
+A multiple of ``TINYGEMM_N_BLOCK``; the loop rounds down to one.
+"""
+
+
+def _pack_blocked(packed: torch.Tensor) -> torch.Tensor:
+    """Kernel layout, without ever expanding the whole matrix to int32."""
+    n = packed.shape[0]
+    step = max(REPACK_ROWS - REPACK_ROWS % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
+    if n <= step:
+        return torch.ops.aten._convert_weight_to_int4pack_for_cpu(
+            unpack_nibbles(packed), INNER_K_TILES
+        )
+    out = []
+    for i in range(0, n, step):
+        codes = unpack_nibbles(packed[i : i + step].contiguous())
+        out.append(
+            torch.ops.aten._convert_weight_to_int4pack_for_cpu(codes, INNER_K_TILES)
+        )
+        del codes
+    return torch.cat(out, dim=0)
+
+
 def _to_tinygemm(packed: torch.Tensor, scale: torch.Tensor, zero: torch.Tensor):
     """Row-major nibbles + [N, G] scales -> kernel layout + [G, N, 2] scales."""
-    codes = unpack_nibbles(packed)
-    inner = torch.ops.aten._convert_weight_to_int4pack_for_cpu(codes, INNER_K_TILES)
+    inner = _pack_blocked(packed)
     sz = torch.stack([scale.float(), zero.float()], dim=-1)  # [N, G, 2]
     sz = sz.transpose(0, 1).contiguous().to(torch.bfloat16)  # [G, N, 2]
     return inner, sz
@@ -172,10 +205,16 @@ def to_split_halves(packed: torch.Tensor) -> torch.Tensor:
     both nibble planes contiguous runs, and the dequantize loop drops its
     lane shuffle: measured 3.1 ms per layer instead of 4.5.
     """
-    codes = unpack_nibbles(packed)
-    n, k = codes.shape
-    lo, hi = codes[:, : k // 2], codes[:, k // 2 :]
-    return (lo.to(torch.uint8) | (hi.to(torch.uint8) << 4)).contiguous()
+    n = packed.shape[0]
+    step = max(REPACK_ROWS - REPACK_ROWS % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
+    out = []
+    for i in range(0, n, step):                 # bounded transient, as above
+        codes = unpack_nibbles(packed[i : i + step].contiguous())
+        k = codes.shape[1]
+        lo, hi = codes[:, : k // 2], codes[:, k // 2 :]
+        out.append((lo.to(torch.uint8) | (hi.to(torch.uint8) << 4)).contiguous())
+        del codes
+    return torch.cat(out, dim=0) if len(out) > 1 else out[0]
 
 
 TINYGEMM_N_BLOCK = 64

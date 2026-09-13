@@ -304,3 +304,61 @@ def test_env_override_still_wins_for_experiments(monkeypatch):
     assert direct_dequant_enabled(True) is False
     monkeypatch.setenv("VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT", "1")
     assert direct_dequant_enabled(False) is True
+
+
+def test_blocked_repacking_matches_packing_the_whole_matrix():
+    """unpack_nibbles expands 4-bit codes to int32 -- 8x the packed form -- and
+    doing that for a whole matrix makes the transient the largest thing in the
+    process: 1024 MiB for the 131072-row tied embedding. n-blocks of the packed
+    layout are independent, so it can be chunked; the result must be identical
+    or the weights are silently wrong."""
+    from vllm_omni.model_executor.layers.quantization.cpu_int4 import (
+        INNER_K_TILES,
+        _pack_blocked,
+        quantize_groupwise,
+        unpack_nibbles,
+    )
+
+    torch.manual_seed(0)
+    for n, k in ((1024, 512), (2048, 1024), (640, 256)):
+        w = torch.randn(n, k, dtype=torch.bfloat16) * 0.05
+        packed, _, _ = quantize_groupwise(w, 128)
+        whole = torch.ops.aten._convert_weight_to_int4pack_for_cpu(
+            unpack_nibbles(packed), INNER_K_TILES
+        )
+        assert torch.equal(_pack_blocked(packed), whole), f"N={n} K={k}"
+
+
+def test_blocked_repacking_handles_a_ragged_last_chunk():
+    """N not a multiple of the chunk size must still round-trip."""
+    from vllm_omni.model_executor.layers.quantization.cpu_int4 import (
+        INNER_K_TILES,
+        _pack_blocked,
+        quantize_groupwise,
+        unpack_nibbles,
+    )
+
+    n, k = 576, 256           # 576 = 512 + 64, one full chunk plus a short one
+    w = torch.randn(n, k, dtype=torch.bfloat16) * 0.05
+    packed, _, _ = quantize_groupwise(w, 128)
+    whole = torch.ops.aten._convert_weight_to_int4pack_for_cpu(
+        unpack_nibbles(packed), INNER_K_TILES
+    )
+    assert torch.equal(_pack_blocked(packed), whole)
+
+
+def test_split_halves_still_round_trips_after_chunking():
+    from vllm_omni.model_executor.layers.quantization.cpu_int4 import (
+        _dequantize_halves,
+        quantize_groupwise,
+        to_split_halves,
+    )
+
+    n, k, group = 1088, 512, 128          # not a multiple of the chunk size
+    w = torch.randn(n, k, dtype=torch.bfloat16) * 0.05
+    packed, scale, zero = quantize_groupwise(w, group)
+    deq = _dequantize_halves(to_split_halves(packed),
+                             scale.to(torch.bfloat16), zero.to(torch.bfloat16), group)
+    err = (deq.float() - w.float())
+    snr = 10 * torch.log10((w.float() ** 2).mean() / err.pow(2).mean())
+    assert snr > 20, f"SNR {snr:.1f} dB"
