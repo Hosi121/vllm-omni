@@ -168,13 +168,27 @@ one chunk at a time: verified byte-identical to packing the whole matrix at
 13312x2048, 2048x6656, 3072x2048 and 131072x2048.
 
 A multiple of ``TINYGEMM_N_BLOCK``; the loop rounds down to one.
+``VLLM_OMNI_CPU_INT4_REPACK_ROWS`` overrides it, and 0 means "the whole matrix
+at once", which restores the old behaviour for an A/B. Unlike the prefill-path
+switch this only affects load time and produces identical tensors, so it does
+not perturb the compiled graph or its cache key.
 """
+
+
+def _repack_rows() -> int:
+    raw = os.environ.get("VLLM_OMNI_CPU_INT4_REPACK_ROWS")
+    return REPACK_ROWS if raw is None else int(raw)
 
 
 def _pack_blocked(packed: torch.Tensor) -> torch.Tensor:
     """Kernel layout, without ever expanding the whole matrix to int32."""
     n = packed.shape[0]
-    step = max(REPACK_ROWS - REPACK_ROWS % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
+    rows = _repack_rows()
+    if rows <= 0:                       # explicit opt-out: old behaviour
+        return torch.ops.aten._convert_weight_to_int4pack_for_cpu(
+            unpack_nibbles(packed), INNER_K_TILES
+        )
+    step = max(rows - rows % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
     if n <= step:
         return torch.ops.aten._convert_weight_to_int4pack_for_cpu(
             unpack_nibbles(packed), INNER_K_TILES
@@ -206,7 +220,8 @@ def to_split_halves(packed: torch.Tensor) -> torch.Tensor:
     lane shuffle: measured 3.1 ms per layer instead of 4.5.
     """
     n = packed.shape[0]
-    step = max(REPACK_ROWS - REPACK_ROWS % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
+    rows = _repack_rows()
+    step = n if rows <= 0 else max(rows - rows % TINYGEMM_N_BLOCK, TINYGEMM_N_BLOCK)
     out = []
     for i in range(0, n, step):                 # bounded transient, as above
         codes = unpack_nibbles(packed[i : i + step].contiguous())

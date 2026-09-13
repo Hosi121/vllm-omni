@@ -12,12 +12,23 @@ one needs a different weight layout, and the layouts are mutually exclusive:
   budget (see below) -- and it is the fastest thing measured here;
 * an x86 core without AMX falls back to PyTorch's tinygemm path, which wants
   its own packing and keeps activations in bf16 -- slower, but more faithful.
-  This is *not* the only option there, as this module previously claimed:
-  vLLM 0.28 also has `ops.cpu_gemm_wna16`, a vector-ISA W4A16 kernel it
-  selects whenever `layer.use_w4a8` is off
+  This module used to call that "the only option", which was false: vLLM 0.28
+  also has `ops.cpu_gemm_wna16`, selected whenever `layer.use_w4a8` is off
   (`vllm/model_executor/kernels/linear/mixed_precision/cpu.py:202`). It has
-  never been measured here, so the selector does not route to it yet -- but
-  "no AMX means tinygemm" is an untested assumption, not a fact;
+  now been measured, on the same GPTQ checkpoint with only
+  `VLLM_CPU_INT4_W4A8` differing, 3 interleaved passes on 24 pinned cores:
+
+      int4_scaled_mm_cpu (W4A8, AMX)   74.4 tok/s   spread 1.1%
+      tinygemm W4A16 (same cores)      71.6 tok/s
+      cpu_gemm_wna16                   32.3 tok/s   spread 1.5%
+
+  So the fallback is real but **2.2x slower than tinygemm**, and the routing
+  here was right for a reason nobody had checked. One caveat on reading that
+  number outside x86: `_get_isa_hint` returns `"amx"` whenever AMX is present
+  and activations are bf16, *regardless* of the W4A8 flag, so this measured
+  `cpu_gemm_wna16` on its AMX path -- its best case on this host. The `"vec"`
+  path a genuinely AMX-less machine takes is untested and presumably no
+  faster, which only strengthens the choice;
 * a phone NPU does not run vLLM at all. The deliverable there is an exported
   graph, and its quantization is decided by the export toolchain, not by us.
 
