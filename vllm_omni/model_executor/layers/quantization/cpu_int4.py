@@ -53,20 +53,25 @@ interleaved passes, RssAnon over the process tree).
 It is not free, because the duplicate was not only a copy.
 ``to_split_halves`` de-interleaves the nibbles *once at load*, so each prefill
 call reads two contiguous planes; reading the kernel layout redoes that
-de-interleave every call, and prefill drops **2272 -> 1210 tok/s** (pp512, same
-grid).  Dequantizing to ``[K, N]`` and using ``matmul`` to dodge the transpose
-was tried and is worse still (20.3 ms vs 14.4 per ``gate_up`` at 8 threads).
-Recovering it wants a C++ de-interleave, not an ATen expression chain.
+de-interleave every call.  pp512 drops **2190 -> 1344 tok/s**, i.e. **1.63x**,
+pooled over 7 interleaved passes per arm -- and the ratio is only good to about
+1.4-1.8x, because both dequantizing arms swing 10-18% on a shared host while
+the tinygemm-only arm reproduces to 0.3%.  Dequantizing to ``[K, N]`` and using
+``matmul`` to dodge the transpose was tried and is worse still (20.3 ms vs 14.4
+per ``gate_up`` at 8 threads).  Recovering it wants a C++ de-interleave, not an
+ATen expression chain.
 
 So this is a dial, not a free win:
 
 * versus ``prefill_dequant: false`` it is strictly better -- same memory to
-  within the noise, 2.7x the prefill (1210 vs ~450), and it keeps
+  within the noise, **2.97x** the prefill (1344 vs 453), and it keeps
   ``dequant_threshold`` in force so multi-row batches never reach the tinygemm
-  kernel, avoiding the SIGILL hazard below.  That setting is dominated.
-* versus keeping both layouts it trades 615 MB for 1.9x prefill.  Default on,
-  because this path exists for devices picked for their memory ceiling;
-  ``VLLM_OMNI_CPU_INT4_DIRECT_DEQUANT=0`` restores the old behaviour.
+  kernel, avoiding the SIGILL hazard below.  That setting is dominated, and
+  this is the reliable comparison: the tinygemm-only arm repeats to 0.3%.
+* versus keeping both layouts it trades 615 MB for ~1.6x prefill.  Default on,
+  because this path exists for devices picked for their memory ceiling; set
+  ``direct_dequant: false`` in the checkpoint's ``quantization_config`` to
+  restore the old behaviour.
 
 ``supports_direct_dequant`` gates it: N has to tile the 64-channel block, which
 every Spark linear does (2048, 3072, 13312, 131072).  An N like 80 packs as one
