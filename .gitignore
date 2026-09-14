@@ -282,7 +282,7 @@ lance_compare/
 # Linting binaries downloaded by local pre-commit hooks
 shellcheck*/
 
-# --- vllm-embedding ---------------------------------------------------------
+# --- edge-infer -------------------------------------------------------------
 # Measurement artifacts are the substance of this fork, not build output: every
 # published figure is traceable to a file below. They are tracked despite the
 # blanket `*.json` and `results/` rules above. Binary captures (.npz, .onnx,

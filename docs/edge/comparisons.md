@@ -76,7 +76,7 @@ Full analyses in [docs/engines/](../engines/). In brief, for this workload:
 | **ncnn** | mobile-first, no LLM serving story of the kind needed here |
 | **vLLM / vLLM-Omni** | the only one with a multi-stage multimodal pipeline, continuous batching and an OpenAI-compatible server — which is why the edge work is a fork of it rather than a port away from it |
 
-The decision recorded in [docs/analysis/comparison.md](../analysis/comparison.md)
+The decision recorded in [docs/analysis/comparison.md](../engines/comparison.md)
 is that a phone NPU cannot run vLLM at all: there the deliverable is an exported
 graph, and the quantization scheme is decided by the export toolchain. On device
 (Snapdragon via QNN) only calibrated **w8a16** was measured correct — 36.9 dB;

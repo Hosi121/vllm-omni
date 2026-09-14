@@ -1,15 +1,22 @@
-# vllm-embedding
+# edge-infer
 
-A fork of [vLLM-Omni](https://github.com/vllm-project/vllm-omni) for running
-multimodal models on **edge CPUs** — machines with tens of gigabytes of RAM and
-no GPU, rather than servers.
+Running multimodal models on **edge CPUs** — a mini-PC or a gateway box with
+tens of gigabytes of RAM and no GPU — instead of on servers.
 
-The upstream project targets datacentre inference. Getting the same models onto
-a mini-PC or a gateway box turns out to be less about kernels than about three
-things nobody profiles: how much memory is resident while the model *loads*,
-how much is resident that nothing ever reads, and whether the number you just
-measured came from the code path you thought it did.
+Built as a fork of [vLLM-Omni](https://github.com/vllm-project/vllm-omni),
+because it is the only engine with a multi-stage multimodal pipeline,
+continuous batching and an OpenAI-compatible server; the alternatives were
+evaluated and the reasoning is in [docs/engines/](docs/engines/).
 
+The work turned out to be less about kernels than about three things nobody
+profiles: how much memory is resident while the model *loads*, how much is
+resident that nothing ever reads, and whether the number you just measured came
+from the code path you thought it did. The largest single win here — 843 MB —
+was a setting that had been marked "no effect, do not retry" because the code
+path under test discarded it.
+
+This repository holds the engine changes, the measurement harness, the raw
+results, the baselines they are compared against, and the written analyses.
 Upstream's own README is preserved at [docs/README.vllm-omni.md](docs/README.vllm-omni.md).
 
 ## What's here
