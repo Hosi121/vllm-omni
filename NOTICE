@@ -1,0 +1,23 @@
+vllm-embedding
+Copyright 2026 tzhouam
+
+This product is a derivative work of vLLM-Omni
+(https://github.com/vllm-project/vllm-omni), licensed under the Apache License,
+Version 2.0. Upstream code is Copyright the vLLM-Omni contributors, and vLLM-Omni
+is itself a derivative of vLLM (https://github.com/vllm-project/vllm).
+
+Modifications in this fork are confined to edge/CPU inference and are listed in
+README.md; the substantive ones are:
+
+  vllm_omni/model_executor/layers/quantization/cpu_int4.py
+      4-bit weight-only quantization for the CPU backend
+  vllm_omni/model_executor/models/spark2_5/spark2_5.py
+      RoPE table sized to max_model_len rather than the advertised context
+  vllm_omni/edge/
+      device-class weight-path selection, KV budget sizing, memory release
+  vllm_omni/platforms/cpu/, vllm_omni/patch.py
+      CPU platform and CPU-backend patches
+  benchmarks/edge_harness/
+      measurement tooling (original to this fork)
+
+Upstream's README is preserved at docs/README.vllm-omni.md.
