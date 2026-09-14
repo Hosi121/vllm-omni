@@ -5,27 +5,60 @@ whose environment was not recorded cannot be retracted later, only doubted, so
 the harness stamps these into each artifact automatically — see the
 `provenance` block in any file under `benchmarks/edge_harness/results/`.
 
-## vLLM is **not** modified
+## Do we patch vLLM? Yes — at runtime. Is vLLM *modified*? No.
 
-Worth stating plainly, because it is the obvious assumption and it is wrong.
+Those are two different questions and this document previously blurred them.
 
-This fork changes vLLM's *behaviour* on CPU, but the vLLM tree and the installed
-wheel are stock. The changes are runtime patches applied at import through
-vLLM's own extension points, so they survive a wheel upgrade instead of being
-lost on it:
+**We do patch vLLM.** `vllm_omni/patch.py` has nine `_patch_*` functions that
+perform ten direct attribute replacements on vLLM classes and one on a torch
+function. That is monkey-patching by any honest reading:
 
-| patch (`vllm_omni/patch.py`) | what it changes |
+```python
+CpuPlatform.check_and_update_config = classmethod(check_and_update_config)
+CPUWorker.load_model = load_model
+torch.compiler.load_compiled_function = load_compiled_function
+```
+
+**vLLM's source is not modified.** No file in the vLLM tree or in
+`site-packages/vllm` is edited; the checkout is clean upstream (0 commits ahead,
+0 uncommitted) and the installed wheel is stock `0.28.0+cpu`. There is no patch
+series to apply and no vLLM fork to maintain — `pip install vllm==0.28.0+cpu`
+gives you exactly upstream, and this package changes its behaviour at import.
+
+### The three CPU monkey-patches
+
+| patch | what it changes | why it is a patch and not a hook |
+|---|---|---|
+| `_patch_cpu_aot_compile_cache_load` | vLLM's CPU path fails to load its own AOT artifact (`finalize_loading` missing on a plain function), treats it as a miss, and recompiles on every start | replaces `torch.compiler.load_compiled_function`; torch offers no hook |
+| `_patch_cpu_explicit_kv_cache_memory` | `CpuPlatform.check_and_update_config` overwrites `kv_cache_memory_bytes` from `VLLM_CPU_KVCACHE_SPACE` unconditionally, so a per-stage budget had no effect — this is what made "KV sizing is not a memory lever" look true | wraps a classmethod on a platform class |
+| `_patch_cpu_release_memory_after_load` | returns freed allocator arenas to the OS after weight load | wraps `CPUWorker.load_model` and `compile_or_warm_up_model` |
+
+They are guarded with `getattr`, made idempotent by a marker attribute, and
+gated on `current_platform.is_cpu()`. They are **not** covered by any stability
+contract: each is keyed to a specific method on a specific vLLM class, and an
+upstream rename or behaviour change can break them or silently turn them into
+no-op wrappers. Two of the three exist to work around upstream bugs and should
+disappear when those are fixed.
+
+### The genuine extension points
+
+These are registries vLLM publishes, and they are stable across upgrades in a
+way the patches above are not:
+
+| mechanism | used for |
 |---|---|
-| `_patch_cpu_aot_compile_cache_load` | vLLM's CPU path fails to load its own AOT artifact (`finalize_loading` missing on a plain function), treats it as a miss, and recompiles on every start |
-| `_patch_cpu_explicit_kv_cache_memory` | `CpuPlatform.check_and_update_config` overwrites `kv_cache_memory_bytes` from `VLLM_CPU_KVCACHE_SPACE` unconditionally, so a per-stage budget had no effect at all — this is what made "KV sizing is not a memory lever" look true |
-| `_patch_cpu_release_memory_after_load` | returns freed allocator arenas to the OS after weight load |
+| `register_quantization_config` | the `cpu_int4` quantization method |
+| `ir.ops.*.register_impl` | CPU providers for `rms_norm` / `fused_add_rms_norm` (off by default — fused is slower in situ) |
+| platform plugins | the CPU `OmniPlatform` |
+| `direct_register_custom_op` | `cpu_int4_linear`, `spark_head_gate` |
 
-Other extension points used, rather than edits: the quantization-config registry
-(`register_quantization_config` for `cpu_int4`), the IR op registry, platform
-hooks, and worker method wrapping.
+### What this means for you
 
-So there is no vLLM patch series to apply. Pin the version and let `patch.py`
-do the rest.
+Pin the vLLM version (below). Do not expect the monkey-patches to survive an
+arbitrary upgrade — re-run `benchmarks/edge_harness/` after one, because the
+failure mode of a stale patch is a silently missing optimisation, not a crash.
+An earlier version of this page claimed these changes "survive a wheel upgrade";
+that is true of the registrations and overstated for the patches.
 
 ## Pins
 

@@ -18,7 +18,7 @@ Upstream's own README is preserved at [docs/README.vllm-omni.md](docs/README.vll
 |---|---|
 | 4-bit CPU quantization | `vllm_omni/model_executor/layers/quantization/cpu_int4.py` — W4A16 on PyTorch's tinygemm kernel, prefill reading the kernel's own weight layout instead of a duplicate |
 | Memory | RoPE tables sized to the servable context; weights repacked in blocks; a KV budget that is actually honoured on CPU |
-| CPU platform + vLLM patches | `vllm_omni/platforms/cpu/`, `vllm_omni/patch.py` — vLLM itself is **unmodified**; see [docs/edge/environment.md](docs/edge/environment.md) |
+| CPU platform + vLLM patches | `vllm_omni/platforms/cpu/`, `vllm_omni/patch.py` — vLLM is monkey-patched at import; its *source* is unmodified and no vLLM is redistributed. See [docs/edge/environment.md](docs/edge/environment.md) |
 | Device routing | `vllm_omni/edge/weight_path.py` picks the weight format per device class, from measurements rather than assumption |
 | Measurement harness | `benchmarks/edge_harness/` — the grid runner, benchmarks, memory ledger, fidelity metric and agent suite every number here came from |
 | Raw results | `benchmarks/edge_harness/results/` — 100+ artifacts backing the published figures, each with provenance |
