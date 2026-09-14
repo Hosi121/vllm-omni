@@ -18,6 +18,17 @@ README.md; the substantive ones are:
   vllm_omni/platforms/cpu/, vllm_omni/patch.py
       CPU platform and CPU-backend patches
   benchmarks/edge_harness/
-      measurement tooling (original to this fork)
+      measurement tooling and results (original to this fork)
+  baselines/, docs/engines/, docs/analysis/
+      benchmark results and written analyses (original to this fork)
+
+vLLM itself is not modified and no vLLM source is redistributed here. This fork
+changes vLLM's CPU behaviour through its own extension points at runtime
+(vllm_omni/patch.py); the pinned upstream versions are recorded in
+docs/edge/environment.md.
+
+Baseline measurements reference llama.cpp (https://github.com/ggml-org/llama.cpp,
+MIT). No llama.cpp source is redistributed; only benchmark output produced with
+it, under baselines/llama_cpp/.
 
 Upstream's README is preserved at docs/README.vllm-omni.md.

@@ -12,14 +12,19 @@ measured came from the code path you thought it did.
 
 Upstream's own README is preserved at [docs/README.vllm-omni.md](docs/README.vllm-omni.md).
 
-## What this fork adds
+## What's here
 
-| area | change |
+| area | where |
 |---|---|
-| 4-bit CPU quantization | `cpu_int4` — a W4A16 path built on PyTorch's tinygemm kernel, with the prefill path reading the kernel's own weight layout instead of a duplicate |
-| Memory | RoPE tables sized to the servable context; weights repacked in blocks; KV budget that is actually honoured on CPU |
+| 4-bit CPU quantization | `vllm_omni/model_executor/layers/quantization/cpu_int4.py` — W4A16 on PyTorch's tinygemm kernel, prefill reading the kernel's own weight layout instead of a duplicate |
+| Memory | RoPE tables sized to the servable context; weights repacked in blocks; a KV budget that is actually honoured on CPU |
+| CPU platform + vLLM patches | `vllm_omni/platforms/cpu/`, `vllm_omni/patch.py` — vLLM itself is **unmodified**; see [docs/edge/environment.md](docs/edge/environment.md) |
 | Device routing | `vllm_omni/edge/weight_path.py` picks the weight format per device class, from measurements rather than assumption |
-| Measurement | `benchmarks/edge_harness/` — the benchmark, profiling, memory-attribution and fidelity tooling every number here was produced with |
+| Measurement harness | `benchmarks/edge_harness/` — the grid runner, benchmarks, memory ledger, fidelity metric and agent suite every number here came from |
+| Raw results | `benchmarks/edge_harness/results/` — 100+ artifacts backing the published figures, each with provenance |
+| Baselines | `baselines/` — llama.cpp runs and the comparison scripts |
+| Engine analyses | `docs/engines/` — llama.cpp, ExecuTorch, MNN, ncnn, vLLM, vLLM-Omni |
+| Study documents | `docs/analysis/` — the full reports these summaries distil |
 
 ## Headline results
 
@@ -46,6 +51,11 @@ These overlap and **must not be added** — see [docs/edge/results.md](docs/edge
 | W4A16 (tinygemm) | 71.6 tok/s | 2190 tok/s |
 | `cpu_gemm_wna16` fallback | 32.3 tok/s | — |
 | llama.cpp Q4_K_M (reference) | 90.0 tok/s | 1121 tok/s |
+
+Decode is llama.cpp's; prefill is ours by ~2×. Neither engine is
+bandwidth-bound — both sit at 33–39% of the measured 222 GB/s ceiling — so the
+decode gap is the execution model, not the kernels. See
+[docs/edge/comparisons.md](docs/edge/comparisons.md).
 
 ## Why the numbers here are worth reading
 
@@ -78,9 +88,17 @@ print(llm.generate(['Hello'], SamplingParams(max_tokens=32))[0].outputs[0].text)
 "
 ```
 
-See [docs/edge/cpu-4bit.md](docs/edge/cpu-4bit.md) for building a checkpoint and
-choosing between the 4-bit paths, and [ROADMAP.md](ROADMAP.md) for what is
-measured, what is next, and what was tried and abandoned.
+## Documentation
+
+| | |
+|---|---|
+| [docs/edge/results.md](docs/edge/results.md) | every measured figure, with spread and baseline |
+| [docs/edge/methodology.md](docs/edge/methodology.md) | how to measure on a shared machine without fooling yourself — the five retractions and the rules they left |
+| [docs/edge/cpu-4bit.md](docs/edge/cpu-4bit.md) | the two 4-bit paths, the packed layout as measured, building a checkpoint |
+| [docs/edge/comparisons.md](docs/edge/comparisons.md) | against llama.cpp and the other engines considered |
+| [docs/edge/environment.md](docs/edge/environment.md) | pins, machine, and why there is no vLLM patch series |
+| [docs/edge/harness.md](docs/edge/harness.md) | running a comparison |
+| [ROADMAP.md](ROADMAP.md) | what is next, with expected gains and how each would be verified — and what was rejected |
 
 ## Licence
 
