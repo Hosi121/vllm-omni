@@ -13,13 +13,19 @@ pages and moved 1-2 GB between identical runs, and the two arms were not the
 same model file. Re-measured on ``RssAnon``, which repeats to 0.2%, the saving
 is **188 MB**.
 
-That is small because of *when* it was measured, not because the budget does
-not matter: the benchmark generated 8 tokens, so almost no cache was ever
-touched. Allocation is what this module sizes, and the two coincide only at
-long context -- see the arithmetic below, where the flat and hybrid budgets at
-32 k differ by 1323 MiB. Sizing the cache is worth re-opening on a benchmark
-that actually fills it (harness item H3), and worth nothing on one that does
-not.
+**Re-measured 2026-09-14, and the retraction needs its own retraction.** The
+188 MB was itself measured through a path that ignored the knob: this platform
+silently overwrote ``kv_cache_memory_bytes`` from ``VLLM_CPU_KVCACHE_SPACE``,
+so both arms ran the same cache. With the budget actually honoured, and both
+arms filling a 1536-token context, 3 interleaved passes each:
+
+    1 GiB budget    3264 MB resident
+    192 MiB budget  2421 MB resident   ->  843 MB
+
+The cache is **fully resident**, not allocated-and-untouched: ``mincore(2)``
+reports 1024.1 MB in core of 1023.8 MB allocated, and 191.1 of 190.8 when
+sized down. Sizing this correctly is the largest single memory lever measured
+on this model -- larger than the weight layout, the repack, or the RoPE table.
 
 A hybrid-attention model does not *need* a full-length cache in every layer.
 Spark-X2.5 is 3 sliding layers (window 512) to 1 full layer over 28 layers, so
