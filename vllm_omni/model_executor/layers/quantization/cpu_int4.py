@@ -155,8 +155,22 @@ def quantize_groupwise(w: torch.Tensor, group: int):
     return pack_nibbles(q.reshape(n, k)), scale, zero
 
 
-REPACK_ROWS = 512
+REPACK_ROWS = 2048
 """Output channels repacked at a time, to bound the load-time peak.
+
+2048 because it is both the fastest and nearly the leanest. Repacking the
+131072-row tied embedding, 24 threads:
+
+    rows        chunks    time      int32 transient
+    whole            1   208 ms         1024 MiB
+    512            256   116 ms            4 MiB
+    2048            64    79 ms           16 MiB
+    8192            16    89 ms           64 MiB
+    32768            4   129 ms          256 MiB
+
+Chunking is *faster* than packing the whole matrix -- the working set stays in
+cache -- so this costs nothing at load; the earlier suspicion that it cost
+30 s of init came from a pass the harness had flagged as contended.
 
 ``unpack_nibbles`` expands 4-bit codes to int32 -- 4 bytes per weight, eight
 times the packed form -- and the kernel's packer wants int32. Doing that for a
