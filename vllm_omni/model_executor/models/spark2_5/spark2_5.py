@@ -44,6 +44,7 @@ from vllm.model_executor.layers.linear import (
 )
 from vllm.model_executor.layers.logits_processor import LogitsProcessor
 from vllm.model_executor.layers.quantization import QuantizationConfig
+from vllm.config import get_current_vllm_config_or_none
 from vllm.model_executor.layers.rotary_embedding import get_rope
 from vllm.model_executor.layers.vocab_parallel_embedding import (
     ParallelLMHead,
@@ -194,9 +195,28 @@ class Spark2_5Attention(nn.Module):
         # different partial-rotary factors; both live under rope_parameters.
         rope_parameters = dict(config.rope_parameters[layer_type])
         rope_parameters.setdefault("rope_type", "default")
+
+        # Spark advertises a 1 048 576-token context, and vLLM builds the RoPE
+        # cos/sin table over the whole of it -- `torch.arange(max_position)` --
+        # regardless of how long a sequence the engine will actually accept.
+        # Measured with mincore on a 2048-token deployment: 512 MB resident for
+        # the full-attention layers (head_dim 256) and 128 MB for the sliding
+        # ones (partial rotary, 64 wide), 640 MB for two tables that need
+        # 1.25 MB between them. The table only has to cover positions the
+        # scheduler can produce, which vLLM caps at max_model_len.
+        max_position = config.max_position_embeddings
+        if os.environ.get("VLLM_OMNI_SPARK_ROPE_FULL", "0") == "0":
+            vllm_config = get_current_vllm_config_or_none()
+            model_config = (
+                getattr(vllm_config, "model_config", None) if vllm_config else None
+            )
+            max_model_len = getattr(model_config, "max_model_len", None)
+            if max_model_len:
+                max_position = min(max_position, int(max_model_len))
+
         self.rotary_emb = get_rope(
             self.head_dim,
-            max_position=config.max_position_embeddings,
+            max_position=max_position,
             rope_parameters=rope_parameters,
             is_neox_style=True,
         )

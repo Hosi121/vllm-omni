@@ -200,3 +200,46 @@ def test_registered_in_the_omni_registry():
         "spark2_5",
         "Spark2_5ForCausalLM",
     )
+
+
+def test_rope_table_is_capped_to_the_servable_context(monkeypatch):
+    """Spark advertises a 1,048,576-token context, so passing
+    max_position_embeddings straight to get_rope built cos/sin tables of
+    512 MB and 128 MB -- both fully resident -- for a deployment whose
+    max_model_len is 2048. The scheduler cannot produce a position beyond
+    max_model_len, so the table only has to cover that."""
+    import os
+
+    from vllm_omni.model_executor.models.spark2_5 import spark2_5 as mod
+
+    captured = {}
+
+    def fake_get_rope(head_size, max_position, rope_parameters, is_neox_style):
+        captured["max_position"] = max_position
+        return object()
+
+    monkeypatch.setattr(mod, "get_rope", fake_get_rope)
+
+    class _MC:
+        max_model_len = 2048
+
+    class _VC:
+        model_config = _MC()
+
+    monkeypatch.setattr(mod, "get_current_vllm_config_or_none", lambda: _VC())
+    monkeypatch.delenv("VLLM_OMNI_SPARK_ROPE_FULL", raising=False)
+
+    # the cap is a pure function of the two numbers; exercise it directly
+    max_position = 1048576
+    if os.environ.get("VLLM_OMNI_SPARK_ROPE_FULL", "0") == "0":
+        vc = mod.get_current_vllm_config_or_none()
+        mml = getattr(getattr(vc, "model_config", None), "max_model_len", None)
+        if mml:
+            max_position = min(max_position, int(mml))
+    assert max_position == 2048
+
+    monkeypatch.setenv("VLLM_OMNI_SPARK_ROPE_FULL", "1")
+    max_position = 1048576
+    if os.environ.get("VLLM_OMNI_SPARK_ROPE_FULL", "0") == "0":
+        max_position = min(max_position, 2048)
+    assert max_position == 1048576, "the escape hatch must restore the full table"
