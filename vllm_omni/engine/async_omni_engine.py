@@ -215,32 +215,6 @@ class AsyncOmniEngine:
         # retaining the richer resolver result for pipeline-wide settings.
         # Overrides of that private seam fall back to the factory below.
         deploy_config_path = kwargs.get("deploy_config")
-        # ``trust_remote_code`` is tri-state (bool | None): ``None`` means "not
-        # specified" so stage-config resolution can defer to the deploy yaml's
-        # per-stage value (see ``with_trust_remote_code_override``). The
-        # restriction path below loads the top-level HF config via vLLM's
-        # ``get_config``, which needs a real bool, so collapse ``None`` to the
-        # default ``False`` here (#5495).
-        pipeline_config = StageConfigFactory.get_pipeline_config(
-            model=model,
-            trust_remote_code=bool(trust_remote_code),
-            deploy_config_path=deploy_config_path,
-        )
-        self.endpoint_restrictions = pipeline_config.endpoint_restrictions if pipeline_config is not None else ()
-        self._duplex_runtime_extension_path = (
-            pipeline_config.duplex_runtime_extension if pipeline_config is not None else None
-        )
-        self.duplex_serving_adapter_path = (
-            pipeline_config.duplex_serving_adapter if pipeline_config is not None else None
-        )
-        self._duplex_control_enabled = bool(pipeline_config and pipeline_config.duplex_control_enabled)
-        self._event_driven_orch_default = _event_driven_orch_default_for_pipeline(
-            pipeline_config.model_type if pipeline_config is not None else None
-        )
-        self.duplex_session_config = DuplexSessionRuntimeConfig()
-        if deploy_config_path is not None:
-            self.duplex_session_config = load_deploy_config(deploy_config_path).duplex_session
-
         # Tri-state: None means "not specified" — the deploy yaml's per-stage
         # trust_remote_code stays in effect. An explicit True/False here is a
         # global override (precedence: caller > deploy yaml > default False);
@@ -1043,6 +1017,9 @@ class AsyncOmniEngine:
             pipeline_config.duplex_serving_adapter if pipeline_config is not None else None
         )
         self._duplex_control_enabled = bool(pipeline_config and pipeline_config.duplex_control_enabled)
+        self._event_driven_orch_default = _event_driven_orch_default_for_pipeline(
+            pipeline_config.model_type if pipeline_config is not None else None
+        )
         self.duplex_session_config = DuplexSessionRuntimeConfig()
         if config_path is not None:
             self.duplex_session_config = load_deploy_config(config_path).duplex_session
