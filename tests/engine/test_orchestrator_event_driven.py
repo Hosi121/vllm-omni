@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM-Omni project
 """Event-driven orchestration loop (``VLLM_OMNI_EVENT_DRIVEN_ORCH=1``) tests.
 
 Parity suite: re-runs the legacy orchestration scenarios from

@@ -22,7 +22,7 @@ profiler_config:
 Supported fields:
 
 | Field | Description |
-|---|---|
+| --- | --- |
 | `profiler` | Profiler backend. Supported values: `torch`, `cuda`. Use `torch` for `trace.json`, Excel operator tables, and optional memory snapshots. Use `cuda` for Nsight Systems only. |
 | `torch_profiler_dir` | Output directory for torch-profiler artifacts. Required when `profiler: torch`. |
 | `torch_profiler_use_gzip` | Compress `trace_rank*.json` into `trace_rank*.json.gz`. |
@@ -360,7 +360,7 @@ If unset, the monitor writes `./vllm_omni_orch_monitor_<MMDDHHMM>.json` at shutd
 Each 1-second window records:
 
 | Series | Description |
-|---|---|
+| --- | --- |
 | `windows.duration_s` | Wall time covered by the window |
 | `windows.loop_idle` / `windows.loop_active` | Orchestrator poll-loop iterations with no work vs. active forwarding |
 | `windows.dispatch_queue_size` | Ready-queue size sampled at each monitor window boundary |
@@ -388,7 +388,7 @@ before the window closes, hiding a transient ready-queue backlog in the latter.
 This monitor is intentionally separate from the existing profiling tools:
 
 | Tool | Scope | Output |
-|---|---|---|
+| --- | --- | --- |
 | `--enable-diffusion-pipeline-profiler` | Diffusion stage functions (`vae.decode`, `diffuse`, …) | Per-request `stage_durations` / logs |
 | `--enable-ar-profiler` | AR stage generation time | Per-request `stage_durations` |
 | `profiler_config` (`torch` / `cuda`) | GPU/CPU kernels inside a stage worker | `trace.json`, Nsight, operator tables |
