@@ -6,6 +6,8 @@
 import socket
 import subprocess
 import sys
+import threading
+from types import SimpleNamespace
 
 import pytest
 from filelock import FileLock
@@ -107,3 +109,62 @@ def test_server_accepts_its_own_listener(monkeypatch, in_child):
         assert server.proc.poll() is None
         with socket.create_connection((server.host, server.port), timeout=1):
             pass
+
+
+@pytest.mark.parametrize("init_timeout, expected_wait", [(None, 1200), (900, 1200), (1800, 2100)])
+@pytest.mark.parametrize("port", [None, 18099])
+def test_server_fixture_wait_covers_engine_init(monkeypatch, init_timeout, expected_wait, port):
+    captured = {}
+
+    class FakeServer:
+        def __init__(self, model, serve_args, **kwargs):
+            captured.update(kwargs)
+            captured["serve_args"] = serve_args
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(runtime, "OmniServer", FakeServer)
+    monkeypatch.setattr(runtime, "release_audio_transcriber", lambda: None)
+    request = SimpleNamespace(
+        param=runtime.OmniServerParams(model="fake-model", port=port, init_timeout=init_timeout),
+        node=SimpleNamespace(get_closest_marker=lambda name: None),
+    )
+    generator = runtime.iter_omni_server(request, "core_model", threading.Lock())
+    try:
+        next(generator)
+        assert captured["startup_timeout"] == expected_wait
+        args = captured["serve_args"]
+        assert args[args.index("--init-timeout") + 1] == str(init_timeout or 900)
+    finally:
+        generator.close()
+
+
+def test_server_keeps_polling_after_default_deadline(monkeypatch):
+    monkeypatch.setattr(runtime, "cleanup_test_environment", lambda: None)
+    server = runtime.OmniServer("fake-model", [], startup_timeout=2100)
+    monkeypatch.setattr(server, "_reserve_port", lambda: None)
+    monkeypatch.setattr(server, "_owns_listening_port", lambda: True)
+    monkeypatch.setattr(runtime.subprocess, "Popen", lambda *a, **kw: SimpleNamespace(poll=lambda: None))
+    # The server becomes ready after the old 1200 s limit, still within 2100 s.
+    ticks = iter([0, 1500])
+    monkeypatch.setattr(runtime.time, "time", lambda: next(ticks))
+
+    class ReadySocket:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def settimeout(self, _timeout):
+            pass
+
+        def connect_ex(self, _address):
+            return 0
+
+    monkeypatch.setattr(runtime.socket, "socket", lambda *a: ReadySocket())
+    server._start_server()
