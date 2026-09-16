@@ -14,7 +14,7 @@ import pytest
 from vllm.v1.engine.utils import EngineZmqAddresses
 
 from vllm_omni.diffusion.data import AttentionConfig
-from vllm_omni.engine import async_omni_engine as async_omni_engine_module
+from vllm_omni.engine import omni_engine_base as async_omni_engine_module
 from vllm_omni.engine.async_omni_engine import AsyncOmniEngine
 from vllm_omni.engine.stage_engine_startup import StageReplicaResources
 from vllm_omni.engine.stage_init_utils import (
@@ -216,8 +216,8 @@ def test_stage_engine_core_client_module_reload_keeps_forward_refs_deferred():
     )
 
 
-def test_async_omni_engine_initialize_stages_passes_log_stats_to_runtime(monkeypatch):
-    import vllm_omni.engine.async_omni_engine as engine_mod
+def test_async_omni_engine_initialize_stages_passes_log_stats_and_client_config_to_runtime(monkeypatch):
+    import vllm_omni.engine.omni_engine_base as engine_mod
 
     engine = object.__new__(AsyncOmniEngine)
     engine.stage_configs = [types.SimpleNamespace()]
@@ -234,6 +234,7 @@ def test_async_omni_engine_initialize_stages_passes_log_stats_to_runtime(monkeyp
     engine._omni_lb_policy = "random"
     engine.request_queue = types.SimpleNamespace()
     engine._log_stats = True
+    engine._client_config = engine_mod.OmniClientConfig(client_count=2, client_index=1, stage_addresses={})
     engine._parallel_stage_init = False
 
     captured: dict[str, object] = {}
@@ -249,6 +250,7 @@ def test_async_omni_engine_initialize_stages_passes_log_stats_to_runtime(monkeyp
 
     assert captured["stage_init_timeout"] == 7
     assert captured["log_stats"] is True
+    assert captured["client_config"] is engine._client_config
 
 
 def test_compute_replica_layout_splits_diffusion_devices_by_world_size():
@@ -919,6 +921,49 @@ def test_stage_runtime_launches_shared_engines_with_per_client_addresses(monkeyp
     )
     assert captured_launch_env == ["enabled" if stage_id == 0 else None for stage_id in stage_ids]
     assert os.environ.get("VLLM_OMNI_TEST_STAGE_RUNTIME_ENV") is None
+
+
+@pytest.mark.parametrize("client_count", [1, 2])
+def test_stage_runtime_overlapping_devices_acquire_real_locks_once(monkeypatch, tmp_path, client_count):
+    import fcntl
+
+    import vllm_omni.engine.stage_init_utils as init_utils
+    import vllm_omni.engine.stage_runtime as runtime_mod
+
+    runtime = _make_stage_runtime()
+    plans = [_make_llm_plan(stage_id, stage_id=stage_id, vllm_config=_FakeVllmConfig()) for stage_id in (0, 1)]
+    for stage_id, plan in enumerate(plans):
+        plan.replicas[0].engine_args_dict = {"tensor_parallel_size": stage_id + 1}
+    monkeypatch.setattr(runtime, "_prepare_stage_plans", lambda: plans)
+    monkeypatch.setattr(runtime, "_resolve_replica_physical_devices", lambda sid, _cfg: "0" if sid == 0 else "0,1")
+    monkeypatch.setattr(
+        init_utils, "device_init_lock_path", lambda device_id: str(tmp_path / f"device-{device_id}.lock")
+    )
+    monkeypatch.setattr(
+        init_utils.time, "sleep", lambda _: pytest.fail("Overlapping stages must not wait on their own lock")
+    )
+
+    @contextlib.contextmanager
+    def launch(**kwargs):
+        # Real flock on a separate descriptor proves the runtime holds each lock.
+        for device_id in range(kwargs["stage_id"] + 1):
+            with open(tmp_path / f"device-{device_id}.lock", "a") as probe:
+                with pytest.raises(BlockingIOError):
+                    fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        yield StageReplicaResources(
+            addresses=EngineZmqAddresses(
+                inputs=[f"ipc://input-{i}" for i in range(client_count)],
+                outputs=[f"ipc://output-{i}" for i in range(client_count)],
+            )
+        )
+
+    monkeypatch.setattr(runtime_mod, "launch_stage_replica", launch)
+    with runtime.launch_stage_engines(client_count):
+        pass
+    for device_id in (0, 1):
+        with open(tmp_path / f"device-{device_id}.lock", "a") as probe:
+            fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            fcntl.flock(probe, fcntl.LOCK_UN)
 
 
 @pytest.mark.parametrize("diffusion_stage_id", [0, 1], ids=["diffusion-only", "enginecore-to-diffusion"])

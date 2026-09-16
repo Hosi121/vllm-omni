@@ -682,6 +682,48 @@ async def test_realtime_route_defaults_to_configured_duplex_handler(
     assert calls == [expected_handler]
 
 
+@pytest.mark.parametrize("path", ["/v1/duplex", "/v1/realtime", "/v1/realtime?duplex=1"])
+def test_multi_api_duplex_reconnect_rejected_on_each_worker(path: str) -> None:
+    class SessionHandler:
+        async def handle_realtime_session(self, _websocket) -> None:
+            pytest.fail("Multi-API requests must not access process-local sessions")
+
+    class PendingWarmup:
+        def is_set(self) -> bool:
+            raise AssertionError("Multi-API rejection must not wait for duplex warmup")
+
+    # Separate apps represent workers with independent frontend registries.
+    # Opening on A then reconnecting to B must reject at the same boundary.
+    for worker_index in (0, 1):
+        app = FastAPI()
+        app.state.api_server_count = 2
+        app.state.api_server_index = worker_index
+        app.state.openai_serving_duplex = SessionHandler()
+        app.state.duplex_warmup_done = PendingWarmup()
+        app.include_router(api_server.router)
+        with TestClient(app) as client, client.websocket_connect(path) as websocket:
+            assert websocket.receive_json()["code"] == "multi_api_duplex_unsupported"
+            with pytest.raises(WebSocketDisconnect) as exc:
+                websocket.receive_text()
+            assert exc.value.code == 1008
+
+
+@pytest.mark.parametrize("path", ["/v1/duplex", "/v1/realtime?duplex=1"])
+def test_single_api_duplex_session_still_reaches_handler(path: str) -> None:
+    class SessionHandler:
+        async def handle_realtime_session(self, websocket) -> None:
+            await websocket.accept()
+            await websocket.send_json({"type": "session.created"})
+            await websocket.close()
+
+    app = FastAPI()
+    app.state.api_server_count = 1
+    app.state.openai_serving_duplex = SessionHandler()
+    app.include_router(api_server.router)
+    with TestClient(app) as client, client.websocket_connect(path) as websocket:
+        assert websocket.receive_json() == {"type": "session.created"}
+
+
 def test_health_without_engine_returns_stable_unhealthy_response() -> None:
     """Lock ``/health`` with no engine initialized.
 
@@ -1015,7 +1057,6 @@ async def test_multistage_app_state_key_snapshot(monkeypatch) -> None:
     monkeypatch.setattr(api_server, "create_streaming_video_handler", lambda **_k: _marker("streaming_video"))
     monkeypatch.setattr(api_server, "OpenAIServingRealtime", _FakeCtor)
     monkeypatch.setattr(api_server, "OmniOpenAIServingVideo", _FakeCtor)
-    monkeypatch.setattr(api_server, "should_enable_duplex_endpoint", lambda *_a, **_k: False)
 
     state = State()
     await api_server.omni_init_app_state(engine, state, _minimal_args())
