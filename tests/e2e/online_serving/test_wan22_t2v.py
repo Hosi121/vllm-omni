@@ -19,7 +19,6 @@ import pytest
 
 from tests.helpers.mark import hardware_marks
 from tests.helpers.runtime import OmniServer, OmniServerParams, OnlineOmniClient
-from vllm_omni.platforms import current_omni_platform
 
 os.environ["VLLM_WORKER_MULTIPROC_METHOD"] = "spawn"
 
@@ -32,11 +31,9 @@ SINGLE_CARD_FEATURE_MARKS = hardware_marks(res={"cuda": "H100"})
 
 def _get_diffusion_feature_cases(model: str):
     """Return a single default ``OmniServerParams`` row (no extra ``server_args``)."""
-    # MI300 CI needs over 900 s to load both expert checkpoints from cold storage.
-    init_timeout = 1800 if current_omni_platform.is_rocm() else None
     return [
         pytest.param(
-            OmniServerParams(model=model, init_timeout=init_timeout, stage_init_timeout=init_timeout),
+            OmniServerParams(model=model),
             id="default",
             marks=SINGLE_CARD_FEATURE_MARKS,
         ),

@@ -161,7 +161,6 @@ class OmniServer:
         port: int | None = None,
         env_dict: dict[str, str] | None = None,
         use_omni: bool = True,
-        startup_timeout: int = 1200,
     ) -> None:
         cleanup_test_environment()
         self.model = model
@@ -170,7 +169,6 @@ class OmniServer:
         self.log_stats = "--disable-log-stats" not in args and "--log-stats" in args
         self.env_dict = env_dict
         self.use_omni = use_omni
-        self.startup_timeout = startup_timeout
         self.proc: subprocess.Popen | None = None
         self.host = "127.0.0.1"
         self._auto_port = port is None
@@ -248,7 +246,7 @@ class OmniServer:
             cwd=_omni_subprocess_cwd(),
         )
 
-        max_wait = self.startup_timeout
+        max_wait = 1200
         start_time = time.time()
         while time.time() - start_time < max_wait:
             ret = self.proc.poll()
@@ -1048,8 +1046,6 @@ def iter_omni_server(
                     port=port,
                     env_dict=params.env_dict,
                     use_omni=params.use_omni,
-                    # Allow frontend imports/startup in addition to engine initialization.
-                    startup_timeout=max(1200, (params.init_timeout or 900) + 300),
                 )
                 if port
                 else OmniServer(
@@ -1057,8 +1053,6 @@ def iter_omni_server(
                     server_args,
                     env_dict=params.env_dict,
                     use_omni=params.use_omni,
-                    # Allow frontend imports/startup in addition to engine initialization.
-                    startup_timeout=max(1200, (params.init_timeout or 900) + 300),
                 )
             ) as server:
                 if model != original_model:
