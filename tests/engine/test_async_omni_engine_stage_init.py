@@ -11,6 +11,7 @@ import types
 from dataclasses import dataclass, field
 
 import pytest
+from omegaconf import OmegaConf
 from vllm.v1.engine.utils import EngineZmqAddresses
 
 from vllm_omni.diffusion.data import AttentionConfig
@@ -2239,3 +2240,25 @@ def test_common_launch_parallel_admission_before_spawn(monkeypatch, client_count
     with runtime.launch_stage_engines(client_count):
         pass
     assert events == ["guard", "admit", "spawn", "ready"]
+
+
+@pytest.mark.parametrize(
+    "stage_modes,expected", [([False, True, True], True), ([False, False], False), ([True, False], True)]
+)
+def test_engine_async_chunk_includes_downstream_stages(monkeypatch, stage_modes, expected):
+    engine = object.__new__(AsyncOmniEngine)
+    stages = [OmegaConf.create({"engine_args": {"async_chunk": mode}}) for mode in stage_modes]
+    monkeypatch.setattr(async_omni_engine_module.StageConfigFactory, "get_pipeline_config", lambda *a, **k: None)
+    monkeypatch.setattr(engine, "_resolve_stage_configs", lambda *a, **k: (None, stages))
+    monkeypatch.setattr(engine, "_set_pipeline_runtime_config", lambda *a: None)
+
+    class ConfigResolvedError(Exception):
+        pass
+
+    def stop_before_queues(*args, **kwargs):
+        raise ConfigResolvedError
+
+    monkeypatch.setattr(async_omni_engine_module.janus, "Queue", stop_before_queues)
+    with pytest.raises(ConfigResolvedError):
+        engine.__init__("test-model")
+    assert engine.async_chunk is expected
