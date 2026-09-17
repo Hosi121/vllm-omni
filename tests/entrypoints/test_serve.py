@@ -9,11 +9,13 @@ import argparse
 from dataclasses import dataclass
 from multiprocessing.reduction import ForkingPickler
 from types import SimpleNamespace
+from typing import Any
 
 import pytest
 from pytest_mock import MockerFixture
 from vllm.v1.engine.utils import EngineZmqAddresses
 
+from vllm_omni.config.omni_config import VllmOmniDiffusionStageConfig
 from vllm_omni.config.resolver import OmniConfigResolution
 from vllm_omni.engine.stage_engine_startup import StageReplicaResources
 from vllm_omni.engine.stage_runtime import StageEngineLaunch
@@ -243,7 +245,11 @@ def test_serve_validate_rejects_sleep_mode_with_multiple_api_servers(mocker: Moc
         cmd.validate(args)
 
 
-def test_build_multi_api_stage_runtime_matches_current_constructor(mocker: MockerFixture) -> None:
+@pytest.mark.parametrize("typed", [False, True])
+@pytest.mark.parametrize("downstream_async_chunk", [False, True])
+def test_build_multi_api_stage_runtime_matches_current_constructor(
+    mocker: MockerFixture, typed: bool, downstream_async_chunk: bool
+) -> None:
     from vllm_omni.entrypoints.cli import serve as serve_module
 
     args = TrackingNamespace(
@@ -256,10 +262,25 @@ def test_build_multi_api_stage_runtime_matches_current_constructor(mocker: Mocke
         ),
         frozenset({"model"}),
     )
-    stage_config = _FakeStageConfig(
-        stage_id=0,
-        engine_args=_FakeStageEngineArgs(async_chunk=False, enable_sleep_mode=False),
-    )
+    if typed:
+        from vllm_omni.config.omni_config import VllmOmniARStageConfig
+        from vllm_omni.config.stage_config import StagePipelineConfig
+
+        stages = [
+            VllmOmniARStageConfig(stage_pipeline_config=StagePipelineConfig(stage_id=i, model_stage="ar"))
+            for i in range(2)
+        ]
+        stages[1].connector_config.async_chunk = downstream_async_chunk
+    else:
+        stages = [
+            _FakeStageConfig(
+                stage_id=i,
+                engine_args=_FakeStageEngineArgs(
+                    async_chunk=bool(i and downstream_async_chunk), enable_sleep_mode=False
+                ),
+            )
+            for i in range(2)
+        ]
     mocker.patch("vllm_omni.entrypoints.omni_base.omni_snapshot_download", return_value="dummy-model")
     mocker.patch(
         "vllm_omni.config.config_factory.with_trust_remote_code_override",
@@ -268,16 +289,20 @@ def test_build_multi_api_stage_runtime_matches_current_constructor(mocker: Mocke
     mocker.patch("vllm_omni.entrypoints.utils.parse_stage_overrides", return_value={})
     mocker.patch(
         "vllm_omni.config.resolver.resolve_omni_config",
-        return_value=OmniConfigResolution(config_path="dummy-config", stage_configs=(stage_config,)),
+        return_value=OmniConfigResolution(config_path="dummy-config", stage_configs=tuple(stages)),
     )
 
     runtime = serve_module._build_multi_api_stage_runtime(args, 2)
 
     assert runtime._client_count == 1
     assert runtime._client_index == 0
+    assert runtime._async_chunk is downstream_async_chunk
 
 
-def test_build_multi_api_stage_runtime_rejects_sleep_enabled_in_stage_config(mocker: MockerFixture) -> None:
+@pytest.mark.parametrize("typed", [False, True])
+def test_build_multi_api_stage_runtime_rejects_sleep_enabled_in_stage_config(
+    mocker: MockerFixture, typed: bool
+) -> None:
     from vllm_omni.entrypoints.cli import serve as serve_module
 
     args = TrackingNamespace(
@@ -294,6 +319,13 @@ def test_build_multi_api_stage_runtime_rejects_sleep_enabled_in_stage_config(moc
         stage_id=3,
         engine_args=_FakeStageEngineArgs(async_chunk=False, enable_sleep_mode=True),
     )
+    if typed:
+        from vllm_omni.config.omni_config import VllmOmniARStageConfig
+        from vllm_omni.config.stage_config import StagePipelineConfig
+
+        typed_stage = VllmOmniARStageConfig(stage_pipeline_config=StagePipelineConfig(stage_id=3, model_stage="ar"))
+        typed_stage.model_config.enable_sleep_mode = True
+        stage_config = typed_stage
     mocker.patch("vllm_omni.entrypoints.omni_base.omni_snapshot_download", return_value="dummy-model")
     mocker.patch(
         "vllm_omni.config.config_factory.with_trust_remote_code_override",
@@ -572,6 +604,26 @@ def test_parse_stage_overrides_invalid_json_raises() -> None:
     message = str(excinfo.value)
     assert message.startswith("--stage-overrides is not valid JSON:")
     assert f"Got: {bad!r}" in message
+
+
+@pytest.mark.parametrize(
+    "payload",
+    ['{"abc": {}}', '{"-1": {}}', '{"1.5": {}}', '{"\uff10": {}}'],
+)
+def test_parse_stage_overrides_rejects_invalid_stage_ids(payload: str) -> None:
+    with pytest.raises(argparse.ArgumentTypeError, match="non-negative integer stage ids"):
+        _parse_stage_overrides(payload)
+
+
+def test_parse_stage_overrides_preserves_arbitrary_override_fields() -> None:
+    parsed = _parse_stage_overrides(
+        '{"0": {"extras": {"ltx2_use_conv_vae": true}, "kv_cache_dtype": "fp8", "typo_field_xyz": 1}}'
+    )
+    assert parsed["0"] == {
+        "extras": {"ltx2_use_conv_vae": True},
+        "kv_cache_dtype": "fp8",
+        "typo_field_xyz": 1,
+    }
 
 
 def test_parse_stage_overrides_rejects_non_dict_top_level() -> None:
@@ -944,6 +996,77 @@ def test_run_headless_diffusion_registers_and_spawns_proc(mocker: MockerFixture)
     assert manager_kwargs["omni_coordinator_address"] == "tcp://127.0.0.1:26100"
     assert manager_kwargs["omni_stage_id"] == 1
     assert manager_kwargs["omni_replica_id"] == 0
+
+
+def test_run_headless_generic_diffusion_launches_structured_stage(mocker: MockerFixture) -> None:
+    """Headless resolution starts the typed stage through the real group launcher."""
+    from vllm_omni.engine import stage_engine_startup as startup_module
+
+    mocker.patch("vllm_omni.config.resolver.StageConfigFactory.create_from_model", return_value=None)
+    mocker.patch(
+        "vllm_omni.config.resolver._resolve_generic_diffusion_model_class",
+        return_value=(True, "FakeDiffusionPipeline"),
+    )
+    mocker.patch("vllm_omni.engine.stage_init_utils.prepare_engine_environment")
+    mocker.patch.object(startup_module.stage_init_utils, "load_omni_transfer_config_for_model", return_value=None)
+    mocker.patch.object(
+        startup_module.initialization,
+        "resolve_omni_kv_config_for_stage",
+        return_value=(None, None, None),
+    )
+    captured: dict[str, Any] = {}
+    od_config = SimpleNamespace()
+
+    def _build_diffusion_config(model, stage_config, metadata):
+        captured.update(model=model, stage_config=stage_config, metadata=metadata)
+        return od_config
+
+    def _launch_replica_group(**kwargs):
+        captured.update(group_kwargs=kwargs)
+        captured["manager"] = kwargs["launch_one"](0)
+
+    def _launch_replica(**kwargs):
+        captured.update(replica_kwargs=kwargs)
+        return SimpleNamespace(exitcode=None)
+
+    mocker.patch.object(startup_module.stage_init_utils, "build_diffusion_config", side_effect=_build_diffusion_config)
+    mocker.patch.object(startup_module, "launch_headless_replica_group", side_effect=_launch_replica_group)
+    mocker.patch.object(startup_module, "launch_headless_diffusion_replica", side_effect=_launch_replica)
+
+    explicit_keys = frozenset(
+        {
+            "model",
+            "stage_id",
+            "omni_master_address",
+            "omni_master_port",
+            "worker_backend",
+            "model_class_name",
+            "num_gpus",
+        }
+    )
+    args = _make_headless_args(
+        explicit_keys=explicit_keys,
+        model="generic-diffusion",
+        model_class_name="FakeDiffusionPipeline",
+        num_gpus=1,
+    )
+
+    run_headless(args)
+
+    stage = captured["stage_config"]
+    assert isinstance(stage, VllmOmniDiffusionStageConfig)
+    assert captured["metadata"].stage_type == "diffusion"
+    assert captured["metadata"].model_stage == "diffusion"
+    assert captured["model"] == "generic-diffusion"
+    assert captured["group_kwargs"]["stage_id"] == 0
+    assert captured["group_kwargs"]["omni_dp_size_local"] == 1
+    assert captured["group_kwargs"]["per_replica_devices"] == ["0"]
+    assert captured["replica_kwargs"]["stage_config"] is stage
+    assert captured["replica_kwargs"]["stage_id"] == 0
+    assert captured["replica_kwargs"]["omni_master_address"] == "127.0.0.1"
+    assert captured["replica_kwargs"]["omni_master_port"] == 26000
+    assert captured["replica_kwargs"]["od_config"] is od_config
+    assert stage.runtime_config.devices == "0"
 
 
 def test_run_headless_diffusion_raises_on_nonzero_proc_exit(mocker: MockerFixture) -> None:

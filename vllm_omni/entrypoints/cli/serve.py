@@ -1108,7 +1108,13 @@ def _build_multi_api_stage_runtime(args: TrackingNamespace, num_api_servers: int
     sleep_stages = [
         int(getattr(stage_config, "stage_id", stage_index))
         for stage_index, stage_config in enumerate(stage_configs)
-        if bool(getattr(getattr(stage_config, "engine_args", None), "enable_sleep_mode", False))
+        if bool(
+            getattr(
+                getattr(stage_config, "model_config", getattr(stage_config, "engine_args", None)),
+                "enable_sleep_mode",
+                False,
+            )
+        )
     ]
     if sleep_stages:
         raise ValueError(
@@ -1116,8 +1122,16 @@ def _build_multi_api_stage_runtime(args: TrackingNamespace, num_api_servers: int
             f"disable enable_sleep_mode for stage(s) {sleep_stages}"
         )
 
-    stage0_args = getattr(stage_configs[0], "engine_args", None) if stage_configs else None
-    async_chunk = bool(getattr(stage0_args, "async_chunk", False))
+    async_chunk = any(
+        bool(
+            getattr(
+                getattr(stage, "connector_config", None),
+                "async_chunk",
+                getattr(getattr(stage, "engine_args", None), "async_chunk", False),
+            )
+        )
+        for stage in stage_configs
+    )
     return StageRuntime(
         stage_configs=stage_configs,
         model=model,
@@ -1282,6 +1296,7 @@ def run_headless(args: TrackingNamespace) -> None:
     )
     from vllm_omni.engine.stage_init_utils import (
         build_engine_args_dict,
+        build_engine_args_dict_from_omni_stage_config,
         build_vllm_config,
         get_stage_connector_spec,
         inject_omni_kv_connector_config,
@@ -1372,21 +1387,21 @@ def run_headless(args: TrackingNamespace) -> None:
     stage_connector_spec = get_stage_connector_spec(
         omni_transfer_config=omni_transfer_config,
         stage_id=stage_id,
-        async_chunk=bool(stage_cfg.engine_args.get("async_chunk", False)),
+        async_chunk=bool(
+            getattr(getattr(stage_cfg, "connector_config", None), "async_chunk", None)
+            if hasattr(stage_cfg, "connector_config")
+            else stage_cfg.engine_args.get("async_chunk", False)
+        ),
     )
 
-    # ``runtime_cfg`` is mostly inherited from the parent's
-    # CUDA_VISIBLE_DEVICES; when ``--omni-dp-size-local > 1`` we additionally
-    # bracket each replica's spawn below with setup_stage_devices so they
-    # don't all stack on cuda:0 (see ``per_replica_devices`` above).
-    # Headless startup still supplies the legacy OmegaConf stage shape through
-    # the stable adapter entry point. The implementation switches only when
-    # RFC #4021 threads structured stage configs through the launch plan.
-    engine_args_dict = build_engine_args_dict(
-        stage_cfg,
-        model,
-        stage_connector_spec=stage_connector_spec,
-        cli_tokenizer=getattr(args, "tokenizer", None),
+    engine_args_dict = (
+        build_engine_args_dict_from_omni_stage_config(
+            stage_cfg, model, stage_connector_spec=stage_connector_spec, cli_tokenizer=getattr(args, "tokenizer", None)
+        )
+        if hasattr(stage_cfg, "connector_config")
+        else build_engine_args_dict(
+            stage_cfg, model, stage_connector_spec=stage_connector_spec, cli_tokenizer=getattr(args, "tokenizer", None)
+        )
     )
 
     inject_omni_kv_connector_config(engine_args_dict, omni_kv_connector, stage_id)
