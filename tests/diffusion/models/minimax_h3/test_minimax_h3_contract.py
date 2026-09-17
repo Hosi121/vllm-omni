@@ -3,7 +3,7 @@
 
 import json
 import sys
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from multiprocessing.reduction import ForkingPickler
 from types import SimpleNamespace
 from typing import Any, TypeVar
@@ -2821,6 +2821,7 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
             assert events == ["enter"]
             assert image is input_image
             assert use_fp16_latent
+            assert not self.parallel_tiling
             events.append("encode")
             if fail_encode:
                 raise RuntimeError("encode failed")
@@ -2834,6 +2835,8 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
         "latents_mean": [0.0],
         "latents_std": [1.0],
     }
+    video_vae.parallel_size = 4
+    monkeypatch.setattr(video_vae, "_encoder_tiling_context", lambda _height, _width: nullcontext())
     monkeypatch.setattr(vae_module, "_minimax_h3_keyframe_encode_context", track_context)
 
     if fail_encode:
