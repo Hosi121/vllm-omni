@@ -689,6 +689,10 @@ class OmniGPUModelRunner(GPUModelRunner):
             if self.uses_mrope:
                 self._init_mrope_positions(req_state)
 
+            # Only relevant for models using XD-RoPE (e.g, HunYuan-VL)
+            if getattr(self, "uses_xdrope_dim", 0) > 0:
+                self._init_xdrope_positions(req_state)
+
             reqs_to_add.append(self.requests[req_id])
             # Track new requests for ngram_gpu full tensor copy
             if is_ngram_gpu:
@@ -1160,6 +1164,8 @@ class OmniGPUModelRunner(GPUModelRunner):
 
             if self.uses_mrope:
                 positions = self.mrope_positions.gpu[:, :num_tokens_padded]
+            elif getattr(self, "uses_xdrope_dim", 0) > 0:
+                positions = self.xdrope_positions.gpu[:, :num_tokens_padded]
             else:
                 positions = self.positions[:num_tokens_padded]
 
@@ -1695,6 +1701,8 @@ class OmniGPUModelRunner(GPUModelRunner):
 
         if self.uses_mrope:
             positions = self.mrope_positions.gpu[:, :num_input_tokens]
+        elif getattr(self, "uses_xdrope_dim", 0) > 0:
+            positions = self.xdrope_positions.gpu[:, :num_input_tokens]
         else:
             positions = self.positions[:num_input_tokens]
             if num_input_tokens > num_scheduled_tokens:
