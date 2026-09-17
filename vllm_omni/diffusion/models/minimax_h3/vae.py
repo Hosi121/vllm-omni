@@ -602,11 +602,8 @@ class MiniMaxH3VideoVAE(nn.Module, DistributedVaeMixin):
         if getattr(self, "decode_only", False):
             raise RuntimeError("MiniMax H3 decode-only video VAE cannot encode images")
         previous_parallel = self.model.parallel_tiling
-        # Keyframe conditioning is part of the official single-image VAE
-        # contract. Keep it rank-local even when video/reference encoding is
-        # configured for tile parallelism; the tiled collective changes the
-        # reduction order and can move H100 I2VA quality across the threshold.
-        self.model.parallel_tiling = False
+        if int(getattr(self, "parallel_size", 1)) <= 1:
+            self.model.parallel_tiling = False
         parameter = next(self.parameters())
         previous_dtype = parameter.dtype
         if previous_dtype != torch.float32:
