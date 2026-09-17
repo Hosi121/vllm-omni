@@ -3,7 +3,7 @@
 
 import json
 import sys
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from multiprocessing.reduction import ForkingPickler
 from types import SimpleNamespace
 from typing import Any, TypeVar
@@ -2811,17 +2811,6 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
         finally:
             events.append("exit")
 
-    @contextmanager
-    def track_rank_local():
-        assert video_vae.model.parallel_tiling
-        video_vae.model.parallel_tiling = False
-        events.append("rank-local-enter")
-        try:
-            yield
-        finally:
-            video_vae.model.parallel_tiling = True
-            events.append("rank-local-exit")
-
     class FakeModel(torch.nn.Module):
         def __init__(self):
             super().__init__()
@@ -2829,7 +2818,7 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
             self.parallel_tiling = True
 
         def encode_images(self, image, *, use_fp16_latent):
-            assert events == ["rank-local-enter", "enter"]
+            assert events == ["enter"]
             assert image is input_image
             assert use_fp16_latent
             assert not self.parallel_tiling
@@ -2847,7 +2836,7 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
         "latents_std": [1.0],
     }
     video_vae.parallel_size = 4
-    monkeypatch.setattr(video_vae, "_rank_local_tiling", track_rank_local)
+    monkeypatch.setattr(video_vae, "_encoder_tiling_context", lambda _height, _width: nullcontext())
     monkeypatch.setattr(vae_module, "_minimax_h3_keyframe_encode_context", track_context)
 
     if fail_encode:
@@ -2857,7 +2846,7 @@ def test_keyframe_encode_enters_backend_context(monkeypatch, fail_encode):
         rows = video_vae.encode_image(input_image)
         torch.testing.assert_close(rows, torch.ones(1, 4))
 
-    assert events == ["rank-local-enter", "enter", "encode", "exit", "rank-local-exit"]
+    assert events == ["enter", "encode", "exit"]
     assert video_vae.model.parallel_tiling
 
 
