@@ -1,6 +1,11 @@
 # Core runtime deps for AR / generation (TTS, speech) pipelines. Media /
 # diffusion / video deps live in media.txt; common.txt pulls both.
-transformers >= 5.10.1, < 5.15
+# transformers: required unified multimodal model classes are unavailable
+# before 5.10.1; 5.10.0 is yanked, and 5.15 has a known construction
+# regression. Floor is 5.13.0 so transformers.integrations.hub_kernels
+# LayerRepository entries always pass version=/revision= required by
+# kernels>=0.16 (#6971). Keep in sync with kernels in media.txt.
+transformers >= 5.13.0, < 5.15
 av>=14.0.0
 omegaconf>=2.3.0
 safetensors>=0.8.0

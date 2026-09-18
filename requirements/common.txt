@@ -1,3 +1,6 @@
 # Common dependencies for all platforms
+# Split (edge WP6): core.txt = AR/speech runtime, media.txt = diffusion/video/extra
+# audio. The v0.29.0rc1 pin changes (transformers >= 5.13.0, kernels==0.16.1) are
+# applied inside those two files.
 # -r core.txt
 -r media.txt

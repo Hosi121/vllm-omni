@@ -4,7 +4,6 @@
 import json
 import os
 import types
-from collections import Counter
 from dataclasses import fields, is_dataclass
 from pathlib import Path
 from typing import Any, get_args, get_origin
@@ -18,11 +17,9 @@ from vllm_omni.config.config_factory import (
     StageConfigFactory,
     _materialize_object_storage_configs,
     _name_match_candidate,
-    with_trust_remote_code_override,
 )
 from vllm_omni.config.pipeline_registry import OMNI_PIPELINES
 from vllm_omni.config.stage_config import _DEPLOY_DIR
-from vllm_omni.config.yaml_util import create_config, load_yaml_config
 from vllm_omni.diffusion.utils.hf_utils import (
     _looks_like_dreamzero,
     get_diffusion_model_index,
@@ -36,11 +33,6 @@ from vllm_omni.platforms import current_omni_platform
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 logger = init_logger(__name__)
-
-
-_DIFFUSERS_CLASS_TO_CONFIG: dict[str, str] = {
-    "GlmImagePipeline": "glm_image",
-}
 
 
 def inject_omni_kv_config(stage: Any, omni_conn_cfg: dict[str, Any], omni_from: str, omni_to: str) -> None:
@@ -76,6 +68,17 @@ def inject_omni_kv_config(stage: Any, omni_conn_cfg: dict[str, Any], omni_from: 
         logger.error(f"Failed to inject omni connector config into stage: {e}")
 
 
+# [edge-infer] Kept across the v0.29.0rc1 merge: upstream removed
+# ``resolve_model_config_path`` and its helpers from this module (its callers
+# moved to ``vllm_omni.config.resolver``); the edge ``deploy_profile`` selector
+# below still needs the model -> default deploy YAML lookup, so that chain is
+# retained here. ``_convert_dataclasses_to_dict`` / ``load_and_resolve_stage_configs``
+# now live in ``vllm_omni.config.resolver`` / ``vllm_omni.engine.async_omni_engine``.
+_DIFFUSERS_CLASS_TO_CONFIG: dict[str, str] = {
+    "GlmImagePipeline": "glm_image",
+}
+
+
 def _try_get_class_name_from_diffusers_config(model: str) -> str | None:
     """Try to get class name from diffusers model configuration files.
 
@@ -91,127 +94,6 @@ def _try_get_class_name_from_diffusers_config(model: str) -> str | None:
         return model_index["_class_name"]
 
     return None
-
-
-def _filter_dict_like_object(obj: dict | Any) -> dict:
-    """Filter dict-like object by removing callables and recursively converting values.
-
-    Converts dict-like objects to regular dicts while filtering out callable values
-    that are incompatible with OmegaConf. Recursively processes values through
-    _convert_dataclasses_to_dict for nested object conversion.
-
-    Args:
-        obj: Dict or dict-like object to filter
-
-    Returns:
-        Regular dict with callables filtered out and values recursively converted
-
-    Raises:
-        TypeError: If obj doesn't support .items() method
-        ValueError: If dict conversion fails unexpectedly
-    """
-
-    def _is_callable_value(value: Any) -> bool:
-        if callable(value):
-            return True
-        return isinstance(
-            value,
-            types.FunctionType | types.MethodType | types.BuiltinFunctionType | types.BuiltinMethodType,
-        )
-
-    result = {}
-    filtered_keys = []
-    for k, v in obj.items():
-        # Preserve class objects by converting to a fully qualified name string
-        # so callers that resolve via import path (e.g. custom_pipeline_args.pipeline_class)
-        # still work after OmegaConf round-trip.
-        if isinstance(v, type):
-            module = getattr(v, "__module__", None)
-            qualname = getattr(v, "__qualname__", getattr(v, "__name__", None))
-            if module and qualname and module != "builtins":
-                result[k] = f"{module}.{qualname}"
-            else:
-                result[k] = qualname
-        elif _is_callable_value(v):
-            filtered_keys.append(str(k))
-        else:
-            result[k] = _convert_dataclasses_to_dict(v)
-    if filtered_keys:
-        logger.warning(
-            f"Filtered out {len(filtered_keys)} callable object(s) from base_engine_args "
-            f"that are not compatible with OmegaConf: {filtered_keys}. "
-        )
-    return result
-
-
-def _convert_dataclasses_to_dict(obj: Any) -> Any:
-    """Recursively convert non-serializable objects to OmegaConf-compatible types.
-
-    This is needed because OmegaConf cannot handle:
-    - Dataclass objects with Literal type annotations (e.g., StructuredOutputsConfig)
-    - Counter objects (from collections or vllm.utils)
-    - Set objects
-    - Callable objects (functions, methods, etc.)
-    - Other non-primitive types
-    """
-    # IMPORTANT: Check Counter BEFORE dict, since Counter is a subclass of dict
-    # Handle Counter objects (convert to dict)
-    # Check by class name first to catch both collections.Counter and vllm.utils.Counter
-    if hasattr(obj, "__class__") and obj.__class__.__name__ == "Counter":
-        try:
-            return dict(obj)
-        except (TypeError, ValueError):
-            # If Counter can't be converted to dict, return empty dict
-            return {}
-    # Also check isinstance for collections.Counter (must be before dict check)
-    if isinstance(obj, Counter):
-        return dict(obj)
-    # Handle set objects (convert to list)
-    if isinstance(obj, set):
-        return list(obj)
-    # Handle dataclass objects
-    # Use field iteration instead of asdict() to:
-    # 1. Only include init fields (non-init fields cause "unexpected kwarg" errors)
-    # 2. Skip None values matching field defaults (avoids Pydantic validation
-    #    failures when None is explicitly passed for non-Optional typed fields,
-    #    e.g. CompilationConfig.cudagraph_capture_sizes: list[int] = None)
-    if is_dataclass(obj) and not isinstance(obj, type):
-        result = {}
-        for f in fields(obj):
-            if not f.init:
-                continue
-            value = getattr(obj, f.name)
-            if value is None and f.default is None:
-                continue
-            result[f.name] = _convert_dataclasses_to_dict(value)
-        return result
-    # Handle dictionaries (recurse into values) and filter out callables(cause error in OmegaConf.create)
-    # Note: This must come AFTER Counter check since Counter is a dict subclass
-    if isinstance(obj, dict):
-        return _filter_dict_like_object(obj)
-    # Preserve class objects by converting to a fully qualified name string.
-    if isinstance(obj, type):
-        module = getattr(obj, "__module__", None)
-        qualname = getattr(obj, "__qualname__", getattr(obj, "__name__", None))
-        if module and qualname and module != "builtins":
-            return f"{module}.{qualname}"
-        return qualname
-    # Handle callable objects (functions, methods, etc.) - skip them
-    # Note: This comes after dict/list checks to avoid misclassifying dict-like objects
-    if callable(obj):
-        return None
-    # Handle lists and tuples (recurse into items)
-    if isinstance(obj, list | tuple):
-        return type(obj)(_convert_dataclasses_to_dict(item) for item in obj if not callable(item))
-    # Try to convert any dict-like object (has keys/values methods) to dict
-    if hasattr(obj, "keys") and hasattr(obj, "values") and not isinstance(obj, str | bytes):
-        try:
-            return _filter_dict_like_object(obj)
-        except (TypeError, ValueError, AttributeError):
-            # If conversion fails, return as-is
-            return obj
-    # Primitive types and other objects that OmegaConf can handle
-    return obj
 
 
 def _try_resolve_omni_model_type(model: str) -> str | None:
@@ -485,212 +367,9 @@ def resolve_model_config_path(model: str) -> str | None:
     return _registry_default_deploy_path(model)
 
 
-def load_stage_configs_from_model(
-    model: str,
-    *,
-    trust_remote_code: bool | None,
-    base_engine_args: dict | None = None,
-    deploy_config_path: str | None = None,
-    stage_overrides: dict[str, dict[str, Any]] | None = None,
-    strategy_config_path: str | None = None,
-) -> tuple[list, str | None]:
-    """Load stage configurations from model's default config file.
-
-    For models registered in the pipeline registry, uses
-    ``StageConfigFactory.create_legacy_stage_configs_from_model()`` which merges
-    PipelineConfig + DeployConfig + CLI overrides.
-
-    Models that cannot be resolved through the registry return no stages so the
-    caller can apply its default stage configuration, when available.
-
-    Args:
-        model: Model name or path (used to determine model_type)
-        trust_remote_code: Whether to trust remote code while resolving the model config.
-        base_engine_args: Base engine args to merge as CLI overrides.
-        deploy_config_path: Optional explicit deploy config path.
-        stage_overrides: Per-stage overrides from --stage-overrides.
-        strategy_config_path: Optional path to a composable-parallel
-            ``strategy.yaml`` whose derived sizing is overlaid onto the
-            registry-merged stages.
-
-    Returns:
-        ``(stage_configs, omni_lb_policy)``: the list of stage configuration
-        dictionaries plus the strategy-derived pipeline-wide ``omni_lb_policy``
-        (``None`` when no strategy set one). The policy is returned rather than
-        written into a caller-provided mutable dict.
-    """
-    if base_engine_args is None:
-        base_engine_args = {}
-
-    cli_overrides = _convert_dataclasses_to_dict(dict(base_engine_args))
-    # A False inherited from the engine-args dump is the store_true flag's
-    # default, not an explicit choice — drop it so only the tri-state
-    # parameter below decides (see with_trust_remote_code_override).
-    if not cli_overrides.get("trust_remote_code"):
-        cli_overrides.pop("trust_remote_code", None)
-    cli_overrides = with_trust_remote_code_override(cli_overrides, trust_remote_code)
-    if stage_overrides:
-        for stage_id_str, overrides in stage_overrides.items():
-            for key, val in overrides.items():
-                cli_overrides[f"stage_{stage_id_str}_{key}"] = val
-
-    # Current runtime initialization still consumes legacy OmegaConf stage
-    # configs. ``StageConfigFactory.create_from_model`` now produces the
-    # structured ``VllmOmniConfig`` object; future RFC #4021 changes will
-    # migrate the engine/runtime consumers and replace this legacy resolver.
-    strategy_specs = None
-    if strategy_config_path is not None:
-        from vllm_omni.config.composable_parallel.strategy_loader import load_strategy_specs
-
-        strategy_specs = load_strategy_specs(strategy_config_path)
-
-    stages, omni_lb_policy = StageConfigFactory.create_legacy_stage_configs_from_model(
-        model,
-        trust_remote_code=trust_remote_code,
-        cli_overrides=cli_overrides,
-        deploy_config_path=deploy_config_path,
-        strategy_specs=strategy_specs,
-    )
-    if stages is not None:
-        # Convert StageConfig objects to OmegaConf for backward compat
-        return [stage.to_omegaconf() for stage in stages], omni_lb_policy
-
-    strategy_note = ""
-    if strategy_config_path is not None:
-        strategy_note = f" Strategy config {strategy_config_path!r} was not applied."
-    logger.warning(
-        "No registered PipelineConfig resolved for model %r. Legacy `stage_args` "
-        "YAMLs are no longer supported; register the pipeline and provide deployment "
-        "overrides through `deploy_config`.%s",
-        model,
-        strategy_note,
-    )
-    return [], None
-
-
-def filter_stages(
-    config_path: str | None,
-    stage_configs: list,
-    kwargs: dict | None,
-) -> list:
-    """Filter stage configs by mode when YAML defines a `modes` section.
-
-    The YAML can define, e.g.:
-
-        modes:
-          - mode: text-to-image
-            stages: [1]
-          - mode: image-to-text
-            stages: [0]
-
-    When users pass `mode="image-to-text"` into Omni(**kwargs), only the stages
-    listed for that mode are returned. If no mode is provided, defaults to
-    "text-to-image". If no modes are defined or filtering fails, returns the
-    original stage_configs unchanged.
-
-    Args:
-        config_path: Path to the YAML config (used to read `modes`).
-        stage_configs: Loaded list of stage configs.
-        kwargs: Engine/caller kwargs; may contain "mode".
-
-    Returns:
-        Filtered list of stage configs (or original list if filtering not applied).
-    """
-    if not stage_configs or config_path is None:
-        return stage_configs
-
-    try:
-        cfg = load_yaml_config(config_path)
-        yaml_modes = getattr(cfg, "modes", None)
-        if yaml_modes is None:
-            return stage_configs
-
-        mode_to_stage_ids: dict[str, list[int]] = {}
-        if yaml_modes is not None:
-            for entry in yaml_modes:
-                mode_name = None
-                stages = None
-                if hasattr(entry, "mode") or hasattr(entry, "stages"):
-                    mode_name = getattr(entry, "mode", None)
-                    stages = getattr(entry, "stages", None)
-                elif isinstance(entry, dict):
-                    mode_name = entry.get("mode")
-                    stages = entry.get("stages")
-
-                if mode_name is None or stages is None:
-                    continue
-
-                if isinstance(stages, int):
-                    stage_list = [stages]
-                else:
-                    stage_list = list(stages)
-
-                mode_to_stage_ids[str(mode_name)] = [int(sid) for sid in stage_list]
-
-        # No modes section or empty mapping: use all stages and return early.
-        active_mode: str | None = None
-        if isinstance(kwargs, dict):
-            active_mode = kwargs.get("mode")
-
-        if active_mode is None:
-            active_mode = "text-to-image"
-
-        if active_mode not in mode_to_stage_ids:
-            logger.warning(
-                "Requested mode '%s' not found in config '%s'; available modes: %s. Using all stages.",
-                active_mode,
-                config_path,
-                sorted(mode_to_stage_ids.keys()),
-            )
-            return stage_configs
-
-        allowed_ids = set(mode_to_stage_ids[active_mode])
-        filtered_stage_configs = [sc for sc in stage_configs if getattr(sc, "stage_id", None) in allowed_ids]
-        if not filtered_stage_configs:
-            logger.warning(
-                "Mode '%s' in config '%s' resolved to stage ids %s, but none matched loaded stage_args. "
-                "Falling back to all stages.",
-                active_mode,
-                config_path,
-                sorted(allowed_ids),
-            )
-            return stage_configs
-
-        return filtered_stage_configs
-    except Exception as e:
-        logger.warning("Failed to apply mode-based stage filtering: %s", e)
-        return stage_configs
-
-
 def parse_stage_overrides(value: Any) -> dict[str, dict[str, Any]] | None:
-    """Parse the ``--stage-overrides`` value into a per-stage override dict.
-
-    ``value`` may be a raw JSON string (as supplied on the CLI) or an
-    already-parsed mapping. Returns ``None`` when no overrides are given.
-
-    Only the **shape** of the override mapping is validated here:
-
-    - top-level must be a dict
-    - keys must be non-negative ASCII integer strings (stage ids)
-    - values must be dicts
-
-    Field-name / type / range validation is intentionally not done at this
-    layer. The downstream resolver forwards every surviving key as
-    ``stage_<id>_<key>`` into ``cli_overrides`` (see
-    ``load_stage_configs_from_model``); field semantics live in
-    ``StageConfigFactory`` for registered pipelines, and the
-    default-diffusion fallback in ``async_omni_engine.py`` reads
-    ``stage_zero_overrides["extras"]`` for unregistered ones. Unknown
-    engine-arg keys that don't match ``OmniEngineArgs`` are dropped with
-    a warning at ``filter_dataclass_kwargs`` rather than failing here,
-    so a typo surfaces in the log instead of being silently lost.
-
-    Raises:
-        ValueError: when ``value`` is not a valid per-stage override
-            mapping (invalid JSON, non-dict top level, non-ASCII-digit
-            stage id, non-dict value).
-    """
-    if not value:
+    """Parse and validate the shape of per-stage JSON overrides."""
+    if value is None:
         return None
     if isinstance(value, str):
         try:
@@ -702,91 +381,20 @@ def parse_stage_overrides(value: Any) -> dict[str, dict[str, Any]] | None:
 
     if not isinstance(parsed, dict):
         raise ValueError(
-            f"--stage-overrides must be a JSON object mapping stage_id -> overrides, "
+            "--stage-overrides must be a JSON object mapping stage_id -> overrides, "
             f"got {type(parsed).__name__}: {parsed!r}"
         )
-    if not parsed:
-        return None
-
-    for stage_id_str, overrides in parsed.items():
-        # ``str.isdigit()`` accepts Unicode digit classes (e.g. fullwidth
-        # ``"０"``); downstream's ``_STAGE_OVERRIDE_PATTERN`` is ASCII-only
-        # (``^stage_(\d+)_(.+)$``), so a non-ASCII-digit key would parse
-        # here and silently misroute as a global key. ``isascii()`` closes
-        # that hole.
-        if not isinstance(stage_id_str, str) or not stage_id_str.isdigit() or not stage_id_str.isascii():
+    for stage_id, overrides in parsed.items():
+        if not isinstance(stage_id, str) or not stage_id.isascii() or not stage_id.isdigit():
             raise ValueError(
-                f"--stage-overrides keys must be non-negative integer stage ids (as strings), got {stage_id_str!r}"
+                f"--stage-overrides keys must be non-negative integer stage ids (as strings), got {stage_id!r}"
             )
         if not isinstance(overrides, dict):
             raise ValueError(
-                f"--stage-overrides[{stage_id_str!r}] must be an object, got {type(overrides).__name__}: {overrides!r}"
+                f"--stage-overrides[{stage_id!r}] must be an object, got {type(overrides).__name__}: {overrides!r}"
             )
 
     return parsed
-
-
-def load_and_resolve_stage_configs(
-    model: str,
-    kwargs: dict | None,
-    *,
-    trust_remote_code: bool | None,
-    default_stage_cfg_factory: Any = None,
-    deploy_config_path: str | None = None,
-    stage_overrides: dict[str, dict[str, Any]] | None = None,
-    strategy_config_path: str | None = None,
-) -> tuple[str, list, str | None]:
-    """Load stage configurations from a deploy YAML or model defaults.
-
-    Args:
-        model: Model name or path
-        kwargs: Engine arguments to merge with stage configs
-        trust_remote_code: Whether to trust remote code while resolving the model config.
-        default_stage_cfg_factory: Optional callable that takes no args and returns
-            default stage config list when no configs are found
-        deploy_config_path: Optional path to a deploy YAML.
-        stage_overrides: Per-stage overrides from ``--stage-overrides`` JSON.
-            Keys are stage_id strings, values are dicts of overrides.
-        strategy_config_path: Optional path to a composable-parallel
-            ``strategy.yaml`` overlaid onto the registry-merged stages.
-
-    Returns:
-        Tuple of ``(config_path, stage_configs, omni_lb_policy)`` — the last is
-        the strategy-derived pipeline-wide load-balancer policy (``None`` when no
-        strategy set one), returned for the engine to apply.
-    """
-    config_path = deploy_config_path if deploy_config_path is not None else resolve_model_config_path(model)
-    stage_configs, omni_lb_policy = load_stage_configs_from_model(
-        model,
-        trust_remote_code=trust_remote_code,
-        base_engine_args=kwargs,
-        deploy_config_path=deploy_config_path,
-        stage_overrides=stage_overrides,
-        strategy_config_path=strategy_config_path,
-    )
-    if not stage_configs:
-        if default_stage_cfg_factory is not None:
-            default_stage_cfg = default_stage_cfg_factory()
-            stage_configs = create_config(_convert_dataclasses_to_dict(default_stage_cfg))
-        else:
-            stage_configs = []
-
-    stage_configs = filter_stages(config_path, stage_configs, kwargs)
-
-    # ``revision`` selects the model source for every stage. Keep the global
-    # CLI pin on each stage's engine args so diffusion config construction can
-    # pass it through to all component loaders. The registry-to-legacy-stage
-    # conversion currently drops this inherited vLLM EngineArgs field.
-    revision = (kwargs or {}).get("revision")
-    if revision is not None:
-        for stage_config in stage_configs:
-            engine_args = stage_config.get("engine_args") if hasattr(stage_config, "get") else None
-            if engine_args is not None and engine_args.get("revision") is None:
-                engine_args["revision"] = revision
-
-    logger.debug(f"stage_configs: {stage_configs}")
-
-    return config_path, stage_configs, omni_lb_policy
 
 
 def get_final_stage_id_for_e2e(
@@ -959,7 +567,7 @@ def detect_pid_host() -> bool:
     if not ic:
         return True
 
-    return has_pid_host()
+    return has_pid_host() is True
 
 
 ### Helpers for handling delta messages
@@ -988,9 +596,9 @@ def maybe_coerce_to_message_type(params: SamplingParams, is_streaming: bool):
     if params.output_kind == target_type:
         return params
     elif is_streaming and params.output_kind == RequestOutputKind.FINAL_ONLY:
-        logger.warning("Request appears to be streaming, but got request type final only!")
+        logger.debug("Coercing FINAL_ONLY output to DELTA for streaming")
     elif not is_streaming and params.output_kind == RequestOutputKind.DELTA:
-        logger.warning("Request appears to not be streaming, but got request type delta!")
+        logger.debug("Coercing DELTA output to FINAL_ONLY for non-streaming")
 
     if not params.skip_clone:
         params = params.clone()

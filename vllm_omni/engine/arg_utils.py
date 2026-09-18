@@ -395,9 +395,9 @@ class OmniEngineArgs(EngineArgs):
                 if tokenizer_subfolder:
                     # Download just the tokenizer files from the subfolder
                     try:
-                        from huggingface_hub import snapshot_download
+                        from vllm_omni.transformers_utils.repo_utils import hf_api
 
-                        local_dir = snapshot_download(
+                        local_dir = hf_api().snapshot_download(
                             model_path,
                             allow_patterns=[
                                 f"{tokenizer_subfolder}/tokenizer*",
@@ -457,8 +457,8 @@ class OmniEngineArgs(EngineArgs):
 @dataclass
 class OmniAsyncEngineArgs(AsyncEngineArgs, OmniEngineArgs):
     @classmethod
-    def add_cli_args(cls, parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
-        parser = AsyncEngineArgs.add_cli_args(parser)
+    def add_cli_args(cls, parser: argparse.ArgumentParser, async_args_only: bool = False) -> argparse.ArgumentParser:
+        parser = AsyncEngineArgs.add_cli_args(parser, async_args_only=async_args_only)
         parser = OmniEngineArgs._add_omni_specific_args(parser)
         return parser
 
@@ -535,7 +535,7 @@ class OrchestratorArgs:
     # Named deploy profile (e.g. ``edge``) resolved to ``deploy/<profile>/<model_type>.yaml``
     # by the orchestrator; mutually exclusive with ``deploy_config``.
     deploy_profile: str | None = None
-    stage_overrides: str | None = None  # raw JSON string; parsed downstream
+    stage_overrides: dict[str, dict[str, Any]] | None = None
     # Optional composable-parallel strategy.yaml; orchestrator reads it, overlays
     # derived sizing onto merged stages, then drops it before per-stage engine args.
     strategy_config: str | None = None

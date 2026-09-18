@@ -1,6 +1,8 @@
 # Diffusion / image / video / extra-audio deps (not needed by AR-only edge builds).
 diffusers==0.40.0
-kernels==0.15.2
+# Hub kernels, including LTX-2.5 NATTEN. 0.16+ resolves torch-stable-abi*
+# FA3 builds on torch 2.13 / cu130; keep in sync with transformers in core.txt.
+kernels==0.16.1
 cache-dit==1.5.0
 torchsde>=0.2.6
 openai-whisper>=20250625
