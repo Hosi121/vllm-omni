@@ -43,7 +43,7 @@ def _collective_worker(rank, rendezvous, backend):
                 assert value.item() == 2
 
             def encode_image(self, image):
-                self.collective()
+                assert rank == 0
                 assert image.size == (32, 32)
                 return torch.ones(1, 96)
 
@@ -114,6 +114,23 @@ def _collective_worker(rank, rendezvous, backend):
         )
         torch.testing.assert_close(conditioning.audio_condition.cpu(), torch.full((160, 32), 3.0))
         assert conditioning.audio_condition_lengths == (80,)
+
+        image_media = (
+            MiniMaxH3EncoderMediaInput(
+                task="fl2va",
+                height=32,
+                width=32,
+                num_frames=96,
+                latent_t=29,
+                audio_t=160,
+                images=(torch.zeros(32, 32, 3, dtype=torch.uint8),),
+            )
+            if rank == 0
+            else None
+        )
+        image_conditioning = model._encode_local_media(image_media)
+        torch.testing.assert_close(image_conditioning.visual_condition.cpu(), torch.ones(1, 96))
+        assert image_conditioning.visual_condition_shapes == ((1, 2, 2),)
 
         model.video_vae.fail = True
         with pytest.raises(OmniClientError, match="codec failed on rank 1"):

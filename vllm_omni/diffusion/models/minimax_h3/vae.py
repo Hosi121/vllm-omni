@@ -602,8 +602,13 @@ class MiniMaxH3VideoVAE(nn.Module, DistributedVaeMixin):
         if getattr(self, "decode_only", False):
             raise RuntimeError("MiniMax H3 decode-only video VAE cannot encode images")
         previous_parallel = self.model.parallel_tiling
-        if int(getattr(self, "parallel_size", 1)) <= 1:
+        parallel_size = int(getattr(self, "parallel_size", 1))
+        if parallel_size <= 1:
             self.model.parallel_tiling = False
+        # Keyframe conditioning follows the official single-image contract.
+        # Do not let it enter the tiled VAE collective even when reference
+        # videos use the same VAE instance with patch parallelism enabled.
+        tiling_context = self._rank_local_tiling() if parallel_size > 1 else nullcontext()
         parameter = next(self.parameters())
         previous_dtype = parameter.dtype
         if previous_dtype != torch.float32:
@@ -611,7 +616,7 @@ class MiniMaxH3VideoVAE(nn.Module, DistributedVaeMixin):
         devices = [parameter.device] if parameter.device.type != "cpu" else []
         try:
             with (
-                self._encoder_tiling_context(image.height, image.width),
+                tiling_context,
                 torch.random.fork_rng(
                     devices=devices,
                     device_type=parameter.device.type,
