@@ -11,7 +11,9 @@ one test module that does need real weights says so and skips.
 
 from __future__ import annotations
 
+import asyncio
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -152,3 +154,24 @@ def cpu_only_box() -> HardwareProfile:
 @pytest.fixture
 def laptop_profile() -> HardwareProfile:
     return blackwell_laptop()
+
+
+# [edge-infer W8] The async tests in this directory (engine and serving e2e)
+# talk to the engine over zmq.asyncio, which needs a selector event loop.
+# Python on Windows defaults to the Proactor loop, and pytest-asyncio builds
+# its loops from the current policy, so on win32 the e2e hung silently at the
+# first async socket (measured: 30 min with no output, GPU idle) while the
+# `accept` CLI -- which installs the selector policy itself -- passed on the
+# same venv. Same policy here, set for the whole session.
+if sys.platform == "win32":
+    from vllm_omni.edge.local.cli import _use_selector_event_loop_on_windows
+
+    _use_selector_event_loop_on_windows()
+
+
+@pytest.fixture(scope="session")
+def event_loop_policy():
+    """pytest-asyncio builds every loop from this policy; make it the selector one on Windows."""
+    if sys.platform == "win32":
+        return asyncio.WindowsSelectorEventLoopPolicy()
+    return asyncio.get_event_loop_policy()
