@@ -481,7 +481,6 @@ def encode_media(
     video_vae: Any,
     audio_vae: Any,
     emit_conditioning: bool,
-    encode_images: bool = True,
     component_scope: Callable[[Any], AbstractContextManager[Any]] = nullcontext,
 ) -> MiniMaxH3EncoderMediaConditioning | None:
     """Run codecs on participating ranks; only the output rank runs audio.
@@ -496,11 +495,10 @@ def encode_media(
         if video_vae is None:
             raise RuntimeError("MiniMax H3 video VAE is not resident on this rank")
         with component_scope(video_vae):
-            if encode_images:
-                for value in media.images:
-                    image = _image_from_tensor(value)
-                    visual_rows.append(video_vae.encode_image(image))
-                    visual_shapes.append((1, image.height // 16, image.width // 16))
+            for value in media.images:
+                image = _image_from_tensor(value)
+                visual_rows.append(video_vae.encode_image(image))
+                visual_shapes.append((1, image.height // 16, image.width // 16))
             for value in media.videos:
                 frames = np.asarray(value.detach().cpu().to(torch.uint8).contiguous().numpy())
                 rows, shape = video_vae.encode_video(frames)

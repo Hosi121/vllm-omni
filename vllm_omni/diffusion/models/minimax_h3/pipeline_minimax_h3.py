@@ -1953,22 +1953,7 @@ class MiniMaxH3Pipeline(
 
     def _encode_local_media(self, media: MiniMaxH3EncoderMediaInput | None) -> MiniMaxH3EncoderMediaConditioning:
         group, rank, world_size = _dit_rank_world()
-        # Keep image/keyframe encoding on the output rank.  The legacy
-        # single-stage path encoded images locally and only used the tiled VAE
-        # collective for reference videos.  Treating every visual input as a
-        # distributed video after the unified encoder path was introduced
-        # changes the H100 keyframe latent and therefore the I2VA trajectory.
-        distributed_vae = self.video_vae.is_distributed_enabled()
-        distributed_video = False
-        if distributed_vae:
-            has_video = torch.tensor(
-                [int(media is not None and bool(media.videos))],
-                dtype=torch.long,
-                device=self.device,
-            )
-            if world_size > 1:
-                dist.broadcast(has_video, src=0, group=group)
-            distributed_video = bool(has_video.item())
+        distributed_video = self.video_vae.is_distributed_enabled()
         if distributed_video:
             media = self._distribute_media_inputs(media)
         conditioning = None
@@ -1981,7 +1966,6 @@ class MiniMaxH3Pipeline(
                     video_vae=self.video_vae,
                     audio_vae=self.audio_vae,
                     emit_conditioning=rank == 0,
-                    encode_images=rank == 0,
                     component_scope=self._component_on_device,
                 )
         except ValueError as exc:
