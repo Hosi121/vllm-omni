@@ -505,10 +505,10 @@ class Spark2_5ForCausalLM(nn.Module, SupportsLoRA, SupportsPP):
         return self.logits_processor(self.lm_head, hidden_states)
 
     def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]) -> set[str]:
-        loader = AutoWeightsLoader(
-            self,
-            skip_prefixes=(["lm_head."] if self.config.tie_word_embeddings else None),
-        )
+        # vLLM 0.29.0 dropped AutoWeightsLoader's ``skip_prefixes``: the loader now
+        # detects tied parameters itself (``_get_tied_embedding_params``) and loads
+        # the first qualname only, so the tied ``lm_head.`` needs no explicit skip.
+        loader = AutoWeightsLoader(self)
         return loader.load_weights(
             _split_fused_qkv(weights, self.config), mapper=self.hf_to_vllm_mapper
         )
