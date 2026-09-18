@@ -16,7 +16,10 @@ import signal
 from types import FrameType
 from typing import Any, cast
 
-import uvloop
+try:
+    import uvloop
+except ImportError:  # [edge-infer W8] uvloop has no Windows wheel; see _run_forever.
+    uvloop = None  # type: ignore[assignment]
 from vllm.entrypoints.cli.types import CLISubcommand
 from vllm.entrypoints.launchers.cli_args import make_arg_parser, validate_parsed_serve_args
 from vllm.entrypoints.serve.utils.api_utils import VLLM_SUBCMD_PARSER_EPILOG
@@ -102,6 +105,27 @@ def _ensure_vllm_platform():
             )
 
 
+def _run_forever(coro):
+    """``uvloop.run`` where uvloop exists; ``asyncio.run`` on a selector loop elsewhere.
+
+    [edge-infer W8] uvloop ships no Windows wheels, so ``import uvloop`` at module
+    scope killed ``vllm-omni serve`` on Windows at import (the same defect vLLM's
+    own ``vllm/v1/utils.py`` needed a lazy binding for). On Windows the fallback
+    also has to be the selector loop: zmq.asyncio cannot run on the default
+    Proactor loop (see ``vllm_omni.edge.local.cli``).
+    """
+    if uvloop is not None:
+        return uvloop.run(coro)
+    import asyncio
+    import sys
+
+    if sys.platform == "win32":
+        policy = getattr(asyncio, "WindowsSelectorEventLoopPolicy", None)
+        if policy is not None and not isinstance(asyncio.get_event_loop_policy(), policy):
+            asyncio.set_event_loop_policy(policy())
+    return asyncio.run(coro)
+
+
 class OmniServeCommand(CLISubcommand):
     """The `serve` subcommand for the vLLM CLI."""
 
@@ -132,7 +156,7 @@ class OmniServeCommand(CLISubcommand):
         if args.headless:
             run_headless(args)
         else:
-            uvloop.run(omni_run_server(args))
+            _run_forever(omni_run_server(args))
 
     def validate(self, args: argparse.Namespace) -> None:
         if args.stage_id is not None and (args.omni_master_address is None or args.omni_master_port is None):
