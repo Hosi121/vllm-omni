@@ -4,8 +4,10 @@
 
 ``test_e2e_local_text.py`` drives ``LocalTextEngine`` in-process. This module
 drives the *server* path instead -- ``python -m vllm_omni.entrypoints.cli.main
-serve <model> --omni`` as a subprocess, through ``tests.helpers.runtime.OmniServer``
-(the same launcher the online-serving suite uses) -- and talks to it over HTTP
+serve <model> --omni`` as a subprocess, launched here with a small launcher of
+its own (``tests.helpers.runtime.OmniServer`` would do, but importing it pulls
+the media/diffusion test helpers and therefore ``diffusers``, which the AR/text
+path and a Windows venv without the media deps do not have) -- and talks to it over HTTP
 with plain ``requests``: health, model listing, non-streaming chat, streaming
 chat, and a client that disconnects mid-stream after which the server must
 still answer. Everything runs on one local device; no network access.
@@ -18,9 +20,14 @@ from __future__ import annotations
 
 import json
 import os
+import socket
+import subprocess
+import sys
 import time
 from collections.abc import Iterator
+from pathlib import Path
 
+import psutil
 import pytest
 import requests
 
@@ -57,24 +64,62 @@ def model_dir() -> str:
     return _find_model()
 
 
+def _free_port(host: str = "127.0.0.1") -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind((host, 0))
+        return sock.getsockname()[1]
+
+
+def _kill_tree(proc: subprocess.Popen, timeout: float = 30) -> None:
+    """Terminate the server and every child (engine core, workers), on any OS."""
+    try:
+        parent = psutil.Process(proc.pid)
+    except psutil.NoSuchProcess:
+        return
+    children = parent.children(recursive=True)
+    for p in [*children, parent]:
+        try:
+            p.terminate()
+        except psutil.NoSuchProcess:
+            pass
+    _, alive = psutil.wait_procs([*children, parent], timeout=timeout)
+    for p in alive:
+        try:
+            p.kill()
+        except psutil.NoSuchProcess:
+            pass
+
+
 @pytest.fixture(scope="module")
 def server(model_dir: str) -> Iterator[tuple[str, str]]:
     """Start the Omni server on the local text plan's settings; yield (base_url, model)."""
-    from tests.helpers.runtime import OmniServer
-
-    env = {
-        "VLLM_NO_USAGE_STATS": "1",
-        "DO_NOT_TRACK": "1",
-        "HF_HUB_OFFLINE": "1",
-        # The same sampler setting LocalTextEngine applies to itself
-        # (vllm_omni/edge/local/engine.py). Without it the serve path picks the
-        # flashinfer top-k/top-p sampler, whose JIT needs nvcc at runtime; a
-        # venv without a CUDA toolkit (the WSL reference venv) dies in
-        # profile_run with "Could not find nvcc". The local plan never wants a
-        # runtime compiler on the device it admits.
-        "VLLM_USE_FLASHINFER_SAMPLER": "0",
-    }
-    serve_args = [
+    env = os.environ.copy()
+    env.update(
+        {
+            "VLLM_NO_USAGE_STATS": "1",
+            "DO_NOT_TRACK": "1",
+            "HF_HUB_OFFLINE": "1",
+            # The same sampler setting LocalTextEngine applies to itself
+            # (vllm_omni/edge/local/engine.py). Without it the serve path picks the
+            # flashinfer top-k/top-p sampler, whose JIT needs nvcc at runtime; a
+            # venv without a CUDA toolkit (the WSL reference venv) dies in
+            # profile_run with "Could not find nvcc". The local plan never wants a
+            # runtime compiler on the device it admits.
+            "VLLM_USE_FLASHINFER_SAMPLER": "0",
+        }
+    )
+    host, port = "127.0.0.1", _free_port()
+    cmd = [
+        sys.executable,
+        "-m",
+        "vllm_omni.entrypoints.cli.main",
+        "serve",
+        model_dir,
+        "--host",
+        host,
+        "--port",
+        str(port),
+        "--omni",
         "--max-model-len",
         str(MAX_MODEL_LEN),
         "--max-num-seqs",
@@ -88,9 +133,23 @@ def server(model_dir: str) -> Iterator[tuple[str, str]]:
         "900",
         "--disable-log-stats",
     ]
-    srv = OmniServer(model_dir, serve_args, env_dict=env, use_omni=True)
-    with srv:
-        yield f"http://{srv.host}:{srv.port}", model_dir
+    repo_root = Path(__file__).resolve().parents[3]
+    proc = subprocess.Popen(cmd, env=env, cwd=str(repo_root))
+    try:
+        deadline = time.time() + 1200
+        while True:
+            if proc.poll() is not None:
+                pytest.fail(f"server exited with code {proc.returncode} before opening its port")
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                sock.settimeout(1)
+                if sock.connect_ex((host, port)) == 0:
+                    break
+            if time.time() > deadline:
+                pytest.fail("server did not open its port within 1200 s")
+            time.sleep(2)
+        yield f"http://{host}:{port}", model_dir
+    finally:
+        _kill_tree(proc)
 
 
 def _wait_healthy(base_url: str, timeout: float = 300) -> None:
