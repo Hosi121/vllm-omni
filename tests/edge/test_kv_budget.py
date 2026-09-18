@@ -105,3 +105,100 @@ def test_dtype_bytes_covers_the_kv_dtypes_vllm_accepts():
 def test_summary_names_the_shape_it_priced():
     s = kv_budget_for(_spark(), max_model_len=32768).summary()
     assert "flat" in s and "21 sliding@512" in s and "MiB" in s
+
+
+def _qwen3_8(**kw) -> _Cfg:
+    """Qwen3.8-27B: 64 layers, 3 linear (gated DeltaNet) to 1 full, 4 KV
+    heads x 256. The linear layers hold a recurrent state and no KV."""
+    layer_types = ["linear_attention"] * 3 + ["full_attention"]
+    base = dict(
+        num_hidden_layers=64, num_attention_heads=24, num_key_value_heads=4,
+        head_dim=256, hidden_size=5120, layer_types=layer_types * 16,
+        linear_num_key_heads=16, linear_num_value_heads=48,
+        linear_key_head_dim=128, linear_value_head_dim=128,
+        linear_conv_kernel_dim=4, mamba_ssm_dtype="float32",
+    )
+    base.update(kw)
+    return _Cfg(**base)
+
+
+class _Outer:
+    """A multimodal config: the decoder geometry lives one level down."""
+
+    def __init__(self, text):
+        self.text_config = text
+        self.model_type = "qwen3_5"
+
+    def get_text_config(self):
+        return self.text_config
+
+
+def test_linear_attention_layers_are_charged_no_kv_at_all():
+    """Not "a shorter cache" -- none. A flat 64-layer price is 4x the truth."""
+    b = kv_budget_for(_qwen3_8(), max_model_len=8192)
+    assert (b.linear_layers, b.full_layers, b.sliding_layers) == (48, 16, 0)
+    # 16 full layers x 4 KV heads x 256 x 2 (K and V) x 2 bytes = 64 KiB.
+    assert b.bytes_per_token_flat == 16 * 4 * 256 * 2 * 2 == 64 * 1024
+    assert b.token_layers_flat == 16 * 8192
+
+
+def test_the_recurrent_state_is_sized_from_vllms_own_shapes():
+    """conv (kernel-1, 2*k_heads*k_dim + v_heads*v_dim); temporal
+    (v_heads, v_dim, k_dim) in mamba_ssm_dtype."""
+    b = kv_budget_for(_qwen3_8(), max_model_len=8192)
+    conv_dim = 128 * 16 * 2 + 128 * 48
+    per_layer = (4 - 1) * conv_dim * 2 + 48 * 128 * 128 * 4
+    assert b.state_bytes_per_seq == 48 * per_layer
+    assert b.state_bytes_per_seq / 2**20 == pytest.approx(147.0, abs=0.5)
+    assert b.state_bytes_total == b.state_bytes_per_seq  # max_num_seqs=1
+
+
+def test_the_state_is_inside_the_budget_and_scales_with_sequences():
+    """It comes out of the same pool as the KV cache, so a budget that
+    reports only the cache is short before the first token."""
+    one = kv_budget_for(_qwen3_8(), max_model_len=8192, max_num_seqs=1)
+    two = kv_budget_for(_qwen3_8(), max_model_len=8192, max_num_seqs=2)
+    assert two.state_bytes_total == 2 * one.state_bytes_total
+    assert one.bytes_total > one.state_bytes_total
+    kv_only = int(one.token_layers_flat * one.bytes_per_token_flat / 16 * 1.25)
+    assert one.bytes_total == kv_only + one.state_bytes_total
+
+
+def test_the_state_dominates_a_short_context():
+    """147 MiB of state against 64 KiB/token: the cache only outgrows it past
+    ~2350 tokens, so over an edge deployment's range the constant is the
+    bigger half. The crossover is on raw bytes -- ``headroom`` is a safety
+    factor on the cache, not a cost the state has to beat."""
+    assert kv_budget_for(
+        _qwen3_8(), max_model_len=2048
+    ).state_crossover_tokens == pytest.approx(2352, abs=8)
+    short = kv_budget_for(_qwen3_8(), max_model_len=1024)
+    assert short.state_bytes_total > short.bytes_total - short.state_bytes_total
+    long = kv_budget_for(_qwen3_8(), max_model_len=32768)
+    assert long.state_bytes_total < long.bytes_total - long.state_bytes_total
+
+
+def test_a_model_without_linear_layers_reports_no_state():
+    b = kv_budget_for(_spark(), max_model_len=2048)
+    assert b.linear_layers == 0
+    assert b.state_bytes_per_seq == 0
+    assert b.state_crossover_tokens == float("inf")
+
+
+def test_a_multimodal_config_is_resolved_to_its_text_config():
+    """Qwen3_5Config has no num_hidden_layers; this used to raise."""
+    nested = kv_budget_for(_Outer(_qwen3_8()), max_model_len=8192)
+    direct = kv_budget_for(_qwen3_8(), max_model_len=8192)
+    assert nested == direct
+
+
+def test_linear_layers_without_their_geometry_raise_rather_than_guess():
+    cfg = _qwen3_8()
+    del cfg.linear_num_value_heads
+    with pytest.raises(ValueError, match="linear_num_value_heads"):
+        kv_budget_for(cfg, max_model_len=8192)
+
+
+def test_summary_names_the_state_it_priced():
+    s = kv_budget_for(_qwen3_8(), max_model_len=8192).summary()
+    assert "recurrent state for 48 linear layers" in s

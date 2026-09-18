@@ -27,6 +27,7 @@ Upstream's own README is preserved at [docs/README.vllm-omni.md](docs/README.vll
 | Memory | RoPE tables sized to the servable context; weights repacked in blocks; a KV budget that is actually honoured on CPU |
 | CPU platform + vLLM patches | `vllm_omni/platforms/cpu/`, `vllm_omni/patch.py` — vLLM is monkey-patched at import; its *source* is unmodified and no vLLM is redistributed. See [docs/edge/environment.md](docs/edge/environment.md) |
 | Device routing | `vllm_omni/edge/weight_path.py` picks the weight format per device class, from measurements rather than assumption |
+| Device placement | `vllm_omni/edge/placement.py` decides which parameters leave the GPU when the checkpoint is bigger than the VRAM — cold ones first, because `embed_tokens` and `lm_head` are the same size and the opposite decision |
 | Measurement harness | `benchmarks/edge_harness/` — the grid runner, benchmarks, memory ledger, fidelity metric and agent suite every number here came from |
 | Raw results | `benchmarks/edge_harness/results/` — 100+ artifacts backing the published figures, each with provenance |
 | Baselines | `baselines/` — llama.cpp runs and the comparison scripts |
@@ -104,7 +105,10 @@ print(llm.generate(['Hello'], SamplingParams(max_tokens=32))[0].outputs[0].text)
 | [docs/edge/cpu-4bit.md](docs/edge/cpu-4bit.md) | the two 4-bit paths, the packed layout as measured, building a checkpoint |
 | [docs/edge/comparisons.md](docs/edge/comparisons.md) | against llama.cpp and the other engines considered |
 | [docs/edge/environment.md](docs/edge/environment.md) | pins, machine, and why there is no vLLM patch series |
+| [docs/edge/local-text-mode.md](docs/edge/local-text-mode.md) | the single-stage local text engine: device capabilities, memory admission, explicit refusals, cancellation |
+| [docs/edge/external-stage-backends.md](docs/edge/external-stage-backends.md) | placing a stage on the Radeon 890M or the AMD NPU: out-of-process workers, proven placement, the shared-RAM ledger |
 | [docs/edge/harness.md](docs/edge/harness.md) | running a comparison |
+| [docs/edge/laptop-heterogeneous.md](docs/edge/laptop-heterogeneous.md) | Qwen3.8-27B and Spark-X2.5-4B on a Ryzen AI laptop — what the CPU, NPU and GPU are each worth when decode is bandwidth-bound |
 | [ROADMAP.md](ROADMAP.md) | what is next, with expected gains and how each would be verified — and what was rejected |
 
 ## Licence

@@ -243,3 +243,84 @@ def test_rope_table_is_capped_to_the_servable_context(monkeypatch):
     if os.environ.get("VLLM_OMNI_SPARK_ROPE_FULL", "0") == "0":
         max_position = min(max_position, 2048)
     assert max_position == 1048576, "the escape hatch must restore the full table"
+
+
+# ------------------------------------------------------- published sizes
+# Spark-X2.5 ships at two sizes and the vLLM implementation is meant to be
+# size-generic. It is, but only one of them had ever been run: the constants
+# below are the published configs, so a change that quietly assumes 1.7B's
+# 8 query heads or 28 layers fails here instead of on a checkpoint.
+PUBLISHED = {
+    "XHToken/Spark-X2.5-1.7B": dict(
+        hidden_size=2048, intermediate_size=6656, num_hidden_layers=28,
+        num_attention_heads=8, num_key_value_heads=2,
+    ),
+    "XHToken/Spark-X2.5-4B": dict(
+        hidden_size=2560, intermediate_size=10240, num_hidden_layers=36,
+        num_attention_heads=16, num_key_value_heads=4,
+    ),
+}
+_COMMON = dict(
+    head_dim=256, vocab_size=131072, sliding_window=512, hidden_act="gelu",
+    headwise_attn_output_gate=True, tie_word_embeddings=True,
+    max_position_embeddings=1048576,
+    rope_parameters={
+        "full_attention": {"rope_theta": 5000000, "partial_rotary_factor": 0.25},
+        "sliding_attention": {"rope_theta": 10000, "partial_rotary_factor": 1.0},
+    },
+)
+
+
+def _published(name: str) -> Spark2_5Config:
+    kw = dict(_COMMON, **PUBLISHED[name])
+    n = kw["num_hidden_layers"]
+    kw["layer_types"] = (["sliding_attention"] * 3 + ["full_attention"]) * (n // 4)
+    return Spark2_5Config(**kw)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+@pytest.mark.parametrize("name", sorted(PUBLISHED))
+def test_published_configs_validate_and_keep_the_3_to_1_hybrid(name):
+    config = _published(name)
+    assert len(config.layer_types) == config.num_hidden_layers
+    assert config.layer_types.count("full_attention") == config.num_hidden_layers // 4
+    # Both sizes keep head_dim 256 and widen by head count, not by head width.
+    assert config.head_dim == 256
+    assert config.num_attention_heads % config.num_key_value_heads == 0
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+@pytest.mark.parametrize("name", sorted(PUBLISHED))
+def test_split_fused_qkv_holds_at_both_published_head_counts(name):
+    """4B is 16 q heads to 4 KV heads where 1.7B is 8 to 2. The split is by
+    dimension, not by a ratio, so getting one right does not imply the other."""
+    config = _published(name)
+    q_dim = config.num_attention_heads * config.head_dim
+    kv_dim = config.num_key_value_heads * config.head_dim
+    fused = torch.cat([
+        torch.full((q_dim, 8), 1.0),
+        torch.full((kv_dim, 8), 2.0),
+        torch.full((kv_dim, 8), 3.0),
+    ], dim=0)
+    out = dict(_split_fused_qkv(
+        [("model.layers.0.self_attn.q_k_v_proj.weight", fused)], config))
+    assert out["model.layers.0.self_attn.q_proj.weight"].shape[0] == q_dim
+    assert out["model.layers.0.self_attn.k_proj.weight"].shape[0] == kv_dim
+    assert torch.all(out["model.layers.0.self_attn.q_proj.weight"] == 1.0)
+    assert torch.all(out["model.layers.0.self_attn.v_proj.weight"] == 3.0)
+
+
+@pytest.mark.core_model
+@pytest.mark.cpu
+def test_4b_is_priced_as_a_hybrid_not_as_36_full_layers():
+    """The KV budget reads the same config the model does; 4B is 27 sliding
+    layers to 9 full ones, which is a 3.4x discount a flat price would miss."""
+    from vllm_omni.edge.kv_budget import kv_budget_for
+
+    b = kv_budget_for(_published("XHToken/Spark-X2.5-4B"), max_model_len=32768)
+    assert (b.full_layers, b.sliding_layers, b.linear_layers) == (9, 27, 0)
+    # 36 layers x 4 KV heads x 256 x 2 (K and V) x 2 bytes = 144 KiB/token.
+    assert b.bytes_per_token_flat == 36 * 4 * 256 * 2 * 2 == 144 * 1024
+    assert b.saving_vs_flat > 3.3

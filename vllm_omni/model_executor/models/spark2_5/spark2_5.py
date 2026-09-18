@@ -494,9 +494,12 @@ class Spark2_5ForCausalLM(nn.Module, SupportsLoRA, SupportsPP):
         inputs_embeds: torch.Tensor | None = None,
         **kwargs,
     ) -> torch.Tensor | IntermediateTensors:
-        return self.model(
-            input_ids, positions, intermediate_tensors, inputs_embeds, **kwargs
-        )
+        # Omni's AR model runner hands every stage model ``sampling_metadata``,
+        # ``logits_index`` and ``sampler``; the omni-native models take them in
+        # ``**kwargs``. Spark samples through vLLM's own sampler, and the
+        # decoder stack reads none of them, so they stop here rather than
+        # widening ``Spark2_5Model.forward`` to a signature it ignores.
+        return self.model(input_ids, positions, intermediate_tensors, inputs_embeds)
 
     def compute_logits(self, hidden_states: torch.Tensor) -> torch.Tensor | None:
         return self.logits_processor(self.lm_head, hidden_states)

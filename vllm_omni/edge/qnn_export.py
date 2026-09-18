@@ -76,7 +76,10 @@ __all__ = [
     "DecodeStepConfig",
     "DecodeStep",
     "config_from_qwen3_tts",
+    "config_from_minicpmo",
+    "load_decoder_weights",
     "load_qwen3_tts_weights",
+    "load_minicpmo_tts_weights",
     "example_inputs",
     "input_names",
     "output_names",
@@ -106,6 +109,8 @@ class DecodeStepConfig:
     vocab_size: int
     rms_norm_eps: float = 1e-6
     rope_theta: float = 1e6
+    qk_norm: bool = True
+    """Qwen3-style per-head RMSNorm on q and k. Llama-style decoders (MiniCPM-o's TTS head) do not have it."""
 
     def __post_init__(self) -> None:
         if self.num_attention_heads % self.num_key_value_heads:
@@ -147,8 +152,11 @@ class _Layer(nn.Module):
         cfg = self.cfg
         kv, d, g = cfg.num_key_value_heads, cfg.head_dim, cfg.group_size
         h = _rms(x, self.input_layernorm, cfg.rms_norm_eps)
-        q = _rms(self.q_proj(h).view(1, cfg.num_attention_heads, 1, d), self.q_norm, cfg.rms_norm_eps)
-        k = _rms(self.k_proj(h).view(1, kv, 1, d), self.k_norm, cfg.rms_norm_eps)
+        q = self.q_proj(h).view(1, cfg.num_attention_heads, 1, d)
+        k = self.k_proj(h).view(1, kv, 1, d)
+        if cfg.qk_norm:
+            q = _rms(q, self.q_norm, cfg.rms_norm_eps)
+            k = _rms(k, self.k_norm, cfg.rms_norm_eps)
         v = self.v_proj(h).view(1, kv, 1, d)
         q, k = _rope(q, cos, sin), _rope(k, cos, sin)
         keys = torch.cat([k_cache, k], dim=2)
@@ -206,6 +214,75 @@ def example_inputs(cfg: DecodeStepConfig, cache_len: int, position: int | None =
     return (x, cos, sin, mask, *caches)
 
 
+def config_from_minicpmo(hf_config: dict[str, Any]) -> DecodeStepConfig:
+    """Build a :class:`DecodeStepConfig` for MiniCPM-o 4.5's TTS head from its ``config.json`` dict.
+
+    A Llama-style decoder (no q/k norm), single codebook (``num_vq == 1``), speech tokens at 25 Hz.
+    """
+    cfg = hf_config["tts_config"] if "tts_config" in hf_config else hf_config
+    heads = cfg["num_attention_heads"]
+    return DecodeStepConfig(
+        hidden_size=cfg["hidden_size"],
+        num_hidden_layers=cfg["num_hidden_layers"],
+        num_attention_heads=heads,
+        num_key_value_heads=cfg.get("num_key_value_heads", heads),
+        head_dim=cfg.get("head_dim", cfg["hidden_size"] // heads),
+        intermediate_size=cfg["intermediate_size"],
+        vocab_size=cfg["num_audio_tokens"],
+        rms_norm_eps=cfg.get("rms_norm_eps", 1e-5),
+        rope_theta=cfg.get("rope_theta", 10000.0),
+        qk_norm=False,
+    )
+
+
+def load_decoder_weights(
+    module: DecodeStep,
+    safetensors_path: str | Path,
+    prefix: str,
+    head_key: str,
+    *,
+    layer_prefix: str = "model.layers.",
+    norm_key: str = "model.norm.weight",
+    head_is_weight_normed: bool = False,
+) -> int:
+    """Copy decoder weights into ``module`` from one safetensors file.
+
+    ``prefix`` is prepended to every key (``"talker."`` for Qwen3-TTS, ``"tts."`` for MiniCPM-o). ``head_key`` names
+    the output projection. ``head_is_weight_normed`` reconstructs a ``torch.nn.utils.parametrizations.weight_norm``
+    head from its stored ``original0`` (magnitude) and ``original1`` (direction) tensors.
+    """
+    from safetensors import safe_open
+
+    loaded = 0
+    with safe_open(str(safetensors_path), "pt") as st:
+        get = lambda key: st.get_tensor(prefix + key).float()  # noqa: E731
+        for i, layer in enumerate(module.layers):
+            p = f"{layer_prefix}{i}."
+            for name, param in (("input_layernorm", layer.input_layernorm), ("post_attention_layernorm", layer.post_attention_layernorm)):
+                param.data.copy_(get(p + name + ".weight"))
+                loaded += 1
+            if module.cfg.qk_norm:
+                for name, param in (("q_norm", layer.q_norm), ("k_norm", layer.k_norm)):
+                    param.data.copy_(get(p + "self_attn." + name + ".weight"))
+                    loaded += 1
+            for name in ("q_proj", "k_proj", "v_proj", "o_proj"):
+                getattr(layer, name).weight.data.copy_(get(p + "self_attn." + name + ".weight"))
+                loaded += 1
+            for name in ("gate_proj", "up_proj", "down_proj"):
+                getattr(layer, name).weight.data.copy_(get(p + "mlp." + name + ".weight"))
+                loaded += 1
+        module.norm.data.copy_(get(norm_key))
+        loaded += 1
+        if head_is_weight_normed:
+            g = get(head_key + ".parametrizations.weight.original0")
+            v = get(head_key + ".parametrizations.weight.original1")
+            module.lm_head.weight.data.copy_(g * v / v.norm(dim=tuple(range(1, v.dim())), keepdim=True))
+        else:
+            module.lm_head.weight.data.copy_(get(head_key))
+        loaded += 1
+    return loaded
+
+
 def config_from_qwen3_tts(hf_config: dict[str, Any], component: str) -> DecodeStepConfig:
     """Build a :class:`DecodeStepConfig` from a Qwen3-TTS ``config.json`` dict. ``component``: talker | predictor."""
     talker = hf_config["talker_config"] if "talker_config" in hf_config else hf_config
@@ -225,31 +302,17 @@ def config_from_qwen3_tts(hf_config: dict[str, Any], component: str) -> DecodeSt
 
 def load_qwen3_tts_weights(module: DecodeStep, safetensors_path: str | Path, component: str, lm_head_index: int = 0) -> int:
     """Copy real weights into ``module``. ``component``: ``talker`` (codec head) or ``predictor`` (``lm_head.<i>``)."""
-    from safetensors import safe_open
+    return load_decoder_weights(
+        module,
+        safetensors_path,
+        prefix="talker." if component == "talker" else "talker.code_predictor.",
+        head_key="codec_head.weight" if component == "talker" else f"lm_head.{lm_head_index}.weight",
+    )
 
-    prefix = "talker." if component == "talker" else "talker.code_predictor."
-    head_key = "codec_head.weight" if component == "talker" else f"lm_head.{lm_head_index}.weight"
-    loaded = 0
-    with safe_open(str(safetensors_path), "pt") as st:
-        get = lambda key: st.get_tensor(prefix + key).float()  # noqa: E731
-        for i, layer in enumerate(module.layers):
-            p = f"model.layers.{i}."
-            for name, param in (("input_layernorm", layer.input_layernorm), ("post_attention_layernorm", layer.post_attention_layernorm)):
-                param.data.copy_(get(p + name + ".weight"))
-                loaded += 1
-            for name, param in (("q_norm", layer.q_norm), ("k_norm", layer.k_norm)):
-                param.data.copy_(get(p + "self_attn." + name + ".weight"))
-                loaded += 1
-            for name in ("q_proj", "k_proj", "v_proj", "o_proj"):
-                getattr(layer, name).weight.data.copy_(get(p + "self_attn." + name + ".weight"))
-                loaded += 1
-            for name in ("gate_proj", "up_proj", "down_proj"):
-                getattr(layer, name).weight.data.copy_(get(p + "mlp." + name + ".weight"))
-                loaded += 1
-        module.norm.data.copy_(get("model.norm.weight"))
-        module.lm_head.weight.data.copy_(get(head_key))
-        loaded += 2
-    return loaded
+
+def load_minicpmo_tts_weights(module: DecodeStep, safetensors_path: str | Path) -> int:
+    """Copy MiniCPM-o 4.5 TTS-head weights (``tts.*``) into ``module``; its code head is weight-normalised."""
+    return load_decoder_weights(module, safetensors_path, prefix="tts.", head_key="head_code.0", head_is_weight_normed=True)
 
 
 def sanitize_onnx(path: str | Path) -> dict[str, int]:
@@ -261,6 +324,15 @@ def sanitize_onnx(path: str | Path) -> dict[str, int]:
     """
     import onnx
 
+    path = Path(path)
+    # Whether the file on disk keeps its weights beside it. ``onnx.load``
+    # materialises them either way, so this has to be read before the load or
+    # the information is gone -- and saving a 1.8 GB tower back inline would
+    # both orphan the ``.data`` file and run at the 2 GB protobuf ceiling.
+    external = any(
+        init.data_location == onnx.TensorProto.EXTERNAL
+        for init in onnx.load(str(path), load_external_data=False).graph.initializer
+    )
     model = onnx.load(str(path))
     graph = model.graph
     produced = {out: node for node in graph.node for out in node.output}
@@ -309,7 +381,23 @@ def sanitize_onnx(path: str | Path) -> dict[str, int]:
     for out in graph.output:
         if out.name in renamed:
             out.name = renamed[out.name]
-    onnx.save(model, str(path))
+    if external:
+        # Rewrite the pair. ``convert_model_to_external_data`` only sets the
+        # location metadata; ``onnx.save`` is what writes the blob, and the old
+        # one has to go first or stale tensors survive under the same name.
+        data_file = path.name + ".data"
+        stale = path.with_name(data_file)
+        if stale.exists():
+            stale.unlink()
+        onnx.save(
+            model,
+            str(path),
+            save_as_external_data=True,
+            all_tensors_to_one_file=True,
+            location=data_file,
+        )
+    else:
+        onnx.save(model, str(path))
     return stats
 
 

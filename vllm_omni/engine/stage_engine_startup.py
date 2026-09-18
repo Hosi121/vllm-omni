@@ -1169,7 +1169,22 @@ def launch_stage_replica(
 
     from vllm_omni.engine.stage_engine_core_proc_manager import StageEngineCoreProcManager
 
-    addresses = get_engine_zmq_addresses(vllm_config)
+    # [edge-infer W1] Ask for concrete ports, not "tcp://host:0" placeholders.
+    #
+    # vLLM mints ":0" by default and expects the *consumer* to bind, recover the
+    # kernel-assigned port via zmq.LAST_ENDPOINT and write it back before the
+    # engine handshake -- a recovery that needs
+    # client_addresses["actual_address_pipe"]. This colocated path cannot do it:
+    # it starts the child *first*, handing it the raw placeholder, and
+    # StageRuntime._client_addresses_from_zmq never passes that pipe. The child
+    # then "connects" to port 0, nothing is ever transmitted, and the client
+    # waits out VLLM_ENGINE_READY_TIMEOUT_S for a ready message that cannot come.
+    #
+    # No-op on Linux, where client_local_only is true and _addr() takes the
+    # ipc:// branch regardless of this flag -- which is exactly why the bug is
+    # invisible until the engine runs somewhere without ipc:// (measured: native
+    # Windows mints ":0" here, WSL mints real ipc:// paths).
+    addresses = get_engine_zmq_addresses(vllm_config, defer_api_server_ports=False)
     handshake_address = get_open_zmq_ipc_path()
     engines_to_handshake = [CoreEngine(index=0, local=True)]
     with scoped_spawn_device_env(stage_visible_devices, spawn_device_lock, stage_id=stage_id, replica_id=replica_id):

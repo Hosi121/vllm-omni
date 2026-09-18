@@ -1985,6 +1985,44 @@ class OmniGPUModelRunner(GPUModelRunner):
                 update_dict = {out_key[0]: {out_key[1]: code_predictor_codes[idx : idx + 1]}}
                 self._update_intermediate_buffer(req_id, update_dict)
 
+    def _accepted_forward_kwargs(self) -> frozenset[str] | None:
+        """Names the stage model's ``forward`` will accept, or ``None`` for any.
+
+        Omni-native stage models take ``**kwargs`` and pick out what they need,
+        so the AR runner hands every stage ``sampling_metadata``,
+        ``logits_index`` and ``sampler`` unconditionally. A model that vLLM owns
+        does not: ``LlamaForCausalLM.forward`` is
+        ``(input_ids, positions, intermediate_tensors, inputs_embeds)`` and
+        nothing else, so passing the omni extras is an immediate ``TypeError``
+        on the first forward -- which is what "the model is in the registry" not
+        meaning "the model runs under Omni" looks like in practice (proposal
+        2.4, item 12).
+
+        Dropping them is the correct behaviour rather than a workaround: those
+        arguments exist for stages that sample inside the model, and a
+        vLLM-native causal LM samples through vLLM's own sampler afterwards.
+        Computed once per runner -- ``inspect.signature`` on every decode step
+        would be absurd.
+        """
+        cached = getattr(self, "_omni_forward_kwargs_cache", "unset")
+        if cached != "unset":
+            return cached
+
+        import inspect
+
+        accepted: frozenset[str] | None
+        try:
+            parameters = inspect.signature(type(self.model).forward).parameters
+        except (TypeError, ValueError):
+            accepted = None  # not introspectable; assume it copes, as before
+        else:
+            if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in parameters.values()):
+                accepted = None
+            else:
+                accepted = frozenset(parameters) - {"self"}
+        self._omni_forward_kwargs_cache = accepted
+        return accepted
+
     def _model_forward(
         self,
         input_ids: torch.Tensor | None = None,
@@ -1995,6 +2033,20 @@ class OmniGPUModelRunner(GPUModelRunner):
     ):
         """Inject omni-specific kwargs into forward and cache model output"""
         model_kwargs_extra = self._build_model_kwargs_extra()
+        accepted = self._accepted_forward_kwargs()
+        if accepted is not None:
+            dropped = sorted((set(model_kwargs) | set(model_kwargs_extra)) - accepted)
+            if dropped and not getattr(self, "_omni_logged_dropped_kwargs", False):
+                self._omni_logged_dropped_kwargs = True
+                logger.info(
+                    "[Omni] %s.forward does not accept %s; passing the rest. This is "
+                    "the expected path for a vLLM-native model used as an omni AR "
+                    "stage -- it samples through vLLM's sampler, not its own.",
+                    type(self.model).__name__,
+                    dropped,
+                )
+            model_kwargs = {k: v for k, v in model_kwargs.items() if k in accepted}
+            model_kwargs_extra = {k: v for k, v in model_kwargs_extra.items() if k in accepted}
         update_decode_metadata = getattr(self.model, "update_decode_step_metadata", None)
         if getattr(self.model, "supports_omni_decode_step_metadata", False) and callable(update_decode_metadata):
             update_decode_metadata(

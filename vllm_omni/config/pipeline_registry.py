@@ -108,6 +108,8 @@ from vllm_omni.model_executor.models.qwen3_omni.pipeline import (
     resolve_qwen3_omni_pipeline,
 )
 from vllm_omni.model_executor.models.qwen3_tts.pipeline import QWEN3_TTS_PIPELINE, QWEN3_TTS_TALKER_ONLY_PIPELINE
+from vllm_omni.config.vllm_native_pipelines import LLAMA_PIPELINE
+from vllm_omni.model_executor.models.spark2_5.pipeline import SPARK2_5_PIPELINE
 from vllm_omni.model_executor.models.step_audio2.pipeline import (
     STEP_AUDIO2_ASR_PIPELINE,
     STEP_AUDIO2_PIPELINE,
@@ -135,6 +137,11 @@ OMNI_PIPELINES: dict[str, PipelineConfig | PipelineResolverFunc] = {
     "qwen3_omni_moe_thinker_only": QWEN3_OMNI_THINKER_ONLY_PIPELINE,
     "qwen3_tts": QWEN3_TTS_PIPELINE,
     "qwen3_tts_talker_only": QWEN3_TTS_TALKER_ONLY_PIPELINE,
+    # Single-stage text: an AR decoder with no companion stage. It lives in
+    # the same registry as the multi-stage pipelines so that one code path
+    # resolves every model (see the M0 local text mode).
+    "llama": LLAMA_PIPELINE,
+    "spark2_5": SPARK2_5_PIPELINE,
     "step_audio_2": STEP_AUDIO2_PIPELINE,
     "step_audio_2_asr": STEP_AUDIO2_ASR_PIPELINE,
     "covo_audio": COVO_AUDIO_PIPELINE,

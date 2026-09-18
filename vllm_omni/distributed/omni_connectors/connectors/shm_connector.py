@@ -1,7 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
-import fcntl
+# [edge-infer W1] This module is in the import closure of AsyncOmni, so a
+# module-scope `import fcntl` makes the whole engine unimportable on Windows
+# -- before anyone has chosen a connector. The transport itself is genuinely
+# POSIX (it hardcodes /dev/shm lock paths), so the honest Windows behaviour
+# is to stay importable and refuse at construction, not to fake a port.
+try:
+    import fcntl
+except ImportError:  # Windows
+    fcntl = None
 import os
 from multiprocessing import shared_memory as shm_pkg
 from typing import Any
@@ -25,6 +33,12 @@ class SharedMemoryConnector(OmniConnectorBase):
     """
 
     def __init__(self, config: dict[str, Any]):
+        if fcntl is None:
+            raise RuntimeError(
+                "SharedMemoryConnector requires POSIX shared memory and fcntl "
+                "locking (it addresses lock files under /dev/shm); neither exists "
+                "on Windows. Select a different connector for this stage."
+            )
         self.config = config
         self.stage_id = config.get("stage_id", -1)
         self._pending_keys: set[str] = set()

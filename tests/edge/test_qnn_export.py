@@ -105,6 +105,26 @@ def test_masked_cache_slots_do_not_change_the_result():
     assert torch.allclose(first, module(*args)[0], atol=1e-5)
 
 
+def test_llama_style_config_skips_qk_norm():
+    """MiniCPM-o's TTS head is a Llama decoder: no per-head q/k RMSNorm, so those params must not be applied."""
+    cfg = qx.DecodeStepConfig(**{**{f.name: getattr(CFG, f.name) for f in CFG.__dataclass_fields__.values()}, "qk_norm": False})
+    module = qx.DecodeStep(cfg).eval()
+    for p in module.parameters():
+        torch.nn.init.normal_(p, std=0.15)
+    args = qx.example_inputs(cfg, L)
+    before = module(*args)[0].clone()
+    with torch.no_grad():  # q_norm/k_norm must be dead weights when qk_norm is off
+        module.layers[0].q_norm.mul_(3.0)
+        module.layers[0].k_norm.mul_(0.1)
+    assert torch.equal(before, module(*args)[0])
+
+
+def test_minicpmo_config_maps_the_tts_head():
+    cfg = qx.config_from_minicpmo({"tts_config": {"num_hidden_layers": 20, "hidden_size": 768, "num_attention_heads": 12,
+                                                  "num_key_value_heads": 12, "intermediate_size": 3072, "num_audio_tokens": 6562}})
+    assert cfg.qk_norm is False and cfg.head_dim == 64 and cfg.vocab_size == 6562 and cfg.group_size == 1
+
+
 def test_placement_table_prefers_npu_for_the_step_and_gpu_for_the_vocoder():
     p = qx.PLACEMENT_MS_PER_FRAME
     assert p["talker_step"]["npu"] < p["talker_step"]["gpu"]

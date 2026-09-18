@@ -115,3 +115,141 @@ def test_live_probe_runs_on_this_host():
     p = hp.probe(use_torch=False)
     assert p.n_logical >= 1 and p.ram_total_bytes > 0
     assert hp.hardware_class(p) in hp.HW_CLASSES
+
+
+# --------------------------------------------------------- accelerators
+def _ryzen_ai_root(tmp_path: Path, *, wsl: bool, driver: bool = True) -> Path:
+    """A Ryzen AI laptop: XDNA2 NPU, Radeon iGPU, and one discrete card.
+
+    Under WSL none of it has a device node; on native Linux the NPU shows up
+    at ``/dev/accel/accel0`` and the GPUs at ``/dev/dri/renderD*``.
+    """
+    root = _snapshot(tmp_path, X86_CPUINFO, cpus={0: (5100, 0), 1: (5100, 1)})
+    (root / "proc" / "version").write_text(
+        "Linux version 6.18.33.2-microsoft-standard-WSL2" if wsl
+        else "Linux version 6.18.0-generic (gcc 14)"
+    )
+    npu = root / "sys" / "bus" / "pci" / "devices" / "0000:c5:00.1"
+    npu.mkdir(parents=True)
+    (npu / "vendor").write_text("0x1022\n")
+    (npu / "device").write_text("0x17f0\n")
+    if wsl:
+        return root
+    if driver:
+        (npu / "driver").mkdir()
+        node = root / "sys" / "class" / "accel" / "accel0" / "device"
+        node.mkdir(parents=True)
+        (node / "vendor").write_text("0x1022\n")
+        (node / "device").write_text("0x17f0\n")
+        (node / "driver").mkdir()
+        (root / "dev" / "accel").mkdir(parents=True)
+        (root / "dev" / "accel" / "accel0").write_text("")
+    (root / "dev" / "dri").mkdir(parents=True)
+    for name, vendor in (("renderD128", "0x1002"), ("renderD129", "0x10de")):
+        (root / "dev" / "dri" / name).write_text("")
+        d = root / "sys" / "class" / "drm" / name / "device"
+        d.mkdir(parents=True)
+        (d / "vendor").write_text(vendor + "\n")
+        (d / "device").write_text("0x150e\n")
+    return root
+
+
+def test_native_linux_finds_the_npu_and_both_gpus(tmp_path):
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=False), use_torch=False)
+    assert p.host_os == hp.HOST_OS_LINUX
+    (npu,) = p.npus
+    assert npu["usable"] and npu["name"].startswith("AMD XDNA2")
+    assert [a["kind"] for a in p.accelerators].count(hp.ACCEL_GPU_INTEGRATED) == 1
+    assert p.accelerators_of(hp.ACCEL_GPU_DISCRETE, usable=True)
+    assert p.unusable_accelerators == []
+
+
+def test_an_npu_with_no_driver_is_reported_present_and_unusable(tmp_path):
+    """"No /dev/accel node" and "no such hardware" need different answers."""
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=False, driver=False), use_torch=False)
+    (npu,) = p.npus
+    assert npu["usable"] is False
+    assert "amdxdna" in npu["reason"]
+
+
+def test_wsl_is_detected_and_sees_none_of_the_host_devices(tmp_path):
+    """The iGPU and the NPU are in the machine and unreachable from Linux;
+    the probe must not report either as absent or as available."""
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=True), use_torch=False, probe_host=False)
+    assert p.host_os == hp.HOST_OS_WSL2
+    # The PCI sweep still finds the NPU; there is simply no way to open it.
+    (npu,) = p.npus
+    assert npu["usable"] is False
+    assert p.accelerators_of(hp.ACCEL_GPU_INTEGRATED, usable=True) == []
+
+
+def test_a_snapshot_root_never_shells_out_to_the_host(tmp_path):
+    """probe_host defaults on, but a captured snapshot must stay hermetic."""
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=True), use_torch=False, probe_host=True)
+    assert all(a["source"] != "wsl-interop" for a in p.accelerators)
+
+
+def test_accelerators_survive_the_json_roundtrip(tmp_path):
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=False), use_torch=False)
+    back = hp.HardwareProfile.from_json(p.to_json())
+    assert back.accelerators == p.accelerators
+    assert back.host_os == p.host_os
+
+
+def test_describe_accelerators_says_why_each_one_is_out_of_reach(tmp_path):
+    p = hp.probe(_ryzen_ai_root(tmp_path, wsl=True), use_torch=False, probe_host=False)
+    text = hp.describe_accelerators(p)
+    assert "not here" in text and "amdxdna" in text
+
+
+# ------------------------------------------------------- reachability routes
+def test_the_npu_reason_names_the_recipe_not_just_the_symptom():
+    """The iGPU and the NPU are both off-limits to a default WSL process, but
+    for different reasons with different fixes. A blanket "unreachable" loses
+    the only part a reader can act on -- and for the NPU the actionable part is
+    a three-part recipe, each part of which fails silently on its own."""
+    assert "MCDM" in hp._WSL_NPU_ROUTE                     # why WSL cannot see it
+    assert "onnxruntime_vitisai_ep" in hp._WSL_NPU_ROUTE   # which of the two EPs
+    assert "DLL search path" in hp._WSL_NPU_ROUTE          # how to make it load
+    assert "A16W8" in hp._WSL_NPU_ROUTE                    # what it will accept
+    assert "torch-directml" in hp._WSL_IGPU_ROUTE          # the iGPU's other fix
+
+
+def test_the_npu_recipe_module_states_the_three_preconditions():
+    """Each of the three can fail on its own and the symptom is identical:
+    a session that runs correctly with every node on the CPU."""
+    from vllm_omni.edge import npu_ryzenai as npu
+
+    assert npu.EP_GENERAL == "onnxruntime_vitisai_ep.dll"
+    assert npu.EP_LIGHT != npu.EP_GENERAL
+    assert npu.PARTITION_TARGET == "AMD_AIE2P_4x8_CMC_Overlay"
+    kw = npu.quantization_kwargs()
+    # A16W8: 16-bit activations, 8-bit weights. A8W8 is silently rejected.
+    assert "16" in str(kw["activation_type"])
+    assert "8" in str(kw["weight_type"]) and "16" not in str(kw["weight_type"])
+
+
+def test_the_igpu_is_usable_exactly_when_directml_is_importable(monkeypatch):
+    """torch-directml pins torch==2.4.1, so it never shares the engine's venv.
+    ``usable`` must answer for *this* process, not for the machine."""
+    calls = {"n": 0}
+
+    def fake_run(*a, **k):
+        calls["n"] += 1
+        class R: stdout = "AMD Radeon(TM) 890M Graphics\n"
+        return R()
+
+    import subprocess
+    monkeypatch.setattr(subprocess, "run", fake_run)
+    monkeypatch.setattr(hp, "directml_available", lambda: False)
+    (igpu,) = [a for a in hp.wsl_host_accelerators() if a["kind"] == hp.ACCEL_GPU_INTEGRATED]
+    assert igpu["usable"] is False and igpu["route"] == "directml"
+
+    monkeypatch.setattr(hp, "directml_available", lambda: True)
+    (igpu,) = [a for a in hp.wsl_host_accelerators() if a["kind"] == hp.ACCEL_GPU_INTEGRATED]
+    assert igpu["usable"] is True
+
+
+def test_directml_available_is_false_without_the_package(monkeypatch):
+    monkeypatch.setitem(__import__("sys").modules, "torch_directml", None)
+    assert hp.directml_available() is False
