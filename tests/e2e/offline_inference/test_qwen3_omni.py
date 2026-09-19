@@ -118,7 +118,12 @@ def test_structured_multistage_config_reaches_runtime(omni_runner, offline_clien
         {
             "temperature": 0.0,
             "top_p": 1.0,
-            "top_k": -1,
+            # temperature 0.0 is greedy, and SamplingParams normalizes greedy
+            # sampling to top_k=0 (vLLM's "disabled" value) -- see
+            # SamplingParams.__post_init__: `if self.temperature < _SAMPLING_EPS`.
+            # The previous -1 expectation only held while this value reached the
+            # assertion un-normalized; the runtime value is correct.
+            "top_k": 0,
             "max_tokens": 65536,
             "repetition_penalty": 1.1,
         },
