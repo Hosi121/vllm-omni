@@ -1396,6 +1396,7 @@ async def async_request_openai_chat_omni_completions(
         st = time.perf_counter()
         output.start_time = st
         most_recent_timestamp = st
+        last_content_timestamp: float | None = None
         timestamp = st
         audio_generate_time = 0.0
         output.itl = []
@@ -1452,6 +1453,7 @@ async def async_request_openai_chat_omni_completions(
                                 if isinstance(usage, dict):
                                     completion_tokens = _apply_usage_to_output(output, usage)
 
+                                content_received = False
                                 if choices := data.get("choices"):
                                     modality = data.get("modality")
                                     choice = choices[0]
@@ -1483,13 +1485,19 @@ async def async_request_openai_chat_omni_completions(
                                                 token_delta=token_delta,
                                                 most_recent_timestamp=most_recent_timestamp,
                                             )
+                                            content_received = True
                                         if has_text_content:
                                             generated_text += content
+                                            content_received = True
                                     elif modality == "audio":
+                                        # Audio-only streams are valid even when a chunk
+                                        # has empty payload (existing chat-omni tests).
+                                        content_received = True
                                         if output.audio_ttfp == 0.0:
                                             output.audio_ttfp = timestamp - st
                                         audio_generate_time = timestamp - st
                                         if content:
+                                            content_received = True
                                             audio_bytes = base64.b64decode(content)
                                             if response_format == "wav":
                                                 try:
@@ -1505,6 +1513,7 @@ async def async_request_openai_chat_omni_completions(
                                                             wav_inconsistent_chunk_count += 1
                                                             if first_inconsistent_wav_params is None:
                                                                 first_inconsistent_wav_params = params
+                                                            last_content_timestamp = timestamp
                                                             continue
                                                         wav_pcm_buffer.extend(
                                                             wav_reader.readframes(wav_reader.getnframes())
@@ -1515,6 +1524,7 @@ async def async_request_openai_chat_omni_completions(
                                                 audio_bytes_buffer.extend(audio_bytes)
                                     elif modality == "image":
                                         output.image_count += 1
+                                        content_received = True
                                         content_image_ms = _image_generation_ms_from_content(content)
                                         if content_image_ms > 0:
                                             output.image_generation_time_ms += content_image_ms
@@ -1527,12 +1537,15 @@ async def async_request_openai_chat_omni_completions(
                                 ) = _image_metrics_from_stage_metrics(data.get("metrics"))
                                 if metrics_image_count > output.image_count:
                                     output.image_count = metrics_image_count
+                                    content_received = True
                                 if metrics_image_ms > output.image_generation_time_ms:
                                     output.image_generation_time_ms = metrics_image_ms
                                 if metrics_image_pixels > output.image_pixels:
                                     output.image_pixels = metrics_image_pixels
                                 if metrics_denoise_step_ms > output.denoise_step_latency_ms:
                                     output.denoise_step_latency_ms = metrics_denoise_step_ms
+                                if content_received:
+                                    last_content_timestamp = timestamp
 
                     if wav_inconsistent_chunk_count > 0:
                         logger.warning(
@@ -1544,7 +1557,7 @@ async def async_request_openai_chat_omni_completions(
                             first_inconsistent_wav_params,
                         )
 
-                    output.latency = timestamp - st
+                    output.latency = (last_content_timestamp or st) - st
                     output.generated_text = generated_text
                     if output.output_tokens > 1 and not any(
                         isinstance(value, int | float)
@@ -1628,7 +1641,13 @@ async def async_request_openai_chat_omni_completions(
                                     output.tts_output_pcm_bytes = (waveform * 32767).astype(np.int16).tobytes()
                             except Exception as ex:
                                 logger.warning("seed_tts WER PCM export failed: %s", ex)
-                    output.success = True
+                    if last_content_timestamp is not None:
+                        output.success = True
+                    else:
+                        output.success = False
+                        output.error = (
+                            "Never received a valid chunk to calculate TTFT.This response will be marked as failed!"
+                        )
                 else:
                     output.error = response.reason or ""
                     output.success = False

@@ -1225,6 +1225,80 @@ async def test_prompt_len_assigned_from_usage(mocker: MockerFixture):
     )
 
 
+_TOKENLESS_TTFT_ERROR = "Never received a valid chunk to calculate TTFT.This response will be marked as failed!"
+
+
+@pytest.mark.asyncio
+async def test_chat_omni_trailing_usage_does_not_extend_e2e_latency(mocker: MockerFixture):
+    """Trailing usage-only SSE must not advance E2E past the last content chunk."""
+    request_input = RequestFuncInput(
+        model="test-model",
+        model_name="test-model",
+        prompt="test prompt",
+        api_url="http://test.com/v1/chat/completions",
+        prompt_len=10,
+        output_len=20,
+    )
+    chunks = [
+        create_sse_chunk(
+            {
+                "choices": [{"delta": {"content": "Hello"}}],
+                "modality": "text",
+                "usage": {"prompt_tokens": 10, "completion_tokens": 1, "total_tokens": 11},
+            }
+        ),
+        create_sse_chunk(
+            {
+                "choices": [],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 1, "total_tokens": 11},
+            }
+        ),
+        b"data: [DONE]\n\n",
+    ]
+    mock_response = MockResponse(200, chunks, delay_between_chunks=0.03)
+    mock_session = mocker.AsyncMock()
+    mock_session.post = mocker.MagicMock(return_value=mock_response)
+
+    output = await async_request_openai_chat_omni_completions(request_input, mock_session)
+
+    assert output.success is True
+    # Three delayed chunks (text, usage, [DONE]). E2E must stop at the first
+    # content chunk (~0.03s), not include the trailing usage delay (~0.06s).
+    assert output.latency == pytest.approx(0.03, abs=0.015)
+    assert output.ttft == pytest.approx(output.latency, abs=0.005)
+
+
+@pytest.mark.asyncio
+async def test_chat_omni_http_200_without_content_is_tokenless_failure(mocker: MockerFixture):
+    """HTTP 200 with only usage / [DONE] is a failed request, matching upstream."""
+    request_input = RequestFuncInput(
+        model="test-model",
+        model_name="test-model",
+        prompt="test prompt",
+        api_url="http://test.com/v1/chat/completions",
+        prompt_len=10,
+        output_len=20,
+    )
+    chunks = [
+        create_sse_chunk(
+            {
+                "choices": [],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 0, "total_tokens": 10},
+            }
+        ),
+        b"data: [DONE]\n\n",
+    ]
+    mock_response = MockResponse(200, chunks)
+    mock_session = mocker.AsyncMock()
+    mock_session.post = mocker.MagicMock(return_value=mock_response)
+
+    output = await async_request_openai_chat_omni_completions(request_input, mock_session)
+
+    assert output.success is False
+    assert output.error == _TOKENLESS_TTFT_ERROR
+    assert output.latency == pytest.approx(0.0)
+
+
 class TestOmniRequestTimeout:
     """``--omni-request-timeout-s`` precedence: explicit value > 900 s default."""
 
