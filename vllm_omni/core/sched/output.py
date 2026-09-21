@@ -1,6 +1,3 @@
-# SPDX-License-Identifier: Apache-2.0
-# SPDX-FileCopyrightText: Copyright contributors to the vLLM-Omni project
-
 from dataclasses import dataclass, field, fields
 
 from vllm.v1.core.sched.output import CachedRequestData, NewRequestData, SchedulerOutput
@@ -52,7 +49,6 @@ class OmniNewRequestData(NewRequestData):
         request: Request,
         block_ids: tuple[list[int], ...],
         prefill_token_ids: list[int] | None = None,
-        uses_mrope: bool = False,
     ) -> "OmniNewRequestData":
         """Create OmniNewRequestData from a Request object.
 
@@ -60,9 +56,6 @@ class OmniNewRequestData(NewRequestData):
             request: Request object to convert
             block_ids: Tuple of block ID lists for KV cache allocation
             prefill_token_ids: Optional prefill token IDs for v2 model runner
-            uses_mrope: Whether the model uses M-RoPE; M-RoPE keeps CPU-side
-                metadata of prefix-cache-covered items (upstream parity,
-                ``NewRequestData.from_request``).
 
         Returns:
             OmniNewRequestData instance with data from the request
@@ -71,17 +64,6 @@ class OmniNewRequestData(NewRequestData):
             req_id=request.request_id,
             external_req_id=getattr(request, "external_req_id", None),
             prompt_token_ids=request.prompt_token_ids,
-            # Deliberate divergence from upstream: do NOT call
-            # strip_covered_mm_data here. Upstream may drop the payload of mm
-            # items covered by the prefix cache because "no encoder run can be
-            # scheduled for them, so the workers never consume the payload
-            # fields" -- that precondition does NOT hold for Omni. A duplex
-            # session accumulates features across turns
-            # (OmniARScheduler: session.mm_features.extend(update.mm_features))
-            # and later stages consume the payload after the encoder, so
-            # stripping starves a realtime turn: it starts and never emits
-            # response.done. Caught by MiniCPM-o 4.5 seed-tts perf, which
-            # timed out after 30s on the rebase branch while passing on main.
             mm_features=request.mm_features,
             sampling_params=request.sampling_params,
             pooling_params=request.pooling_params,

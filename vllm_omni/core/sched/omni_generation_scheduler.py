@@ -246,9 +246,6 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
             num_common_prefix_blocks = self.kv_cache_manager.get_num_common_prefix_blocks(any_request.request_id)
 
         # Assemble SchedulerOutput (align with v0.14.0)
-        # Upstream `NewRequestData.from_request(..., uses_mrope=...)`: the flag
-        # decides which mm metadata survives strip_covered_mm_data.
-        uses_mrope = self.model_uses_mrope
         if self.use_v2_model_runner:
             # No resumed reqs in fast path; pass prefill_token_ids for new reqs.
             new_reqs_data = [
@@ -256,17 +253,12 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
                     req,
                     req_to_new_blocks[req.request_id].get_block_ids(),
                     getattr(req, "_all_token_ids", None),
-                    uses_mrope=uses_mrope,
                 )
                 for req in scheduled_new_reqs
             ]
         else:
             new_reqs_data = [
-                OmniNewRequestData.from_request(
-                    req,
-                    req_to_new_blocks[req.request_id].get_block_ids(),
-                    uses_mrope=uses_mrope,
-                )
+                OmniNewRequestData.from_request(req, req_to_new_blocks[req.request_id].get_block_ids())
                 for req in scheduled_new_reqs
             ]
         # No running/resumed reqs scheduled in our fast path
