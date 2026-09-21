@@ -42,7 +42,10 @@ from vllm_omni.distributed.omni_connectors.connectors.shm_connector import Share
 logger = init_logger(__name__)
 
 MARKER = "__cuda_ipc__"
-ACK_DIR = "/dev/shm"
+# [edge-infer] /dev/shm where it exists (Linux, WSL); a per-user directory on Windows.
+from vllm_omni.windows.paths import shm_dir as _shm_dir
+
+ACK_DIR = _shm_dir()
 
 
 def _ack_path(put_key: str) -> str:

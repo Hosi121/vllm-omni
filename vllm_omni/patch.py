@@ -3,6 +3,13 @@ import os
 import sys
 from functools import cached_property
 
+# [edge-infer] Host-OS compatibility must precede every vLLM import below: it
+# provides `fcntl`/`uvloop` and sets the event-loop policy on native Windows.
+# No-op on other platforms. Design: analysis/design_windows_compat_plugin_20260921.md
+from vllm_omni.windows import activate as _activate_windows_compat  # isort:skip
+
+_activate_windows_compat()
+
 import torch
 from aenum import extend_enum
 from vllm.config import ModelConfig as _OriginalModelConfig

@@ -237,7 +237,9 @@ def instrument_sampler(sampler: Any) -> None:
 def shm_lockfile_age_ms(key: str, now: float | None = None) -> float | None:
     """Age of the SharedMemoryConnector lock file for ``key`` (written at put time)."""
     try:
-        st = os.stat(f"/dev/shm/shm_{key}_lockfile.lock")
+        from vllm_omni.windows.paths import shm_path
+
+        st = os.stat(shm_path(f"shm_{key}_lockfile.lock"))
     except OSError:
         return None
     return ((now if now is not None else time.time()) - st.st_mtime) * 1000.0

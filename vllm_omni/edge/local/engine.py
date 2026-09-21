@@ -114,6 +114,18 @@ def _host_kind() -> str:
     return "linux"
 
 
+def _host_compat_report() -> dict[str, Any] | None:
+    """``vllm_omni.windows.report()`` on Windows, so a record says what made the run possible."""
+    from vllm_omni.windows import is_windows, report
+
+    if not is_windows():
+        return None
+    try:
+        return report()
+    except Exception as exc:  # the audit must never take the engine down
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
 def gpu_attribution_for_tree() -> dict[str, Any]:
     """Try to attribute GPU bytes to this process tree, and say why when it fails.
 
@@ -765,6 +777,9 @@ class LocalTextEngine:
                 "tree_rss_delta_at_load": self.load_memory.get("tree_rss_delta"),
                 **gpu_attribution_for_tree(),
             },
+            # [edge-infer] On native Windows, which compatibility layer carried this
+            # process (shims, patches, wheel-provided sites). None elsewhere.
+            "host_compat": _host_compat_report(),
         }
 
     def report_usage(self) -> dict[str, Any]:
