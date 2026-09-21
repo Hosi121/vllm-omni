@@ -182,8 +182,8 @@ class OrchestratorMonitor:
 
         self._loop_idle = 0
         self._loop_active = 0
-        self._dispatch_queue_size = 0
-        self._dispatch_queue_high_water = 0
+        # Queued work carries into the next window even without new arrivals.
+        self._dispatch_queue_high_water = self._dispatch_queue_size
         self._window_start_mono = now_mono
 
     def _log_summary(self, output_path: str) -> None:
