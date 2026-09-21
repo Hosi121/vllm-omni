@@ -105,8 +105,14 @@ RUN uv pip install --system \
 # set, hours into the test run.
 RUN python3 -c "import torch, sys; \
     want='2.13.0'; got=torch.__version__.split('+')[0]; \
-    sys.exit(0) if got==want else sys.exit(f'torch pin drifted: want {want}, got {torch.__version__}')" && \
-    python3 -c "import deep_ep_cpp" 2>/dev/null \
+    sys.exit(0) if got==want else sys.exit(f'torch pin drifted: want {want}, got {torch.__version__}')"
+
+# deep_ep is optional in vLLM, so this probe stays non-fatal -- but it gets its
+# own RUN. Chained onto the assertion above as `assert && probe || echo`, the
+# shell groups it as `((assert && probe) && echo) || echo WARNING`, so a FAILED
+# assertion falls through to the trailing `|| echo` and the layer still exits 0,
+# turning the guard into a no-op. Keep the two apart.
+RUN python3 -c "import deep_ep_cpp" 2>/dev/null \
       && echo 'deep_ep_cpp imports cleanly' \
       || echo 'WARNING: deep_ep_cpp not importable (non-fatal; vLLM treats deep_ep as optional)'
 
