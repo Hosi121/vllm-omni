@@ -563,10 +563,11 @@ def test_from_cli_args_preserves_text_encoder_tp_size():
 def test_text_encoder_tp_size_reaches_default_diffusion_parallel_config():
     """The preserved CLI value must land in DiffusionParallelConfig.
 
-    Forward the explicitly supplied override after from_cli_args, without
-    injecting unrelated LLM defaults from the full EngineArgs dataclass into
-    the strict diffusion ingress. The generic diffusion fallback resolves
-    the field through ``DiffusionParallelConfig.from_stage_overrides``.
+    Forward the preserved explicit override to the generic diffusion
+    fallback, which resolves it through
+    ``DiffusionParallelConfig.from_stage_overrides``. Serializing all engine
+    defaults would also forward unrelated LLM-only fields to strict diffusion
+    ingress, unlike the explicit-kwargs library entrypoint.
     """
     from vllm_omni.config.config_factory import StageConfigFactory
 
