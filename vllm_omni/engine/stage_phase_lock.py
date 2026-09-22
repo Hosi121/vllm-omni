@@ -76,6 +76,7 @@ def _unlock(fd: int) -> None:
 
     funlock(fd)
 
+
 logger = init_logger(__name__)
 
 # Default upper bound on how long a single phase will wait for its device locks
@@ -144,7 +145,7 @@ class DevicePhaseLock:
         device_ids: list[int],
         *,
         timeout_s: float = _DEFAULT_LOCK_TIMEOUT_S,
-        lock_dir: str = "/tmp",
+        lock_dir: str | None = None,
     ) -> None:
         self._device_ids = sorted(device_ids)
         self._timeout_s = timeout_s

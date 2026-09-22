@@ -164,12 +164,37 @@ def _provider_counts(profile_path: str) -> dict[str, int]:
     return counts
 
 
+def _verify_artifact_members(graph: str, files: list[str]) -> None:
+    """Reject ONNX external data omitted from the controller's verified bundle."""
+    import onnx
+
+    allowed = {Path(name).resolve() for name in files}
+    graph_path = Path(graph).resolve()
+    if graph_path not in allowed:
+        raise ValueError("graph is not a verified artifact member")
+    pending = [onnx.load_model(graph, load_external_data=False)]
+    while pending:
+        message = pending.pop()
+        if message.DESCRIPTOR.full_name == "onnx.TensorProto":
+            locations = [entry.value for entry in message.external_data if entry.key == "location"]
+            if message.data_location == onnx.TensorProto.EXTERNAL and not locations:
+                raise ValueError("external tensor has no payload location")
+            for location in locations:
+                if (graph_path.parent / location).resolve() not in allowed:
+                    raise ValueError(f"external tensor payload is absent from verified manifest: {location}")
+        for descriptor, value in message.ListFields():
+            if descriptor.type == descriptor.TYPE_MESSAGE:
+                pending.extend(value if descriptor.is_repeated else [value])
+
+
 def _make_session(body: dict[str, Any]) -> tuple[Any, dict[str, Any]]:
     """Build the ORT session for the requested execution provider."""
     import onnxruntime as ort
 
     ep = str(body.get("ep", "cpu"))
     graph = str(body["graph_path"])
+    if "artifact_files" in body:
+        _verify_artifact_members(graph, body["artifact_files"])
     info: dict[str, Any] = {"ep": ep, "onnxruntime": ort.__version__}
 
     options = ort.SessionOptions()
@@ -241,12 +266,8 @@ def _load(state: _Session, body: dict[str, Any], tensors: dict[str, np.ndarray])
     state.session = session
     state.output_names = [o.name for o in session.get_outputs()]
 
-    info["inputs"] = [
-        {"name": i.name, "type": i.type, "shape": list(i.shape)} for i in session.get_inputs()
-    ]
-    info["outputs"] = [
-        {"name": o.name, "type": o.type, "shape": list(o.shape)} for o in session.get_outputs()
-    ]
+    info["inputs"] = [{"name": i.name, "type": i.type, "shape": list(i.shape)} for i in session.get_inputs()]
+    info["outputs"] = [{"name": o.name, "type": o.type, "shape": list(o.shape)} for o in session.get_outputs()]
 
     # The placement evidence. One profiled run, because ORT only writes node
     # assignments once nodes have actually executed -- a session that has never

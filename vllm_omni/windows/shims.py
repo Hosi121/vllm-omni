@@ -18,6 +18,7 @@ built on injectable primitives so the logic is testable on Linux.
 from __future__ import annotations
 
 import asyncio
+import errno
 import os
 import sys
 import time
@@ -88,8 +89,10 @@ class FcntlShim:
                 self._at_lock_offset(fd, lambda: self._locking(fd, self._nblck, 1))
                 return
             except OSError as exc:
+                if exc.errno not in (errno.EACCES, errno.EAGAIN, errno.EDEADLK):
+                    raise
                 if non_blocking:
-                    raise BlockingIOError(str(exc)) from exc
+                    raise BlockingIOError(exc.errno, str(exc)) from exc
                 self._sleep(self._poll_interval)
 
     def lockf(self, fd: int, cmd: int, len: int = 0, start: int = 0, whence: int = 0) -> None:  # noqa: A002

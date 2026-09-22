@@ -2035,7 +2035,11 @@ class OmniGPUModelRunner(GPUModelRunner):
 
         accepted: frozenset[str] | None
         try:
-            parameters = inspect.signature(type(self.model).forward).parameters
+            # CUDA graph wrappers delegate attributes to their wrapped model;
+            # their class does not define ``forward``. Inspect the resolved
+            # callable so eager and captured native models use the same filter.
+            forward = getattr(self.model, "forward", self.model)
+            parameters = inspect.signature(forward).parameters
         except (TypeError, ValueError):
             accepted = None  # not introspectable; assume it copes, as before
         else:

@@ -168,9 +168,12 @@ vllm_omni_windows = "vllm_omni.windows:activate"
 vllm_omni_windows = "vllm_omni.windows:activate"
 
 
+[tool.setuptools.package-dir]
+omni_stage_contracts = "packages/omni-stage-contracts/omni_stage_contracts"
+
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["vllm_omni*"]
+include = ["vllm_omni*", "omni_stage_contracts*"]
 
 [tool.setuptools.package-data]
 "vllm_omni" = ["_version.py", "py.typed", "transformers_utils/chat_templates/*.jinja"]

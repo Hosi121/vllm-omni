@@ -25,9 +25,7 @@ from pathlib import Path
 import numpy as np
 
 _HERE = Path(__file__).resolve()
-_PROTOCOL = (
-    _HERE.parents[4] / "vllm_omni" / "edge" / "local" / "external" / "protocol.py"
-)
+_PROTOCOL = _HERE.parents[4] / "vllm_omni" / "edge" / "local" / "external" / "protocol.py"
 
 spec = importlib.util.spec_from_file_location("_fake_protocol", _PROTOCOL)
 proto = importlib.util.module_from_spec(spec)
@@ -78,13 +76,15 @@ def main() -> int:
                 "session_create_s": 0.01,
                 "warmup_s": 0.001,
                 "rss_bytes": 111 * 2**20,
-                "inputs": [{"name": n, "type": "tensor(float)", "shape": list(t.shape)}
-                           for n, t in tensors.items()],
+                "inputs": [{"name": n, "type": "tensor(float)", "shape": list(t.shape)} for n, t in tensors.items()],
                 "outputs": [{"name": "y", "type": "tensor(float)", "shape": []}],
             }
             reply.update(config.get("load", {}))
             proto.send_message(sock, proto.OP_OK, reply)
         elif op == proto.OP_RUN:
+            import time
+
+            time.sleep(float(config.get("run", {}).get("sleep_s", 0)))
             scale = float(config.get("run", {}).get("scale", 2.0))
             proto.send_message(
                 sock,
@@ -94,16 +94,21 @@ def main() -> int:
             )
         elif op == proto.OP_STATS:
             proto.send_message(
-                sock, proto.OP_OK,
-                {"runs": 1, "total_run_s": 0.001, "rss_bytes": 111 * 2**20,
-                 "peak_rss_bytes": 122 * 2**20, "report": {}},
+                sock,
+                proto.OP_OK,
+                {
+                    "runs": 1,
+                    "total_run_s": 0.001,
+                    "rss_bytes": 111 * 2**20,
+                    "peak_rss_bytes": 122 * 2**20,
+                    "report": {},
+                },
             )
         elif op == proto.OP_CLOSE:
             proto.send_message(sock, proto.OP_OK, {})
             return 0
         else:
-            proto.send_message(sock, proto.OP_ERR,
-                               {"message": f"unknown op {op}", "code": "ValueError"})
+            proto.send_message(sock, proto.OP_ERR, {"message": f"unknown op {op}", "code": "ValueError"})
 
 
 if __name__ == "__main__":

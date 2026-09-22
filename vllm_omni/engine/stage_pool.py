@@ -990,6 +990,14 @@ class StagePool:
         if self.stage_type == "diffusion":
             params = OmniDiffusionSamplingParams.from_params(params)
         submit_kwargs = dict(submit_kwargs or {})
+        if self.stage_type == "graph":
+            replica_id = await self._pick_or_select(request_id, affinity_request_id=affinity_request_id)
+            try:
+                await self.clients[replica_id].add_request_async(request_id, request, params)
+            except BaseException:
+                self.release_binding(request_id)
+                raise
+            return replica_id
         if self.stage_type == "diffusion":
             if isinstance(request, list):
                 raise ValueError(
@@ -1050,6 +1058,8 @@ class StagePool:
         prompt_text: Any = None,
     ) -> int:
         """Submit a streaming update to an already admitted request."""
+        if self.stage_type == "graph":
+            raise ValueError("external.graph.v1 accepts complete graphs, not streaming updates")
         params = req_state.sampling_params_list[self.stage_id]
         if self.stage_type == "diffusion":
             params = OmniDiffusionSamplingParams.from_params(params)
@@ -1206,6 +1216,12 @@ class StagePool:
         if raw_client is None:
             return None
         return cast(StagePoolDiffusionClient, raw_client).get_diffusion_output_nowait()
+
+    def poll_graph_output(self, replica_id: int) -> Any | None:
+        if not self.is_replica_available(replica_id):
+            return None
+        client = self.clients[replica_id]
+        return None if client is None else client.get_graph_output_nowait()
 
     # ---- Stage-local control plane ----
 

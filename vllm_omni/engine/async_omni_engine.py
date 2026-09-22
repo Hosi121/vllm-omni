@@ -244,6 +244,11 @@ class AsyncOmniEngine:
             )
 
         self.num_stages = len(self.stage_configs)
+        from vllm_omni.engine.resource_ledger import GraphRequestGate
+
+        self._graph_request_gate = (
+            GraphRequestGate() if any(c.stage_type == "graph" for c in self.stage_configs) else None
+        )
         stage0_args = getattr(self.stage_configs[0], "engine_args", None) if self.num_stages > 0 else None
         self.async_chunk = bool(getattr(stage0_args, "async_chunk", False))
         self.stage_pools: list[StagePool] = []
@@ -454,6 +459,7 @@ class AsyncOmniEngine:
                 enable_duplex_control=self._duplex_control_enabled,
                 duplex_session_config=self.duplex_session_config,
             )
+            orchestrator.graph_request_gate = self._graph_request_gate
             if not startup_future.done():
                 startup_future.set_result(asyncio.get_running_loop())
             await orchestrator.run()
@@ -757,7 +763,7 @@ class AsyncOmniEngine:
         stage_type = self.stage_metadata[0].stage_type
         output_prompt_text: Any = None
         _preprocess_ms = 0.0
-        if stage_type != "diffusion" and not isinstance(prompt, EngineCoreRequest):
+        if stage_type not in ("diffusion", "graph") and not isinstance(prompt, EngineCoreRequest):
             # Stage transforms and downstream stages must share the same
             # request identity, including when the transform replaces the
             # prompt object.
@@ -1145,6 +1151,8 @@ class AsyncOmniEngine:
         a queue + coroutine-switch round-trip.  The Orchestrator receives a
         ready-to-submit OmniEngineCoreRequest.
         """
+        graph_gate = getattr(self, "_graph_request_gate", None)
+        graph_ticket = graph_gate.acquire(request_id) if graph_gate is not None else None
         try:
             msg = self._build_add_request_message(
                 request_id=request_id,
@@ -1163,6 +1171,8 @@ class AsyncOmniEngine:
                 resumable=resumable,
             )
         except BaseException:
+            if graph_gate is not None:
+                graph_gate.release(graph_ticket)
             if isinstance(prompt, dict):
                 for artifact_dir in prompt.pop(REQUEST_ARTIFACT_DIRS_KEY, None) or ():
                     if isinstance(artifact_dir, str):
@@ -1186,6 +1196,8 @@ class AsyncOmniEngine:
 
             self.request_queue.sync_q.put(msg)
         except BaseException:
+            if graph_gate is not None:
+                graph_gate.release(graph_ticket)
             for artifact_dir in msg.request_artifact_dirs or ():
                 shutil.rmtree(artifact_dir, ignore_errors=True)
             raise
@@ -1554,7 +1566,7 @@ class AsyncOmniEngine:
     def try_get_output(self, timeout: float = 0.001) -> EngineQueueMessage | None:
         """Read one output message from the Orchestrator output queue."""
         try:
-            return self.output_queue.sync_q.get(timeout=timeout)
+            return self._attach_graph_release(self.output_queue.sync_q.get(timeout=timeout))
         except queue.Empty:
             if not self.is_alive():
                 raise RuntimeError("Orchestrator died unexpectedly. See logs above.")
@@ -1563,7 +1575,7 @@ class AsyncOmniEngine:
     async def try_get_output_async(self) -> EngineQueueMessage | None:
         """Async read from the Orchestrator output queue."""
         try:
-            return self.output_queue.sync_q.get_nowait()
+            return self._attach_graph_release(self.output_queue.sync_q.get_nowait())
         except queue.Empty:
             if not self.is_alive():
                 raise RuntimeError("Orchestrator died unexpectedly. See logs above.")
@@ -1603,6 +1615,24 @@ class AsyncOmniEngine:
         msg = await loop.run_in_executor(executor, _drain_get)
         if msg is None and not self.is_alive():
             raise RuntimeError("Orchestrator died unexpectedly. See logs above.")
+        return self._attach_graph_release(msg)
+
+    def _attach_graph_release(self, msg):
+        from vllm_omni.outputs import OmniRequestOutput
+
+        gate = getattr(self, "_graph_request_gate", None)
+        if gate is not None and isinstance(msg, OutputMessage) and msg.finished:
+            ticket = gate.current(msg.request_id)
+            output = msg.engine_outputs
+            if isinstance(output, OmniRequestOutput):
+                previous = output._stage_release
+
+                def release():
+                    if previous is not None:
+                        previous()
+                    gate.release(ticket)
+
+                output._stage_release = release
         return msg
 
     def get_stage_metadata(self, stage_id: int) -> StageRuntimeInfo:
@@ -1673,6 +1703,10 @@ class AsyncOmniEngine:
             raise
         if not result_msg.success:
             raise RuntimeError(result_msg.error or "abort failed")
+        graph_gate = getattr(self, "_graph_request_gate", None)
+        if graph_gate is not None:
+            for request_id in request_ids:
+                graph_gate.release(graph_gate.current(request_id))
         return list(result_msg.abort_outputs or [])
 
     def submit_interaction(

@@ -408,4 +408,9 @@ async def main() -> int:
 
 
 if __name__ == "__main__":
+    # Install the Windows selector policy before creating the caller's loop.
+    # Importing AsyncOmni inside main() is too late for that existing loop.
+    from vllm_omni.windows.aio import install_selector_policy
+
+    install_selector_policy()
     raise SystemExit(asyncio.run(main()))

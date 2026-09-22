@@ -3,9 +3,8 @@
 
 # [edge-infer W1] This module is in the import closure of AsyncOmni, so a
 # module-scope `import fcntl` makes the whole engine unimportable on Windows
-# -- before anyone has chosen a connector. The transport itself is genuinely
-# POSIX (it hardcodes /dev/shm lock paths), so the honest Windows behaviour
-# is to stay importable and refuse at construction, not to fake a port.
+# -- before anyone has chosen a connector. The Windows plugin supplies locks;
+# host helpers keep mappings alive until the single consumer acknowledges them.
 try:
     import fcntl
 except ImportError:  # Windows
@@ -15,6 +14,7 @@ from multiprocessing import shared_memory as shm_pkg
 from typing import Any
 
 from vllm_omni.entrypoints.stage_utils import shm_read_bytes, shm_write_bytes
+from vllm_omni.windows.paths import shm_path
 
 from ..utils.logging import get_connector_logger
 from .base import OmniConnectorBase
@@ -25,7 +25,7 @@ logger = get_connector_logger(__name__)
 class SharedMemoryConnector(OmniConnectorBase):
     """Key-addressed local shared-memory connector.
 
-    SHM is a local-only transport: it reads/writes POSIX shared memory
+    SHM is a local-only transport: it reads/writes host shared memory
     segments identified purely by *key*.  It does **not** understand
     remote-transport metadata such as ``source_host`` / ``source_port``
     (that is the RDMA connector's job).  When such metadata is passed in,
@@ -35,9 +35,8 @@ class SharedMemoryConnector(OmniConnectorBase):
     def __init__(self, config: dict[str, Any]):
         if fcntl is None:
             raise RuntimeError(
-                "SharedMemoryConnector requires POSIX shared memory and fcntl "
-                "locking (it addresses lock files under /dev/shm); neither exists "
-                "on Windows. Select a different connector for this stage."
+                "SharedMemoryConnector requires host file-lock support. "
+                "On Windows, activate the vllm_omni.windows compatibility layer before importing connectors."
             )
         self.config = config
         self.stage_id = config.get("stage_id", -1)
@@ -59,7 +58,7 @@ class SharedMemoryConnector(OmniConnectorBase):
             payload = self.serialize_obj(data)
             size = len(payload)
 
-            lock_file = f"/dev/shm/shm_{put_key}_lockfile.lock"
+            lock_file = shm_path(f"shm_{put_key}_lockfile.lock")
             with open(lock_file, "wb+") as lockf:
                 fcntl.flock(lockf, fcntl.LOCK_EX)
                 meta = shm_write_bytes(payload, name=put_key)
@@ -67,6 +66,12 @@ class SharedMemoryConnector(OmniConnectorBase):
 
             # meta contains {'name': ..., 'size': ...}
             metadata = {"shm": meta, "size": size}
+            if os.name == "nt":
+                from vllm_omni.host.shared_memory import owner
+
+                # ACKs arrive in another process. Do not retain an unbounded
+                # history of keys after their producer handles are released.
+                self._pending_keys.intersection_update(owner.retained_names)
             self._pending_keys.add(put_key)
 
             self._metrics["puts"] += 1
@@ -86,7 +91,7 @@ class SharedMemoryConnector(OmniConnectorBase):
                 data_bytes = shm_read_bytes(shm_handle)
                 fcntl.flock(lockf, fcntl.LOCK_UN)
             obj = self.deserialize_obj(data_bytes)
-            result = (obj, int(shm_handle.get("size", 0)))
+            result = (obj, len(data_bytes))
             deserialized = True
             return result
         except Exception as e:
@@ -106,7 +111,7 @@ class SharedMemoryConnector(OmniConnectorBase):
             shm = shm_pkg.SharedMemory(name=get_key)
             if shm is None or shm.size == 0:
                 return None
-            lock_file = f"/dev/shm/shm_{get_key}_lockfile.lock"
+            lock_file = shm_path(f"shm_{get_key}_lockfile.lock")
             shm_handle = {"name": get_key, "size": shm.size}
             result = self._get_data_with_lock(lock_file, shm_handle)
             if result is not None:
@@ -142,7 +147,7 @@ class SharedMemoryConnector(OmniConnectorBase):
 
             if isinstance(metadata, dict) and "shm" in metadata:
                 shm_handle = metadata["shm"]
-                lock_file = f"/dev/shm/shm_{shm_handle['name']}_lockfile.lock"
+                lock_file = shm_path(f"shm_{shm_handle['name']}_lockfile.lock")
                 result = self._get_data_with_lock(lock_file, shm_handle)
                 if result is not None:
                     self._pending_keys.discard(get_key)
@@ -171,6 +176,7 @@ class SharedMemoryConnector(OmniConnectorBase):
         ]
         for key in stale:
             self._pending_keys.discard(key)
+            self._release_owned_buffer(key)
             try:
                 seg = shm_pkg.SharedMemory(name=key)
                 seg.close()
@@ -180,7 +186,7 @@ class SharedMemoryConnector(OmniConnectorBase):
                 pass
             except Exception as e:
                 logger.debug("cleanup: failed to unlink SHM segment %s: %s", key, e)
-            lock_file = f"/dev/shm/shm_{key}_lockfile.lock"
+            lock_file = shm_path(f"shm_{key}_lockfile.lock")
             if os.path.exists(lock_file):
                 try:
                     os.remove(lock_file)
@@ -190,19 +196,27 @@ class SharedMemoryConnector(OmniConnectorBase):
     def close(self) -> None:
         """Unlink all remaining tracked SHM segments."""
         for key in list(self._pending_keys):
+            self._release_owned_buffer(key)
             try:
                 seg = shm_pkg.SharedMemory(name=key)
                 seg.close()
                 seg.unlink()
             except Exception:
                 pass
-            lock_file = f"/dev/shm/shm_{key}_lockfile.lock"
+            lock_file = shm_path(f"shm_{key}_lockfile.lock")
             if os.path.exists(lock_file):
                 try:
                     os.remove(lock_file)
                 except OSError:
                     pass
         self._pending_keys.clear()
+
+    @staticmethod
+    def _release_owned_buffer(key: str) -> None:
+        if os.name == "nt":
+            from vllm_omni.host.shared_memory import owner
+
+            owner.release(key)
 
     def health(self) -> dict[str, Any]:
         return {"status": "healthy", **self._metrics}

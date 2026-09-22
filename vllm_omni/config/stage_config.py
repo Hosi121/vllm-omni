@@ -189,6 +189,7 @@ class StageType(str, Enum):
     # TODO(@lishunyang12): remove once all models migrate to StageExecutionType
     LLM = "llm"
     DIFFUSION = "diffusion"
+    GRAPH = "graph"
 
 
 class StageExecutionType(str, Enum):
@@ -197,6 +198,7 @@ class StageExecutionType(str, Enum):
     LLM_AR = "llm_ar"
     LLM_GENERATION = "llm_generation"
     DIFFUSION = "diffusion"
+    GRAPH = "graph"
 
 
 def _resolve_scheduler(
@@ -386,6 +388,8 @@ class StageDeployConfig:
     devices: str | None = None
     num_replicas: int = 1
     env: dict[str, Any] | None = None
+    backend: dict[str, Any] | None = None
+    resource_budget: dict[str, Any] | None = None
 
     # Inter-stage connector wiring and request defaults.
     output_connectors: dict[str, str] | None = None
@@ -867,6 +871,7 @@ _EXECUTION_TYPE_TO_STAGE_WORKER: dict[StageExecutionType, tuple[StageType, str |
     StageExecutionType.LLM_AR: (StageType.LLM, "ar"),
     StageExecutionType.LLM_GENERATION: (StageType.LLM, "generation"),
     StageExecutionType.DIFFUSION: (StageType.DIFFUSION, None),
+    StageExecutionType.GRAPH: (StageType.GRAPH, None),
 }
 
 

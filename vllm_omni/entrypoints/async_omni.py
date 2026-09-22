@@ -918,7 +918,10 @@ class AsyncOmni(EngineClient, OmniBase):
                     stage_id,
                     getattr(output_to_yield, "final_output_type", None),
                 )
-                yield output_to_yield
+                try:
+                    yield output_to_yield
+                finally:
+                    output_to_yield.release_stage_buffers()
 
             # The Orchestrator sets "finished" when the final stage is done
             if result.finished:

@@ -28,10 +28,12 @@ ledger, not a rounding error. So the worker reports its own RSS and
 
 from __future__ import annotations
 
+import json
 import secrets
 import socket
 import subprocess
-import sys
+import tempfile
+import threading
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -42,6 +44,7 @@ import numpy as np
 from vllm_omni.edge.local.external import launch as _launch
 from vllm_omni.edge.local.external import protocol as _proto
 from vllm_omni.edge.local.external.protocol import ProtocolError, WorkerError
+from vllm_omni.host.process import spawn_worker, terminate_worker
 
 DEFAULT_START_TIMEOUT_S = 120.0
 """Generous on purpose: the first VitisAI session on a cold machine spends
@@ -212,12 +215,17 @@ class ExternalWorker:
         *,
         start_timeout_s: float = DEFAULT_START_TIMEOUT_S,
         call_timeout_s: float = DEFAULT_CALL_TIMEOUT_S,
+        max_payload_bytes: int = _proto.MAX_PAYLOAD_BYTES,
     ) -> None:
         if not route.available:
             raise WorkerStartError(f"route {route.name} is not available: {route.reason}")
         self.route = route
         self.start_timeout_s = start_timeout_s
         self.call_timeout_s = call_timeout_s
+        self.max_payload_bytes = max_payload_bytes
+        self._log = None
+        self._lifecycle_lock = threading.RLock()
+        self._drained = False
         self._process: subprocess.Popen[bytes] | None = None
         self._sock: socket.socket | None = None
         self._listener: socket.socket | None = None
@@ -228,6 +236,8 @@ class ExternalWorker:
 
     def start(self) -> dict[str, Any]:
         """Launch the worker and complete the handshake. Returns its ``hello``."""
+        if self._process is not None:
+            raise WorkerStartError("worker instances cannot be started twice")
         token = secrets.token_hex(16)
         host = _bind_address(is_windows=self.route.is_windows)
         listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -240,19 +250,29 @@ class ExternalWorker:
 
         argv = [
             str(self.route.interpreter),
+            _launch.to_worker_path(
+                Path(__file__).parents[3] / "host/worker_bootstrap.py", is_windows=self.route.is_windows
+            ),
             _launch.to_worker_path(self.route.worker, is_windows=self.route.is_windows),
-            "--host", host,
-            "--port", str(port),
-            "--token", token,
+            "--host",
+            host,
+            "--port",
+            str(port),
+            "--token",
+            token,
         ]
-        self._process = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self._log = tempfile.TemporaryFile()
+        try:
+            self._process = spawn_worker(argv, stdout=self._log, stderr=self._log)
+        except BaseException:
+            self.close()
+            raise
 
         try:
             conn, _ = listener.accept()
-        except socket.timeout as exc:
+        except TimeoutError as exc:
             raise WorkerStartError(
-                f"worker did not connect back within {self.start_timeout_s:.0f}s: "
-                f"{self._drain_process()}"
+                f"worker did not connect back within {self.start_timeout_s:.0f}s: {self._drain_process()}"
             ) from exc
         finally:
             listener.close()
@@ -262,7 +282,11 @@ class ExternalWorker:
         conn.settimeout(self.call_timeout_s)
         self._sock = conn
 
-        op, body, _ = _proto.recv_message(conn)
+        try:
+            op, body, _ = _proto.recv_message(conn, max_payload_bytes=0)
+        except BaseException:
+            self.terminate()
+            raise
         if op != _proto.OP_HELLO:
             self.close()
             raise WorkerStartError(f"first message was {op!r}, expected {_proto.OP_HELLO!r}")
@@ -275,19 +299,73 @@ class ExternalWorker:
         return body
 
     def _drain_process(self) -> str:
+        with self._lifecycle_lock:
+            return self._drain_process_locked()
+
+    def _drain_process_locked(self) -> str:
         process = self._process
         if process is None:
             return "worker was never started"
-        if process.poll() is None:
-            process.kill()
-        try:
-            out, err = process.communicate(timeout=5)
-        except subprocess.TimeoutExpired:  # pragma: no cover - kill just ran
+        if not terminate_worker(process):
             return f"worker pid {process.pid} did not exit"
-        text = (err or b"").decode("utf-8", "replace").strip()
-        if not text:
-            text = (out or b"").decode("utf-8", "replace").strip()
+        text = ""
+        if self._log is not None:
+            self._log.seek(0, 2)
+            self._log.seek(max(0, self._log.tell() - 2000))
+            text = self._log.read().decode("utf-8", "replace").strip()
         return f"exit={process.returncode} output={text[:2000]!r}" if text else f"exit={process.returncode}"
+
+    def terminate(self) -> bool:
+        """Interrupt a blocking native call without sending on its data socket.
+
+        The caller retains reservations if the process tree did not drain.
+        This method may run concurrently with the one in-flight `_call`.
+        """
+        with self._lifecycle_lock:
+            return self._terminate_locked()
+
+    def _terminate_locked(self) -> bool:
+        if self._drained:
+            return True
+        native_drained = True
+        if self._process is not None and self.route.is_windows and _launch.is_wsl():
+            identity = self.hello.get("process_identity") or {}
+            native_drained = False
+            if type(identity.get("pid")) is int and type(identity.get("created_filetime")) is int:
+                try:
+                    helper = Path(__file__).parents[3] / "host/windows_process.py"
+                    result = subprocess.run(
+                        [
+                            str(self.route.interpreter),
+                            _launch.to_worker_path(helper, is_windows=True),
+                            str(identity["pid"]),
+                            str(identity["created_filetime"]),
+                        ],
+                        capture_output=True,
+                        timeout=20,
+                        text=True,
+                    )
+                    native_drained = result.returncode == 0 and json.loads(result.stdout).get("drained") is True
+                except (OSError, subprocess.SubprocessError, ValueError):
+                    pass
+        # Keep the data connection open until native tree retirement completes:
+        # closing it first lets an idle worker exit before we can verify its tree.
+        sock, self._sock = self._sock, None
+        if sock is not None:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            sock.close()
+        if self._listener is not None:
+            self._listener.close()
+            self._listener = None
+        drained = (self._process is None or terminate_worker(self._process)) and native_drained
+        self._drained = drained
+        if drained and self._log is not None:
+            self._log.close()
+            self._log = None
+        return drained
 
     def close(self, timeout_s: float = DEFAULT_CLOSE_TIMEOUT_S) -> None:
         """Ask the worker to exit; kill it if it will not. Safe to call twice."""
@@ -304,17 +382,20 @@ class ExternalWorker:
         if self._listener is not None:
             self._listener.close()
             self._listener = None
-        process, self._process = self._process, None
+        process = self._process
         if process is not None and process.poll() is None:
             try:
                 process.wait(timeout=timeout_s)
             except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=5)
+                if not self.terminate():
+                    raise WorkerStartError("worker tree did not drain during close")
         if process is not None:
             for stream in (process.stdout, process.stderr):
                 if stream is not None:
                     stream.close()
+        if self._log is not None:
+            self._log.close()
+            self._log = None
 
     def __enter__(self) -> ExternalWorker:
         self.start()
@@ -336,12 +417,13 @@ class ExternalWorker:
             raise WorkerStartError("worker is not running; call start() first")
         try:
             _proto.send_message(sock, op, body, tensors)
-            reply_op, reply_body, reply_tensors = _proto.recv_message(sock)
+            reply_op, reply_body, reply_tensors = _proto.recv_message(sock, max_payload_bytes=self.max_payload_bytes)
         except (OSError, ProtocolError) as exc:
             # The socket is the only liveness signal we have; a dead worker
             # shows up as a broken pipe or a short read, and the useful part of
             # the diagnosis is on its stderr.
             detail = self._drain_process()
+            sock.close()
             self._sock = None
             raise WorkerStartError(f"worker connection failed ({exc}); {detail}") from exc
         if reply_op != _proto.OP_OK:
@@ -357,6 +439,7 @@ class ExternalWorker:
         profile_prefix: str | Path | None = None,
         ep_dir: str | Path | None = None,
         intra_op_num_threads: int | None = None,
+        artifact_files: list[Path] | None = None,
     ) -> LoadReport:
         """Open a graph and measure where its nodes actually ran.
 
@@ -371,13 +454,15 @@ class ExternalWorker:
             "profile": bool(profile),
         }
         if profile_prefix is not None:
-            body["profile_prefix"] = _launch.to_worker_path(
-                profile_prefix, is_windows=self.route.is_windows
-            )
+            body["profile_prefix"] = _launch.to_worker_path(profile_prefix, is_windows=self.route.is_windows)
         if ep_dir is not None:
             body["ep_dir"] = str(ep_dir)
         if intra_op_num_threads is not None:
             body["intra_op_num_threads"] = int(intra_op_num_threads)
+        if artifact_files is not None:
+            body["artifact_files"] = [
+                _launch.to_worker_path(path, is_windows=self.route.is_windows) for path in artifact_files
+            ]
 
         reply, _ = self._call(_proto.OP_LOAD, body, example_inputs or {})
         self.report = LoadReport.from_body(reply, ep=self.route.ep, graph_path=str(graph_path))

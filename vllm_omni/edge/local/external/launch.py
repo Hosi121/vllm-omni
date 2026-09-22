@@ -29,6 +29,7 @@ different work, and the planner has to be able to tell the caller which it hit.
 
 from __future__ import annotations
 
+import getpass
 import os
 import shutil
 import subprocess
@@ -63,20 +64,25 @@ covered on a machine with no AMD hardware and no ORT at all."""
 # Where the routes live on this machine. Defaults, not requirements: the env
 # override above is the supported way to point at a different install, and the
 # reason string names this list when nothing is found.
+_WINDOWS_HOME = Path.home() if os.name == "nt" else Path("/mnt/c/Users") / getpass.getuser()
 _DEFAULT_CANDIDATES: dict[str, tuple[str, ...]] = {
     ROUTE_VITISAI: (
-        r"/mnt/c/Users/zhout/npu-ep/Scripts/python.exe",
-        r"/mnt/c/Users/zhout/ryzenai/Scripts/python.exe",
+        str(_WINDOWS_HOME / "npu-ep/Scripts/python.exe"),
+        str(_WINDOWS_HOME / "ryzenai/Scripts/python.exe"),
     ),
     ROUTE_DML: (
-        r"/mnt/c/Users/zhout/dml-ep/Scripts/python.exe",
-        r"/mnt/c/Users/zhout/directml/Scripts/python.exe",
+        str(_WINDOWS_HOME / "dml-ep/Scripts/python.exe"),
+        str(_WINDOWS_HOME / "directml/Scripts/python.exe"),
     ),
-    ROUTE_TORCH_DML: (".venvs/dml/bin/python",),
-    ROUTE_CPU: (".venvs/omni-cuda/bin/python", ".venvs/omni-cpu/bin/python"),
+    ROUTE_TORCH_DML: () if os.name == "nt" else (".venvs/dml/bin/python",),
+    ROUTE_CPU: (
+        (".venvs/omni-cpu/Scripts/python.exe",)
+        if os.name == "nt"
+        else (".venvs/omni-cuda/bin/python", ".venvs/omni-cpu/bin/python")
+    ),
     ROUTE_WIN_CUDA: (
-        r"/mnt/c/Users/zhout/w0/w0venv/Scripts/python.exe",
-        r"/mnt/c/Users/zhout/vllm-win/Scripts/python.exe",
+        str(_WINDOWS_HOME / "w0/w0venv/Scripts/python.exe"),
+        str(_WINDOWS_HOME / "vllm-win/Scripts/python.exe"),
     ),
 }
 
@@ -175,9 +181,10 @@ def is_wsl() -> bool:
     """
     if os.name == "nt":
         return False
-    return Path("/proc/sys/fs/binfmt_misc/WSLInterop").exists() or Path(
-        "/proc/sys/fs/binfmt_misc/WSLInterop-late"
-    ).exists()
+    return (
+        Path("/proc/sys/fs/binfmt_misc/WSLInterop").exists()
+        or Path("/proc/sys/fs/binfmt_misc/WSLInterop-late").exists()
+    )
 
 
 def to_worker_path(path: str | Path, *, is_windows: bool) -> str:
@@ -194,9 +201,7 @@ def to_worker_path(path: str | Path, *, is_windows: bool) -> str:
     if not shutil.which("wslpath"):
         return text
     try:
-        out = subprocess.run(
-            ["wslpath", "-w", text], capture_output=True, text=True, timeout=20, check=True
-        )
+        out = subprocess.run(["wslpath", "-w", text], capture_output=True, text=True, timeout=20, check=True)
     except (subprocess.SubprocessError, OSError):
         return text
     return out.stdout.strip() or text
@@ -206,16 +211,22 @@ def _resolve_interpreter(route: str, root: Path) -> tuple[str | None, str]:
     env_key = f"{ENV_PREFIX}{route.upper().replace('-', '_')}"
     override = os.environ.get(env_key)
     if override:
-        if Path(override).exists():
-            return override, ""
+        try:
+            if Path(override).is_file():
+                return override, ""
+        except OSError as exc:
+            return None, f"cannot access configured interpreter: {exc}"
         return None, f"{env_key}={override!r} does not exist"
 
     tried: list[str] = []
     for candidate in _DEFAULT_CANDIDATES.get(route, ()):
         path = Path(candidate) if Path(candidate).is_absolute() else root / candidate
         tried.append(str(path))
-        if path.exists():
-            return str(path), ""
+        try:
+            if path.is_file():
+                return str(path), ""
+        except OSError:
+            continue
     return None, f"no interpreter found; tried {tried} and {env_key} is unset"
 
 
@@ -226,9 +237,7 @@ def resolve(route: str, *, root: Path | None = None) -> Route:
     root = root or repo_root()
     is_windows = route in (ROUTE_VITISAI, ROUTE_DML, ROUTE_WIN_CUDA)
     worker_key = f"{WORKER_ENV_PREFIX}{route.upper().replace('-', '_')}"
-    worker = os.environ.get(worker_key) or str(
-        Path(__file__).resolve().parent / _WORKER_FOR_ROUTE[route]
-    )
+    worker = os.environ.get(worker_key) or str(Path(__file__).resolve().parent / _WORKER_FOR_ROUTE[route])
 
     if is_windows and not is_wsl() and os.name != "nt":
         return Route(

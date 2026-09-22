@@ -20,7 +20,7 @@ def shm_dir() -> str:
     use. Callers that used to write ``f"/dev/shm/..."`` go through this so the
     path is the same on every platform that has one and a real one elsewhere.
     """
-    if os.path.isdir(_POSIX_SHM):
+    if sys.platform != "win32" and os.path.isdir(_POSIX_SHM):
         return _POSIX_SHM
     base = os.environ.get("LOCALAPPDATA") or tempfile.gettempdir()
     path = Path(base) / "vllm_omni" / "shm"

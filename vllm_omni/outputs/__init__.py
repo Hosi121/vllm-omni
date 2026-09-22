@@ -96,6 +96,7 @@ _REQUEST_OUTPUT_CONTENT_ATTRS = (
 # Omni-specific content copied when the wrapped stage output is itself an
 # OmniRequestOutput (e.g. a diffusion stage inside a multi-stage pipeline).
 _OMNI_CONTENT_ATTRS = (
+    "_stage_release",
     "images",
     "latents",
     "trajectory_latents",
@@ -170,6 +171,13 @@ class OmniRequestOutput(RequestOutput):
     trajectory_decoded: list | None = None
     _multimodal_output: dict[str, Any] = field(default_factory=dict)
     _custom_output: dict[str, Any] = field(default_factory=dict)
+    _stage_release: Any = field(default=None, repr=False, compare=False)
+
+    def release_stage_buffers(self) -> None:
+        """Acknowledge consumption of an externally owned stage payload."""
+        release, self._stage_release = self._stage_release, None
+        if release is not None:
+            release()
 
     # profiling data
     stage_durations: dict[str, float] = field(default_factory=dict)

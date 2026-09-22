@@ -12,12 +12,6 @@ out of StageEngineCoreClient into reusable functions.
 from __future__ import annotations
 
 import copy
-# [edge-infer W1] fcntl does not exist on Windows; this module is in the
-# import closure of AsyncOmni, so the bare import makes the engine
-# unimportable before anything can be configured. The locking logic is
-# sound and torch-free -- only the primitive changes. The shim keeps the
-# BlockingIOError contract this file's stale-lock path depends on.
-from vllm_omni._filelock_compat import flock_exclusive_nb, funlock
 import importlib
 import json
 import multiprocessing as mp
@@ -41,6 +35,12 @@ from vllm.usage.usage_lib import UsageContext
 from vllm.v1.engine.input_processor import InputProcessor
 from vllm.v1.executor import Executor
 
+# [edge-infer W1] fcntl does not exist on Windows; this module is in the
+# import closure of AsyncOmni, so the bare import makes the engine
+# unimportable before anything can be configured. The locking logic is
+# sound and torch-free -- only the primitive changes. The shim keeps the
+# BlockingIOError contract this file's stale-lock path depends on.
+from vllm_omni._filelock_compat import flock_exclusive_nb, funlock
 from vllm_omni.config.omni_config import (
     _CACHE_STAGE_ENGINE_FIELD_MAP,
     _DIFFUSION_CACHE_STAGE_ENGINE_FIELD_MAP,
@@ -549,7 +549,7 @@ class StageMetadata:
     """Lightweight stage attributes extracted from stage_config."""
 
     stage_id: int
-    stage_type: Literal["llm", "diffusion"]
+    stage_type: Literal["llm", "diffusion", "graph"]
     engine_output_type: str | None
     is_comprehension: bool
     requires_multimodal_data: bool
@@ -599,7 +599,7 @@ def extract_legacy_stage_metadata(stage_config: Any) -> StageMetadata:
     engine-argument and stage-init consumers together.
     """
     stage_id: int = stage_config.stage_id
-    stage_type: Literal["llm", "diffusion"] = _get_attr_or_item(stage_config, "stage_type", "llm")
+    stage_type: Literal["llm", "diffusion", "graph"] = _get_attr_or_item(stage_config, "stage_type", "llm")
     engine_args = stage_config.engine_args
 
     _apply_rocm_attention_backend(engine_args, stage_type)
@@ -711,8 +711,11 @@ def extract_stage_metadata_from_omni_stage_config(
     layout, engine-argument, remote-diffusion, and platform setup paths still
     require the legacy StageConfig/OmegaConf shape.
     """
-    stage_type: Literal["llm", "diffusion"] = "diffusion" if stage_config.stage_type == StageType.DIFFUSION else "llm"
-    sampling_params_cls = SamplingParams if stage_type == "llm" else OmniDiffusionSamplingParams
+    stage_type: Literal["llm", "diffusion", "graph"] = {
+        StageType.DIFFUSION: "diffusion",
+        StageType.GRAPH: "graph",
+    }.get(stage_config.stage_type, "llm")
+    sampling_params_cls = OmniDiffusionSamplingParams if stage_type == "diffusion" else SamplingParams
     sampling_params: OmniSamplingParams = sampling_params_cls(
         **(stage_config.model_config.default_sampling_params or {})
     )
@@ -738,7 +741,7 @@ def extract_stage_metadata_from_omni_stage_config(
 
     return StageMetadata(
         stage_id=stage_config.stage_id,
-        stage_type="llm",
+        stage_type=stage_type,
         engine_output_type=stage_config.engine_output_type,
         is_comprehension=stage_config.is_comprehension,
         requires_multimodal_data=stage_config.requires_multimodal_data,
@@ -1574,7 +1577,7 @@ def build_stage0_input_processor(stage_vllm_config: Any) -> InputProcessor:
     return InputProcessor(vllm_config=stage_vllm_config, renderer=renderer)
 
 
-def device_init_lock_path(device_id: int, lock_dir: str = "/tmp") -> str:
+def device_init_lock_path(device_id: int, lock_dir: str | None = None) -> str:
     """Return the per-physical-device initialization lock file path.
 
     Shared by the orchestrator-side ``acquire_device_locks`` (legacy full-init
@@ -1585,7 +1588,9 @@ def device_init_lock_path(device_id: int, lock_dir: str = "/tmp") -> str:
     unlink this path: two holders of the same pathname on different inodes do not
     conflict. The PID written into the file is diagnostic only.
     """
-    return os.path.join(lock_dir, f"vllm_omni_device_{device_id}_init.lock")
+    from vllm_omni.host.paths import device_lock_directory
+
+    return os.path.join(lock_dir or device_lock_directory(), f"vllm_omni_device_{device_id}_init.lock")
 
 
 def _open_existing_lock_file(lock_file: str) -> tuple[int, bool] | None:
@@ -1637,6 +1642,12 @@ def open_device_lock_file(lock_file: str) -> tuple[int, bool]:
     very failure this avoids. ``link`` also fails cleanly if another process wins
     the race, which keeps the "first creator wins" inode stable.
     """
+    if os.name == "nt":
+        # Windows byte-range locks require a writable handle. O_CREAT without
+        # O_TRUNC atomically opens/creates the stable file; there is no fchmod
+        # or POSIX cross-user mode publication on this host.
+        return os.open(lock_file, os.O_RDWR | os.O_CREAT, 0o600), True
+
     existing = _open_existing_lock_file(lock_file)
     if existing is not None:
         return existing

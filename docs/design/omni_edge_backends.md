@@ -1,0 +1,235 @@
+# Local edge backends in Omni
+
+The first backend is `external.graph.v1`: one complete, stateless graph operation
+per request, with a fixed input bucket and copied host tensors. It uses the normal
+`Omni` / `AsyncOmni` APIs, `PipelineConfig`, `StageRuntime`, `StagePool` and
+orchestrator. Native vLLM stages retain their model execution, KV cache, sampling
+and batching. No accelerator is mandatory.
+
+## Boundaries
+
+| Owner | Responsibility |
+|---|---|
+| `omni_stage_contracts` | Version/features, buffer descriptors, request/event identities, opaque state, physical device descriptors, artifact manifests. Root import uses only the standard library. |
+| `vllm_omni.host` | Explicit interpreter/OS routes, process bootstrap, process identity and bounded tree retirement. |
+| `vllm_omni.engine.backends` | Adapt backend operations to `StageClientBase`; observe placement; fence epochs and worker generations. |
+| `StageRuntime` | Resolve all replicas, reserve the whole plan before loading, create clients, unwind failures. |
+| `ResourceLedger` | Atomically charge every affected memory constraint; keep uncertain allocations quarantined. |
+| `StagePool` / orchestrator | Existing stage dispatch, handoff, polling, metrics, cancellation and request cleanup. |
+| Model adapter | Tokenization, media preparation, stage transforms, sampling semantics, artifact export and numerical/task validation. |
+
+Native Windows device-init locks use the host temporary directory, independent
+of a local or UNC checkout. This coordinates same-user native processes. It does
+not establish a cross-user or Windows/WSL global lock authority; cross-domain
+workers in one graph plan are coordinated by that controller's reservations.
+
+Native Windows SHM transport also uses a host-local directory for locks and
+acknowledgements. A producer retains each named mapping until its single consumer
+copies the payload and acknowledges its generation, or the producer cancels/closes
+it. A length header handles Windows page-rounded mapping sizes. Retained mappings
+are limited to 64 MiB and 256 buffers per producer process; exceeding either limit
+fails the write explicitly. This host transport fix does not enable cross-OS or
+accelerator zero-copy. POSIX keeps its existing unlink-based lifetime.
+
+`edge.local.session` and `edge.local.external.protocol` retain compatibility imports.
+The old direct `ExternalStage` API remains available; new pipelines should use
+the runtime-owned graph backend. New state handles default to non-replayable and
+non-migratable. Legacy M0 defaults are explicitly preserved in `contracts.legacy`.
+
+## Hardware composition
+
+The abstraction supports these single-machine compositions. This table separates
+topology/admission support from successful execution of a particular model; it
+does not promise that every listed accelerator can run every model.
+
+| Composition | Resource accounting | Current execution evidence |
+|---|---|---|
+| CPU only | Host RAM; WSL quota when applicable | ORT CPU graphs through public Omni on Windows and WSL. Native Windows CPU text remains unqualified. |
+| CPU + integrated GPU | Shared host RAM | Radeon 890M DirectML graph through Omni. This extraction's probe is not a complete vision/language pipeline. |
+| CPU + integrated NPU | Shared host RAM | AMD NPU VitisAI graph through Omni; permitted CPU partitions are explicit in the placement report. |
+| CPU + integrated GPU + integrated NPU | Shared RAM plus optional observed package/power/bandwidth relationships | Topology and admission contracts tested; individual laptop routes execute. Simultaneous full-model overlap is not qualified. |
+| CPU + integrated GPU + integrated NPU + discrete GPU | Shared RAM and separate discrete VRAM | Current Ryzen AI 9 HX370 / Radeon 890M / AMD NPU / RTX 5090 Laptop machine. Spark CUDA text and native two-stage TTS run on Windows and WSL; using all accelerators together is not qualified. |
+| CPU + discrete GPU, with integrated devices unused or absent | Host RAM plus discrete VRAM | Native CUDA text/TTS execution uses this subset. NVIDIA is optional in the abstraction. |
+
+Mobile/embedded SoCs fit the CPU + integrated GPU + NPU composition, but their
+local controller and model paths still require device-specific qualification.
+Galaxy S25 AI Hub inference/profiling passed for one Spark attention component;
+this is component evidence, not full local mobile generation or streaming.
+AI Hub is a test facility, never a deployment dependency. Intel, Apple and other
+vendor combinations are not certified by the AMD/NVIDIA/Qualcomm results.
+
+`DeviceDescriptor` separates physical device identity, execution domain and
+integration. A CPU, integrated GPU and NPU can all reference `machine:ram`.
+An additional discrete GPU references its own `machine:vram:<physical-id>`.
+A WSL allocation can consume both `machine:ram` and `wsl:quota` constraints;
+those are two limits on the same allocation, not two amounts of physical RAM.
+Use the same physical GPU ID when Windows and WSL expose the same adapter.
+
+Package IDs, bandwidth groups and power domains are optional observed relationships.
+Missing values mean unknown. Fitting memory does not authorize overlap on a shared
+package: selection and overlap still require model quality and complete workload
+measurements. Synthetic topology tests cover CPU-only and all four integrated /
+discrete combinations; they are not hardware certification.
+
+## Deploy a graph
+
+Register a `PipelineConfig` with `StageExecutionType.GRAPH`, `model_stage="graph"`
+and an appropriate final output type. Set `async_chunk=False`. A graph following
+another stage must have a model-owned `custom_process_input_func` that returns
+`{"tensors": {name: numpy_array}}`. Names, dtypes and shapes must match the
+manifest's placement examples. Graph stages do not tokenize prompts or apply
+model-specific transformations.
+
+Graph-containing v1 pipelines must be a linear chain with exactly one terminal
+output at the last stage. Fan-out, joins and multiple final outputs are refused
+before loading; those require reference-counted consumer leases.
+
+Each stage in a graph-containing plan declares the same capacities and its own
+demands, including native stages:
+
+```yaml
+pipeline: my_registered_pipeline
+async_chunk: false
+stages:
+  - stage_id: 0
+    backend:
+      name: external.graph.v1
+      manifest: /absolute/path/to/bundle/manifest.json
+      route:
+        name: local-cpu
+        interpreter: /absolute/path/to/worker/python
+        worker: /absolute/path/to/worker_ort.py
+        ep: cpu
+        os_domain: posix
+      max_io_bytes: 8388608
+      min_fraction_on_target: 1.0
+      allowed_providers: [CPUExecutionProvider]
+    resource_budget:
+      capacities: {machine:ram: 2147483648, wsl:quota: 1073741824}
+      demands: {machine:ram: 536870912, wsl:quota: 536870912}
+```
+
+Quote pool keys or use block mappings if your YAML producer treats colon-containing
+keys specially. On native Windows use Windows paths and `os_domain: windows`.
+From WSL use controller-visible paths; host services translate worker paths. Named
+legacy routes still honor `VLLM_OMNI_EXTERNAL_PYTHON_<ROUTE>`, but explicit routes
+have no developer-machine defaults.
+
+Capacities are **pre-load controller ceilings**, below observed free host memory /
+guest limits with safety margin. They are not continuously sampled available RAM.
+Demands must include loading peaks, weights, state, activations, workspace,
+transport copies, retained output and headroom. The ledger does not claim to be
+an OS memory limiter or to attribute shared vendor allocations from RSS.
+Driver/cache memory outside the worker remains part of the deployment estimate.
+
+The graph worker environment needs NumPy, ONNX Runtime and ONNX (for checking
+external weight references against the manifest). Vendor providers need their
+own qualified environment. The controller need not install their runtimes.
+
+## Artifact and placement gate
+
+```json
+{
+  "schema_version": 1,
+  "component": "model-owned-component-name",
+  "files": {"graph.onnx": "<sha256>", "weights.bin": "<sha256>", "inputs.npz": "<sha256>"},
+  "metadata": {
+    "graph_file": "graph.onnx", "example_inputs_file": "inputs.npz",
+    "checkpoint_revision": "<revision>", "precision": "<precision>",
+    "layout": "<layout>", "exporter": "<version>",
+    "calibration": "<record or not applicable>", "validation": "<record>"
+  }
+}
+```
+
+All payload paths are relative to the manifest. Hashes are checked before startup;
+ONNX external weight references must also belong to that verified set. Keep bundles
+immutable during execution. Checkpoint, exporter, precision and validation metadata
+are model-owned: supplying a manifest does not establish model quality.
+
+Warmup records actual provider node assignments. Unverified placement, absent
+providers and undeclared CPU partitions refuse startup. The default target fraction
+is 1.0. A deliberately partitioned NPU graph can lower it and explicitly allow CPU,
+but reports always retain the real split. `execution_plan` records the manifest
+identity, worker generation, route, reservations and placement. It labels this B
+(backend execution), not complete-model P.
+
+## Flow, cancellation and ownership
+
+* Graph pipelines admit one request before the engine ingress queue. Extra work
+  receives `ResourceUnavailable`; await consumption or cancellation and retry.
+  The current API does not queue a batch of graph requests.
+* Each graph client has one in-flight call and one retained result. Delivery does
+  not free the slot. Public synchronous/asynchronous generators acknowledge when
+  iteration advances or closes. Direct engine consumers call
+  `OmniRequestOutput.release_stage_buffers()` in `finally`.
+* After acknowledgement, retained result arrays belong to the application. Keeping
+  arbitrarily many consumed results is application memory, outside engine admission.
+* Intermediate graph handoffs copy their next-stage inputs before acknowledgement.
+  Buffer descriptors carry owner, generation, exact byte size, dtype and shape.
+  Framing rejects unknown required features and malformed lengths before payload allocation.
+* Cancellation fences the request epoch immediately. An active non-preemptible graph
+  call retires its worker. It does not replay work or restart transparently; recreate
+  the pipeline to use that backend again. Completed calls can cancel without killing
+  an otherwise reusable worker.
+* Windows workers announce PID plus process creation time. Cross-OS termination
+  verifies that identity and retires the native process tree before stopping the WSL
+  launcher. An absent/unverified tree keeps its reservation quarantined. Python
+  call references stay charged until the call unwinds.
+
+Native APIs and their admission logic remain compatible. This change adds a shared
+explicit reservation transaction for graph-containing plans; it does not yet replace
+every native memory observation/ledger or qualify mixed-model fan-out and streaming.
+
+## Packaging, validation and scope
+
+Build `packages/omni-stage-contracts` with `uv build`. Its wheel imports without
+torch/vLLM; the optional `wire` extra installs NumPy. The main Omni wheel bundles
+the same source. Python/native implementers can use `conformance/v1.json` from
+the source distribution. A native mobile implementation has not yet run these fixtures.
+
+`examples/edge/run_graph_stage.py` drives the public API, writes a deployment profile,
+records the resolved plan and raw request samples, and saves outputs for numerical
+comparison. It supports explicit CPU, DirectML and VitisAI worker routes.
+
+The implementation has tests for real runtime startup, two-stage handoff on both
+orchestrator modes, public APIs, ingress/consumer backpressure, malformed framing,
+placement refusal, shared-pool overcommit, stale acknowledgements, cancellation,
+worker failure and artifact membership. Native Spark acceptance and small actual
+Windows/WSL graph probes are recorded separately in the workspace experiment report.
+
+Validation snapshot (2026-09-22, base `00510ce38bbb96ef2e4ce462618d06ab142fae7c`):
+
+* WSL focused regression: 415 passed, 1 skipped, 20 deselected. Windows focused
+  regression: 78 passed, 2 skipped; the controller lacks ONNX for those two tests,
+  while actual graph probes use their separate worker environments.
+* Spark 4B BF16 CUDA M0: 11 tests passed on each host. These runs check the
+  specified text/state/cancellation workload, not every model or device.
+* CPU and DirectML Add graph outputs are exact. AMD NPU versus the same A16W8
+  CPU graph has maximum absolute error `4.458427429199219e-05`, normalized
+  maximum `3.111236521857185e-05` against a `0.002` bound. This is backend
+  validation, not original-checkpoint model-quality validation.
+* Real Qwen3-TTS 0.6B two-stage streaming completes on both hosts with checkpoint
+  revision `85e237c12c027371202489a0ec509ded67b5e4b5`. One measured utterance per
+  host still has playback stalls; these diagnostic samples do not satisfy the
+  full streaming, interruption, quality or sustained-thermal acceptance gates.
+* The built Omni wheel runs 20 public-API CPU graph requests outside the checkout
+  with exact outputs and zero retained reservation after shutdown. The standalone
+  contracts source archive imports in a dependency-free environment.
+* Fresh Galaxy S25 [inference](https://workbench.aihub.qualcomm.com/jobs/jp0mvkj6g/)
+  and [NPU profiling](https://workbench.aihub.qualcomm.com/jobs/jpyo7nx75/) passed
+  for the existing W8A16 attention component. Three outputs match the same
+  artifact/input reference exactly; the `full1024` artifact label denotes one
+  attention component's cache bucket, not the complete Spark model.
+
+Raw records, machine/package inventories, failed attempts and reproduction commands
+are preserved in the surrounding edge-infer workspace under
+`analysis/experiments/omni_abstraction_20260922/`. They are not bundled as runtime
+dependencies. Tests of reduced-device configurations are not measurements on a
+different physical hardware SKU.
+
+Still outside the completed v1 scope: arbitrary device/model certification, mobile
+C++ control integration, persistent external AR sessions, shared-device zero-copy,
+state migration/replay, mixed-model streaming/fan-out qualification, joint thermal /
+bandwidth policy, native Windows CPU text qualification, and the full M1–M4 device
+matrix. These remain explicit rollout gates, not implied supported features.

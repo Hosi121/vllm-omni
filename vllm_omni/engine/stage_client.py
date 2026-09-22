@@ -71,6 +71,14 @@ class StagePoolClient(StageClient, Protocol):
     ) -> Any: ...
 
 
+class StagePoolGraphClient(StagePoolClient, Protocol):
+    async def add_request_async(self, request_id: str, prompt: Any, params: Any = None) -> None: ...
+
+    def get_graph_output_nowait(self) -> Any | None: ...
+
+    def acknowledge(self, request_id: str, epoch: int, generation: str) -> None: ...
+
+
 class StagePoolLLMClient(StagePoolClient, Protocol):
     """Pool-facing API for LLM-style stages."""
 

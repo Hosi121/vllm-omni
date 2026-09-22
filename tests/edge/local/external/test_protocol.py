@@ -16,9 +16,7 @@ from vllm_omni.edge.local.external import protocol
 def _round_trip(op, body=None, tensors=None):
     near, far = socket.socketpair()
     try:
-        threading.Thread(
-            target=lambda: protocol.send_message(near, op, body, tensors), daemon=True
-        ).start()
+        threading.Thread(target=lambda: protocol.send_message(near, op, body, tensors), daemon=True).start()
         return protocol.recv_message(far)
     finally:
         near.close()
@@ -66,8 +64,7 @@ def test_empty_message_and_no_tensors():
 
 def test_error_reply_raises_with_remote_detail():
     with pytest.raises(protocol.WorkerError) as excinfo:
-        _round_trip(protocol.OP_ERR, {"message": "boom", "code": "ValueError",
-                                      "traceback": "far side traceback"})
+        _round_trip(protocol.OP_ERR, {"message": "boom", "code": "ValueError", "traceback": "far side traceback"})
     assert excinfo.value.code == "ValueError"
     assert "far side traceback" in excinfo.value.remote_traceback
 
@@ -88,6 +85,33 @@ def test_oversized_header_is_refused_before_allocation():
 
         near.sendall(struct.pack(">I", protocol.MAX_HEADER_BYTES + 1))
         with pytest.raises(protocol.ProtocolError, match="over the limit"):
+            protocol.recv_message(far)
+    finally:
+        near.close()
+        far.close()
+
+
+@pytest.mark.parametrize(
+    "override",
+    [
+        {"version": 2},
+        {"version": True},
+        {"required_features": ["unknown-required-feature"]},
+        {"tensors": [{"name": "x", "dtype": "<f4", "shape": [2], "nbytes": 1}]},
+        {"tensors": [{"name": "x", "dtype": "|O", "shape": [1], "nbytes": 8}]},
+        {"tensors": [{"name": "x", "dtype": "<f4", "shape": [-1], "nbytes": -4}]},
+    ],
+)
+def test_invalid_frame_refused_without_reading_payload(override):
+    import json
+    import struct
+
+    near, far = socket.socketpair()
+    far.settimeout(0.2)
+    try:
+        header = json.dumps({"version": 1, "op": "run", "body": {}, "tensors": [], **override}).encode()
+        near.sendall(struct.pack(">I", len(header)) + header)
+        with pytest.raises(protocol.ProtocolError):
             protocol.recv_message(far)
     finally:
         near.close()

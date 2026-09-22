@@ -43,9 +43,7 @@ def test_a_model_taking_kwargs_is_left_alone():
 
 def test_a_vllm_native_model_reports_exactly_its_parameters():
     accepted = _Probe(_VLLMNativeModel())._accepted_forward_kwargs()
-    assert accepted == frozenset(
-        {"input_ids", "positions", "intermediate_tensors", "inputs_embeds"}
-    )
+    assert accepted == frozenset({"input_ids", "positions", "intermediate_tensors", "inputs_embeds"})
     for omni_only in ("sampling_metadata", "logits_index", "sampler"):
         assert omni_only not in accepted
 
@@ -67,3 +65,15 @@ def test_an_uninspectable_forward_falls_back_to_passing_everything():
 
     accepted = _Probe(Weird())._accepted_forward_kwargs()
     assert accepted is None or "sampling_metadata" not in accepted
+
+
+def test_cuda_graph_wrapper_preserves_underlying_forward_signature():
+    from vllm.compilation.cuda_graph import CUDAGraphWrapper
+
+    # No CUDA context is needed for attribute delegation. Use the actual vLLM
+    # wrapper rather than a fake that could conceal API changes.
+    wrapper = object.__new__(CUDAGraphWrapper)
+    wrapper.runnable = _VLLMNativeModel()
+    assert _Probe(wrapper)._accepted_forward_kwargs() == _Probe(wrapper.runnable)._accepted_forward_kwargs()
+    wrapper.runnable = _OmniNativeModel()
+    assert _Probe(wrapper)._accepted_forward_kwargs() is None

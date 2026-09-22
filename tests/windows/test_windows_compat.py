@@ -7,6 +7,7 @@ that decide whether a vLLM function is replaced or left alone."""
 from __future__ import annotations
 
 import asyncio
+import errno
 import os
 import sys
 import tempfile
@@ -34,7 +35,7 @@ class FakeLocking:
         self.calls.append((fd, mode))
         if mode == self.NBLCK:
             if fd in self.held:
-                raise OSError(36, "Resource deadlock avoided")
+                raise OSError(errno.EACCES, "Lock held")
             self.held.add(fd)
         elif mode == self.UNLCK:
             self.held.discard(fd)
@@ -84,6 +85,20 @@ def test_flock_blocking_waits_until_released(lock_fd):
     s = shims.FcntlShim(locking, FakeLocking.NBLCK, FakeLocking.UNLCK, sleep=sleep, poll_interval=0.01)
     s.flock(lock_fd, shims.LOCK_EX)
     assert len(sleeps) == 2 and lock_fd in locking.held
+
+
+@pytest.mark.parametrize("operation", [shims.LOCK_EX, shims.LOCK_EX | shims.LOCK_NB])
+def test_flock_permanent_failure_does_not_retry(lock_fd, operation):
+    sleeps = []
+
+    def invalid_lock(*args):
+        raise OSError(errno.EINVAL, "Unsupported lock path")
+
+    shim = shims.FcntlShim(invalid_lock, 2, 0, sleep=sleeps.append)
+    with pytest.raises(OSError) as failure:
+        shim.flock(lock_fd, operation)
+    assert failure.value.errno == errno.EINVAL
+    assert sleeps == []
 
 
 def test_shared_lock_is_served_as_exclusive_and_counted(lock_fd):
@@ -237,7 +252,7 @@ def test_shm_dir_exists_and_path_joins():
     d = shm_dir()
     assert os.path.isdir(d)
     assert shm_path("x.lock").startswith(d)
-    if os.path.isdir("/dev/shm"):
+    if sys.platform != "win32" and os.path.isdir("/dev/shm"):
         assert d == "/dev/shm"
 
 

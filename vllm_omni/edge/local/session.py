@@ -33,10 +33,7 @@ nothing that would let a caller reach inside it.
 from __future__ import annotations
 
 import asyncio
-import time
 import uuid
-from dataclasses import asdict, dataclass, field
-from typing import Any
 
 STATE_LAYOUT_VERSION = 1
 """Bumped when the meaning of a handle's state changes. A handle from a
@@ -45,79 +42,10 @@ to treat state as non-migratable until a specific backend pair has been
 measured, and a version that silently matches would hide that."""
 
 
-@dataclass(frozen=True)
-class StateHandle:
-    """A reference to session state the backend owns.
-
-    The engine never reads the state. It reads this, to decide whether a
-    request may continue a session or must start a new one.
-    """
-
-    session_id: str
-    backend: str
-    artifact_id: str
-    """Ties the state to the checkpoint that produced it. The same shapes from
-    a different quantization are not the same state."""
-    layout_version: int = STATE_LAYOUT_VERSION
-    epoch: int = 0
-    """Incremented on every cancel. Events from a lower epoch are stale."""
-    replayable: bool = True
-    """A text session can be rebuilt by re-submitting its committed prompt, so
-    recovery after a backend crash is possible at an output boundary."""
-    migratable: bool = False
-    """Never true in M0. Moving KV between backends needs a measured layout
-    conversion for the specific pair; assuming it is the failure the proposal
-    warns about."""
-    created_unix: float = field(default_factory=time.time)
-
-    def next_epoch(self) -> StateHandle:
-        from dataclasses import replace
-
-        return replace(self, epoch=self.epoch + 1)
-
-    def accepts(self, other: StateHandle) -> bool:
-        """Whether ``other`` may continue this session's state."""
-        return (
-            other.session_id == self.session_id
-            and other.artifact_id == self.artifact_id
-            and other.layout_version == self.layout_version
-            and other.epoch == self.epoch
-        )
-
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+from omni_stage_contracts.legacy import ChunkEvent, StateHandle  # noqa: E402, F401
 
 
-@dataclass(frozen=True)
-class ChunkEvent:
-    """One unit of output, with everything needed to order and retire it."""
-
-    request_id: str
-    stage_id: int
-    seq: int
-    """Monotonic within (request, epoch). Gaps mean loss; repeats mean a bug."""
-    epoch: int
-    kind: str
-    """``token`` | ``done`` | ``error`` | ``cancelled``."""
-    payload: Any
-    """For ``token``: the incremental text and token ids. Never the whole
-    output so far -- a cumulative payload makes a dropped chunk invisible."""
-    started_unix: float
-    emitted_unix: float
-    final: bool = False
-    error: str | None = None
-    input_watermark: int = 0
-    """How much of the input the producer had consumed when this was emitted.
-    One number in M0 (prompt tokens); it is what a duplex turn will align on."""
-    release_token: str = ""
-    """Returned by the consumer to give credit back. Empty when the event
-    carries no resource the producer is holding on its behalf."""
-
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
-
-
-class StreamClosed(RuntimeError):
+class StreamClosed(RuntimeError):  # noqa: N818 - retained public API
     """Raised on a stream that has been closed while a consumer waited."""
 
 
@@ -157,7 +85,12 @@ class BoundedEventStream:
             return len(payload.encode("utf-8"))
         if isinstance(payload, dict):
             return sum(
-                len(str(k)) + (len(v.encode("utf-8")) if isinstance(v, str) else 8 * (len(v) if isinstance(v, (list, tuple)) else 1))
+                len(str(k))
+                + (
+                    len(v.encode("utf-8"))
+                    if isinstance(v, str)
+                    else 8 * (len(v) if isinstance(v, (list, tuple)) else 1)
+                )
                 for k, v in payload.items()
             )
         return 64
@@ -172,11 +105,13 @@ class BoundedEventStream:
         size = self._sizeof(event)
         async with self._credit:
             await self._credit.wait_for(
-                lambda: self._closed
-                or (self._chunks < self.max_chunks and self._bytes + size <= self.max_bytes)
-                # A single event larger than the whole byte bound must still go
-                # through once the queue is empty, or it deadlocks forever.
-                or (self._chunks == 0 and size > self.max_bytes)
+                lambda: (
+                    self._closed
+                    or (self._chunks < self.max_chunks and self._bytes + size <= self.max_bytes)
+                    # A single event larger than the whole byte bound must still go
+                    # through once the queue is empty, or it deadlocks forever.
+                    or (self._chunks == 0 and size > self.max_bytes)
+                )
             )
             if self._closed:
                 raise StreamClosed("stream closed while producing")

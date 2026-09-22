@@ -191,6 +191,10 @@ def shm_write_bytes(payload: bytes, name: str | None = None) -> dict[str, Any]:
 
     Caller should close the segment; the receiver should unlink.
     """
+    if os.name == "nt":
+        from vllm_omni.host.shared_memory import owner
+
+        return owner.write(payload, name)
     try:
         shm = _shm.SharedMemory(create=True, size=len(payload), name=name)
     except FileExistsError:
@@ -218,6 +222,10 @@ def shm_write_bytes(payload: bytes, name: str | None = None) -> dict[str, Any]:
 
 def shm_read_bytes(meta: dict[str, Any]) -> bytes:
     """Read bytes from SharedMemory by meta {name,size} and cleanup."""
+    if os.name == "nt":
+        from vllm_omni.host.shared_memory import read_buffer
+
+        return read_buffer(meta)
     shm = _shm.SharedMemory(name=meta["name"])  # type: ignore[index]
     mv = memoryview(shm.buf)
     data = bytes(mv[: meta["size"]])

@@ -1191,8 +1191,12 @@ class Orchestrator:
                     # Shared catch so a dead replica on either poll path is
                     # evicted rather than tearing down every stage (#4285).
                     try:
-                        if pool.stage_type == "diffusion":
-                            diffusion_output = pool.poll_diffusion_output(replica_id)
+                        if pool.stage_type in ("diffusion", "graph"):
+                            diffusion_output = (
+                                pool.poll_graph_output(replica_id)
+                                if pool.stage_type == "graph"
+                                else pool.poll_diffusion_output(replica_id)
+                            )
                             if diffusion_output is None:
                                 continue
 
@@ -1282,7 +1286,11 @@ class Orchestrator:
                     got = False
                     for replica_id in pool.available_replica_ids():
                         try:
-                            output = pool.poll_diffusion_output(replica_id)
+                            output = (
+                                pool.poll_graph_output(replica_id)
+                                if pool.stage_type == "graph"
+                                else pool.poll_diffusion_output(replica_id)
+                            )
                         except EngineDeadError as e:
                             await ready_q.put(("error", stage_id, replica_id, e))
                             continue
@@ -1317,7 +1325,7 @@ class Orchestrator:
                     # No live replica yet; nothing to attach to. A later
                     # reconcile picks the stage up once one registers.
                     continue
-                if stage_type == "diffusion":
+                if stage_type in ("diffusion", "graph"):
                     live_pools.add(stage_id)
                     existing_poller = pollers.get(stage_id)
                     if existing_poller is None or existing_poller.done():
@@ -1500,6 +1508,8 @@ class Orchestrator:
         for output in outputs:
             req_state = self.request_states.get(output.request_id)
             if req_state is None:
+                if hasattr(output, "release_stage_buffers"):
+                    output.release_stage_buffers()
                 logger.warning(
                     "[Orchestrator] Dropping output for unknown req %s at stage-%s (known reqs: %s)",
                     output.request_id,
@@ -1524,7 +1534,11 @@ class Orchestrator:
                 )
                 stage_metrics.pipeline_timings = dict(req_state.pipeline_timings)
 
-            await self._route_output(stage_id, replica_id, output, req_state, stage_metrics)
+            try:
+                await self._route_output(stage_id, replica_id, output, req_state, stage_metrics)
+            finally:
+                if pool.stage_type == "graph" and stage_id not in req_state.final_output_stage_ids:
+                    output.release_stage_buffers()
 
     async def _handle_stage_error(self, stage_id: int, output: Any) -> None:
         """Emit a frontend-visible error and clean up request state."""
@@ -1834,6 +1848,10 @@ class Orchestrator:
         try:
             if abort:
                 abort_outputs = await self._abort_request_ids(cleanup_ids)
+                graph_gate = getattr(self, "graph_request_gate", None)
+                if graph_gate is not None:
+                    for request_id in cleanup_ids:
+                        graph_gate.release(graph_gate.current(request_id))
             self._release_request_bindings(cleanup_ids)
             for request_id in cleanup_ids:
                 self._pd_kv_params.pop(request_id, None)
@@ -2512,6 +2530,17 @@ class Orchestrator:
         already_submitted = self._next_stage_already_submitted(src_stage_id, req_state)
         requires_multimodal_data = getattr(next_client, "requires_multimodal_data", False)
         _t_submit_start = _time.perf_counter()
+
+        if next_pool.stage_type == "graph":
+            if is_streaming_session:
+                raise ValueError("external graph requires a complete upstream payload")
+            transform = next_client.custom_process_input_func
+            if transform is None:
+                raise ValueError("graph dependency requires a model-owned custom_process_input_func")
+            graph_prompt = transform(source_outputs, req_state.prompt, requires_multimodal_data)
+            await next_pool.submit_initial(req_id, req_state, graph_prompt)
+            req_state.stage_submit_ts[next_logical] = _time.time()
+            return
 
         if next_pool.stage_type == "diffusion":
             # Gate: never dispatch with an incomplete CFG bundle. Checked

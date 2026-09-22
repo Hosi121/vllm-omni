@@ -295,3 +295,6 @@ benchmarks/edge_harness/results/**/*.npz
 benchmarks/edge_harness/results/**/*.onnx
 benchmarks/edge_harness/results/**/*.npy
 benchmarks/edge_harness/results/**/*.wav
+
+# Portable wire fixtures are source inputs, not generated measurements.
+!packages/omni-stage-contracts/conformance/*.json

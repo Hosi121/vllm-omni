@@ -19,6 +19,7 @@ from vllm_omni.config.omni_config import (
     VllmOmniConfig,
     VllmOmniDiffusionStageConfig,
     VllmOmniGenerationStageConfig,
+    VllmOmniGraphStageConfig,
     VllmOmniOrchestratorConfig,
 )
 from vllm_omni.config.stage_config import (
@@ -60,6 +61,7 @@ __all__ = [
     "BaseVllmOmniStageConfig",
     "VllmOmniARStageConfig",
     "VllmOmniGenerationStageConfig",
+    "VllmOmniGraphStageConfig",
     "VllmOmniDiffusionStageConfig",
     "StageConfigType",
     "OmniConfigResolution",

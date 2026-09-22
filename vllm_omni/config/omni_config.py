@@ -56,6 +56,7 @@ _EXECUTION_TYPE_TO_STAGE_WORKER: dict[StageExecutionType, tuple[StageType, str |
     StageExecutionType.LLM_AR: (StageType.LLM, "ar"),
     StageExecutionType.LLM_GENERATION: (StageType.LLM, "generation"),
     StageExecutionType.DIFFUSION: (StageType.DIFFUSION, None),
+    StageExecutionType.GRAPH: (StageType.GRAPH, None),
 }
 
 _PIPELINE_DEPLOY_CLI_FIELDS = PIPELINE_WIDE_ENGINE_FIELDS
@@ -197,6 +198,8 @@ class _SchedulerEngineOverrides(TypedDict, total=False):
 
 
 class _RuntimeEngineOverrides(TypedDict, total=False):
+    backend: dict[str, Any]
+    resource_budget: dict[str, Any]
     additional_config: dict[str, Any]
     distributed_executor_backend: Any
     worker_cls: str
@@ -528,6 +531,8 @@ class OmniStageRuntimeConfig:
 
     # LLM backend extensions; diffusion owns these in its config projection.
     additional_config: dict[str, Any] | None = None
+    backend: dict[str, Any] | None = None
+    resource_budget: dict[str, Any] | None = None
     distributed_executor_backend: Any = None
     worker_cls: str | None = None
     devices: str | None = None
@@ -1142,19 +1147,22 @@ _DIFFUSION_OWNED_STAGE_ENGINE_FIELDS = (
 # validation must use the execution-type-specific sets below.
 _STAGE_ENGINE_FIELDS = _LLM_STAGE_ENGINE_FIELDS | _DIFFUSION_OWNED_STAGE_ENGINE_FIELDS
 _STAGE_ENGINE_FIELDS_BY_EXECUTION_TYPE = {
-    StageExecutionType.LLM_AR: _LLM_STAGE_ENGINE_FIELDS,
-    StageExecutionType.LLM_GENERATION: _LLM_STAGE_ENGINE_FIELDS,
-    StageExecutionType.DIFFUSION: _DIFFUSION_OWNED_STAGE_ENGINE_FIELDS,
+    StageExecutionType.LLM_AR: _LLM_STAGE_ENGINE_FIELDS - {"backend"},
+    StageExecutionType.LLM_GENERATION: _LLM_STAGE_ENGINE_FIELDS - {"backend"},
+    StageExecutionType.DIFFUSION: _DIFFUSION_OWNED_STAGE_ENGINE_FIELDS - {"backend"},
+    StageExecutionType.GRAPH: frozenset({"model", "backend", "resource_budget", "log_level", "log_stats"}),
 }
 _PARALLEL_CONFIG_ENGINE_FIELDS_BY_EXECUTION_TYPE = {
     StageExecutionType.LLM_AR: _LLM_PARALLEL_CONFIG_ENGINE_FIELDS,
     StageExecutionType.LLM_GENERATION: _LLM_PARALLEL_CONFIG_ENGINE_FIELDS,
     StageExecutionType.DIFFUSION: _DIFFUSION_PARALLEL_CONFIG_ENGINE_FIELDS,
+    StageExecutionType.GRAPH: frozenset(),
 }
 _PARALLEL_CONFIG_FIELDS_BY_EXECUTION_TYPE = {
     StageExecutionType.LLM_AR: _LLM_PARALLEL_CONFIG_FIELDS,
     StageExecutionType.LLM_GENERATION: _LLM_PARALLEL_CONFIG_FIELDS,
     StageExecutionType.DIFFUSION: frozenset(_DIFFUSION_PARALLEL_CONFIG_FIELD_MAP),
+    StageExecutionType.GRAPH: frozenset(),
 }
 
 _LOAD_STAGE_ENGINE_FIELD_MAP = {
@@ -1254,6 +1262,10 @@ def _stage_engine_values(
     stage_cli_overrides: Mapping[str, Any] | None = None,
 ) -> _StageEngineValues:
     engine = _stage_engine_overrides(stage_deploy)
+    if topology.execution_type == StageExecutionType.GRAPH and engine.get("silence_ban_frames") == 0:
+        # StageDeployConfig carries this speech-specific default even when no
+        # speech option was supplied. It is not an external-graph argument.
+        engine.pop("silence_ban_frames")
     # Preserve legacy ordering: topology-owned KV roles override deploy
     # extras, while an explicit CLI override remains highest priority.
     if topology.omni_kv_config:
@@ -1467,7 +1479,14 @@ class VllmOmniDiffusionStageConfig(BaseVllmOmniStageConfig):
     diffusion_config: _DiffusionConfigProjection = field(default_factory=_DiffusionConfigProjection)
 
 
-StageConfigType: TypeAlias = VllmOmniARStageConfig | VllmOmniGenerationStageConfig | VllmOmniDiffusionStageConfig
+@config(config=ConfigDict(arbitrary_types_allowed=True))
+class VllmOmniGraphStageConfig(BaseVllmOmniStageConfig):
+    """A whole external graph with an explicit backend and resource budget."""
+
+
+StageConfigType: TypeAlias = (
+    VllmOmniARStageConfig | VllmOmniGenerationStageConfig | VllmOmniDiffusionStageConfig | VllmOmniGraphStageConfig
+)
 
 
 def _build_common_stage_config_kwargs(
@@ -1628,10 +1647,27 @@ def _build_diffusion_stage_config(
     )
 
 
+def _build_graph_stage_config(pipeline, deploy, topology, stage_deploy, engine, *, model):
+    if deploy.async_chunk or deploy.session_mode == "duplex":
+        raise ValueError("external graph v1 supports complete, stateless requests with async_chunk=False")
+    if stage_deploy is None or not engine.runtime.get("backend") or not engine.runtime.get("resource_budget"):
+        raise ValueError("graph stage requires backend and resource_budget")
+    common_kwargs, input_proc, next_stage_proc = _build_common_stage_config_kwargs(
+        pipeline,
+        deploy,
+        topology,
+        stage_deploy,
+        engine,
+        model=model,
+    )
+    return _with_resolved_processors(VllmOmniGraphStageConfig(**common_kwargs), input_proc, next_stage_proc)
+
+
 _STAGE_CONFIG_BUILDERS = {
     StageExecutionType.LLM_AR: _build_ar_stage_config,
     StageExecutionType.LLM_GENERATION: _build_generation_stage_config,
     StageExecutionType.DIFFUSION: _build_diffusion_stage_config,
+    StageExecutionType.GRAPH: _build_graph_stage_config,
 }
 
 

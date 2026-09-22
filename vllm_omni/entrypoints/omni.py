@@ -40,7 +40,7 @@ class Omni(OmniBase):
             sp = copy.deepcopy(params)
             stage_meta = self.engine.get_stage_metadata(stage_id)
             if (
-                stage_meta.stage_type != "diffusion"
+                stage_meta.stage_type not in ("diffusion", "graph")
                 and hasattr(sp, "output_kind")
                 and sp.output_kind != RequestOutputKind.DELTA
             ):
@@ -191,7 +191,10 @@ class Omni(OmniBase):
                     final_stage_id_for_e2e=req_final_stage_ids[req_id],
                 )
                 if output_to_yield is not None:
-                    yield output_to_yield
+                    try:
+                        yield output_to_yield
+                    finally:
+                        output_to_yield.release_stage_buffers()
 
                 if isinstance(msg, OutputMessage) and msg.finished:
                     active_reqs.discard(req_id)

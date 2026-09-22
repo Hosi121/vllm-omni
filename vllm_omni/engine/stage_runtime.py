@@ -155,6 +155,9 @@ class StageRuntime:
         # device groups can initialize concurrently.
         self._replica_launch_lock = threading.Lock()
         self._init_visible_devices_baseline: str | None = None
+        self.resource_ledger = None
+        self._resource_reservations = {}
+        self._resource_started = set()
 
     @staticmethod
     def _client_addresses_from_zmq(addresses: Any) -> dict[str, str]:
@@ -221,18 +224,21 @@ class StageRuntime:
         return collected
 
     @staticmethod
-    def _shutdown_initialized_clients(clients: Sequence[StageClient]) -> None:
+    def _shutdown_initialized_clients(clients: Sequence[StageClient]) -> set[int]:
         """Best-effort shutdown for attached clients after init failure."""
+        drained = set()
         for client in reversed(list(clients)):
             if client is None:
                 continue
             try:
                 client.shutdown()
+                drained.add(id(client))
             except Exception as cleanup_error:
                 logger.warning(
                     "[StageRuntime] Failed to shutdown initialized client after init failure: %s",
                     cleanup_error,
                 )
+        return drained
 
     def initialize(self) -> None:
         """Run the full stage initialization sequence."""
@@ -241,6 +247,7 @@ class StageRuntime:
             plan.stage_idx: [None] * len(plan.replicas) for plan in stage_plans
         }
         try:
+            self._reserve_stage_resources(stage_plans)
             self._before_initialize_stage_replicas(stage_plans)
             initialized_clients = self._initialize_stage_replicas(stage_plans, self._stage_init_timeout)
             initialized_clients_by_stage = initialized_clients
@@ -259,9 +266,69 @@ class StageRuntime:
                 "[StageRuntime] Stage initialization failed; shutting down %s initialized client(s)",
                 len(cleanup_clients),
             )
-            self._shutdown_initialized_clients(cleanup_clients)
+            drained = self._shutdown_initialized_clients(cleanup_clients) or set()
+            if self.resource_ledger is not None:
+                for client in cleanup_clients:
+                    if client.stage_type != "graph":
+                        reservation = self._resource_reservations.get((client.stage_id, client.replica_id))
+                        if reservation is not None:
+                            self.resource_ledger.release(reservation, drained=id(client) in drained)
             self._cleanup_after_initialize_failure()
+            self._release_unstarted_resources(initialized_clients_by_stage)
             raise exc
+
+    def _reserve_stage_resources(self, stage_plans) -> None:
+        """Explicit controller ceilings are mandatory for mixed graph plans.
+
+        Native stage budgets join the same transaction; absent estimates fail
+        closed rather than treating native allocations as free memory.
+        """
+        from vllm_omni.engine.resource_ledger import ResourceLedger
+
+        replicas = [r for plan in stage_plans for r in plan.replicas]
+        if not any(r.metadata.stage_type == "graph" for r in replicas):
+            return
+        # One final consumer owns the ingress ticket. Fan-out or multiple final
+        # outputs would need reference-counted leases before any early ACK can
+        # release that ticket. Refuse those topologies in the v1 graph backend.
+        previous_stage = None
+        for index, plan in enumerate(stage_plans):
+            metadata = plan.replicas[0].metadata
+            expected_sources = [] if previous_stage is None else [previous_stage]
+            if (
+                list(metadata.engine_input_source or []) != expected_sources
+                or metadata.final_output != (index == len(stage_plans) - 1)
+            ):
+                raise ValueError("graph v1 requires a linear chain with exactly one final output")
+            previous_stage = metadata.stage_id
+        budgets = [r.stage_cfg.engine_args.get("resource_budget") for r in replicas]
+        if any(not b for b in budgets):
+            raise ValueError("every stage in a graph pipeline must declare resource_budget capacities and demands")
+        capacities = dict(budgets[0]["capacities"])
+        if any(dict(b["capacities"]) != capacities for b in budgets):
+            raise ValueError("all stages must agree on physical memory ceilings")
+        self.resource_ledger = ResourceLedger(capacities)
+        try:
+            for replica, budget in zip(replicas, budgets):
+                key = (replica.metadata.stage_id, replica.replica_id)
+                self._resource_reservations[key] = self.resource_ledger.reserve(str(key), dict(budget["demands"]))
+        except BaseException:
+            for reservation in self._resource_reservations.values():
+                self.resource_ledger.release(reservation, drained=True)
+            self._resource_reservations.clear()
+            raise
+
+    def _release_unstarted_resources(self, initialized) -> None:
+        if self.resource_ledger is None:
+            return
+        for (stage_id, replica_id), reservation in self._resource_reservations.items():
+            clients = initialized.get(stage_id, [])
+            if replica_id >= len(clients) or clients[replica_id] is None:
+                # Graph factories release or quarantine their own failed load.
+                if reservation.owner not in self.resource_ledger.snapshot()["quarantined"]:
+                    self.resource_ledger.release(
+                        reservation, drained=(stage_id, replica_id) not in self._resource_started
+                    )
 
     def shutdown(self) -> None:
         for pool in self.stage_pools:
@@ -269,6 +336,10 @@ class StageRuntime:
                 if client is not None and hasattr(client, "shutdown"):
                     try:
                         client.shutdown()
+                        if self.resource_ledger is not None and client.stage_type != "graph":
+                            reservation = self._resource_reservations.get((client.stage_id, client.replica_id))
+                            if reservation is not None:
+                                self.resource_ledger.release(reservation, drained=True)
                     except Exception:
                         logger.warning("[StageRuntime] client shutdown failed", exc_info=True)
         if self._stage_init_executor is not None:
@@ -374,7 +445,7 @@ class StageRuntime:
             stage_vllm_config = None
             executor_class = None
             engine_args_dict = None
-            if base_metadata.stage_type != "diffusion":
+            if base_metadata.stage_type not in ("diffusion", "graph"):
                 # The stable adapter entry point still receives the same
                 # legacy stage object as replica planning. Its implementation
                 # switches only at the coordinated RFC #4021 cutover.
@@ -384,6 +455,7 @@ class StageRuntime:
                     stage_connector_spec=stage_connector_spec,
                     cli_tokenizer=self._tokenizer,
                 )
+                engine_args_dict.pop("resource_budget", None)
                 inject_omni_kv_connector_config(
                     engine_args_dict,
                     omni_kv_connector,
@@ -597,8 +669,7 @@ class StageRuntime:
         if local and all(self._cpu_placed(r) for r in local):
             import psutil
 
-            self._run_host_admission(stage_plans, check_host_admission,
-                                     lambda: int(psutil.virtual_memory().available))
+            self._run_host_admission(stage_plans, check_host_admission, lambda: int(psutil.virtual_memory().available))
             return
 
         def _resolve(replica: ReplicaInitPlan) -> list[int] | AdmissionExempt | None:
@@ -718,6 +789,8 @@ class StageRuntime:
 
     def _init_group_key_override(self, replica: ReplicaInitPlan) -> str | None:
         """Key that bypasses device-overlap grouping, or ``None`` to use it."""
+        if replica.metadata.stage_type == "graph":
+            return "inline:graph"
         if replica.launch_mode == "local" and replica.metadata.stage_type == "diffusion":
             # Local diffusion process spawning must stay on the orchestrator
             # thread. Keep all local diffusion replicas in one sequential group.
@@ -736,6 +809,18 @@ class StageRuntime:
         plan: ReplicaInitPlan,
         stage_init_timeout: int,
     ) -> StagePoolClient:
+        if plan.metadata.stage_type == "graph":
+            if type(self) is not StageRuntime or plan.launch_mode != "local":
+                raise ValueError("graph backends support one local device only")
+            from vllm_omni.engine.backends import create_graph_client
+
+            return create_graph_client(
+                plan.metadata,
+                plan.stage_cfg.engine_args,
+                self.resource_ledger,
+                self._resource_reservations[(plan.metadata.stage_id, plan.replica_id)],
+            )
+        self._resource_started.add((plan.metadata.stage_id, plan.replica_id))
         if plan.launch_mode == "remote":
             return self._initialize_remote_replica(plan, stage_init_timeout)
         if plan.metadata.stage_type == "diffusion":
@@ -985,7 +1070,7 @@ class StageRuntime:
             clients: list[StagePoolClient] = [client for client in replica_clients if client is not None]
             stage_vllm_config = None
             output_processor = None
-            if plan.replicas[0].metadata.stage_type != "diffusion":
+            if plan.replicas[0].metadata.stage_type not in ("diffusion", "graph"):
                 stage_vllm_config = plan.replicas[0].stage_vllm_config
                 if stage_vllm_config is None:
                     raise RuntimeError(f"Stage {plan.stage_id} is missing vllm_config")
