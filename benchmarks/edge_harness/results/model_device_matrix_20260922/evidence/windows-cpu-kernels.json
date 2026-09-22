@@ -1,0 +1,12 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "vllm": "0.29.0+cu134",
+  "torch": "2.13.0+cu130",
+  "extensions": {
+    "vllm._C_stable_libtorch": "C:\\Users\\zhout\\w2\\omni029venv\\Lib\\site-packages\\vllm\\_C_stable_libtorch.pyd"
+  },
+  "cpu_attention_operators": {
+    "cpu_attn_reshape_and_cache": false,
+    "cpu_attn_get_scheduler_metadata": false
+  }
+}

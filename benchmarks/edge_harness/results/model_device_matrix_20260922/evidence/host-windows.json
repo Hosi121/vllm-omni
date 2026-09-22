@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-09-22T05:37:31.241692+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+  "evidence": "preflight",
+  "packages": {
+    "vllm": "0.29.0+cu134",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.14.1",
+    "onnxruntime": null,
+    "onnxruntime-directml": null
+  },
+  "search_roots": [
+    {
+      "path": "Microsoft.PowerShell.Core\\FileSystem::\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models",
+      "exists": false
+    },
+    {
+      "path": "C:\\Users\\zhout\\.cache\\huggingface\\hub",
+      "exists": true
+    },
+    {
+      "path": "C:\\Users\\zhout\\w2\\models",
+      "exists": true
+    }
+  ],
+  "artifacts": [
+    {
+      "directory": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+      "name": "Qwen3-TTS-0.6B-85e237c",
+      "model_type": "qwen3_tts",
+      "architectures": [
+        "Qwen3TTSForConditionalGeneration"
+      ],
+      "weight_shards": 1,
+      "weight_bytes": 1811626576
+    }
+  ],
+  "vllm_platform": "cuda",
+  "registered_pipelines": {
+    "spark2_5": true,
+    "qwen3_tts": true,
+    "qwen3_5": false,
+    "minicpmo_4_5": true
+  },
+  "nvidia-smi": {
+    "returncode": 0,
+    "stdout": "NVIDIA GeForce RTX 5090 Laptop GPU, 24463 MiB, 20263 MiB\n",
+    "stderr": ""
+  },
+  "adb": {
+    "error": "[WinError 2] \u7cfb\u7edf\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6587\u4ef6\u3002"
+  }
+}

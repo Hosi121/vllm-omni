@@ -1,0 +1,37 @@
+{
+ "quantize_job": "jgzmkydzp",
+ "profile_int8_calib_job": "jpez3xe0p",
+ "compile_int8_calib_qio_S25": "jgzmkyo6p",
+ "compile_int8_calib_qio_S24": "j5743nlr5",
+ "decoder_fp16": {
+  "snr_db": 39.164074983094494,
+  "corr": 0.9999399789070609,
+  "device": "Samsung Galaxy S25",
+  "job": "jp39270xp"
+ },
+ "decoder_fp16_s24": {
+  "snr_db": 39.13016700266315,
+  "corr": 0.9999391875126119,
+  "device": "Samsung Galaxy S24",
+  "job": "jgj74yn7g"
+ },
+ "predictor_fp16": {
+  "snr_db": 48.3393059438555,
+  "corr": 0.999992670383219,
+  "device": "Samsung Galaxy S25",
+  "job": "jpez3xm7p"
+ },
+ "decoder_int8_calib_S25": {
+  "snr_db": -3.3406415627342723,
+  "corr": -0.002431700816898819,
+  "device": "Samsung Galaxy S25",
+  "job": "jgj74yz8g"
+ },
+ "decoder_int8_calib_S24": {
+  "snr_db": -3.27255724475548,
+  "corr": -0.003935559964945309,
+  "device": "Samsung Galaxy S24",
+  "job": "jgd3l4elp"
+ },
+ "profile_int8_calib_ms": 281.776
+}

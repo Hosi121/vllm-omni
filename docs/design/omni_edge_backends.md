@@ -40,25 +40,45 @@ non-migratable. Legacy M0 defaults are explicitly preserved in `contracts.legacy
 
 ### Mobile and PC × model support matrix
 
-Rows identify the device class and execution configuration; columns identify the
-model family. **Not qualified** means the complete specified model path has not
-passed this release's acceptance gates, not that the hardware cannot run it.
+**All 60 named pairings were checked on 2026-09-22** through actual runs,
+raw-record review or artifact/runtime preflight. This is not 60 successful
+executions. Each cell links to its evidence, finding and next required step.
 
-| Device / execution configuration | Spark-X2.5 | Qwen3-TTS 0.6B | Qwen3.8-27B | MiniCPM-o | InternVLA |
+PASS: specified complete workload passed. PARTIAL: functional output with
+acceptance gaps. COMPONENT: model component only. PROFILE_ONLY: component
+timing without quality qualification. FAILED: attempted startup/execution
+failed. REJECTED: specific artifact refused. BLOCKED: prerequisite missing.
+
+| Device / execution configuration | Spark-X2.5 | Qwen3-TTS 0.6B CustomVoice | Qwen3.8-27B | MiniCPM-o 4.5 | InternVLA-A1 |
 |---|---|---|---|---|---|
-| PC: CPU only, WSL | 1.7B INT8 historical M0 pass; extraction rerun pending | Not qualified | Not qualified | Not qualified | Not qualified |
-| PC: CPU only, native Windows | Not qualified | Not qualified | Not qualified | Not qualified | Not qualified |
-| PC: CPU + NVIDIA discrete GPU, Windows/WSL | 4B BF16 M0 passed | Real-weight streaming completes; playback stalls remain | Complete multimodal pipeline not qualified | Not qualified | Not qualified |
-| PC: CPU + AMD Radeon 890M iGPU | Not qualified | Not qualified | Historical vision-tower component pass only | Not qualified | Not qualified |
-| PC: CPU + AMD NPU | Not qualified | Not qualified | Tested whole-vision-tower exports rejected | Not qualified | Not qualified |
-| PC: CPU + iGPU + NPU, with optional discrete GPU used jointly | Full heterogeneous model path not qualified | Full heterogeneous model path not qualified | Full heterogeneous model path not qualified | Not qualified | Not qualified |
-| Mobile: Galaxy S25 / Snapdragon 8 Elite for Galaxy, CPU + GPU + NPU | W8A16 attention component passed in AI Hub; full local generation pending | Local NPU/GPU pipeline not qualified | Not qualified | Not qualified | Not qualified |
-| Other mobile / embedded SoCs | Not qualified | Not qualified | Not qualified | Not qualified | Not qualified |
+| PC HX370: CPU / WSL | [PASS](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_wsl-spark) | [FAILED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_wsl-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_wsl-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_wsl-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_wsl-vla) |
+| PC HX370: CPU / native Windows | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_windows-spark) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_windows-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_windows-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_windows-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cpu_windows-vla) |
+| PC HX370 + RTX 5090 Laptop / WSL | [PASS](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_wsl-spark) | [PARTIAL](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_wsl-tts) | [FAILED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_wsl-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_wsl-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_wsl-vla) |
+| PC HX370 + RTX 5090 Laptop / Windows | [PASS](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_windows-spark) | [PARTIAL](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_windows-tts) | [FAILED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_windows-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_windows-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_cuda_windows-vla) |
+| PC HX370 + Radeon 890M / Windows worker | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_igpu-spark) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_igpu-tts) | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_igpu-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_igpu-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_igpu-vla) |
+| PC HX370 + AMD NPU / Windows worker | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_npu-spark) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_npu-tts) | [REJECTED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_npu-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_npu-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_npu-vla) |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_joint-spark) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_joint-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_joint-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_joint-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_joint-vla) |
+| PC Snapdragon X Elite CRD / AI Hub | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_xelite-spark) | [PROFILE_ONLY](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_xelite-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_xelite-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_xelite-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#pc_xelite-vla) |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s25-spark) | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s25-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s25-qwen27) | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s25-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s25-vla) |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s24-spark) | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s24-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s24-qwen27) | [COMPONENT](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s24-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#mobile_s24-vla) |
+| Embedded SA8775P ADP / AI Hub | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_sa8775p-spark) | [PROFILE_ONLY](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_sa8775p-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_sa8775p-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_sa8775p-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_sa8775p-vla) |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_rb3-spark) | [PROFILE_ONLY](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_rb3-tts) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_rb3-qwen27) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_rb3-minicpm) | [BLOCKED](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md#embedded_rb3-vla) |
 
-The PC measurements below come from one Ryzen AI 9 HX370 laptop. Component
-success, backend probes and topology tests do not certify a full model pipeline.
-S25 AI Hub results do not qualify an on-device Omni controller, continuous
-generation, shared NPU/GPU execution or sustained thermal behavior.
+Counts: **3 PASS, 2 PARTIAL, 6 COMPONENT, 3 PROFILE_ONLY, 3 FAILED,
+1 REJECTED, 42 BLOCKED**. The PC CPU Spark pass uses the existing vLLM 0.28
+CPU wheel with the current Omni branch; CPU TTS fails a 3-versus-4-field
+sampling ABI mismatch in that environment. Current Windows/WSL Omni Qwen
+27B startup fails pipeline resolution; earlier bare-vLLM text evidence is
+not a pass for this integration. Full MiniCPM-o/InternVLA checkpoints are
+absent from the inventoried model roots. Native Windows CPU attention
+kernels are absent from the installed extension.
+
+S25 Spark, TTS predictor and MiniCPM-o speech-head components have fresh Hub
+inference evidence. S24 and the other Hub targets retain explicitly marked
+historical component/profile evidence. No direct ADB device is attached.
+
+See the [full audit](../../benchmarks/edge_harness/results/model_device_matrix_20260922/README.md) and its hashed raw records. Other hardware SKUs
+remain outside this finite matrix; no universal device support is implied.
 
 ### Detailed PC model and backend pairings
 
@@ -71,13 +91,13 @@ Model support is specific to the following pairings:
 |---|---|---|---|
 | Spark-X2.5-4B BF16 | CPU + RTX 5090 Laptop GPU | WSL / vLLM CUDA | Current branch: M0 text/state/cancellation workload passed. |
 | Spark-X2.5-4B BF16 | CPU + RTX 5090 Laptop GPU | Native Windows / vLLM CUDA | Current branch: M0 text/state/cancellation workload passed. |
-| Spark-X2.5-1.7B INT8 | CPU execution; accelerators unused | WSL / vLLM CPU | Historical M0 acceptance and token parity passed on 2026-09-15; not freshly requalified on this extraction branch. |
+| Spark-X2.5-1.7B INT8 | CPU execution; accelerators unused | WSL / vLLM CPU | Fresh 12-prompt acceptance passed on this branch with the existing vLLM 0.28 CPU wheel; historical token parity is separate. |
 | Spark-X2.5-1.7B INT8 | CPU execution; no NVIDIA dependency | Native Windows | Model path not yet qualified; CPU Add graph success is not text-model support. |
 | Qwen3-TTS-12Hz-0.6B CustomVoice | CPU + RTX 5090 Laptop GPU; both stages on GPU | WSL / vLLM CUDA | Current branch: real-weight audio streaming completes; playback stalls and remaining M2 gates stay open. |
 | Qwen3-TTS-12Hz-0.6B CustomVoice | CPU + RTX 5090 Laptop GPU; both stages on GPU | Native Windows / vLLM CUDA | Current branch: real-weight audio streaming completes; playback stalls and remaining M2 gates stay open. |
 | Qwen3.8-27B vision tower, FP32 ONNX | CPU + Radeon 890M iGPU | Windows / ORT DirectML | Historical component validation only; not the complete 27B model or a newly qualified graph-stage vision-to-language pipeline. |
 | Qwen3.8-27B vision tower, tested A16W8 exports | CPU + AMD NPU | Windows / ORT VitisAI | Tested whole-tower artifacts were rejected by NPU partitioning. This does not rule out other exports or smaller components. |
-| Qwen3.8-27B complete multimodal pipeline | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Not qualified by this abstraction release; earlier short-text loading is not complete multimodal validation. |
+| Qwen3.8-27B complete multimodal pipeline | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Fresh public Omni startup fails pipeline resolution on Windows/WSL; earlier bare-vLLM short-text loading is separate and not multimodal validation. |
 | MiniCPM-o | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Full model × PC combinations remain unqualified for this release. |
 | InternVLA | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Full model × PC combinations remain unqualified for this release. |
 

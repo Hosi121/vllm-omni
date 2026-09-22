@@ -1,0 +1,81 @@
+{
+ "runtime": {
+  "python": "3.12.13",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "torch": "2.13.0+cu130",
+  "vllm": "0.28.0",
+  "vllm_omni": "0.28.1.dev154+g3834de310.d20260914",
+  "vllm_omni_file": "/home/zhout/project/edge_infer/vllm-omni/vllm_omni/__init__.py",
+  "vllm_file": "/home/zhout/project/edge_infer/.venvs/omni-cuda/lib/python3.12/site-packages/vllm/__init__.py",
+  "checkouts": {
+   "/home/zhout/project/edge_infer/vllm-omni": "3834de31051ae428beb2765915cdaff1772b9bbc-dirty",
+   "/home/zhout/project/edge_infer": "758b3af238b19e2c2abc668f23a767bb835a4a22-dirty"
+  }
+ },
+ "shape": {
+  "image_size": 448,
+  "grid_thw": [
+   1,
+   28,
+   28
+  ],
+  "patches": 784,
+  "patch_dim": 1536,
+  "merged_tokens": 196,
+  "out_hidden_size": 5120
+ },
+ "artifact": {
+  "sha256": "68c8ee4a9ad8509c3a17e4591d3ba4fa0f2b30a5b725c3dd4e93a4dd8ca5fa65",
+  "bytes": 1838533565,
+  "fmt": "onnx:fp32",
+  "opset": 21
+ },
+ "reference": {
+  "backend": "torch cpu fp32",
+  "median_s": 1.3556148889983888,
+  "threads": 12
+ },
+ "arms": {
+  "igpu_dml_fp32": {
+   "node_counts": {
+    "DmlExecutionProvider": 85,
+    "CPUExecutionProvider": 28
+   },
+   "fraction_on_target": 0.7522123893805309,
+   "parity_vs_torch_cpu": {
+    "max_abs": 0.00101470947265625,
+    "mean_abs": 1.7557707678861334e-06,
+    "normalized_max": 9.09517166292062e-06,
+    "cosine": 0.9999999403953552
+   },
+   "runs": 10,
+   "median_worker_s": 0.23143709999567363,
+   "median_round_trip_s": 0.24530861800303683,
+   "median_transport_s": 0.012688652001088485,
+   "samples_worker_s": [
+    0.21845380000013392,
+    0.22525360000145156,
+    0.2263950000051409,
+    0.22689469999750145,
+    0.2282961000018986,
+    0.23143709999567363,
+    0.2368339999957243,
+    0.24216529999102931,
+    0.24823209999885876,
+    0.24826890000258572
+   ],
+   "note": "medians over 10 runs after the load; the first call after a session is opened is materially slower and is excluded by the warm-up the load itself does"
+  },
+  "cuda_5090_fp32": {
+   "median_s": 0.09445196900196606,
+   "max_memory_allocated_bytes": 1952522240,
+   "parity_vs_torch_cpu": {
+    "max_abs": 0.06308555603027344,
+    "mean_abs": 0.0001078158529708162,
+    "normalized_max": 0.000565456401091069,
+    "cosine": 0.9999995827674866
+   },
+   "note": "torch runs matmul in TF32 by default on CUDA; this is why its deviation from the CPU reference is larger than the iGPU's"
+  }
+ }
+}

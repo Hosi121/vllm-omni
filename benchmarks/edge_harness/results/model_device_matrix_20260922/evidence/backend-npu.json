@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "evidence": "B",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "python": "/home/zhout/project/edge_infer/vllm-omni-edge/../.venvs/omni-cuda-029/bin/python",
+  "workload": {
+    "repeats": 20,
+    "concurrency": 1
+  },
+  "artifact": "/home/zhout/project/edge_infer/analysis/experiments/omni_abstraction_20260922/artifacts/amd_npu_a16w8/manifest.json",
+  "samples_s": [
+    0.014123815984930843,
+    0.0061385720036923885,
+    0.0058239150093868375,
+    0.00862913700984791,
+    0.006411314010620117,
+    0.02813155995681882,
+    0.005825735977850854,
+    0.005439646018203348,
+    0.006521859031636268,
+    0.0055095599964261055,
+    0.004404937033541501,
+    0.006788280967157334,
+    0.005359956994652748,
+    0.0058780250255949795,
+    0.0045300599886104465,
+    0.006785528967157006,
+    0.006678219011519104,
+    0.0063079120009206235,
+    0.0045537170371972024,
+    0.006222707044798881
+  ],
+  "started_unix": 1790047130.3935041,
+  "startup_s": 5.256746579951141,
+  "execution_plan": {
+    "backend": "external.graph.v1",
+    "stage_id": 0,
+    "worker_generation": "7b8fc7c330a649f685c5c257778d0d57",
+    "artifact_sha256": "63889910407277b0a557f7c58cfe6a4ce4b3884711961a90f3e9e52105c0f1ed",
+    "component": "amd_npu_a16w8",
+    "route": {
+      "name": "amd-npu",
+      "interpreter": "/mnt/c/Users/zhout/npu-ep/Scripts/python.exe",
+      "worker": "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/edge/local/external/worker_ort.py",
+      "ep": "vitisai",
+      "is_windows": true,
+      "available": true,
+      "reason": "",
+      "extra": null
+    },
+    "reserved_bytes": {
+      "machine:ram": 1073741824
+    },
+    "max_io_bytes": 8388608,
+    "placement": {
+      "ep": "vitisai",
+      "graph_path": "/home/zhout/project/edge_infer/analysis/experiments/omni_abstraction_20260922/artifacts/amd_npu_a16w8/graph.onnx",
+      "session_providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ],
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider",
+        "vitisai"
+      ],
+      "node_counts": {
+        "CPUExecutionProvider": 2,
+        "vitisai": 1
+      },
+      "total_nodes": 3,
+      "target_nodes": 1,
+      "fraction_on_target": 0.3333333333333333,
+      "session_create_s": 2.7006354000186548,
+      "warmup_s": 0.002900300023611635,
+      "rss_bytes": 283721728,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            256,
+            1024
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "y",
+          "type": "tensor(float)",
+          "shape": [
+            256,
+            1024
+          ]
+        }
+      ],
+      "profile_path": "onnxruntime_profile__2026-09-22_11-18-52_927.json",
+      "ep_directory": "C:\\Program Files\\WindowsApps\\WindowsWorkload.EP.AMD.VitisAI.Framework.1.8_1.8.63.0_x64__8wekyb3d8bbwe\\ExecutionProvider",
+      "requested_provider_missing": "",
+      "fallback_note": "",
+      "onnxruntime": "1.30.0",
+      "note": ""
+    },
+    "worker": {
+      "executable": "C:\\Users\\zhout\\npu-ep\\Scripts\\python.exe",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "win32",
+      "pid": 23080,
+      "onnxruntime": "1.30.0",
+      "numpy": "2.5.3",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "rss_bytes": 55009280,
+      "process_identity": {
+        "pid": 23080,
+        "created_filetime": 134345207305451697
+      }
+    },
+    "evidence": "B",
+    "stateful": false
+  },
+  "worker_stats": {
+    "runs": 20,
+    "total_run_s": 0.020845199760515243,
+    "rss_bytes": 285020160,
+    "peak_rss_bytes": 288174080,
+    "report": {
+      "ep": "vitisai",
+      "onnxruntime": "1.30.0",
+      "ep_directory": "C:\\Program Files\\WindowsApps\\WindowsWorkload.EP.AMD.VitisAI.Framework.1.8_1.8.63.0_x64__8wekyb3d8bbwe\\ExecutionProvider",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider",
+        "vitisai"
+      ],
+      "session_create_s": 2.7006354000186548,
+      "session_providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ],
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            256,
+            1024
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "y",
+          "type": "tensor(float)",
+          "shape": [
+            256,
+            1024
+          ]
+        }
+      ],
+      "warmup_s": 0.002900300023611635,
+      "profile_path": "onnxruntime_profile__2026-09-22_11-18-52_927.json",
+      "node_counts": {
+        "CPUExecutionProvider": 2,
+        "vitisai": 1
+      },
+      "total_nodes": 3,
+      "target_nodes": 1,
+      "fraction_on_target": 0.3333333333333333,
+      "rss_bytes": 283721728
+    }
+  },
+  "finite": true,
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "machine:ram": 2147483648
+    },
+    "reserved": {
+      "machine:ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  },
+  "ended_unix": 1790047136.6063926
+}

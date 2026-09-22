@@ -1,0 +1,523 @@
+[
+  {
+    "model": "tts",
+    "job": "j5wl18dzp",
+    "reference_job": "jpez3xm7p",
+    "model_id": "mmd5oy30q",
+    "input_dataset_id": "d70qr8459",
+    "scope": "same compiled component repeatability only",
+    "outputs": [
+      {
+        "name": "output_0__0",
+        "shape": [
+          1,
+          17,
+          1024
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      }
+    ]
+  },
+  {
+    "model": "minicpm",
+    "job": "jpe7l8r75",
+    "reference_job": "jgol682xg",
+    "model_id": "mn7zvvw8m",
+    "input_dataset_id": "d7gwxe3y2",
+    "scope": "same compiled component repeatability only",
+    "outputs": [
+      {
+        "name": "output_0__0",
+        "shape": [
+          1,
+          6562
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_1__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_2__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_3__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_4__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_5__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_6__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_7__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_8__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_9__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_10__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_11__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_12__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_13__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_14__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_15__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_16__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_17__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_18__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_19__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_20__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_21__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_22__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_23__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_24__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_25__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_26__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_27__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_28__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_29__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_30__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_31__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_32__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_33__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_34__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_35__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_36__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_37__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_38__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_39__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      },
+      {
+        "name": "output_40__0",
+        "shape": [
+          1,
+          12,
+          1,
+          64
+        ],
+        "finite": true,
+        "exact": true,
+        "max_abs_difference": 0.0
+      }
+    ]
+  }
+]
