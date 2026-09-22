@@ -1,17 +1,33 @@
 # Common dependencies for all platforms
-# transformers: required unified multimodal model classes are unavailable
-# before 5.10.1; 5.10.0 is yanked, and 5.15 has a known construction
-# regression. transformers 5.9 also changed
-# _adjust_missing_and_unexpected_keys from
-# list+list to set|set, breaking models that declare
-# _keys_to_ignore_on_load_unexpected as a list (e.g. OpenMOSS-Team/MOSS-TTS-Nano)
-# with "TypeError: unsupported operand type(s) for |: 'list' and 'set'".
-# That breakage is now handled in code instead of by pinning:
+# transformers: the resolved version tracks upstream vLLM. vLLM declares
+# "transformers >= 5.10.4" (vllm/requirements/common.txt, unchanged between
+# the v0.29.0 baseline 98dff2a81d74 and the pinned f2aad6aa7074), and the
+# floor below is a subset of it, so a clean install and CI resolve the same
+# newest release vLLM does. vLLM-Omni carries NO upper bound: a cap resolves
+# a different version from the one vLLM builds and tests against.
+#
+# The old "< 5.15" cap (a construction regression in 5.15) is gone, and it
+# was doing nothing anyway. docker/Dockerfile.ci installs the project and
+# only then force-reinstalls the pinned vLLM commit wheel, which resolves
+# vLLM's own closure: in scheduled build #3062 the first step applied the cap
+# (5.16.1 -> 5.14.1) and the wheel step immediately overrode it
+# (5.14.1 -> 5.17.0). A cap here can only downgrade an intermediate layer.
+#
+# The 5.13.0 floor STAYS. It is not a divergence from vLLM -- it is induced
+# by the kernels==0.16.1 pin below: kernels>=0.16 needs
+# transformers.integrations.hub_kernels LayerRepository entries to carry
+# version=/revision=, which lands in 5.13 (#6971). The kernels wheel declares
+# no transformers requirement, so nothing else enforces the pairing, and pip
+# leaves an already-installed 5.10-5.12 in place because it satisfies a
+# weaker floor. Lower this only together with the kernels pin.
+#
+# 5.9 changed _adjust_missing_and_unexpected_keys from list+list to set|set,
+# breaking models that declare _keys_to_ignore_on_load_unexpected as a list
+# (e.g. OpenMOSS-Team/MOSS-TTS-Nano) with "TypeError: unsupported operand
+# type(s) for |: 'list' and 'set'". Handled in code rather than by pinning:
 # MossTTSNanoForGeneration wraps weight loading in
 # transformers_keys_to_ignore_compat (vllm_omni/model_executor/models/utils.py).
-# Floor is 5.13.0 so transformers.integrations.hub_kernels LayerRepository
-# entries always pass version=/revision= required by kernels>=0.16 (#6971).
-transformers >= 5.13.0, < 5.15
+transformers >= 5.13.0
 av>=14.0.0
 omegaconf>=2.3.0
 diffusers==0.40.0
