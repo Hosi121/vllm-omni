@@ -632,14 +632,7 @@ class OmniARScheduler(OmniSchedulerMixin, VLLMScheduler):
             if not stopped and self._process_kv_transfer_trigger(request, new_token_ids):
                 stopped = True
 
-            if new_token_ids and not self.structured_output_manager.accept_tokens(request, new_token_ids):
-                logger.error(
-                    "Unexpected: grammar rejected tokens %s for request %s. Terminating request.",
-                    new_token_ids,
-                    req_id,
-                )
-                request.status = RequestStatus.FINISHED_ERROR
-                request.resumable = False
+            if OmniSchedulerMixin._reject_invalid_grammar_tokens(self, request, new_token_ids):
                 stopped = True
 
             # Finalize prefill stats BEFORE stop handling (upstream v0.28
@@ -793,32 +786,7 @@ class OmniARScheduler(OmniSchedulerMixin, VLLMScheduler):
             stopped_preempted_reqs,
         )
 
-        # Error requests finished this step: (1) a request blocked in
-        # WAITING_FOR_STRUCTURED_OUTPUT_GRAMMAR whose grammar failed to compile
-        # is recorded by _try_promote_blocked_waiting_request (inherited from
-        # upstream's schedule()) and must be finished here, otherwise it would
-        # sit in the scheduler forever and stall the engine; (2) upstream
-        # 6fbb00b188 (EPD #41567) records an encoder input a remote EC connector
-        # can no longer obtain via take_unavailable_requests() — failing is
-        # retryable (re-issuing re-runs the encode). Upstream drains both into
-        # the same FINISHED_ERROR set. getattr: upstream Scheduler.__init__ sets
-        # these attributes, but SimpleNamespace/__new__ unit-test stubs may not.
-        grammar_error_reqs = getattr(self, "grammar_compile_error_reqs", None)
-        error_req_ids = set(grammar_error_reqs or ())
-        if grammar_error_reqs:
-            grammar_error_reqs.clear()
-        ec_connector = getattr(self, "ec_connector", None)
-        if ec_connector is not None:
-            error_req_ids.update(ec_connector.take_unavailable_requests())
-        if error_req_ids:
-            for request in self.finish_requests(error_req_ids, RequestStatus.FINISHED_ERROR):
-                OmniSchedulerMixin._append_request_output(
-                    self,
-                    outputs,
-                    request,
-                    new_token_ids=[],
-                    finish_reason=request.get_finished_reason(),
-                )
+        OmniSchedulerMixin._finish_error_requests(self, outputs)
 
         failed_requests = self._handle_failed_kv_load_outputs(
             failed_kv_load_req_ids,

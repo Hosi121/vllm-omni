@@ -57,6 +57,75 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
         self._retains_state_across_chunks = bool(getattr(model_config, "retains_state_across_chunks", False))
         self._pending_finish_reqs: list[Request] = []
 
+    def _build_generation_scheduler_output(
+        self,
+        new_reqs_data: list[OmniNewRequestData],
+        cached_reqs_data: OmniCachedRequestData,
+        num_scheduled_tokens: dict[str, int],
+        scheduled_spec_decode_tokens: dict[str, list[int]],
+        scheduled_encoder_inputs: dict[str, list[int]],
+        num_common_prefix_blocks: list[int],
+    ) -> SchedulerOutput:
+        """Build the worker output and consume scheduler-only connector state."""
+        # Dynamic speculative decoding: optimal K chosen by scheduler
+        # (upstream Scheduler.schedule parity; 0 when spec decode is unused).
+        num_spec_tokens_to_schedule = self.num_spec_tokens
+        if self.dynamic_sd_lookup is not None and len(num_scheduled_tokens) > 0:
+            num_spec_tokens_to_schedule = self.dynamic_sd_lookup[len(num_scheduled_tokens)]
+
+        # Mamba "align" boundary states must be handed off with exact block ids;
+        # they cannot be reconstructed from a connector's append-only block
+        # table. Drained every step so stale offers cannot accumulate.
+        boundary_state_offloads = self.kv_cache_manager.take_boundary_state_offloads()
+
+        # Connector-only block state: a producer-side connector resolves the
+        # current block table lazily for every request scheduled this step (not
+        # only the ones that allocated blocks). Built here and cleared again
+        # before the output is dispatched -- workers must never see it.
+        kv_connector_block_state = None
+        if self.connector is not None:
+            block_state_req_ids = set(num_scheduled_tokens)
+            block_state_req_ids.update(req_id for req_id in boundary_state_offloads if req_id in self.requests)
+            kv_connector_block_state = KVConnectorBlockState(
+                req_ids=block_state_req_ids,
+                resolve_block_ids=self.kv_cache_manager.get_block_ids,
+                boundary_state_offloads=boundary_state_offloads,
+            )
+
+        scheduler_output = SchedulerOutput(
+            scheduled_new_reqs=new_reqs_data,
+            scheduled_cached_reqs=cached_reqs_data,
+            num_scheduled_tokens=num_scheduled_tokens,
+            total_num_scheduled_tokens=sum(num_scheduled_tokens.values()),
+            scheduled_spec_decode_tokens=scheduled_spec_decode_tokens,
+            scheduled_encoder_inputs=scheduled_encoder_inputs,
+            num_common_prefix_blocks=num_common_prefix_blocks,
+            finished_req_ids=self.finished_req_ids,
+            free_encoder_mm_hashes=self.encoder_cache_manager.get_freed_mm_hashes(),
+            # Preemptions accumulated since the previous step; cleared by
+            # _update_after_schedule below, exactly like upstream.
+            preempted_req_ids=self.reset_preempted_req_ids,
+            # Upstream drains the manager-side list every step (unbounded growth
+            # otherwise) and applies _skip_zero_block_ids before zeroing.
+            new_block_ids_to_zero=self._get_new_block_ids_to_zero(),
+            ec_manager_metadata=self.encoder_cache_manager.get_manager_metadata(),
+            kv_connector_block_state=kv_connector_block_state,
+            num_spec_tokens_to_schedule=num_spec_tokens_to_schedule,
+        )
+
+        # KVTransfer: package metadata
+        if self.connector is not None:
+            meta = self._build_kv_connector_meta(self.connector, scheduler_output)
+            scheduler_output.kv_connector_metadata = meta
+        # EC Connector: package metadata
+        if self.ec_connector is not None:
+            ec_meta = self.ec_connector.build_connector_meta(scheduler_output)
+            scheduler_output.ec_connector_metadata = ec_meta
+        # Connector-only block state must not be dispatched to workers.
+        scheduler_output.kv_connector_block_state = None
+
+        return scheduler_output
+
     def _is_done_receiving_chunks(self, request_id: str) -> bool:
         if self.chunk_transfer_adapter is not None:
             return self.chunk_transfer_adapter.is_done_receiving_chunks(request_id)
@@ -390,62 +459,14 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
         self.prev_step_scheduled_req_ids.clear()
         self.prev_step_scheduled_req_ids.update(num_scheduled_tokens.keys())
 
-        # Dynamic speculative decoding: optimal K chosen by scheduler
-        # (upstream Scheduler.schedule parity; 0 when spec decode is unused).
-        num_spec_tokens_to_schedule = self.num_spec_tokens
-        if self.dynamic_sd_lookup is not None and len(num_scheduled_tokens) > 0:
-            num_spec_tokens_to_schedule = self.dynamic_sd_lookup[len(num_scheduled_tokens)]
-
-        # Mamba "align" boundary states must be handed off with exact block ids;
-        # they cannot be reconstructed from a connector's append-only block
-        # table. Drained every step so stale offers cannot accumulate.
-        boundary_state_offloads = self.kv_cache_manager.take_boundary_state_offloads()
-
-        # Connector-only block state: a producer-side connector resolves the
-        # current block table lazily for every request scheduled this step (not
-        # only the ones that allocated blocks). Built here and cleared again
-        # before the output is dispatched -- workers must never see it.
-        kv_connector_block_state = None
-        if self.connector is not None:
-            block_state_req_ids = set(num_scheduled_tokens)
-            block_state_req_ids.update(req_id for req_id in boundary_state_offloads if req_id in self.requests)
-            kv_connector_block_state = KVConnectorBlockState(
-                req_ids=block_state_req_ids,
-                resolve_block_ids=self.kv_cache_manager.get_block_ids,
-                boundary_state_offloads=boundary_state_offloads,
-            )
-
-        scheduler_output = SchedulerOutput(
-            scheduled_new_reqs=new_reqs_data,
-            scheduled_cached_reqs=cached_reqs_data,
-            num_scheduled_tokens=num_scheduled_tokens,
-            total_num_scheduled_tokens=total_num_scheduled_tokens,
-            scheduled_spec_decode_tokens=scheduled_spec_decode_tokens,
-            scheduled_encoder_inputs=scheduled_encoder_inputs,
-            num_common_prefix_blocks=num_common_prefix_blocks,
-            finished_req_ids=self.finished_req_ids,
-            free_encoder_mm_hashes=self.encoder_cache_manager.get_freed_mm_hashes(),
-            # Preemptions accumulated since the previous step; cleared by
-            # _update_after_schedule below, exactly like upstream.
-            preempted_req_ids=self.reset_preempted_req_ids,
-            # Upstream drains the manager-side list every step (unbounded growth
-            # otherwise) and applies _skip_zero_block_ids before zeroing.
-            new_block_ids_to_zero=self._get_new_block_ids_to_zero(),
-            ec_manager_metadata=self.encoder_cache_manager.get_manager_metadata(),
-            kv_connector_block_state=kv_connector_block_state,
-            num_spec_tokens_to_schedule=num_spec_tokens_to_schedule,
+        scheduler_output = self._build_generation_scheduler_output(
+            new_reqs_data,
+            cached_reqs_data,
+            num_scheduled_tokens,
+            scheduled_spec_decode_tokens,
+            scheduled_encoder_inputs,
+            num_common_prefix_blocks,
         )
-
-        # KVTransfer: package metadata
-        if self.connector is not None:
-            meta = self._build_kv_connector_meta(self.connector, scheduler_output)
-            scheduler_output.kv_connector_metadata = meta
-        # EC Connector: package metadata
-        if self.ec_connector is not None:
-            ec_meta = self.ec_connector.build_connector_meta(scheduler_output)
-            scheduler_output.ec_connector_metadata = ec_meta
-        # Connector-only block state must not be dispatched to workers.
-        scheduler_output.kv_connector_block_state = None
 
         # Advance the fence only for non-empty steps (those that actually
         # write KV and have their output processed later in
@@ -657,14 +678,7 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
                 stopped = True
 
             # Validate grammar before terminal cleanup and finish-reason capture.
-            if new_token_ids and not self.structured_output_manager.accept_tokens(request, new_token_ids):
-                logger.error(
-                    "Unexpected: grammar rejected tokens %s for request %s. Terminating request.",
-                    new_token_ids,
-                    req_id,
-                )
-                request.status = RequestStatus.FINISHED_ERROR
-                request.resumable = False
+            if OmniSchedulerMixin._reject_invalid_grammar_tokens(self, request, new_token_ids):
                 stopped = True
 
             # Finalize prefill stats BEFORE stop handling (upstream v0.28
@@ -773,31 +787,7 @@ class OmniGenerationScheduler(OmniSchedulerMixin, VLLMScheduler):
             stopped_preempted_reqs,
         )
 
-        # Same upstream contract as the AR path: (1) a request parked in
-        # WAITING_FOR_STRUCTURED_OUTPUT_GRAMMAR whose grammar failed to compile
-        # is recorded by _try_promote_blocked_waiting_request (inherited from
-        # upstream's schedule(), reached through the base-class fallback) and
-        # must be finished here; (2) upstream 6fbb00b188 (EPD #41567) records an
-        # encoder input a remote EC connector can no longer obtain via
-        # take_unavailable_requests(). Upstream drains both into the same
-        # FINISHED_ERROR set. getattr: unit-test stubs may not carry the
-        # attributes upstream Scheduler.__init__ always sets.
-        grammar_error_reqs = getattr(self, "grammar_compile_error_reqs", None)
-        error_req_ids = set(grammar_error_reqs or ())
-        if grammar_error_reqs:
-            grammar_error_reqs.clear()
-        ec_connector = getattr(self, "ec_connector", None)
-        if ec_connector is not None:
-            error_req_ids.update(ec_connector.take_unavailable_requests())
-        if error_req_ids:
-            for request in self.finish_requests(error_req_ids, RequestStatus.FINISHED_ERROR):
-                OmniSchedulerMixin._append_request_output(
-                    self,
-                    outputs,
-                    request,
-                    new_token_ids=[],
-                    finish_reason=request.get_finished_reason(),
-                )
+        OmniSchedulerMixin._finish_error_requests(self, outputs)
 
         failed_requests = self._handle_failed_kv_load_outputs(
             failed_kv_load_req_ids,
