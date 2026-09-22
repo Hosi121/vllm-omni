@@ -38,7 +38,29 @@ non-migratable. Legacy M0 defaults are explicitly preserved in `contracts.legacy
 
 ## Hardware composition
 
-### Model × PC configuration matrix
+### Mobile and PC × model support matrix
+
+Rows identify the device class and execution configuration; columns identify the
+model family. **Not qualified** means the complete specified model path has not
+passed this release's acceptance gates, not that the hardware cannot run it.
+
+| Device / execution configuration | Spark-X2.5 | Qwen3-TTS 0.6B | Qwen3.8-27B | MiniCPM-o | InternVLA |
+|---|---|---|---|---|---|
+| PC: CPU only, WSL | 1.7B INT8 historical M0 pass; extraction rerun pending | Not qualified | Not qualified | Not qualified | Not qualified |
+| PC: CPU only, native Windows | Not qualified | Not qualified | Not qualified | Not qualified | Not qualified |
+| PC: CPU + NVIDIA discrete GPU, Windows/WSL | 4B BF16 M0 passed | Real-weight streaming completes; playback stalls remain | Complete multimodal pipeline not qualified | Not qualified | Not qualified |
+| PC: CPU + AMD Radeon 890M iGPU | Not qualified | Not qualified | Historical vision-tower component pass only | Not qualified | Not qualified |
+| PC: CPU + AMD NPU | Not qualified | Not qualified | Tested whole-vision-tower exports rejected | Not qualified | Not qualified |
+| PC: CPU + iGPU + NPU, with optional discrete GPU used jointly | Full heterogeneous model path not qualified | Full heterogeneous model path not qualified | Full heterogeneous model path not qualified | Not qualified | Not qualified |
+| Mobile: Galaxy S25 / Snapdragon 8 Elite for Galaxy, CPU + GPU + NPU | W8A16 attention component passed in AI Hub; full local generation pending | Local NPU/GPU pipeline not qualified | Not qualified | Not qualified | Not qualified |
+| Other mobile / embedded SoCs | Not qualified | Not qualified | Not qualified | Not qualified | Not qualified |
+
+The PC measurements below come from one Ryzen AI 9 HX370 laptop. Component
+success, backend probes and topology tests do not certify a full model pipeline.
+S25 AI Hub results do not qualify an on-device Omni controller, continuous
+generation, shared NPU/GPU execution or sustained thermal behavior.
+
+### Detailed PC model and backend pairings
 
 The tested PC is a Ryzen AI 9 HX370 laptop with Radeon 890M, AMD NPU and
 RTX 5090 Laptop GPU. Selecting CPU-only or a subset of those accelerators is
