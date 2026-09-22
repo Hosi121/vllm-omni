@@ -1,0 +1,1047 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-22",
+  "scope": "60 named pairings checked; not 60 successful executions",
+  "base_commit": "1887d8294b93dee0ca7c2ca80bb62fccdd6e8661",
+  "devices": {
+    "pc_cpu_wsl": "PC HX370: CPU / WSL",
+    "pc_cpu_windows": "PC HX370: CPU / native Windows",
+    "pc_cuda_wsl": "PC HX370 + RTX 5090 Laptop / WSL",
+    "pc_cuda_windows": "PC HX370 + RTX 5090 Laptop / Windows",
+    "pc_igpu": "PC HX370 + Radeon 890M / Windows worker",
+    "pc_npu": "PC HX370 + AMD NPU / Windows worker",
+    "pc_joint": "PC CPU+iGPU+NPU +/- discrete GPU, joint model execution",
+    "pc_xelite": "PC Snapdragon X Elite CRD / AI Hub",
+    "mobile_s25": "Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy",
+    "mobile_s24": "Mobile Galaxy S24 / Snapdragon 8 Gen 3",
+    "embedded_sa8775p": "Embedded SA8775P ADP / AI Hub",
+    "embedded_rb3": "Embedded RB3 Gen 2 / QCS6490 / AI Hub"
+  },
+  "models": {
+    "spark": "Spark-X2.5",
+    "tts": "Qwen3-TTS 0.6B CustomVoice",
+    "qwen27": "Qwen3.8-27B",
+    "minicpm": "MiniCPM-o 4.5",
+    "vla": "InternVLA-A1"
+  },
+  "counts": {
+    "PASS": 3,
+    "FAILED": 3,
+    "BLOCKED": 42,
+    "PARTIAL": 2,
+    "COMPONENT": 6,
+    "REJECTED": 1,
+    "PROFILE_ONLY": 3
+  },
+  "sources": {
+    "host-wsl": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/wsl-inventory.json",
+      "file": "evidence/host-wsl.json",
+      "sha256": "34251279219611d81cdf90ec49e3c3ea9c654a24ef9dda4bfdc270c85e3cedc6"
+    },
+    "host-windows": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/windows-inventory.json",
+      "file": "evidence/host-windows.json",
+      "sha256": "3d0bfc38234a2e2e5dd425ff905306f84990ae36da6453af0279437d74db966a"
+    },
+    "windows-cpu-kernels": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/windows-cpu-kernels.json",
+      "file": "evidence/windows-cpu-kernels.json",
+      "sha256": "69d0e50cf2128782b0c5b7b2c17ca63b0f1ac7cac7c69a83d1b0c51fc9bacaf0"
+    },
+    "hub-inventory": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/hub-inventory.json",
+      "file": "evidence/hub-inventory.json",
+      "sha256": "ed5e8bf937efdd4ea3753a1af670725d563516bc943547b19fddf8b7382425f8"
+    },
+    "spark-cpu": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/spark-cpu-current.json",
+      "file": "evidence/spark-cpu.json",
+      "sha256": "c10e44be02717a5fe023d0438a0eed2aa359ee5bf860a8f01ad302800b83c6ec"
+    },
+    "spark-cpu-log": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/spark-cpu-current.log",
+      "file": "evidence/spark-cpu-log.log",
+      "sha256": "a5962901c0bb9f8b64eaed036450970c15a8a203bef277e3bbe4817ef981a110"
+    },
+    "tts-cpu": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-cpu-current.json",
+      "file": "evidence/tts-cpu.json",
+      "sha256": "15d747661b960b8d1f98b38f20b1c827ab5140c44c851f8ddf82fba0bf64b07f"
+    },
+    "tts-cpu-log": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-cpu-current.log",
+      "file": "evidence/tts-cpu-log.log",
+      "sha256": "0a52cc2a60a1a51a5df02011dd69f11c634a515e9154264a4b881c066f909634"
+    },
+    "qwen-wsl": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/qwen-wsl-current.json",
+      "file": "evidence/qwen-wsl.json",
+      "sha256": "de2c650c9826b2c6388b12e900652fa3abd5c60de53953b508fa349a8cae974e"
+    },
+    "qwen-windows": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/qwen-windows-current.json",
+      "file": "evidence/qwen-windows.json",
+      "sha256": "0e8b02db4b2080bcb501464b490b782d66f750beff9a3025e84cb26740e2e1b9"
+    },
+    "hub-repeatability": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/hub-repeatability.json",
+      "file": "evidence/hub-repeatability.json",
+      "sha256": "4eb570ba19977f08cd7ab0ff467fe7c5fc7ded2e7ebca8a6f8f6529b667fcac3"
+    },
+    "tts-s25": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-s25-repeat.json",
+      "file": "evidence/tts-s25.json",
+      "sha256": "3515d803190796a7009d9af8021ac34e9746a5f856f4982252c25f1b9bffdd53"
+    },
+    "minicpm-s25": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/minicpm-s25-repeat.json",
+      "file": "evidence/minicpm-s25.json",
+      "sha256": "473444b5aafe02a465f7d7bc2c7d7a3eb10cd65b6d238a764883290faf5d11e6"
+    },
+    "minicpm-s24": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/minicpm-s24-reference.json",
+      "file": "evidence/minicpm-s24.json",
+      "sha256": "1ac697861cca4fa3f179819b3e0e850ab94b08a6fa465b238b6372356db0247e"
+    },
+    "tts-xelite": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-xelite-profile.json",
+      "file": "evidence/tts-xelite.json",
+      "sha256": "cd3bc19ca96a29d2e8bd55bd2830be36461206ec774762005ff5f38395e4f97d"
+    },
+    "tts-sa8775p-npu": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-sa8775p-npu-profile.json",
+      "file": "evidence/tts-sa8775p-npu.json",
+      "sha256": "039cbdb854b00ceed6cca17f389d43a7fe898c254f720edd744fbaa15b8991bb"
+    },
+    "tts-sa8775p-gpu": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-sa8775p-gpu-profile.json",
+      "file": "evidence/tts-sa8775p-gpu.json",
+      "sha256": "bb8f7d972c9d160b5984b4f6e41c63b81ae93f5549c304a29b94e1073f072f6f"
+    },
+    "tts-rb3-gpu": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-rb3-gpu-profile.json",
+      "file": "evidence/tts-rb3-gpu.json",
+      "sha256": "e27d3ae0238381fffc6010c35f6b04081c253382d7cb925ca2d9cba4174d96f2"
+    },
+    "tts-xelite-vocoder-rejected": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-xelite-vocoder-rejected.json",
+      "file": "evidence/tts-xelite-vocoder-rejected.json",
+      "sha256": "0fd88c77398d0ae585d1cac9ee159bd10b7092b5abafa01ab0e0784f6a521854"
+    },
+    "tts-rb3-talker-rejected": {
+      "workspace_path": "analysis/experiments/model_device_matrix_20260922/tts-rb3-talker-rejected.json",
+      "file": "evidence/tts-rb3-talker-rejected.json",
+      "sha256": "d0d5f368df2b7850696a206c6e0b8a75e185169b83bdc334e61654e9a1100de5"
+    },
+    "spark-cuda-wsl": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/wsl-m0-cuda-1.log",
+      "file": "evidence/spark-cuda-wsl.log",
+      "sha256": "b417fef6ea43631ce2a9e1941e6a6251f01da429190a2441c1995cddb94a8955"
+    },
+    "spark-cuda-windows": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/windows-m0-cuda-6.log",
+      "file": "evidence/spark-cuda-windows.log",
+      "sha256": "f9bf30610306610282b4039b330769cd942cbbfb08ad515b2436863d24ec72a1"
+    },
+    "tts-cuda-wsl": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/tts-stream/Qwen3-TTS-12Hz-0.6B-CustomVoice/profile_edge/20260922-120641_abstraction.json",
+      "file": "evidence/tts-cuda-wsl.json",
+      "sha256": "2ba3df6bd9c99d18e446cb536e1c495e54228306db71cd9193b977ce136e67aa"
+    },
+    "tts-cuda-windows": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/tts-stream-windows/Qwen3-TTS-0.6B-85e237c/profile_edge/20260922-123626_abstraction.json",
+      "file": "evidence/tts-cuda-windows.json",
+      "sha256": "a057c60c9cdc00406f2b775076a693118092e2ea6c63b600b6171f438fa8ef6d"
+    },
+    "spark-s25": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/aihub-s25-infer.json",
+      "file": "evidence/spark-s25.json",
+      "sha256": "49f63d7952da30d9a2922e2635c5dfb7c1919daccd57830042a757b521973eff"
+    },
+    "spark-s25-parity": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/aihub-repeatability.json",
+      "file": "evidence/spark-s25-parity.json",
+      "sha256": "c5473841b202daae552f9628d93b465d12f97fc716aa8de7fa3f63a03bfb1527"
+    },
+    "backend-dml": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/graph-dml-crossdomain.json",
+      "file": "evidence/backend-dml.json",
+      "sha256": "a77c4c8ec86db32ce2514eb957eca7b368f22c15a27af3901a6649f43e531c4a"
+    },
+    "backend-npu": {
+      "workspace_path": "analysis/experiments/omni_abstraction_20260922/graph-npu-crossdomain-2.json",
+      "file": "evidence/backend-npu.json",
+      "sha256": "8882d92be275f0631c8423f72f1919b828a1f07b09b5761666a8e1d0847aa4c6"
+    },
+    "qwen-vision-dml": {
+      "workspace_path": "analysis/experiments/m3_amd_devices_20260915/m32_tower_parity.json",
+      "file": "evidence/qwen-vision-dml.json",
+      "sha256": "4a7d88b6d663858953767d3c078d59e344ba8b93fc8780d8fdaf57a57278ba81"
+    },
+    "qwen-vision-npu": {
+      "workspace_path": "analysis/experiments/m3_amd_devices_20260915/m32_tower_npu.json",
+      "file": "evidence/qwen-vision-npu.json",
+      "sha256": "03bc489b67e0c5bff7da3f0573aeb2a0ea576917d8767c4036e3973bf6a5bd11"
+    },
+    "qwen-text-historical": {
+      "workspace_path": "analysis/experiments/architecture_20260915/nvfp4_fullgpu.json",
+      "file": "evidence/qwen-text-historical.json",
+      "sha256": "035368221e24f46ba15bd55001964023f1cbc15ca8346467f6d0314cc634a499"
+    },
+    "tts-mobile-parity": {
+      "workspace_path": "analysis/experiments/edge_engine_compare/qnn/aihub/parity_results.json",
+      "file": "evidence/tts-mobile-parity.json",
+      "sha256": "07fc8007a36d6e92cc1bf32eb024e540be842fdf34b99f6fae98350f3dff4a6a"
+    },
+    "minicpm-mobile-parity": {
+      "workspace_path": "analysis/experiments/edge_engine_compare/minicpm/tts_parity.json",
+      "file": "evidence/minicpm-mobile-parity.json",
+      "sha256": "70a764eb7e1b1ff9a63ba4169c3d6c543d412d88adc75d1818edc23c16c4a6e1"
+    },
+    "tts-other-devices": {
+      "workspace_path": "analysis/experiments/edge_engine_compare/qnn/aihub/device_matrix.json",
+      "file": "evidence/tts-other-devices.json",
+      "sha256": "564455df85e4e2e3976f15ff10d520bb84ffd80134e3746724414088c39f3163"
+    },
+    "tts-other-device-code": {
+      "workspace_path": "analysis/experiments/edge_engine_compare/qnn/aihub/device_matrix.py",
+      "file": "evidence/tts-other-device-code.py",
+      "sha256": "48d6b955347e824a2e4ed5e9343ab2722235ada95c55c7cde74d730a01bd9d6f"
+    },
+    "backend-factory": {
+      "workspace_path": "vllm-omni-edge/vllm_omni/engine/backends/__init__.py",
+      "file": "evidence/backend-factory.py",
+      "sha256": "6aa6a5afbf9fc4c9553ac51f930c0c674d4e93e8aef3766bb59c7a198652da5c"
+    },
+    "graph-contract": {
+      "workspace_path": "vllm-omni-edge/vllm_omni/engine/backends/graph.py",
+      "file": "evidence/graph-contract.py",
+      "sha256": "9ac710c79455d10866e9de4bbfc5c30e89b929e5f6d80d2cb88938c07130b9b3"
+    }
+  },
+  "cases": [
+    {
+      "device": "pc_cpu_wsl",
+      "model": "spark",
+      "status": "PASS",
+      "depth": "P",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh Spark 1.7B INT8 acceptance: 12 prompts x 128 tokens; clean cancellation. Current Omni branch with the existing vLLM 0.28 CPU wheel; version mismatch warning retained, not a claim about a 0.29 CPU wheel.",
+      "next_step": "Qualify a matching vLLM 0.29 CPU build and token parity separately.",
+      "evidence": [
+        "spark-cpu",
+        "spark-cpu-log"
+      ]
+    },
+    {
+      "device": "pc_cpu_wsl",
+      "model": "tts",
+      "status": "FAILED",
+      "depth": "execution",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh real-weight two-frame probe loaded both stages but generation failed in sanitize_min_tokens_stop_ids: expected four tuple fields, got three. Existing CPU wheel is vLLM 0.28 versus Omni 0.29. No audio pass.",
+      "next_step": "Use a matching CPU runtime or explicitly validated compatibility fix; repeat real audio, then full streaming gates.",
+      "evidence": [
+        "tts-cpu",
+        "tts-cpu-log"
+      ]
+    },
+    {
+      "device": "pc_cpu_wsl",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No compatible CPU artifact/deployment for this model was found in the checked model roots. Available Qwen 27B FP8/NVFP4 CUDA artifacts do not establish a CPU route.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl"
+      ]
+    },
+    {
+      "device": "pc_cpu_wsl",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cpu_wsl",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cpu_windows",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-windows",
+        "windows-cpu-kernels",
+        "backend-factory"
+      ]
+    },
+    {
+      "device": "pc_cpu_windows",
+      "model": "tts",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-windows",
+        "windows-cpu-kernels",
+        "backend-factory"
+      ]
+    },
+    {
+      "device": "pc_cpu_windows",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-windows",
+        "windows-cpu-kernels",
+        "backend-factory"
+      ]
+    },
+    {
+      "device": "pc_cpu_windows",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cpu_windows",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_wsl",
+      "model": "spark",
+      "status": "PASS",
+      "depth": "P",
+      "check": "recorded execution and source audit",
+      "finding": "Spark 4B BF16: 11 M0 tests passed on this branch for text, state, cancellation and memory; scoped to the recorded workload.",
+      "next_step": "Broaden only with a named workload/device/precision qualification.",
+      "evidence": [
+        "spark-cuda-wsl"
+      ]
+    },
+    {
+      "device": "pc_cuda_wsl",
+      "model": "tts",
+      "status": "PARTIAL",
+      "depth": "P-limited",
+      "check": "recorded execution and source audit",
+      "finding": "Real-weight two-stage audio completes. One measured utterance has playback stalls; speech quality, long streaming, interruption/recovery and thermal gates remain open.",
+      "next_step": "Resolve and measure playback stalls; run quality, interruption and thermal tests.",
+      "evidence": [
+        "tts-cuda-wsl"
+      ]
+    },
+    {
+      "device": "pc_cuda_wsl",
+      "model": "qwen27",
+      "status": "FAILED",
+      "depth": "startup",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh public Omni startup rejects the real NVFP4 checkpoint: no registered Omni pipeline. Historical bare-vLLM short-text success does not qualify this integration or multimodal inference.",
+      "next_step": "Add/validate an Omni pipeline binding; rerun text, image, context and artifact-quality tests.",
+      "evidence": [
+        "qwen-wsl",
+        "qwen-text-historical"
+      ]
+    },
+    {
+      "device": "pc_cuda_wsl",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_wsl",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_windows",
+      "model": "spark",
+      "status": "PASS",
+      "depth": "P",
+      "check": "recorded execution and source audit",
+      "finding": "Spark 4B BF16: 11 M0 tests passed on this branch for text, state, cancellation and memory; scoped to the recorded workload.",
+      "next_step": "Broaden only with a named workload/device/precision qualification.",
+      "evidence": [
+        "spark-cuda-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_windows",
+      "model": "tts",
+      "status": "PARTIAL",
+      "depth": "P-limited",
+      "check": "recorded execution and source audit",
+      "finding": "Real-weight two-stage audio completes. One measured utterance has playback stalls; speech quality, long streaming, interruption/recovery and thermal gates remain open.",
+      "next_step": "Resolve and measure playback stalls; run quality, interruption and thermal tests.",
+      "evidence": [
+        "tts-cuda-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_windows",
+      "model": "qwen27",
+      "status": "FAILED",
+      "depth": "startup",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh public Omni startup rejects the real NVFP4 checkpoint: no registered Omni pipeline. Historical bare-vLLM short-text success does not qualify this integration or multimodal inference.",
+      "next_step": "Add/validate an Omni pipeline binding; rerun text, image, context and artifact-quality tests.",
+      "evidence": [
+        "qwen-windows",
+        "qwen-text-historical"
+      ]
+    },
+    {
+      "device": "pc_cuda_windows",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_cuda_windows",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "host-wsl",
+        "host-windows"
+      ]
+    },
+    {
+      "device": "pc_igpu",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_igpu",
+      "model": "tts",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_igpu",
+      "model": "qwen27",
+      "status": "COMPONENT",
+      "depth": "C-historical",
+      "check": "recorded execution and source audit",
+      "finding": "FP32 448x448 vision tower: DirectML 85/113 nodes; normalized max error 9.095e-06 versus torch CPU. Historical component path, not full 27B or current graph-stage image-to-text integration.",
+      "next_step": "Recover the hashed tower bundle and qualify its current Omni graph handoff with the language stage.",
+      "evidence": [
+        "qwen-vision-dml"
+      ]
+    },
+    {
+      "device": "pc_igpu",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_igpu",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_npu",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_npu",
+      "model": "tts",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_npu",
+      "model": "qwen27",
+      "status": "REJECTED",
+      "depth": "artifact",
+      "check": "recorded execution and source audit",
+      "finding": "The tested A16W8 whole-vision-tower export failed NPU placement. This conclusion is specific to that export, not all future Qwen/NPU combinations.",
+      "next_step": "Validate a supported export or smaller useful component, including same-checkpoint numerical quality.",
+      "evidence": [
+        "qwen-vision-npu"
+      ]
+    },
+    {
+      "device": "pc_npu",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_npu",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_joint",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_joint",
+      "model": "tts",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_joint",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_joint",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_joint",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "backend-dml",
+        "backend-npu",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_xelite",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_xelite",
+      "model": "tts",
+      "status": "PROFILE_ONLY",
+      "depth": "C-timing-only",
+      "check": "recorded execution and source audit",
+      "finding": "Historical QNN talker profile re-fetched successfully; no numerical/full-pipeline gate. Historical TFLite vocoder target was refused on this Windows ARM device.",
+      "next_step": "Validate target-specific numerical quality, complete local execution, memory and sustained behavior.",
+      "evidence": [
+        "tts-xelite",
+        "tts-xelite-vocoder-rejected",
+        "tts-other-devices",
+        "tts-other-device-code"
+      ]
+    },
+    {
+      "device": "pc_xelite",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_xelite",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "pc_xelite",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "mobile_s25",
+      "model": "spark",
+      "status": "COMPONENT",
+      "depth": "C",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh 2026-09-22 W8A16 full-attention component inference/profile passed; full1024 denotes one cache bucket. No full prefill/decode/KV/ring/sampling loop.",
+      "next_step": "Implement and validate local 128-token generation, 512/1024 transitions, cancellation and resident memory.",
+      "evidence": [
+        "spark-s25",
+        "spark-s25-parity"
+      ]
+    },
+    {
+      "device": "mobile_s25",
+      "model": "tts",
+      "status": "COMPONENT",
+      "depth": "C",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh FP16 predictor inference passed; its one output exactly matches the same compiled artifact/dataset reference. Historical decoder parity exists. No complete co-resident NPU/GPU stream.",
+      "next_step": "Validate the device-local talker/predictor/vocoder pipeline, output quality, recovery and 30-minute thermal behavior.",
+      "evidence": [
+        "tts-s25",
+        "hub-repeatability",
+        "tts-mobile-parity"
+      ]
+    },
+    {
+      "device": "mobile_s25",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "mobile_s25",
+      "model": "minicpm",
+      "status": "COMPONENT",
+      "depth": "C",
+      "check": "recorded execution and source audit",
+      "finding": "Fresh FP16 speech-head inference passed; all 41 outputs exactly match the same artifact/dataset reference. Historical FP16 numerical parity passed; tested W8A16 top-1 parity failed. Thinker/encoders/vocoder are not qualified together.",
+      "next_step": "Supply a qualified complete mobile checkpoint/export and validate the full multimodal/stateful pipeline.",
+      "evidence": [
+        "minicpm-s25",
+        "hub-repeatability",
+        "minicpm-mobile-parity"
+      ]
+    },
+    {
+      "device": "mobile_s25",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "mobile_s24",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "mobile_s24",
+      "model": "tts",
+      "status": "COMPONENT",
+      "depth": "C-historical",
+      "check": "recorded execution and source audit",
+      "finding": "Historical FP16 decoder parity has SNR 39.13 dB. Tested calibrated INT8 decoder parity failed with negative SNR. Neither result is a full local TTS stream.",
+      "next_step": "Validate the complete local pipeline and a quality-passing artifact set.",
+      "evidence": [
+        "tts-mobile-parity"
+      ]
+    },
+    {
+      "device": "mobile_s24",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "mobile_s24",
+      "model": "minicpm",
+      "status": "COMPONENT",
+      "depth": "C-historical",
+      "check": "recorded execution and source audit",
+      "finding": "Historical FP16 speech-head job re-fetched successfully; SNR 49.22 dB/top-1 match in the recorded parity test. W8A16 top-1 failed. Not complete MiniCPM-o.",
+      "next_step": "Qualify thinker/encoders/vocoder and stateful local integration.",
+      "evidence": [
+        "minicpm-s24",
+        "minicpm-mobile-parity"
+      ]
+    },
+    {
+      "device": "mobile_s24",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_sa8775p",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_sa8775p",
+      "model": "tts",
+      "status": "PROFILE_ONLY",
+      "depth": "C-timing-only",
+      "check": "recorded execution and source audit",
+      "finding": "Historical NPU talker and GPU vocoder profiles re-fetched successfully; no complete pipeline, parity or co-residency qualification.",
+      "next_step": "Validate target-specific numerical quality, complete local execution, memory and sustained behavior.",
+      "evidence": [
+        "tts-sa8775p-npu",
+        "tts-sa8775p-gpu",
+        "tts-other-devices",
+        "tts-other-device-code"
+      ]
+    },
+    {
+      "device": "embedded_sa8775p",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_sa8775p",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_sa8775p",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_rb3",
+      "model": "spark",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_rb3",
+      "model": "tts",
+      "status": "PROFILE_ONLY",
+      "depth": "C-timing-only",
+      "check": "recorded execution and source audit",
+      "finding": "Historical GPU vocoder profile re-fetched successfully. The attempted NPU talker build was rejected for floating-point inputs. No full model pipeline.",
+      "next_step": "Validate target-specific numerical quality, complete local execution, memory and sustained behavior.",
+      "evidence": [
+        "tts-rb3-gpu",
+        "tts-rb3-talker-rejected",
+        "tts-other-devices",
+        "tts-other-device-code"
+      ]
+    },
+    {
+      "device": "embedded_rb3",
+      "model": "qwen27",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_rb3",
+      "model": "minicpm",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    },
+    {
+      "device": "embedded_rb3",
+      "model": "vla",
+      "status": "BLOCKED",
+      "depth": "none",
+      "check": "artifact/runtime preflight",
+      "finding": "No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device.",
+      "next_step": "Supply and validate the missing matching artifact/backend, then run the complete specified workload.",
+      "evidence": [
+        "hub-inventory",
+        "host-wsl",
+        "backend-factory",
+        "graph-contract"
+      ]
+    }
+  ]
+}

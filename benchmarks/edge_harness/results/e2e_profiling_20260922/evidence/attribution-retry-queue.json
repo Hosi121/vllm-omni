@@ -1,0 +1,30 @@
+{
+  "status": "exited",
+  "pid": 53412,
+  "predecessor_pid": 58756,
+  "predecessor_created": 1790073287.6435695,
+  "reason": "842 s startup consumed the first diagnostic deadline; retain exact workload and allow 1800 s.",
+  "command": [
+    "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_host_command.py",
+    "--out",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-wsl-attribution-host",
+    "--cwd",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge",
+    "--",
+    "wsl",
+    "-d",
+    "Ubuntu",
+    "--",
+    "bash",
+    "-lc",
+    "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 VLLM_OMNI_STEP_STATS_DIR=/home/zhout/project/edge_infer/analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution-step-stats VLLM_OMNI_STEP_STATS_SYNC=0 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout --kill-after=30 1800 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_local_tts.py --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution --length-band medium --concurrency 1 --repeats 20 --sustained-seconds 0"
+  ],
+  "start": 1790074824.016412,
+  "returncode": 0,
+  "benchmark_status": "completed",
+  "error": null,
+  "summarize_e2e_profiles.py": 0,
+  "analyze_profile_resources.py": 0,
+  "end": 1790076079.2944703
+}

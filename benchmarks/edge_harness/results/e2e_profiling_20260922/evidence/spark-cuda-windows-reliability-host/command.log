@@ -1,0 +1,115 @@
+INFO 09-22 17:29:40 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 17:29:40 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 17:29:40 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+INFO 09-22 17:29:53 [engine.py:392] [local] loading \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B on cuda:0 with {'max_model_len': 4096, 'max_num_seqs': 4, 'max_num_batched_tokens': 512, 'enforce_eager': True, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.61, 'kv_cache_memory_bytes': 3019898880, 'dtype': 'bfloat16'}
+INFO 09-22 17:29:53 [omni_base.py:216] [AsyncOmni] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B
+INFO 09-22 17:29:53 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+INFO 09-22 17:29:54 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+WARNING 09-22 17:29:54 [utils.py:501] Dropping unknown OmniEngineArgs field 'inline_diffusion' (not declared on the dataclass)
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+INFO 09-22 17:29:54 [model.py:684] Resolved architecture: Spark2_5ForCausalLM
+INFO 09-22 17:29:54 [model.py:2021] Using max model len 4096
+INFO 09-22 17:29:54 [scheduler.py:277] Chunked prefill is enabled with max_num_batched_tokens=512.
+WARNING 09-22 17:29:54 [vllm.py:1371] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+WARNING 09-22 17:29:54 [vllm.py:1406] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+INFO 09-22 17:29:54 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+INFO 09-22 17:29:54 [vllm.py:1585] Cudagraph is disabled under eager mode
+INFO 09-22 17:29:54 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+WARNING 09-22 17:29:54 [stage_runtime.py:778] [stage_init] Stage-0 replica 0 physical devices None are not integer GPU ids; all serial LLM replicas will share one init group
+INFO 09-22 17:30:14 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 17:30:14 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 17:30:14 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:17 [core.py:123] Initializing a V1 LLM engine (v0.29.0) with config: model='\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Spark-X2.5-4B', speculative_config=None, tokenizer='\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Spark-X2.5-4B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [512], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:18 [parallel_state.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file://C:\Users\zhout\AppData\Local\Temp/vllm_dist_26c3183a8d0f411dac83ccf32f011f82 backend=nccl
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:30:18 [parallel_state.py:1788] Distributed backend nccl is not available; falling back to gloo.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:18 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:30:19 [gpu_ar_worker.py:120] OMNI GPUARWorker forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:19 [topk_topp_sampler.py:46] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:30:19 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:30:19 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:19 [gpu_model_runner.py:5379] Starting to load model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B...
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:20 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:20 [flash_attn.py:897] Using FlashAttention version 2
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:20 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 7.66 GiB. Available RAM: 18.55 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:30:20 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (unknown) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:14<00:59, 14.96s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:29<00:44, 14.88s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:43<00:28, 14.36s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:55<00:13, 13.42s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:57<00:00,  9.26s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:57<00:00, 11.48s/it]
+(StageEngineCoreProc_stage0_replica0 pid=18880) 
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:17 [default_loader.py:430] Loading weights took 57.48 seconds
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:18 [gpu_model_runner.py:5471] Model loading took 7.66 GiB memory and 58.143696 seconds
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:19 [utils.py:306] Using LBNHC KV cache layout.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:20 [kv_cache_utils.py:2032] GPU KV cache size: 38,339 tokens, Maximum concurrency for 4,096 tokens per request: 9.36x
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:31:20 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:20 [kernel_warmup.py:124] JIT kernel warmup starting.
+(StageEngineCoreProc_stage0_replica0 pid=18880) JIT kernel warmup (1 compile keys):   0%|          | 0/1 [00:00<?, ?kernel/s]JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00,  5.06kernel/s, ComputeSlotMappingKernel (1 keys)]JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00,  5.03kernel/s, ComputeSlotMappingKernel (1 keys)]
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:20 [kernel_warmup.py:134] JIT kernel warmup finished in 0.20s.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:21 [ll_bf16.py:30] cuteDSL (CUTLASS Python) not available, ll_bf16_gemm disabled
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:21 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:21 [torch_utils.py:277] Reducing Torch threads from 12 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:21 [core.py:368] init engine (profile, create kv cache, warmup model) took 2.61 s
+(StageEngineCoreProc_stage0_replica0 pid=18880) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'sliding_attention', 'full_attention'}
+(StageEngineCoreProc_stage0_replica0 pid=18880) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'sliding_attention', 'full_attention'}
+(StageEngineCoreProc_stage0_replica0 pid=18880) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'sliding_attention', 'full_attention'}
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:31:23 [scheduler.py:213] Using custom scheduler class vllm_omni.core.sched.omni_ar_scheduler.OmniARAsyncScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:31:23 [omni_scheduler_mixin.py:118] OMNI scheduler forces v1 model runner for omni hooks.
+INFO 09-22 17:31:23 [stage_runtime.py:943] [StageRuntime] Stage 0 engine startup completed
+INFO 09-22 17:31:23 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-0 [rep-0] initializing EngineCore
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:31:23 [vllm.py:1371] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(StageEngineCoreProc_stage0_replica0 pid=18880) WARNING 09-22 17:31:23 [vllm.py:1406] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:23 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:23 [vllm.py:1585] Cudagraph is disabled under eager mode
+(StageEngineCoreProc_stage0_replica0 pid=18880) INFO 09-22 17:31:23 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+INFO 09-22 17:31:24 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-0 [rep-0] EngineCore running
+INFO 09-22 17:31:24 [stage_runtime.py:958] [StageRuntime] Stage 0 initialized
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+INFO 09-22 17:31:27 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-22 17:31:27 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-22 17:31:27 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 93.85 seconds
+INFO 09-22 17:31:27 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-4B
+WARNING 09-22 17:31:27 [input_processor.py:315] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+INFO 09-22 17:31:36 [orchestrator.py:917] [Orchestrator] Aborted request(s) ['1aa772ca43024666-2-9704c0b0']
+INFO 09-22 17:31:36 [orchestrator.py:917] [Orchestrator] Aborted request(s) ['1aa772ca43024666-2-9704c0b0']
+INFO 09-22 17:31:36 [async_omni.py:665] [AsyncOmni] Request 1aa772ca43024666-2-9704c0b0 aborted.
+WARNING 09-22 17:31:41 [core_client.py:728] [shutdown] MPClient: engine core exited unexpectedly; starting cleanup
+INFO 09-22 17:31:41 [core_client.py:689] [shutdown] MPClient: start timeout=default
+INFO 09-22 17:31:41 [core_client.py:691] [shutdown] MPClient: stopping engine manager
+INFO 09-22 17:31:41 [core_client.py:693] [shutdown] MPClient: engine manager stopped
+INFO 09-22 17:31:41 [core_client.py:694] [shutdown] MPClient: cleaning up background resources
+INFO 09-22 17:31:41 [core_client.py:696] [shutdown] MPClient: complete
+ERROR 09-22 17:31:41 [stage_pool.py:1204] [StagePool] _poll_stage_raw failed for stage-0 replica-0
+ERROR 09-22 17:31:41 [stage_pool.py:1204] Traceback (most recent call last):
+ERROR 09-22 17:31:41 [stage_pool.py:1204]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_pool.py", line 1195, in poll_llm_raw_output
+ERROR 09-22 17:31:41 [stage_pool.py:1204]     return await asyncio.wait_for(
+ERROR 09-22 17:31:41 [stage_pool.py:1204]            ^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-22 17:31:41 [stage_pool.py:1204]   File "C:\Users\zhout\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py", line 520, in wait_for
+ERROR 09-22 17:31:41 [stage_pool.py:1204]     return await fut
+ERROR 09-22 17:31:41 [stage_pool.py:1204]            ^^^^^^^^^
+ERROR 09-22 17:31:41 [stage_pool.py:1204]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_pool.py", line 1142, in _poll_stage_raw
+ERROR 09-22 17:31:41 [stage_pool.py:1204]     outputs = await client.get_output_async()
+ERROR 09-22 17:31:41 [stage_pool.py:1204]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-22 17:31:41 [stage_pool.py:1204]   File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\vllm\v1\engine\core_client.py", line 1105, in get_output_async
+ERROR 09-22 17:31:41 [stage_pool.py:1204]     raise self._format_exception(outputs) from None
+ERROR 09-22 17:31:41 [stage_pool.py:1204] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause.
+ERROR 09-22 17:31:41 [orchestrator.py:1604] [Orchestrator] Stage-0 replica-0 is dead; evicting it and failing its in-flight requests: EngineCore encountered an issue. See stack trace (above) for the root cause.
+INFO 09-22 17:31:41 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+ERROR 09-22 17:31:41 [async_omni.py:881] [AsyncOmni] Orchestrator error for req=e02ffd22592d438e-4-a46d70a2 stage-0: EngineCore encountered an issue. See stack trace (above) for the root cause.
+INFO 09-22 17:31:41 [orchestrator.py:917] [Orchestrator] Aborted request(s) ['e02ffd22592d438e-4-a46d70a2']
+INFO 09-22 17:31:41 [async_omni.py:670] [AsyncOmni] Request e02ffd22592d438e-4-a46d70a2 failed (input error): EngineCore encountered an issue. See stack trace (above) for the root cause.
+INFO 09-22 17:31:41 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-22 17:31:41 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-22 17:31:41 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-22 17:31:41 [orchestrator.py:3092] [Orchestrator] Shutting down all 0 client(s)

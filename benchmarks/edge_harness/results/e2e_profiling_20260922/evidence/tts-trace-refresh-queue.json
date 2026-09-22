@@ -1,0 +1,48 @@
+{
+  "status": "exited",
+  "pid": 58756,
+  "predecessor_pid": 19252,
+  "predecessor_created": 1790069054.170568,
+  "jobs": [
+    {
+      "name": "tts-cuda-wsl-trace",
+      "command": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "bash",
+        "-lc",
+        "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout 1800 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_trace_diagnostic.py --kind tts --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-trace"
+      ],
+      "status": "exited",
+      "start": 1790073602.9792287,
+      "returncode": 0,
+      "benchmark_status": "completed",
+      "error": null,
+      "end": 1790074631.477504
+    },
+    {
+      "name": "tts-cuda-windows-trace",
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_trace_diagnostic.py",
+        "--kind",
+        "tts",
+        "--model",
+        "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace"
+      ],
+      "status": "exited",
+      "start": 1790074631.616573,
+      "returncode": 0,
+      "benchmark_status": "completed",
+      "error": null,
+      "end": 1790074777.543135
+    }
+  ],
+  "summarize_e2e_profiles.py": 0,
+  "analyze_profile_resources.py": 0,
+  "end": 1790074821.798125
+}

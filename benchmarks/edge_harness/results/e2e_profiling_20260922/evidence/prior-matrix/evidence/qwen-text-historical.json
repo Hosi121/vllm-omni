@@ -1,0 +1,386 @@
+{
+  "args": {
+    "model": "Qwen3.8-27B-NVFP4",
+    "tag": "nvfp4_fullgpu",
+    "offload": 0.0,
+    "max_len": 4096,
+    "batch_tokens": 128,
+    "contexts": "128,512,2048",
+    "output_tokens": 16
+  },
+  "started_unix": 1789451559.825598,
+  "status": "completed",
+  "requests": [
+    {
+      "label": "warmup",
+      "warmup": true,
+      "input_tokens": 37,
+      "requested_input_tokens": 64,
+      "output_tokens": 4,
+      "wall_s": 2.104777352999008,
+      "ttft_s": 0.9845618159997684,
+      "effective_prefill_tok_s": 37.58016957262204,
+      "decode_tok_s": 2.678075334243908,
+      "text": "A local inference engine",
+      "token_events": [
+        {
+          "tokens": 1,
+          "elapsed_s": 0.9845618159997684
+        },
+        {
+          "tokens": 2,
+          "elapsed_s": 1.4607479930000409
+        },
+        {
+          "tokens": 3,
+          "elapsed_s": 1.9160753899996052
+        },
+        {
+          "tokens": 4,
+          "elapsed_s": 2.1047692880001705
+        }
+      ],
+      "engine_metrics": {
+        "num_generation_tokens": 4,
+        "arrival_time": 1789451614.1118956,
+        "queued_ts": 16132.809216287,
+        "scheduled_ts": 16132.809240102,
+        "first_token_ts": 16133.773814405,
+        "last_token_ts": 16134.894747982,
+        "first_token_latency": 0.9666800498962402,
+        "is_corrupted": false
+      }
+    },
+    {
+      "label": "context_128",
+      "warmup": false,
+      "input_tokens": 101,
+      "requested_input_tokens": 128,
+      "output_tokens": 16,
+      "wall_s": 7.534435138000845,
+      "ttft_s": 0.8878744009998627,
+      "effective_prefill_tok_s": 113.75482825753372,
+      "decode_tok_s": 2.2568085983584214,
+      "text": "A local inference engine schedules model stages and manages memory.\n",
+      "token_events": [
+        {
+          "tokens": 1,
+          "elapsed_s": 0.8878744009998627
+        },
+        {
+          "tokens": 2,
+          "elapsed_s": 1.35589112299931
+        },
+        {
+          "tokens": 3,
+          "elapsed_s": 1.8163898959992366
+        },
+        {
+          "tokens": 4,
+          "elapsed_s": 2.2728916380001465
+        },
+        {
+          "tokens": 5,
+          "elapsed_s": 2.740661313999226
+        },
+        {
+          "tokens": 6,
+          "elapsed_s": 3.191756124000676
+        },
+        {
+          "tokens": 7,
+          "elapsed_s": 3.6650295590006863
+        },
+        {
+          "tokens": 8,
+          "elapsed_s": 4.116174912000133
+        },
+        {
+          "tokens": 9,
+          "elapsed_s": 4.581921675999183
+        },
+        {
+          "tokens": 10,
+          "elapsed_s": 5.050290941999265
+        },
+        {
+          "tokens": 11,
+          "elapsed_s": 5.5145125439994445
+        },
+        {
+          "tokens": 12,
+          "elapsed_s": 5.978590863000136
+        },
+        {
+          "tokens": 13,
+          "elapsed_s": 6.428808316000868
+        },
+        {
+          "tokens": 14,
+          "elapsed_s": 6.903809924999223
+        },
+        {
+          "tokens": 15,
+          "elapsed_s": 7.354738661999363
+        },
+        {
+          "tokens": 16,
+          "elapsed_s": 7.534428304999892
+        }
+      ],
+      "engine_metrics": {
+        "num_generation_tokens": 16,
+        "arrival_time": 1789451616.200588,
+        "queued_ts": 16134.897727778,
+        "scheduled_ts": 16134.897737055,
+        "first_token_ts": 16135.783655995,
+        "last_token_ts": 16142.430436973,
+        "first_token_latency": 0.8875420093536377,
+        "is_corrupted": false
+      }
+    },
+    {
+      "label": "context_512",
+      "warmup": false,
+      "input_tokens": 485,
+      "requested_input_tokens": 512,
+      "output_tokens": 16,
+      "wall_s": 9.34543342500001,
+      "ttft_s": 2.698834197999531,
+      "effective_prefill_tok_s": 179.70722334832524,
+      "decode_tok_s": 2.2567944713093335,
+      "text": "The passage consists of the single sentence \"A local inference engine schedules model stages and",
+      "token_events": [
+        {
+          "tokens": 1,
+          "elapsed_s": 2.698834197999531
+        },
+        {
+          "tokens": 2,
+          "elapsed_s": 3.153196487999594
+        },
+        {
+          "tokens": 3,
+          "elapsed_s": 3.620412973999919
+        },
+        {
+          "tokens": 4,
+          "elapsed_s": 4.0760655800004315
+        },
+        {
+          "tokens": 5,
+          "elapsed_s": 4.530665960000988
+        },
+        {
+          "tokens": 6,
+          "elapsed_s": 5.001150199001131
+        },
+        {
+          "tokens": 7,
+          "elapsed_s": 5.45293877900076
+        },
+        {
+          "tokens": 8,
+          "elapsed_s": 5.922671457999968
+        },
+        {
+          "tokens": 9,
+          "elapsed_s": 6.380228691999946
+        },
+        {
+          "tokens": 10,
+          "elapsed_s": 6.8396083309999085
+        },
+        {
+          "tokens": 11,
+          "elapsed_s": 7.307941597000536
+        },
+        {
+          "tokens": 12,
+          "elapsed_s": 7.773795327000698
+        },
+        {
+          "tokens": 13,
+          "elapsed_s": 8.249526080000578
+        },
+        {
+          "tokens": 14,
+          "elapsed_s": 8.700053388000015
+        },
+        {
+          "tokens": 15,
+          "elapsed_s": 9.167452538000362
+        },
+        {
+          "tokens": 16,
+          "elapsed_s": 9.345429708000665
+        }
+      ],
+      "engine_metrics": {
+        "num_generation_tokens": 16,
+        "arrival_time": 1789451623.7372339,
+        "queued_ts": 16142.434277205,
+        "scheduled_ts": 16142.434285471,
+        "first_token_ts": 16145.130608161,
+        "last_token_ts": 16151.777934355,
+        "first_token_latency": 2.698073387145996,
+        "is_corrupted": false
+      }
+    },
+    {
+      "label": "context_2048",
+      "warmup": false,
+      "input_tokens": 2021,
+      "requested_input_tokens": 2048,
+      "output_tokens": 16,
+      "wall_s": 16.710036779999427,
+      "ttft_s": 10.016890127999432,
+      "effective_prefill_tok_s": 201.75922608463642,
+      "decode_tok_s": 2.241099848233223,
+      "text": "The passage consists of the single sentence \"A local inference engine schedules model stages and",
+      "token_events": [
+        {
+          "tokens": 1,
+          "elapsed_s": 10.016890127999432
+        },
+        {
+          "tokens": 2,
+          "elapsed_s": 10.475717346998863
+        },
+        {
+          "tokens": 3,
+          "elapsed_s": 10.951587396999457
+        },
+        {
+          "tokens": 4,
+          "elapsed_s": 11.405946809998568
+        },
+        {
+          "tokens": 5,
+          "elapsed_s": 11.883892373998606
+        },
+        {
+          "tokens": 6,
+          "elapsed_s": 12.338071106998541
+        },
+        {
+          "tokens": 7,
+          "elapsed_s": 12.809085696999318
+        },
+        {
+          "tokens": 8,
+          "elapsed_s": 13.279166899999836
+        },
+        {
+          "tokens": 9,
+          "elapsed_s": 13.738810389999344
+        },
+        {
+          "tokens": 10,
+          "elapsed_s": 14.21198344899858
+        },
+        {
+          "tokens": 11,
+          "elapsed_s": 14.666852663998725
+        },
+        {
+          "tokens": 12,
+          "elapsed_s": 15.146523536999666
+        },
+        {
+          "tokens": 13,
+          "elapsed_s": 15.601053123999009
+        },
+        {
+          "tokens": 14,
+          "elapsed_s": 16.074013286999616
+        },
+        {
+          "tokens": 15,
+          "elapsed_s": 16.53617112899883
+        },
+        {
+          "tokens": 16,
+          "elapsed_s": 16.710032341999977
+        }
+      ],
+      "engine_metrics": {
+        "num_generation_tokens": 16,
+        "arrival_time": 1789451633.0867412,
+        "queued_ts": 16151.783924979,
+        "scheduled_ts": 16151.783939036,
+        "first_token_ts": 16161.797966789,
+        "last_token_ts": 16168.492024295,
+        "first_token_latency": 10.01593279838562,
+        "is_corrupted": false
+      }
+    }
+  ],
+  "idle_cpu_pct": [
+    4.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0
+  ],
+  "wsl_memory_before": {
+    "total": 33184985088,
+    "available": 31711698944,
+    "percent": 4.4,
+    "used": 1473286144,
+    "free": 31611633664,
+    "active": 661553152,
+    "inactive": 90931200,
+    "buffers": 3821568,
+    "cached": 469770240,
+    "shared": 1900544,
+    "slab": 468426752
+  },
+  "import_s": 10.525000752999404,
+  "vllm_file": "/home/zhout/project/edge_infer/.venvs/omni-cuda/lib/python3.12/site-packages/vllm/__init__.py",
+  "config": {
+    "model": "/home/zhout/project/edge_infer/models/Qwen3.8-27B-NVFP4",
+    "dtype": "bfloat16",
+    "max_model_len": 4096,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 128,
+    "gpu_memory_utilization": 0.9,
+    "enforce_eager": true,
+    "cpu_offload_gb": 0.0,
+    "language_model_only": true,
+    "enable_prefix_caching": false,
+    "seed": 42,
+    "disable_log_stats": false
+  },
+  "engine_load_s": 42.73773059799896,
+  "loaded_unix": 1789451614.0896077,
+  "ended_unix": 1789451649.7974334,
+  "peak": {
+    "tree_rss": 13575667712,
+    "tree_pss": 13079872512,
+    "tree_rss_anon": 3798523904,
+    "gpu_used": 25273769984,
+    "gpu_power_mw": 39459,
+    "gpu_temp": 49,
+    "wsl_system_used": 5491564544
+  }
+}

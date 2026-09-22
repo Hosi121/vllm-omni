@@ -1,0 +1,2608 @@
+{
+  "timestamp_utc": "2026-09-22T05:33:26.622002+00:00",
+  "qai_hub_version": "0.55.0",
+  "facility": "Qualcomm AI Hub Workbench",
+  "command": "inventory",
+  "devices": [
+    {
+      "name": "Google Pixel 3 (Family)",
+      "os": "10",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-845",
+        "chipset:sdm845",
+        "hexagon:v65",
+        "soc-model:1"
+      ]
+    },
+    {
+      "name": "Google Pixel 3",
+      "os": "10",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-845",
+        "chipset:sdm845",
+        "hexagon:v65",
+        "soc-model:1"
+      ]
+    },
+    {
+      "name": "Google Pixel 3a",
+      "os": "10",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-670",
+        "chipset:sdm670",
+        "hexagon:v65",
+        "soc-model:6"
+      ]
+    },
+    {
+      "name": "Google Pixel 3 XL",
+      "os": "10",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-845",
+        "chipset:sdm845",
+        "hexagon:v65",
+        "soc-model:1"
+      ]
+    },
+    {
+      "name": "Google Pixel 4",
+      "os": "10",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-855",
+        "chipset:sm8150",
+        "hexagon:v66",
+        "soc-model:12"
+      ]
+    },
+    {
+      "name": "Google Pixel 4",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-855",
+        "chipset:sm8150",
+        "hexagon:v66",
+        "soc-model:12"
+      ]
+    },
+    {
+      "name": "Google Pixel 5",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-765g",
+        "chipset:sm7250",
+        "hexagon:v66",
+        "soc-model:25"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy Tab S7",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:tablet",
+        "chipset:qualcomm-snapdragon-865+",
+        "chipset:sm8250-ab",
+        "hexagon:v66",
+        "soc-model:21"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy Note 20 (Intl)",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:samsung-exynos-990"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21 (Family)",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21 Ultra",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Xiaomi Redmi Note 10 5G",
+      "os": "11",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:oneplus",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-678",
+        "chipset:sm6150-ac",
+        "hexagon:v66",
+        "soc-model:16"
+      ]
+    },
+    {
+      "name": "Google Pixel 3a XL",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-670",
+        "chipset:sdm670",
+        "hexagon:v65",
+        "soc-model:6"
+      ]
+    },
+    {
+      "name": "Google Pixel 5 (Family)",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-765g",
+        "chipset:sm7250",
+        "hexagon:v66",
+        "soc-model:25"
+      ]
+    },
+    {
+      "name": "Google Pixel 5",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-765g",
+        "chipset:sm7250",
+        "hexagon:v66",
+        "soc-model:25"
+      ]
+    },
+    {
+      "name": "Google Pixel 5a 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-765g",
+        "chipset:sm7250",
+        "hexagon:v66",
+        "soc-model:25"
+      ]
+    },
+    {
+      "name": "Google Pixel 6",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy A53 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:samsung-exynos-1280"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy A73 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-778g",
+        "chipset:sm7325",
+        "hexagon:v68",
+        "soc-model:35",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "QCS8550 (Proxy)",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:qualcomm",
+        "format:iot",
+        "chipset:qualcomm-qcs8550-proxy",
+        "chipset:qualcomm-dragonwing-qcs8550-proxy",
+        "hexagon:v73",
+        "soc-model:43",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21 (Family)",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S21 Ultra",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-888",
+        "chipset:sm8350",
+        "hexagon:v68",
+        "soc-model:30",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22 (Family)",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22 Ultra 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22+ 5G",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy Tab S8",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:tablet",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Xiaomi 12 (Family)",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:xiaomi",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Xiaomi 12",
+      "os": "12",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:xiaomi",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Google Pixel 6 (Family)",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor"
+      ]
+    },
+    {
+      "name": "Google Pixel 6",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor"
+      ]
+    },
+    {
+      "name": "Google Pixel 7 (Family)",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g2"
+      ]
+    },
+    {
+      "name": "Google Pixel 7",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g2"
+      ]
+    },
+    {
+      "name": "Google Pixel 7 Pro",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g2"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy A14 5G",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:samsung-exynos-1330"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S22 5G",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen1",
+        "chipset:sm8450",
+        "hexagon:v69",
+        "soc-model:36",
+        "htp-supports-fp16:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S23 (Family)",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen2",
+        "chipset:sm8550",
+        "hexagon:v73",
+        "soc-model:43",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S23",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen2",
+        "chipset:sm8550",
+        "hexagon:v73",
+        "soc-model:43",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S23+",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen2",
+        "chipset:sm8550",
+        "hexagon:v73",
+        "soc-model:43",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S23 Ultra",
+      "os": "13",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen2",
+        "chipset:sm8550",
+        "hexagon:v73",
+        "soc-model:43",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Google Pixel 7",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g2"
+      ]
+    },
+    {
+      "name": "Google Pixel 8 (Family)",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g3"
+      ]
+    },
+    {
+      "name": "Google Pixel 8",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g3"
+      ]
+    },
+    {
+      "name": "Google Pixel 8 Pro",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g3"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S24 (Family)",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen3",
+        "chipset:sm8650",
+        "hexagon:v75",
+        "soc-model:57",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S24",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen3",
+        "chipset:sm8650",
+        "hexagon:v75",
+        "soc-model:57",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S24 Ultra",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen3",
+        "chipset:sm8650",
+        "hexagon:v75",
+        "soc-model:57",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S24+",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8gen3",
+        "chipset:sm8650",
+        "hexagon:v75",
+        "soc-model:57",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Google Pixel 9 (Family)",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g4"
+      ]
+    },
+    {
+      "name": "Google Pixel 9",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g4"
+      ]
+    },
+    {
+      "name": "Google Pixel 9 Pro",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g4"
+      ]
+    },
+    {
+      "name": "Google Pixel 9 Pro XL",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g4"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S25",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-for-galaxy",
+        "chipset:sm8750-ac",
+        "hexagon:v79",
+        "soc-model:69",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S25 Ultra",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-for-galaxy",
+        "chipset:sm8750-ac",
+        "hexagon:v79",
+        "soc-model:69",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S25+",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-for-galaxy",
+        "chipset:sm8750-ac",
+        "hexagon:v79",
+        "soc-model:69",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S25 (Family)",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-for-galaxy",
+        "chipset:sm8750-ac",
+        "hexagon:v79",
+        "soc-model:69",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Google Pixel 9 Pro",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g4"
+      ]
+    },
+    {
+      "name": "Google Pixel 10",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g5"
+      ]
+    },
+    {
+      "name": "Google Pixel 10 Pro XL",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:google",
+        "format:phone",
+        "chipset:google-tensor-g5"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S26",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-gen5-for-galaxy",
+        "chipset:sm8850-ad",
+        "hexagon:v81",
+        "soc-model:87",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S26 Ultra",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-gen5-for-galaxy",
+        "chipset:sm8850-ad",
+        "hexagon:v81",
+        "soc-model:87",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S26+",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-gen5-for-galaxy",
+        "chipset:sm8850-ad",
+        "hexagon:v81",
+        "soc-model:87",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S26 (Family)",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "abi:aarch64-android",
+        "vendor:samsung",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-gen5-for-galaxy",
+        "chipset:sm8850-ad",
+        "hexagon:v81",
+        "soc-model:87",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon X Elite CRD",
+      "os": "11",
+      "attributes": [
+        "os:windows",
+        "format:compute",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-windows",
+        "chipset:qualcomm-snapdragon-x-elite",
+        "chipset:sc8380xp",
+        "hexagon:v73",
+        "soc-model:60",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon X Plus 8-Core CRD",
+      "os": "11",
+      "attributes": [
+        "os:windows",
+        "format:compute",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-windows",
+        "chipset:qualcomm-snapdragon-x-plus-8-core",
+        "chipset:sc8340xp",
+        "hexagon:v73",
+        "soc-model:60",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon X2 Elite CRD",
+      "os": "11",
+      "attributes": [
+        "os:windows",
+        "format:compute",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-windows",
+        "chipset:qualcomm-snapdragon-x2-elite",
+        "chipset:sc8480xp",
+        "hexagon:v81",
+        "soc-model:88",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon 8 Elite QRD",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite",
+        "chipset:sm8750",
+        "hexagon:v79",
+        "soc-model:69",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon 8 Elite Gen 5 QRD",
+      "os": "16",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-8-elite-gen5",
+        "chipset:sm8850",
+        "hexagon:v81",
+        "soc-model:87",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Snapdragon 7 Gen 4 QRD",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:phone",
+        "chipset:qualcomm-snapdragon-7gen4",
+        "chipset:sm7750",
+        "hexagon:v73",
+        "soc-model:86",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "SA8295P ADP",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:auto",
+        "chipset:qualcomm-sa8295p",
+        "hexagon:v68",
+        "soc-model:39",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "SA8775P ADP",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:auto",
+        "chipset:qualcomm-sa8775p",
+        "hexagon:v73",
+        "soc-model:52",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "SA7255P ADP",
+      "os": "14",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:auto",
+        "chipset:qualcomm-sa7255p",
+        "hexagon:v75",
+        "soc-model:67",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Dragonwing Q-6690 MTP",
+      "os": "15",
+      "attributes": [
+        "os:android",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-android",
+        "format:iot",
+        "chipset:qualcomm-qcm6690",
+        "chipset:qcm6690",
+        "chipset:qualcomm-dragonwing-q-6690",
+        "hexagon:v73",
+        "soc-model:78",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Dragonwing RB3 Gen 2 Vision Kit",
+      "os": "1.6",
+      "attributes": [
+        "os:qc_linux",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-oe-linux-gcc11",
+        "format:iot",
+        "chipset:qualcomm-qcs6490",
+        "chipset:qcs6490",
+        "chipset:qualcomm-dragonwing-qcs6490",
+        "hexagon:v68",
+        "soc-model:93",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Dragonwing IQ-9075 EVK",
+      "os": "1.9",
+      "attributes": [
+        "os:qc_linux",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-oe-linux-gcc11",
+        "format:iot",
+        "chipset:qualcomm-qcs9075",
+        "chipset:qcs9075",
+        "chipset:qualcomm-dragonwing-iq-9075",
+        "hexagon:v73",
+        "soc-model:77",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    },
+    {
+      "name": "Arduino VENTUNO Q",
+      "os": "24.04",
+      "attributes": [
+        "os:ubuntu",
+        "framework:tflite",
+        "framework:onnx",
+        "vendor:qualcomm",
+        "abi:aarch64-oe-linux-gcc11",
+        "format:iot",
+        "chipset:qualcomm-qcs8275",
+        "chipset:qcs8275",
+        "chipset:qualcomm-dragonwing-iq-8275",
+        "hexagon:v75",
+        "soc-model:82",
+        "htp-supports-fp16:true",
+        "htp-supports-weight-sharing:true",
+        "framework:qnn"
+      ]
+    }
+  ],
+  "recent_jobs": [
+    {
+      "job_id": "jp0mvkj6g",
+      "name": "omni-boundary-validation-infer",
+      "date": "2026-09-22 11:47:46",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp0mvkj6g/"
+    },
+    {
+      "job_id": "jpyo7nx75",
+      "name": "omni-boundary-validation-profile",
+      "date": "2026-09-22 11:47:43",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo7nx75/"
+    },
+    {
+      "job_id": "jp4ylnevp",
+      "name": "spark sliding int4 ctx_qio",
+      "date": "2026-09-11 23:36:24",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp4ylnevp/"
+    },
+    {
+      "job_id": "j57ey2olp",
+      "name": "spark sliding int4 ctx_no_qio",
+      "date": "2026-09-11 23:36:23",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j57ey2olp/"
+    },
+    {
+      "job_id": "j568y287g",
+      "name": "spark sliding int4 calib",
+      "date": "2026-09-11 23:35:17",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j568y287g/"
+    },
+    {
+      "job_id": "jgjrn4xep",
+      "name": "spark lmhead w16a16",
+      "date": "2026-09-11 18:58:07",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgjrn4xep/"
+    },
+    {
+      "job_id": "jpvlkx3r5",
+      "name": "spark lmhead w16a16",
+      "date": "2026-09-11 18:58:07",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpvlkx3r5/"
+    },
+    {
+      "job_id": "jp3z02kn5",
+      "name": "spark lmhead w8a16",
+      "date": "2026-09-11 18:58:03",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp3z02kn5/"
+    },
+    {
+      "job_id": "j5684l6yg",
+      "name": "spark lmhead w8a16",
+      "date": "2026-09-11 18:58:01",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5684l6yg/"
+    },
+    {
+      "job_id": "jprl3jz7p",
+      "name": "spark lmhead w16a16",
+      "date": "2026-09-11 18:54:25",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jprl3jz7p/"
+    },
+    {
+      "job_id": "jgnzv8jqg",
+      "name": "spark lmhead w8a16",
+      "date": "2026-09-11 18:54:24",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgnzv8jqg/"
+    },
+    {
+      "job_id": "j5m0xyj9g",
+      "name": "spark full1024 w16a16",
+      "date": "2026-09-11 18:52:51",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0xyj9g/"
+    },
+    {
+      "job_id": "jpxlo2wlp",
+      "name": "spark full1024 w16a16",
+      "date": "2026-09-11 18:52:51",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpxlo2wlp/"
+    },
+    {
+      "job_id": "jp4yr0z1p",
+      "name": "spark full1024 w8a16",
+      "date": "2026-09-11 18:52:34",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp4yr0z1p/"
+    },
+    {
+      "job_id": "j57er3q9p",
+      "name": "spark full1024 w8a16",
+      "date": "2026-09-11 18:52:34",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j57er3q9p/"
+    },
+    {
+      "job_id": "jp1nzxr7g",
+      "name": "spark lmhead w16a16",
+      "date": "2026-09-11 18:51:12",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp1nzxr7g/"
+    },
+    {
+      "job_id": "jg9zne68p",
+      "name": "spark lmhead w8a16",
+      "date": "2026-09-11 18:51:08",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jg9zne68p/"
+    },
+    {
+      "job_id": "j5wl6njmp",
+      "name": "spark full1024 w16a16",
+      "date": "2026-09-11 18:51:04",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl6njmp/"
+    },
+    {
+      "job_id": "jgdd1ljrg",
+      "name": "spark full1024 w8a16",
+      "date": "2026-09-11 18:51:03",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgdd1ljrg/"
+    },
+    {
+      "job_id": "jp1nzxr8g",
+      "name": "spark full1024 w16a16",
+      "date": "2026-09-11 18:49:47",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp1nzxr8g/"
+    },
+    {
+      "job_id": "jg9zne6wp",
+      "name": "spark full1024 w8a16",
+      "date": "2026-09-11 18:49:42",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jg9zne6wp/"
+    },
+    {
+      "job_id": "j5qlqonnp",
+      "name": "spark calib w8a8",
+      "date": "2026-09-11 18:42:53",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5qlqonnp/"
+    },
+    {
+      "job_id": "jgk2xm1wg",
+      "name": "spark calib w8a8",
+      "date": "2026-09-11 18:42:53",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgk2xm1wg/"
+    },
+    {
+      "job_id": "jp0m07w9g",
+      "name": "spark calib w8a16",
+      "date": "2026-09-11 18:41:54",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp0m07w9g/"
+    },
+    {
+      "job_id": "jpyo30l85",
+      "name": "spark calib w8a16",
+      "date": "2026-09-11 18:41:53",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo30l85/"
+    },
+    {
+      "job_id": "jgnzv84kg",
+      "name": "spark calib w8a8",
+      "date": "2026-09-11 18:40:33",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgnzv84kg/"
+    },
+    {
+      "job_id": "j5m0xy7dg",
+      "name": "spark calib w4a8",
+      "date": "2026-09-11 18:40:31",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0xy7dg/"
+    },
+    {
+      "job_id": "jpxlo2q3p",
+      "name": "spark calib w8a16",
+      "date": "2026-09-11 18:40:30",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpxlo2q3p/"
+    },
+    {
+      "job_id": "jgdd1lkrg",
+      "name": "spark calib w4a16",
+      "date": "2026-09-11 18:37:18",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgdd1lkrg/"
+    },
+    {
+      "job_id": "jg9znerwp",
+      "name": "spark calib w8a8",
+      "date": "2026-09-11 18:36:23",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jg9znerwp/"
+    },
+    {
+      "job_id": "j5wl6nk3p",
+      "name": "spark calib w4a8",
+      "date": "2026-09-11 18:36:18",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl6nk3p/"
+    },
+    {
+      "job_id": "jgzldk6o5",
+      "name": "spark calib w8a16",
+      "date": "2026-09-11 18:36:13",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgzldk6o5/"
+    },
+    {
+      "job_id": "jpe7m3qo5",
+      "name": "spark calib w4a16",
+      "date": "2026-09-11 18:36:08",
+      "status": "SUCCESS",
+      "type": "JobType.QUANTIZE",
+      "device": null,
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7m3qo5/"
+    },
+    {
+      "job_id": "jpe7m30o5",
+      "name": "spark parity w4a8",
+      "date": "2026-09-11 18:28:32",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7m30o5/"
+    },
+    {
+      "job_id": "jp3z02r35",
+      "name": "spark parity w4a16",
+      "date": "2026-09-11 18:28:27",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp3z02r35/"
+    },
+    {
+      "job_id": "j5684l06g",
+      "name": "spark parity fp16",
+      "date": "2026-09-11 18:28:22",
+      "status": "SUCCESS",
+      "type": "JobType.INFERENCE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5684l06g/"
+    },
+    {
+      "job_id": "jp0m07x9g",
+      "name": "spark parity w4a8",
+      "date": "2026-09-11 18:27:13",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp0m07x9g/"
+    },
+    {
+      "job_id": "jp2rynzrg",
+      "name": "spark parity w4a16",
+      "date": "2026-09-11 18:27:12",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp2rynzrg/"
+    },
+    {
+      "job_id": "jprl3j70p",
+      "name": "spark parity fp16",
+      "date": "2026-09-11 18:27:11",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jprl3j70p/"
+    },
+    {
+      "job_id": "jg9znvzlp",
+      "name": "spark ring3 w4a8",
+      "date": "2026-09-11 17:41:44",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jg9znvzlp/"
+    },
+    {
+      "job_id": "jpvlk3dj5",
+      "name": "spark tflite_int8_cpu",
+      "date": "2026-09-11 17:41:40",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpvlk3dj5/"
+    },
+    {
+      "job_id": "jgk2xz42g",
+      "name": "spark ring3 w4a8",
+      "date": "2026-09-11 17:40:40",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgk2xz42g/"
+    },
+    {
+      "job_id": "jpyo3ex75",
+      "name": "spark tflite_int8_cpu",
+      "date": "2026-09-11 17:40:03",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo3ex75/"
+    },
+    {
+      "job_id": "jgzldenk5",
+      "name": "spark ring3 sliding fp16",
+      "date": "2026-09-11 17:36:21",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgzldenk5/"
+    },
+    {
+      "job_id": "jpe7m9y15",
+      "name": "spark ring3 sliding w4a16",
+      "date": "2026-09-11 17:36:19",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7m9y15/"
+    },
+    {
+      "job_id": "jgnzv2krg",
+      "name": "spark ring3 sliding fp16",
+      "date": "2026-09-11 17:35:15",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgnzv2krg/"
+    },
+    {
+      "job_id": "j5m0xr8wg",
+      "name": "spark ring3 sliding w4a16",
+      "date": "2026-09-11 17:35:14",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0xr8wg/"
+    },
+    {
+      "job_id": "jgnzv29mg",
+      "name": "spark ring2 sliding fp16",
+      "date": "2026-09-11 17:29:11",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgnzv29mg/"
+    },
+    {
+      "job_id": "jgdd1wvlg",
+      "name": "spark ring2 sliding fp16",
+      "date": "2026-09-11 17:27:23",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgdd1wvlg/"
+    },
+    {
+      "job_id": "jp1nz08lg",
+      "name": "spark ring2 sliding w4a16",
+      "date": "2026-09-11 17:27:22",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp1nz08lg/"
+    },
+    {
+      "job_id": "jgk2xzxvg",
+      "name": "spark ring_full_ctx1024 onnx_npu",
+      "date": "2026-09-11 17:04:57",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgk2xzxvg/"
+    },
+    {
+      "job_id": "jp8eyoyqp",
+      "name": "spark ring_full_ctx1024 tflite_gpu",
+      "date": "2026-09-11 17:04:56",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp8eyoyqp/"
+    },
+    {
+      "job_id": "jpyo39005",
+      "name": "spark ring_full_ctx1024 tflite_cpu",
+      "date": "2026-09-11 17:04:33",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo39005/"
+    },
+    {
+      "job_id": "jp2ry2n6g",
+      "name": "spark ring_full_ctx1024 tflite_npu",
+      "date": "2026-09-11 17:04:32",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp2ry2n6g/"
+    },
+    {
+      "job_id": "jprl3zjkp",
+      "name": "spark ring_full_ctx1024 qnn_npu",
+      "date": "2026-09-11 17:03:59",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jprl3zjkp/"
+    },
+    {
+      "job_id": "jgnzvj8jg",
+      "name": "spark ring_sliding_ctx1024 onnx_npu",
+      "date": "2026-09-11 17:03:37",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgnzvj8jg/"
+    },
+    {
+      "job_id": "j5m0xjy7g",
+      "name": "spark ring_sliding_ctx1024 tflite_gpu",
+      "date": "2026-09-11 17:03:36",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0xjy7g/"
+    },
+    {
+      "job_id": "jpxlow28p",
+      "name": "spark ring_sliding_ctx1024 tflite_cpu",
+      "date": "2026-09-11 17:03:35",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpxlow28p/"
+    },
+    {
+      "job_id": "jp4yrz02p",
+      "name": "spark ring_sliding_ctx1024 tflite_npu",
+      "date": "2026-09-11 17:03:13",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp4yrz02p/"
+    },
+    {
+      "job_id": "j57erq3np",
+      "name": "spark ring_sliding_ctx1024 qnn_npu",
+      "date": "2026-09-11 17:03:02",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j57erq3np/"
+    },
+    {
+      "job_id": "j5wl6jn4p",
+      "name": "spark ring_full_ctx1024 onnx_npu",
+      "date": "2026-09-11 17:02:08",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl6jn4p/"
+    },
+    {
+      "job_id": "jgzld1k45",
+      "name": "spark ring_full_ctx1024 tflite_gpu",
+      "date": "2026-09-11 17:02:07",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgzld1k45/"
+    },
+    {
+      "job_id": "jpe7mj385",
+      "name": "spark ring_full_ctx1024 tflite_cpu",
+      "date": "2026-09-11 17:02:06",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7mj385/"
+    },
+    {
+      "job_id": "jgjrnj41p",
+      "name": "spark ring_full_ctx1024 tflite_npu",
+      "date": "2026-09-11 17:02:05",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgjrnj41p/"
+    },
+    {
+      "job_id": "jpvlkjxz5",
+      "name": "spark ring_full_ctx1024 qnn_npu",
+      "date": "2026-09-11 17:02:04",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpvlkjxz5/"
+    },
+    {
+      "job_id": "jgol6jq1g",
+      "name": "spark ring_sliding_ctx1024 onnx_npu",
+      "date": "2026-09-11 17:01:56",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgol6jq1g/"
+    },
+    {
+      "job_id": "jp3z0y2m5",
+      "name": "spark ring_sliding_ctx1024 tflite_gpu",
+      "date": "2026-09-11 17:01:55",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp3z0y2m5/"
+    },
+    {
+      "job_id": "j5684klng",
+      "name": "spark ring_sliding_ctx1024 tflite_cpu",
+      "date": "2026-09-11 17:01:54",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5684klng/"
+    },
+    {
+      "job_id": "jglymjr25",
+      "name": "spark ring_sliding_ctx1024 tflite_npu",
+      "date": "2026-09-11 17:01:53",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jglymjr25/"
+    },
+    {
+      "job_id": "j5qlqjoep",
+      "name": "spark ring_sliding_ctx1024 qnn_npu",
+      "date": "2026-09-11 17:01:52",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5qlqjoep/"
+    },
+    {
+      "job_id": "jp8eylvqp",
+      "name": "spark ring_full_ctx4096 w4a16 v3",
+      "date": "2026-09-11 17:00:38",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp8eylvqp/"
+    },
+    {
+      "job_id": "jp0m0n70g",
+      "name": "spark ring_full_ctx1024 w4a16 v3",
+      "date": "2026-09-11 17:00:29",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp0m0n70g/"
+    },
+    {
+      "job_id": "jpyo39w05",
+      "name": "spark ring_sliding_ctx1024 w4a16 v3",
+      "date": "2026-09-11 17:00:21",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo39w05/"
+    },
+    {
+      "job_id": "jpyo39ll5",
+      "name": "spark block4 fp16",
+      "date": "2026-09-11 16:44:46",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpyo39ll5/"
+    },
+    {
+      "job_id": "jprl3zr7p",
+      "name": "spark sliding ring tanh fp16",
+      "date": "2026-09-11 16:44:14",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jprl3zr7p/"
+    },
+    {
+      "job_id": "jp0m0n8ng",
+      "name": "spark sliding ring tanh fp16",
+      "date": "2026-09-11 16:37:33",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp0m0n8ng/"
+    },
+    {
+      "job_id": "jg9znr6mp",
+      "name": "spark ring_block4_ctx1024 w4a16 v2",
+      "date": "2026-09-11 16:20:22",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jg9znr6mp/"
+    },
+    {
+      "job_id": "jp3z0dyn5",
+      "name": "spark ring_full_ctx4096 w4a16 v2",
+      "date": "2026-09-11 16:20:10",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp3z0dyn5/"
+    },
+    {
+      "job_id": "j5m0x779g",
+      "name": "spark ring_full_ctx1024 w4a16 v2",
+      "date": "2026-09-11 16:20:02",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0x779g/"
+    },
+    {
+      "job_id": "jpvlk88r5",
+      "name": "spark ring_sliding_ctx1024 w4a16 v2",
+      "date": "2026-09-11 16:19:54",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpvlk88r5/"
+    },
+    {
+      "job_id": "jgdd1kxkg",
+      "name": "spark block4 fp16",
+      "date": "2026-09-11 16:08:19",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgdd1kxkg/"
+    },
+    {
+      "job_id": "j5wl6kezp",
+      "name": "spark block4 w4a16",
+      "date": "2026-09-11 16:08:18",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl6kezp/"
+    },
+    {
+      "job_id": "jgol6x24g",
+      "name": "spark lm_head w8a16",
+      "date": "2026-09-11 16:08:14",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgol6x24g/"
+    },
+    {
+      "job_id": "jglymdve5",
+      "name": "spark lm_head w4a16",
+      "date": "2026-09-11 16:08:13",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jglymdve5/"
+    },
+    {
+      "job_id": "jgzldq945",
+      "name": "spark ring_full_ctx1024 fp16",
+      "date": "2026-09-11 16:06:46",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgzldq945/"
+    },
+    {
+      "job_id": "j5wl60o4p",
+      "name": "spark ring_sliding_ctx1024 fp16",
+      "date": "2026-09-11 16:06:02",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl60o4p/"
+    },
+    {
+      "job_id": "jglym9n25",
+      "name": "spark lm_head w8a16",
+      "date": "2026-09-11 16:05:18",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jglym9n25/"
+    },
+    {
+      "job_id": "jgk2xwzvg",
+      "name": "spark lm_head w4a16",
+      "date": "2026-09-11 16:05:17",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgk2xwzvg/"
+    },
+    {
+      "job_id": "jp2ryq26g",
+      "name": "spark ring_full_ctx4096 w4a16",
+      "date": "2026-09-11 16:05:07",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp2ryq26g/"
+    },
+    {
+      "job_id": "j5m0x1j7g",
+      "name": "spark ring_full_ctx1024 w4a16",
+      "date": "2026-09-11 16:04:58",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5m0x1j7g/"
+    },
+    {
+      "job_id": "jpxlo8w8p",
+      "name": "spark ring_full_ctx1024 fp16",
+      "date": "2026-09-11 16:04:57",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpxlo8w8p/"
+    },
+    {
+      "job_id": "j57er1qnp",
+      "name": "spark ring_sliding_ctx1024 w4a16",
+      "date": "2026-09-11 16:04:48",
+      "status": "FAILED",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j57er1qnp/"
+    },
+    {
+      "job_id": "jgdd1yj6g",
+      "name": "spark ring_sliding_ctx1024 fp16",
+      "date": "2026-09-11 16:04:47",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgdd1yj6g/"
+    },
+    {
+      "job_id": "jp1nzkylg",
+      "name": "spark sliding tflite_cpu",
+      "date": "2026-09-11 15:17:43",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jp1nzkylg/"
+    },
+    {
+      "job_id": "j5wl602jp",
+      "name": "spark sliding tflite_gpu",
+      "date": "2026-09-11 15:17:42",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl602jp/"
+    },
+    {
+      "job_id": "jgzldqo65",
+      "name": "spark sliding onnx_npu",
+      "date": "2026-09-11 15:17:41",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jgzldqo65/"
+    },
+    {
+      "job_id": "jpe7m0e05",
+      "name": "spark sliding tflite_npu",
+      "date": "2026-09-11 15:17:40",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7m0e05/"
+    },
+    {
+      "job_id": "j5qlqxemp",
+      "name": "spark sliding qnn_npu",
+      "date": "2026-09-11 15:17:18",
+      "status": "SUCCESS",
+      "type": "JobType.PROFILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j5qlqxemp/"
+    },
+    {
+      "job_id": "jpxlo8kjp",
+      "name": "spark sliding tflite_cpu",
+      "date": "2026-09-11 15:16:13",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/jpxlo8kjp/"
+    },
+    {
+      "job_id": "j57er1yqp",
+      "name": "spark sliding tflite_gpu",
+      "date": "2026-09-11 15:16:12",
+      "status": "SUCCESS",
+      "type": "JobType.COMPILE",
+      "device": "Samsung Galaxy S25",
+      "url": "https://workbench.aihub.qualcomm.com/jobs/j57er1yqp/"
+    }
+  ],
+  "models": [
+    {
+      "model_id": "mnwolk8xm",
+      "name": "job_j568y287g_qdq_onnx"
+    },
+    {
+      "model_id": "mq9v93l4n",
+      "name": "spark25_sliding_int4"
+    },
+    {
+      "model_id": "mm667krdm",
+      "name": "job_jgnzv8jqg_dlc"
+    },
+    {
+      "model_id": "mqkzevo7q",
+      "name": "job_jprl3jz7p_dlc"
+    },
+    {
+      "model_id": "mmd5e37vq",
+      "name": "job_jgnzv8jqg_onnx"
+    },
+    {
+      "model_id": "mq9v9lkln",
+      "name": "job_jprl3jz7p_onnx"
+    },
+    {
+      "model_id": "mmd5e31vq",
+      "name": "job_jprl3jz7p_optimized_bin"
+    },
+    {
+      "model_id": "mn14dwjvn",
+      "name": "job_jgnzv8jqg_optimized_bin"
+    },
+    {
+      "model_id": "mm5lye0kq",
+      "name": "job_j5wl6njmp_dlc"
+    },
+    {
+      "model_id": "mn7z2x78m",
+      "name": "job_jgdd1ljrg_dlc"
+    },
+    {
+      "model_id": "mn0w1jv9q",
+      "name": "job_j5wl6njmp_onnx"
+    },
+    {
+      "model_id": "mm5lye09q",
+      "name": "job_jgdd1ljrg_onnx"
+    },
+    {
+      "model_id": "mqe0e7v5n",
+      "name": "job_jp1nzxr7g_qdq_onnx"
+    },
+    {
+      "model_id": "mnj9e4gdq",
+      "name": "job_jg9zne68p_qdq_onnx"
+    },
+    {
+      "model_id": "mqv3l65lm",
+      "name": "job_j5wl6njmp_optimized_bin"
+    },
+    {
+      "model_id": "mnowl6xpq",
+      "name": "job_jgdd1ljrg_optimized_bin"
+    },
+    {
+      "model_id": "mq3x56krq",
+      "name": "spark25_lmhead_src"
+    },
+    {
+      "model_id": "mnwol803m",
+      "name": "job_jp1nzxr8g_qdq_onnx"
+    },
+    {
+      "model_id": "mmd5e3v3q",
+      "name": "job_jg9zne6wp_qdq_onnx"
+    },
+    {
+      "model_id": "mn14dw6zn",
+      "name": "spark25_full1024_src"
+    },
+    {
+      "model_id": "mnj9e4ldq",
+      "name": "job_jgnzv84kg_dlc"
+    },
+    {
+      "model_id": "mnowl6epq",
+      "name": "job_jpxlo2q3p_dlc"
+    },
+    {
+      "model_id": "mm667ke2m",
+      "name": "job_jgnzv84kg_onnx"
+    },
+    {
+      "model_id": "mmxvlexyq",
+      "name": "job_jpxlo2q3p_onnx"
+    },
+    {
+      "model_id": "mn14dwezn",
+      "name": "job_jgnzv84kg_optimized_bin"
+    },
+    {
+      "model_id": "mq8ordzvn",
+      "name": "job_jpxlo2q3p_optimized_bin"
+    },
+    {
+      "model_id": "mqkzevg1q",
+      "name": "job_jg9znerwp_qdq_onnx"
+    },
+    {
+      "model_id": "mn4g0lxvn",
+      "name": "job_j5wl6nk3p_qdq_onnx"
+    },
+    {
+      "model_id": "mn14dwkzn",
+      "name": "job_jgzldk6o5_qdq_onnx"
+    },
+    {
+      "model_id": "mqp4l3dgq",
+      "name": "job_jpe7m3qo5_qdq_onnx"
+    },
+    {
+      "model_id": "mq8orddvn",
+      "name": "spark25_calib_src"
+    },
+    {
+      "model_id": "mnowl3gkq",
+      "name": "job_jp2rynzrg_dlc"
+    },
+    {
+      "model_id": "mq3x5edkq",
+      "name": "job_jp0m07x9g_dlc"
+    },
+    {
+      "model_id": "mm667vl5m",
+      "name": "job_jprl3j70p_dlc"
+    },
+    {
+      "model_id": "mnlpev13m",
+      "name": "job_jp2rynzrg_onnx"
+    },
+    {
+      "model_id": "mng7z1ern",
+      "name": "job_jp0m07x9g_onnx"
+    },
+    {
+      "model_id": "mmxvl7deq",
+      "name": "job_jprl3j70p_onnx"
+    },
+    {
+      "model_id": "mqkzekzzq",
+      "name": "job_jp0m07x9g_optimized_bin"
+    },
+    {
+      "model_id": "mmd5ey5wq",
+      "name": "job_jp2rynzrg_optimized_bin"
+    },
+    {
+      "model_id": "mn14dz48n",
+      "name": "job_jprl3j70p_optimized_bin"
+    },
+    {
+      "model_id": "mnowl3wvq",
+      "name": "spark25_ring3_parity"
+    },
+    {
+      "model_id": "mmxv95rjq",
+      "name": "job_jgk2xz42g_dlc"
+    },
+    {
+      "model_id": "mn4gjz8zn",
+      "name": "job_jgk2xz42g_onnx"
+    },
+    {
+      "model_id": "mmd5pjkwq",
+      "name": "job_jpyo3ex75_onnx"
+    },
+    {
+      "model_id": "mq9vj644n",
+      "name": "job_jgk2xz42g_optimized_bin"
+    },
+    {
+      "model_id": "mn7zvgdvm",
+      "name": "spark25_ring3_a8"
+    },
+    {
+      "model_id": "mn0wep78q",
+      "name": "job_jpyo3ex75_optimized_tflite"
+    },
+    {
+      "model_id": "mm5lgkp2q",
+      "name": "spark25_ring3_cpu"
+    },
+    {
+      "model_id": "mmrx5zrrm",
+      "name": "job_jgnzv2krg_dlc"
+    },
+    {
+      "model_id": "mq2k3d9wq",
+      "name": "job_j5m0xr8wg_dlc"
+    },
+    {
+      "model_id": "mn7zvgwvm",
+      "name": "job_jgnzv2krg_onnx"
+    },
+    {
+      "model_id": "mqye80zrn",
+      "name": "job_j5m0xr8wg_onnx"
+    },
+    {
+      "model_id": "mn0wepz8q",
+      "name": "job_jgnzv2krg_optimized_bin"
+    },
+    {
+      "model_id": "mm5lgk12q",
+      "name": "job_j5m0xr8wg_optimized_bin"
+    },
+    {
+      "model_id": "mqye80z7n",
+      "name": "spark25_ring3_sliding"
+    },
+    {
+      "model_id": "mn0wep4xq",
+      "name": "job_jgdd1wvlg_dlc"
+    },
+    {
+      "model_id": "mm5lgk26q",
+      "name": "job_jgdd1wvlg_onnx"
+    },
+    {
+      "model_id": "mnj97j29q",
+      "name": "job_jgdd1wvlg_optimized_bin"
+    },
+    {
+      "model_id": "mnowpjk9q",
+      "name": "spark25_ring2_sliding"
+    },
+    {
+      "model_id": "mqv32j48m",
+      "name": "job_jgzld1k45_onnx"
+    },
+    {
+      "model_id": "mnowpj37q",
+      "name": "job_jpe7mj385_onnx"
+    },
+    {
+      "model_id": "mq3xgwe9q",
+      "name": "job_jgjrnj41p_onnx"
+    },
+    {
+      "model_id": "mm66gxvdm",
+      "name": "job_jpvlkjxz5_dlc"
+    },
+    {
+      "model_id": "mnlprjvem",
+      "name": "job_jpvlkjxz5_onnx"
+    },
+    {
+      "model_id": "mng75j15n",
+      "name": "job_jp3z0y2m5_onnx"
+    },
+    {
+      "model_id": "mmxv9572q",
+      "name": "job_j5684klng_onnx"
+    },
+    {
+      "model_id": "mqkz2jk7q",
+      "name": "job_j5qlqjoep_dlc"
+    },
+    {
+      "model_id": "mn4gjz17n",
+      "name": "job_jglymjr25_onnx"
+    },
+    {
+      "model_id": "mnworjekm",
+      "name": "job_j5qlqjoep_onnx"
+    },
+    {
+      "model_id": "mmd5pjyvq",
+      "name": "job_j5wl6jn4p_optimized_onnx"
+    },
+    {
+      "model_id": "mn14g1zvn",
+      "name": "job_jgzld1k45_optimized_tflite"
+    },
+    {
+      "model_id": "mqp41jzvq",
+      "name": "job_jpe7mj385_optimized_tflite"
+    },
+    {
+      "model_id": "mq9vj6pln",
+      "name": "job_jgjrnj41p_optimized_tflite"
+    },
+    {
+      "model_id": "mmrx5z66m",
+      "name": "job_jpvlkjxz5_optimized_bin"
+    },
+    {
+      "model_id": "mq2k3d4jq",
+      "name": "spark25_ring_full_ctx1024_proc"
+    },
+    {
+      "model_id": "mn7zvg63m",
+      "name": "job_jgol6jq1g_optimized_onnx"
+    },
+    {
+      "model_id": "mqye8025n",
+      "name": "job_jp3z0y2m5_optimized_tflite"
+    },
+    {
+      "model_id": "mn0weprwq",
+      "name": "job_j5684klng_optimized_tflite"
+    },
+    {
+      "model_id": "mm5lgk6kq",
+      "name": "job_jglymjr25_optimized_tflite"
+    },
+    {
+      "model_id": "mn7zvg68m",
+      "name": "job_j5qlqjoep_optimized_bin"
+    },
+    {
+      "model_id": "mqye802xn",
+      "name": "spark25_ring_sliding_ctx1024_proc"
+    },
+    {
+      "model_id": "mq3xgwvrq",
+      "name": "spark25_ring_full_ctx4096_v3"
+    },
+    {
+      "model_id": "mnlprjwom",
+      "name": "spark25_ring_full_ctx1024_v3"
+    },
+    {
+      "model_id": "mmxv95pyq",
+      "name": "spark25_ring_sliding_ctx1024_v3"
+    },
+    {
+      "model_id": "mm66g962m",
+      "name": "job_jp0m0n8ng_dlc"
+    },
+    {
+      "model_id": "mnlpr7pom",
+      "name": "job_jp0m0n8ng_onnx"
+    },
+    {
+      "model_id": "mmxv9gvyq",
+      "name": "job_jgdd1kxkg_dlc"
+    },
+    {
+      "model_id": "mn4gj2gvn",
+      "name": "job_jgdd1kxkg_onnx"
+    },
+    {
+      "model_id": "mmd5pxx0q",
+      "name": "job_jp0m0n8ng_optimized_bin"
+    },
+    {
+      "model_id": "mn14g004n",
+      "name": "spark25_sliding_tanh"
+    },
+    {
+      "model_id": "mnlpr0g3m",
+      "name": "spark25_ring_block4_ctx1024_v2"
+    },
+    {
+      "model_id": "mmrx5872m",
+      "name": "spark25_ring_full_ctx4096_v2"
+    },
+    {
+      "model_id": "mmxv9k1eq",
+      "name": "spark25_ring_full_ctx1024_v2"
+    },
+    {
+      "model_id": "mq8og7jpn",
+      "name": "spark25_ring_sliding_ctx1024_v2"
+    },
+    {
+      "model_id": "mm66g492m",
+      "name": "job_jgdd1kxkg_optimized_bin"
+    },
+    {
+      "model_id": "mm5lgw59q",
+      "name": "spark25_block4"
+    },
+    {
+      "model_id": "mnj97k6yq",
+      "name": "job_jgk2xwzvg_dlc"
+    },
+    {
+      "model_id": "mqv32pwem",
+      "name": "job_jglym9n25_dlc"
+    },
+    {
+      "model_id": "mn4gjdrwn",
+      "name": "job_jgk2xwzvg_onnx"
+    },
+    {
+      "model_id": "mnwor1wpm",
+      "name": "job_jglym9n25_onnx"
+    }
+  ]
+}

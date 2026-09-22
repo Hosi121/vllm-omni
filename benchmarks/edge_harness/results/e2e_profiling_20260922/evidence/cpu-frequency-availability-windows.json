@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-22T17:51:31+08:00",
+  "scope": "Single read during Windows TTS sustained execution; not a CPU-only sustained-frequency trace",
+  "Win32_Processor": {
+    "Name": "AMD Ryzen AI 9 HX 370 w/ Radeon 890M",
+    "CurrentClockSpeed": 2000,
+    "MaxClockSpeed": 2000
+  },
+  "Win32_PerfFormattedData_Counters_ProcessorInformation": {
+    "Name": "_Total",
+    "ProcessorFrequency": 2000,
+    "PercentProcessorPerformance": 200,
+    "PercentofMaximumFrequency": 100
+  },
+  "qualification": "WMI nominal/aggregate counters are exposed. No calibrated effective per-core frequency mapping or sustained CPU-frequency trace was collected; do not infer CPU clocks or thermal throttling from the GPU counters."
+}

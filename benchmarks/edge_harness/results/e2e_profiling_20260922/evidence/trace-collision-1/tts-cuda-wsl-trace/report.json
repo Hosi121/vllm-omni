@@ -1,0 +1,161 @@
+{
+  "status": "completed",
+  "start_unix": 1790068658.4124281,
+  "argv": [
+    "benchmarks/edge_harness/profile_trace_diagnostic.py",
+    "--kind",
+    "tts",
+    "--model",
+    "/home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5",
+    "--out",
+    "../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-trace"
+  ],
+  "python": "/home/zhout/project/edge_infer/vllm-omni-edge/../.venvs/omni-cuda-029/bin/python",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "runtime": {
+    "python": "3.12.13",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "torch": "2.13.0+cu130",
+    "vllm": "0.29.0",
+    "vllm_omni": "0.29.0rc2.dev71+g00510ce38.d20260922",
+    "vllm_omni_file": "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/__init__.py",
+    "vllm_file": "/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/vllm/__init__.py",
+    "checkouts": {
+      "/home/zhout/project/edge_infer/vllm-omni-edge": "ab2f2a3d658db5be5ec96a950da55cb74b48e7aa-dirty",
+      "/home/zhout/project/edge_infer": "758b3af238b19e2c2abc668f23a767bb835a4a22-dirty"
+    }
+  },
+  "environment": {
+    "VLLM_USE_FLASHINFER_SAMPLER": "0",
+    "VLLM_WSL2_ENABLE_PIN_MEMORY": "1",
+    "TOKENIZERS_PARALLELISM": "false"
+  },
+  "scope": "diagnostic paired profiling overhead; not steady-state latency percentiles",
+  "text_output_tokens": 32,
+  "requests": [
+    {
+      "phase": "warmup",
+      "index": 0,
+      "wall_s": 3.332943407003768,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 78720
+    },
+    {
+      "phase": "untraced_before",
+      "index": 0,
+      "wall_s": 0.6659096200019121,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 67200
+    },
+    {
+      "phase": "untraced_before",
+      "index": 1,
+      "wall_s": 0.7992933340137824,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 86400
+    },
+    {
+      "phase": "untraced_before",
+      "index": 2,
+      "wall_s": 0.7532064749975689,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 82560
+    },
+    {
+      "phase": "traced",
+      "index": 0,
+      "wall_s": 0.7864895870443434,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 74880
+    },
+    {
+      "phase": "traced",
+      "index": 1,
+      "wall_s": 0.7600885480060242,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 71040
+    },
+    {
+      "phase": "traced",
+      "index": 2,
+      "wall_s": 0.7799879040103406,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 72960
+    },
+    {
+      "phase": "untraced_after",
+      "index": 0,
+      "wall_s": 0.7266680210013874,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 72960
+    },
+    {
+      "phase": "untraced_after",
+      "index": 1,
+      "wall_s": 0.6770964200259186,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 71040
+    },
+    {
+      "phase": "untraced_after",
+      "index": 2,
+      "wall_s": 0.6688229970168322,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 71040
+    }
+  ],
+  "profiler_config": {
+    "profiler": "torch",
+    "torch_profiler_dir": "/home/zhout/project/edge_infer/analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-trace/traces",
+    "torch_profiler_with_stack": false,
+    "torch_profiler_record_shapes": false,
+    "torch_profiler_with_memory": false,
+    "torch_profiler_use_gzip": true,
+    "torch_profiler_dump_cuda_time_total": false
+  },
+  "startup_s": 281.5067013890366,
+  "start_rpc": [
+    [
+      null
+    ],
+    [
+      null
+    ]
+  ],
+  "start_rpc_s": 0.18058426002971828,
+  "stop_rpc": [
+    [
+      null
+    ],
+    [
+      null
+    ]
+  ],
+  "stop_rpc_s": 14.825942191004287,
+  "median_wall_s": {
+    "untraced_before": 0.7532064749975689,
+    "traced": 0.7799879040103406,
+    "untraced_after": 0.6770964200259186
+  },
+  "traced_over_untraced_before": 1.0355565570687084,
+  "traced_over_untraced_after": 1.151959870029269,
+  "overhead_caveat": "Same prompt but speech generation can vary; compare audio_samples alongside wall-time ratios.",
+  "traces": [
+    {
+      "path": "traces/20260922-172225_e2e-diagnostic/trace_rank0.json.gz",
+      "bytes": 799742,
+      "sha256": "606b3179aa8c3811e73472c9899a71f0b5185fa336981198b63ca0454e811560"
+    }
+  ],
+  "end_unix": 1790068975.2545388
+}

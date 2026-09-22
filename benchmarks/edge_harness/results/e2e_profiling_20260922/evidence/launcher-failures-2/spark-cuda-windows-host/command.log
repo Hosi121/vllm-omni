@@ -1,0 +1,19 @@
+INFO 09-22 15:40:10 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 15:40:10 [patch.py:510] inductor factorable-divisibility patch: installed.
+Traceback (most recent call last):
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\profile_local_text.py", line 132, in <module>
+    from vllm_omni.windows.aio import install_selector_policy
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\__init__.py", line 22, in <module>
+    from . import patch  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\patch.py", line 588, in <module>
+    _patch_cumem_free_callback_cuda()
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\patch.py", line 548, in _patch_cumem_free_callback_cuda
+    from vllm.device_allocator.cumem import CuMemAllocator
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\vllm\device_allocator\cumem.py", line 40, in <module>
+    libcudart = CudaRTLibrary()
+                ^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\vllm\distributed\device_communicators\cuda_wrapper.py", line 113, in __init__
+    assert so_file is not None, (
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: libcudart is not loaded in the current process, try setting VLLM_CUDART_SO_PATH

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "wsl",
+    "-d",
+    "Ubuntu",
+    "--",
+    "bash",
+    "-lc",
+    "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:$PATH timeout 1800 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_trace_diagnostic.py --kind tts --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-trace"
+  ],
+  "cwd": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge",
+  "host": "Windows-11-10.0.26200-SP0",
+  "scope": "Windows RAM includes WSL; GPU counters are whole-device, not model-exclusive",
+  "sample_interval_s": 1,
+  "start_unix": 1790060579.427969,
+  "status": "exited",
+  "power_scheme": "\u9422\u57ab\u7c2e\u93c2\u89c4\ufffd\ufffd GUID: 27fa6203-3987-4dcc-918d-748559d549ec  (Performance)",
+  "pid": 24940,
+  "returncode": 2,
+  "end_unix": 1790060580.5256815
+}

@@ -1,0 +1,31 @@
+{
+  "timestamp_utc": "2026-09-22T05:45:22.828581+00:00",
+  "qai_hub_version": "0.55.0",
+  "facility": "Qualcomm AI Hub Workbench",
+  "command": "collect",
+  "job_id": "jpx42jx1g",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jpx42jx1g/",
+  "status": "FAILED",
+  "status_message": "Tensor 'x' has a floating-point type which is not supported by the targeted device.\nPlease quantize the model including its I/O and try again.",
+  "options": "--target_runtime qnn_context_binary --quantize_full_type float16",
+  "hub_version": "aihub-2026.08.28.1",
+  "device": {
+    "name": "Dragonwing RB3 Gen 2 Vision Kit",
+    "os": "1.6",
+    "attributes": [
+      "os:qc_linux",
+      "framework:tflite",
+      "framework:onnx",
+      "vendor:qualcomm",
+      "abi:aarch64-oe-linux-gcc11",
+      "format:iot",
+      "chipset:qualcomm-qcs6490",
+      "chipset:qcs6490",
+      "chipset:qualcomm-dragonwing-qcs6490",
+      "hexagon:v68",
+      "soc-model:93",
+      "framework:qnn"
+    ]
+  },
+  "model_id": "mq3xre4rq"
+}

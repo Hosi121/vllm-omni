@@ -1,0 +1,1569 @@
+{
+  "created_unix": 1790064616.8245773,
+  "scope": "All archived warmup float32 chunks, including terminal tails; file integrity only, no perceptual quality claim.",
+  "chunks_checked": 223,
+  "failures": [],
+  "files": [
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-1-1-0.f32",
+      "bytes": 15360,
+      "sha256": "b37d0862fa4f383231e006061427ee3998502c7c383e0b9edd14cbc32259295a",
+      "expected_sha256": "b37d0862fa4f383231e006061427ee3998502c7c383e0b9edd14cbc32259295a",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-1-1-1.f32",
+      "bytes": 30720,
+      "sha256": "76f250e6620c131814f7d12708894f2afbe1499371feb6e0fd769a9174b3306a",
+      "expected_sha256": "76f250e6620c131814f7d12708894f2afbe1499371feb6e0fd769a9174b3306a",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-1-1-2.f32",
+      "bytes": 61440,
+      "sha256": "9426df34932f2e23e780f57365f1e5db9dd376f1fe93cfcc96209bc1e1ad8cb7",
+      "expected_sha256": "9426df34932f2e23e780f57365f1e5db9dd376f1fe93cfcc96209bc1e1ad8cb7",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-1-1-3.f32",
+      "bytes": 122880,
+      "sha256": "73976dd2cde6d00812e88f9a371cd96d929f3d1b4eb4cf125c035d6e664766f8",
+      "expected_sha256": "73976dd2cde6d00812e88f9a371cd96d929f3d1b4eb4cf125c035d6e664766f8",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-1-1-4.f32",
+      "bytes": 84480,
+      "sha256": "e11b061846ceaefbef45565aa1317c5b19bcb5039632ab9320a3bfde023f2945",
+      "expected_sha256": "e11b061846ceaefbef45565aa1317c5b19bcb5039632ab9320a3bfde023f2945",
+      "expected_bytes": 84480
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-0.f32",
+      "bytes": 15360,
+      "sha256": "29b1085d228cdebc62b56f829a59c0eaa67b00f5b145c67d34003e021d26749c",
+      "expected_sha256": "29b1085d228cdebc62b56f829a59c0eaa67b00f5b145c67d34003e021d26749c",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-1.f32",
+      "bytes": 30720,
+      "sha256": "4d538a96c4669c968bf74819e3fedc7b2fc2b54542e8cd7ee82b8c5dc23bc988",
+      "expected_sha256": "4d538a96c4669c968bf74819e3fedc7b2fc2b54542e8cd7ee82b8c5dc23bc988",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-2.f32",
+      "bytes": 61440,
+      "sha256": "fdc06d8a3046375e5f982a9bbe7bea2601ff36cb62086dc358e8dc961129b75b",
+      "expected_sha256": "fdc06d8a3046375e5f982a9bbe7bea2601ff36cb62086dc358e8dc961129b75b",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-3.f32",
+      "bytes": 122880,
+      "sha256": "c6f33ab3446935df6a2056618c00257bad17e761a860fa03bd6d6d857ce444a1",
+      "expected_sha256": "c6f33ab3446935df6a2056618c00257bad17e761a860fa03bd6d6d857ce444a1",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-4.f32",
+      "bytes": 192000,
+      "sha256": "cee7fb4d6cad2331a81981f10ce9c64f73facc5993b0de0b197874597fcdc482",
+      "expected_sha256": "cee7fb4d6cad2331a81981f10ce9c64f73facc5993b0de0b197874597fcdc482",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-5.f32",
+      "bytes": 192000,
+      "sha256": "53101ce0fdf7763d5dc1d91ed0f70e1ff6de5b7e22198ef17351d4e64d1871c5",
+      "expected_sha256": "53101ce0fdf7763d5dc1d91ed0f70e1ff6de5b7e22198ef17351d4e64d1871c5",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-1-22-6.f32",
+      "bytes": 192000,
+      "sha256": "f8dc450fc9de4a5bb017c165e21763a034bb69df8484524f8ff930e28b1278d0",
+      "expected_sha256": "f8dc450fc9de4a5bb017c165e21763a034bb69df8484524f8ff930e28b1278d0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-0.f32",
+      "bytes": 15360,
+      "sha256": "087d92abcc85995f1b9ab5312d3b5f02e9c5318da799cef52f451f2354c4b860",
+      "expected_sha256": "087d92abcc85995f1b9ab5312d3b5f02e9c5318da799cef52f451f2354c4b860",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-1.f32",
+      "bytes": 30720,
+      "sha256": "e1587b00474ced234005c21a1211971bbb6fb35c63677b83059a77959fe17b6d",
+      "expected_sha256": "e1587b00474ced234005c21a1211971bbb6fb35c63677b83059a77959fe17b6d",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-2.f32",
+      "bytes": 61440,
+      "sha256": "8c062b1e321fda46e209a40c4baf4f3ec4175993820acaabba69c49e599e6cd0",
+      "expected_sha256": "8c062b1e321fda46e209a40c4baf4f3ec4175993820acaabba69c49e599e6cd0",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-3.f32",
+      "bytes": 122880,
+      "sha256": "84e473bea77b4c18cc2653a1a4b16f5e8f5086b37dea723ccf6cbf7da0bc333c",
+      "expected_sha256": "84e473bea77b4c18cc2653a1a4b16f5e8f5086b37dea723ccf6cbf7da0bc333c",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-4.f32",
+      "bytes": 192000,
+      "sha256": "f1c7031bed47d349ceed374dc67d58d18d14da64396366d1397090d7ad49010e",
+      "expected_sha256": "f1c7031bed47d349ceed374dc67d58d18d14da64396366d1397090d7ad49010e",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-5.f32",
+      "bytes": 192000,
+      "sha256": "eaf8721005da5cbf7c0174d98d5f3b51cb006dca0cade63227050d15300cfee4",
+      "expected_sha256": "eaf8721005da5cbf7c0174d98d5f3b51cb006dca0cade63227050d15300cfee4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-6.f32",
+      "bytes": 192000,
+      "sha256": "b7d77440f99e45b482a9a7c2121c6e531e2b1b7564bb6c85d3bd1c72b337503f",
+      "expected_sha256": "b7d77440f99e45b482a9a7c2121c6e531e2b1b7564bb6c85d3bd1c72b337503f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-7.f32",
+      "bytes": 192000,
+      "sha256": "7d0ef29c9e6e97075b7e0a36c47e08573ef5efa12399ffaf0665c49a0907ea99",
+      "expected_sha256": "7d0ef29c9e6e97075b7e0a36c47e08573ef5efa12399ffaf0665c49a0907ea99",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-8.f32",
+      "bytes": 192000,
+      "sha256": "4ba012f72f44101825be57ee57a1ab8ca5ef8e09e594f645e625a32ce1b5e09f",
+      "expected_sha256": "4ba012f72f44101825be57ee57a1ab8ca5ef8e09e594f645e625a32ce1b5e09f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-9.f32",
+      "bytes": 192000,
+      "sha256": "8b806ac4bf2ac703c5b0f8ebda336393c2a9de0af765562035e81e9fcbec5971",
+      "expected_sha256": "8b806ac4bf2ac703c5b0f8ebda336393c2a9de0af765562035e81e9fcbec5971",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-10.f32",
+      "bytes": 192000,
+      "sha256": "d8be55be64498760366336bdd3cbf268dccdf07ff3d99bc71c2edb6aa0f9cb9d",
+      "expected_sha256": "d8be55be64498760366336bdd3cbf268dccdf07ff3d99bc71c2edb6aa0f9cb9d",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-11.f32",
+      "bytes": 192000,
+      "sha256": "8bd36a2b94145c0476d2b411d79d83253b21fcb6b465e1ec79f35af23818b585",
+      "expected_sha256": "8bd36a2b94145c0476d2b411d79d83253b21fcb6b465e1ec79f35af23818b585",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-12.f32",
+      "bytes": 192000,
+      "sha256": "08cdcd80b596a6d780003573bb8f978870c444c89b4c249444be0d22b74c15b3",
+      "expected_sha256": "08cdcd80b596a6d780003573bb8f978870c444c89b4c249444be0d22b74c15b3",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-13.f32",
+      "bytes": 192000,
+      "sha256": "861d4e0d6f1eb805634bfb5d419368a23949102e93aeaffccbb558c8f4ec7758",
+      "expected_sha256": "861d4e0d6f1eb805634bfb5d419368a23949102e93aeaffccbb558c8f4ec7758",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-14.f32",
+      "bytes": 192000,
+      "sha256": "c4ef878e2e54e118b46fc0bf5d875b83bdd7e60ea2e74eba34cc2ee66adcbccd",
+      "expected_sha256": "c4ef878e2e54e118b46fc0bf5d875b83bdd7e60ea2e74eba34cc2ee66adcbccd",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-15.f32",
+      "bytes": 192000,
+      "sha256": "6710147888bf177561c1718485283ef05e5de2f0f1f03af7f2597f04af67aca0",
+      "expected_sha256": "6710147888bf177561c1718485283ef05e5de2f0f1f03af7f2597f04af67aca0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-16.f32",
+      "bytes": 192000,
+      "sha256": "0f2e99db24bd84c9e9279e055aa69638e4c07a0409c9c0bd821d4344641ec0ab",
+      "expected_sha256": "0f2e99db24bd84c9e9279e055aa69638e4c07a0409c9c0bd821d4344641ec0ab",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-1-43-17.f32",
+      "bytes": 69120,
+      "sha256": "efa0b002e0b221b7692e30c47351168edbdfb861c2ee46c7a2d843fb5a9ce50a",
+      "expected_sha256": "efa0b002e0b221b7692e30c47351168edbdfb861c2ee46c7a2d843fb5a9ce50a",
+      "expected_bytes": 69120
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-64-0.f32",
+      "bytes": 15360,
+      "sha256": "d42bbab4899312419f6ec0675eb6966790e49e34306ba5b90bd4fe581422eab6",
+      "expected_sha256": "d42bbab4899312419f6ec0675eb6966790e49e34306ba5b90bd4fe581422eab6",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-64-1.f32",
+      "bytes": 30720,
+      "sha256": "604981c1770942275972341287081dc551a1b2bee6b8bfd52159aa73b80dfd22",
+      "expected_sha256": "604981c1770942275972341287081dc551a1b2bee6b8bfd52159aa73b80dfd22",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-64-2.f32",
+      "bytes": 61440,
+      "sha256": "07ea2d3154e5f4b61a01b1e1c3d49d95ac69da1e2cc0f7d8feea38cf46bac741",
+      "expected_sha256": "07ea2d3154e5f4b61a01b1e1c3d49d95ac69da1e2cc0f7d8feea38cf46bac741",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-64-3.f32",
+      "bytes": 122880,
+      "sha256": "e6322d35c541a9b73ce928dfd7ddb6882548eed44e2dfabfb570eb0b8ef4d055",
+      "expected_sha256": "e6322d35c541a9b73ce928dfd7ddb6882548eed44e2dfabfb570eb0b8ef4d055",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-64-4.f32",
+      "bytes": 38400,
+      "sha256": "9572c0653943a62780f03781447533f9c1ff5d4c9e7dc971198b603244e93eb2",
+      "expected_sha256": "9572c0653943a62780f03781447533f9c1ff5d4c9e7dc971198b603244e93eb2",
+      "expected_bytes": 38400
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-65-0.f32",
+      "bytes": 15360,
+      "sha256": "cca26c9a6dda4205d78a62251ab80e0d6e7b58625a05cfb90fc12afc07e7fa36",
+      "expected_sha256": "cca26c9a6dda4205d78a62251ab80e0d6e7b58625a05cfb90fc12afc07e7fa36",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-65-1.f32",
+      "bytes": 30720,
+      "sha256": "17e1195da0b024cbf0e31fd7e1864729931b87d078974baaa18524ebf9394a15",
+      "expected_sha256": "17e1195da0b024cbf0e31fd7e1864729931b87d078974baaa18524ebf9394a15",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-65-2.f32",
+      "bytes": 61440,
+      "sha256": "84d55c48aa5b110b6150ad6235bc2ab9cd14eac061a2bd2d94836738bde9d683",
+      "expected_sha256": "84d55c48aa5b110b6150ad6235bc2ab9cd14eac061a2bd2d94836738bde9d683",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-65-3.f32",
+      "bytes": 122880,
+      "sha256": "2e0469f9936c5347ad6ad4f494aca69a798f528e4d6c6de50779ea80333377ad",
+      "expected_sha256": "2e0469f9936c5347ad6ad4f494aca69a798f528e4d6c6de50779ea80333377ad",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-2-65-4.f32",
+      "bytes": 84480,
+      "sha256": "474bda9fdec28eb3e35f84048c140f818f2312cd4c0dce21fbadebd2a2644105",
+      "expected_sha256": "474bda9fdec28eb3e35f84048c140f818f2312cd4c0dce21fbadebd2a2644105",
+      "expected_bytes": 84480
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-0.f32",
+      "bytes": 15360,
+      "sha256": "bf3cba1bf45e833ebcbbe111c4d6cc06f221f0e383ed99f29e44f0ea23c5a1bf",
+      "expected_sha256": "bf3cba1bf45e833ebcbbe111c4d6cc06f221f0e383ed99f29e44f0ea23c5a1bf",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-1.f32",
+      "bytes": 30720,
+      "sha256": "e6b38391e1855605c6d13b17080d42eb9bc278764d7e85fc5949fec7b9c4d189",
+      "expected_sha256": "e6b38391e1855605c6d13b17080d42eb9bc278764d7e85fc5949fec7b9c4d189",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-2.f32",
+      "bytes": 61440,
+      "sha256": "b5ff717bb9fcf1066d8ec662d962aa6d1eeb66ede8b4f4f60f00025bc7834ca1",
+      "expected_sha256": "b5ff717bb9fcf1066d8ec662d962aa6d1eeb66ede8b4f4f60f00025bc7834ca1",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-3.f32",
+      "bytes": 122880,
+      "sha256": "80696c19f75e391997900195083c5d9312fc1cf75a09fd7b16d47a8fc3aa1322",
+      "expected_sha256": "80696c19f75e391997900195083c5d9312fc1cf75a09fd7b16d47a8fc3aa1322",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-4.f32",
+      "bytes": 192000,
+      "sha256": "c5f700bed1691bf2fa3e97789cee492e91ea433c69d6ad3a0d9ca1059f0700f9",
+      "expected_sha256": "c5f700bed1691bf2fa3e97789cee492e91ea433c69d6ad3a0d9ca1059f0700f9",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-5.f32",
+      "bytes": 192000,
+      "sha256": "48162179ba07c77562d1ba18c94b61de70072220f5a80d9728e9e00f765f1ba0",
+      "expected_sha256": "48162179ba07c77562d1ba18c94b61de70072220f5a80d9728e9e00f765f1ba0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-87-6.f32",
+      "bytes": 107520,
+      "sha256": "4649d6eaa23df3472430b2ede77b51041925a082331be9567fffaa532aab08cc",
+      "expected_sha256": "4649d6eaa23df3472430b2ede77b51041925a082331be9567fffaa532aab08cc",
+      "expected_bytes": 107520
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-0.f32",
+      "bytes": 15360,
+      "sha256": "6655b0d0d3e1bf409c37ae981a9a49ae947a1dbcd16d2ffbb2c4b3f8dae32450",
+      "expected_sha256": "6655b0d0d3e1bf409c37ae981a9a49ae947a1dbcd16d2ffbb2c4b3f8dae32450",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-1.f32",
+      "bytes": 30720,
+      "sha256": "9d05e2f3ed6904393261b3cfa4379ee9a3240123725fb30df84d0f132d24e4ff",
+      "expected_sha256": "9d05e2f3ed6904393261b3cfa4379ee9a3240123725fb30df84d0f132d24e4ff",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-2.f32",
+      "bytes": 61440,
+      "sha256": "aa03f96a878846b61e6361ac33191da652d4ff5916c2ac729bdf56bd1a0bd8b3",
+      "expected_sha256": "aa03f96a878846b61e6361ac33191da652d4ff5916c2ac729bdf56bd1a0bd8b3",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-3.f32",
+      "bytes": 122880,
+      "sha256": "20b4b5ac86b058b705db5a51bf8756eb55beca596b2d5bb021be4b9d36968a70",
+      "expected_sha256": "20b4b5ac86b058b705db5a51bf8756eb55beca596b2d5bb021be4b9d36968a70",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-4.f32",
+      "bytes": 192000,
+      "sha256": "902eea0f5af624f224953f1e5c180faf250a9d8e9f98956e1275c1df4ca0839c",
+      "expected_sha256": "902eea0f5af624f224953f1e5c180faf250a9d8e9f98956e1275c1df4ca0839c",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-5.f32",
+      "bytes": 192000,
+      "sha256": "5efe0952f18555b53f71189ba7bdf1716db40bb009f3969b534b00941a2f2bc5",
+      "expected_sha256": "5efe0952f18555b53f71189ba7bdf1716db40bb009f3969b534b00941a2f2bc5",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-2-86-6.f32",
+      "bytes": 138240,
+      "sha256": "e9a864626b25bca19e4f8755950f6b56a8ff98383ad81a0010770ede85c4e881",
+      "expected_sha256": "e9a864626b25bca19e4f8755950f6b56a8ff98383ad81a0010770ede85c4e881",
+      "expected_bytes": 138240
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-0.f32",
+      "bytes": 15360,
+      "sha256": "ea11a894114638f98909d128b7b99842d97261e9b0e60a45577029974f78e4cc",
+      "expected_sha256": "ea11a894114638f98909d128b7b99842d97261e9b0e60a45577029974f78e4cc",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-1.f32",
+      "bytes": 30720,
+      "sha256": "019ae1d794428afb033e3ffc60763f6c8b2d936b9c6a5e98f31c05a66b6c5d4a",
+      "expected_sha256": "019ae1d794428afb033e3ffc60763f6c8b2d936b9c6a5e98f31c05a66b6c5d4a",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-2.f32",
+      "bytes": 61440,
+      "sha256": "c7d7f877e8ebd17cc67cfe991c65ed83235f77527cae66893dd9002a134e93fe",
+      "expected_sha256": "c7d7f877e8ebd17cc67cfe991c65ed83235f77527cae66893dd9002a134e93fe",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-3.f32",
+      "bytes": 122880,
+      "sha256": "0e4bcdc43a9032428c55ee11069be13a181ef55f77d1098f41724217180a30a0",
+      "expected_sha256": "0e4bcdc43a9032428c55ee11069be13a181ef55f77d1098f41724217180a30a0",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-4.f32",
+      "bytes": 192000,
+      "sha256": "3766bc7ed4178fcb85df711b6dc2fae91c9e2c49df9e7723fe153105b5c7462f",
+      "expected_sha256": "3766bc7ed4178fcb85df711b6dc2fae91c9e2c49df9e7723fe153105b5c7462f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-5.f32",
+      "bytes": 192000,
+      "sha256": "cfe0d048754621999dd06fcc76f54ed84b144eef100a6c502c5e82971631afad",
+      "expected_sha256": "cfe0d048754621999dd06fcc76f54ed84b144eef100a6c502c5e82971631afad",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-6.f32",
+      "bytes": 192000,
+      "sha256": "e8ffeb6ef69b39930cc081b5fc3bc617487dc16782d895165ade5232e48e4f0a",
+      "expected_sha256": "e8ffeb6ef69b39930cc081b5fc3bc617487dc16782d895165ade5232e48e4f0a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-7.f32",
+      "bytes": 192000,
+      "sha256": "d0ac60ad2ceba4b315ea72336e63753ead77d286598651ce9df9d46c0ded08fc",
+      "expected_sha256": "d0ac60ad2ceba4b315ea72336e63753ead77d286598651ce9df9d46c0ded08fc",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-8.f32",
+      "bytes": 192000,
+      "sha256": "b219fede6c11bbcaef48ed3d196ecac47affbca39ca0a66635e5f8c6451666e1",
+      "expected_sha256": "b219fede6c11bbcaef48ed3d196ecac47affbca39ca0a66635e5f8c6451666e1",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-9.f32",
+      "bytes": 192000,
+      "sha256": "2cfc123682f6c446fd3f4e924d760246f0d261fd2ed87056e1e01af4053d72e2",
+      "expected_sha256": "2cfc123682f6c446fd3f4e924d760246f0d261fd2ed87056e1e01af4053d72e2",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-10.f32",
+      "bytes": 192000,
+      "sha256": "098e0100faa9e2548cff993871e29436cf796d9949fe955c5cb86cf3523e2052",
+      "expected_sha256": "098e0100faa9e2548cff993871e29436cf796d9949fe955c5cb86cf3523e2052",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-11.f32",
+      "bytes": 192000,
+      "sha256": "5a105ae55ff57efff3c4ab7f8019a114386cdb8a8697cdc4a32030beeec53b1a",
+      "expected_sha256": "5a105ae55ff57efff3c4ab7f8019a114386cdb8a8697cdc4a32030beeec53b1a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-12.f32",
+      "bytes": 192000,
+      "sha256": "cd278bfc671a2854a672ca5ec6536f0f0d44fbaf15207ee8cb139543391a8265",
+      "expected_sha256": "cd278bfc671a2854a672ca5ec6536f0f0d44fbaf15207ee8cb139543391a8265",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-13.f32",
+      "bytes": 192000,
+      "sha256": "c51d7657d9bdf32d7081efd2f33702cac80bdcecc4bfd69e810212ca83bda2ef",
+      "expected_sha256": "c51d7657d9bdf32d7081efd2f33702cac80bdcecc4bfd69e810212ca83bda2ef",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-14.f32",
+      "bytes": 192000,
+      "sha256": "c882c770da5366990cb24e4e7ee022bd2a9b8ffe31ee8e0794f75df62b7a45bb",
+      "expected_sha256": "c882c770da5366990cb24e4e7ee022bd2a9b8ffe31ee8e0794f75df62b7a45bb",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-15.f32",
+      "bytes": 192000,
+      "sha256": "10dfea22a34a41e16ddf533b0200123e2a169c47780e502cd6c38fc6c85eea0b",
+      "expected_sha256": "10dfea22a34a41e16ddf533b0200123e2a169c47780e502cd6c38fc6c85eea0b",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-16.f32",
+      "bytes": 192000,
+      "sha256": "cb10cef8d8bb829c456526ce64ec64d1de35f0dec10b5c08a6ab8f41ae7d4f69",
+      "expected_sha256": "cb10cef8d8bb829c456526ce64ec64d1de35f0dec10b5c08a6ab8f41ae7d4f69",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-17.f32",
+      "bytes": 192000,
+      "sha256": "da1201d93d09b13c6417783afa11efc489957cc927446f4a68551684f62182ac",
+      "expected_sha256": "da1201d93d09b13c6417783afa11efc489957cc927446f4a68551684f62182ac",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-109-18.f32",
+      "bytes": 192000,
+      "sha256": "843dea0bde9ecb938ca8337206f35bd968362c0ec5eb2e51ca2f128e95e7e3f4",
+      "expected_sha256": "843dea0bde9ecb938ca8337206f35bd968362c0ec5eb2e51ca2f128e95e7e3f4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-0.f32",
+      "bytes": 15360,
+      "sha256": "7f819409fd9d010cfb5207686f7695d5e9b0194987241cb3e5932954f18a17ac",
+      "expected_sha256": "7f819409fd9d010cfb5207686f7695d5e9b0194987241cb3e5932954f18a17ac",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-1.f32",
+      "bytes": 30720,
+      "sha256": "d6f89f6fff49e560ba7cc81f9e2758b0172a453f2d0fdc64574e1e99dbcb9112",
+      "expected_sha256": "d6f89f6fff49e560ba7cc81f9e2758b0172a453f2d0fdc64574e1e99dbcb9112",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-2.f32",
+      "bytes": 61440,
+      "sha256": "03cde722902ca3017b624d505658f8249280eea4b9dc67d9d18ddbfcde59c21c",
+      "expected_sha256": "03cde722902ca3017b624d505658f8249280eea4b9dc67d9d18ddbfcde59c21c",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-3.f32",
+      "bytes": 122880,
+      "sha256": "29330fd55a7b093804bfe9a0bd1f995c5ea25758e1d096db10ad934f9e37859d",
+      "expected_sha256": "29330fd55a7b093804bfe9a0bd1f995c5ea25758e1d096db10ad934f9e37859d",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-4.f32",
+      "bytes": 192000,
+      "sha256": "37c5a64b1db73e576ce04bf53c197e6cc54864604d647eef977716635580e680",
+      "expected_sha256": "37c5a64b1db73e576ce04bf53c197e6cc54864604d647eef977716635580e680",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-5.f32",
+      "bytes": 192000,
+      "sha256": "5b0cf1b616f24d16c862c0915e97009a2a307ea194f073f2d1008307b1c6ee15",
+      "expected_sha256": "5b0cf1b616f24d16c862c0915e97009a2a307ea194f073f2d1008307b1c6ee15",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-6.f32",
+      "bytes": 192000,
+      "sha256": "7faa82f918d3f27f291a96ac1ab1b28f12ff9799326e57c226bd8ee0e63b7ea7",
+      "expected_sha256": "7faa82f918d3f27f291a96ac1ab1b28f12ff9799326e57c226bd8ee0e63b7ea7",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-7.f32",
+      "bytes": 192000,
+      "sha256": "7cd5e4c0a8e5a70dcbfd92f2ea2c118dfc412f1a273687ec6831a08aa76741a0",
+      "expected_sha256": "7cd5e4c0a8e5a70dcbfd92f2ea2c118dfc412f1a273687ec6831a08aa76741a0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-8.f32",
+      "bytes": 192000,
+      "sha256": "288004fc23d0b147c33ed5073831f1af9c68a488179780e240dcaefd34d6c91f",
+      "expected_sha256": "288004fc23d0b147c33ed5073831f1af9c68a488179780e240dcaefd34d6c91f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-9.f32",
+      "bytes": 192000,
+      "sha256": "6a65b3326fed67f91fe7b3a99565a8d46008644044d44ab500fb922128563024",
+      "expected_sha256": "6a65b3326fed67f91fe7b3a99565a8d46008644044d44ab500fb922128563024",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-10.f32",
+      "bytes": 192000,
+      "sha256": "0ce1e264e8c7d774ea579425eb970ab22b038203978bac1bf5e7ff0eb2c1ab64",
+      "expected_sha256": "0ce1e264e8c7d774ea579425eb970ab22b038203978bac1bf5e7ff0eb2c1ab64",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-11.f32",
+      "bytes": 192000,
+      "sha256": "56846c30581a3c7724e328e26d0ec864b3941474a3e0ea8fbf12d5c58f369247",
+      "expected_sha256": "56846c30581a3c7724e328e26d0ec864b3941474a3e0ea8fbf12d5c58f369247",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-12.f32",
+      "bytes": 192000,
+      "sha256": "0607a729fac34c044fbad6f47ced80b628495467aabd5122e391d915d5835a26",
+      "expected_sha256": "0607a729fac34c044fbad6f47ced80b628495467aabd5122e391d915d5835a26",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-13.f32",
+      "bytes": 192000,
+      "sha256": "ed0b4d2515bc0fc43db524cc0783e88aaa9e4fc1d70eb4e645a0207125db3f5e",
+      "expected_sha256": "ed0b4d2515bc0fc43db524cc0783e88aaa9e4fc1d70eb4e645a0207125db3f5e",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-14.f32",
+      "bytes": 192000,
+      "sha256": "715f9e62d8c5883d46530a9a2decbed6e0924f89a31bf6ee742b6e43be98f328",
+      "expected_sha256": "715f9e62d8c5883d46530a9a2decbed6e0924f89a31bf6ee742b6e43be98f328",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-15.f32",
+      "bytes": 192000,
+      "sha256": "f161299561cb55e6540f9c067fc6951f2941bbf70c63fbd45c2643900dffcd60",
+      "expected_sha256": "f161299561cb55e6540f9c067fc6951f2941bbf70c63fbd45c2643900dffcd60",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-16.f32",
+      "bytes": 192000,
+      "sha256": "5d1e02a039ea4c7448c2970938cf4c76817c8624bb12808a161244ba4bd1f2f4",
+      "expected_sha256": "5d1e02a039ea4c7448c2970938cf4c76817c8624bb12808a161244ba4bd1f2f4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-17.f32",
+      "bytes": 192000,
+      "sha256": "7ddbf7457dfb511d028f2651f30a3b86d646cf8264471d48f145750c3d54aa99",
+      "expected_sha256": "7ddbf7457dfb511d028f2651f30a3b86d646cf8264471d48f145750c3d54aa99",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-18.f32",
+      "bytes": 192000,
+      "sha256": "8b49a576c2f61fc8a1147fc6947762931d2bb1ea3c60310a26d48fce39587908",
+      "expected_sha256": "8b49a576c2f61fc8a1147fc6947762931d2bb1ea3c60310a26d48fce39587908",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-19.f32",
+      "bytes": 192000,
+      "sha256": "86ab07f5d7d33bbdd666cac96792d29349307ab882151fc12556c0ce5d90f7ea",
+      "expected_sha256": "86ab07f5d7d33bbdd666cac96792d29349307ab882151fc12556c0ce5d90f7ea",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-2-108-20.f32",
+      "bytes": 7680,
+      "sha256": "c218790ed711b2af959968e960fdec36d451dbe2292ebeeb87c4e946ca19d6f6",
+      "expected_sha256": "c218790ed711b2af959968e960fdec36d451dbe2292ebeeb87c4e946ca19d6f6",
+      "expected_bytes": 7680
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-130-0.f32",
+      "bytes": 15360,
+      "sha256": "bc24e796e410336b41a6f5c8c86aa14174c13efbea8e89ae3cefd15f16d7937b",
+      "expected_sha256": "bc24e796e410336b41a6f5c8c86aa14174c13efbea8e89ae3cefd15f16d7937b",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-130-1.f32",
+      "bytes": 30720,
+      "sha256": "4b8627d406c57710fc6a72e5d16fc1dd5ff9ef1c30aee52801ca439a6ab0da97",
+      "expected_sha256": "4b8627d406c57710fc6a72e5d16fc1dd5ff9ef1c30aee52801ca439a6ab0da97",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-130-2.f32",
+      "bytes": 61440,
+      "sha256": "cab7bdc6b971ba243368c2fe5ff605c4e5907e7a8841e796cf85c4815af3d340",
+      "expected_sha256": "cab7bdc6b971ba243368c2fe5ff605c4e5907e7a8841e796cf85c4815af3d340",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-130-3.f32",
+      "bytes": 122880,
+      "sha256": "67b035710d84bd45bc90aa247def4609591d4ac84c91a1af2e4101fdda331358",
+      "expected_sha256": "67b035710d84bd45bc90aa247def4609591d4ac84c91a1af2e4101fdda331358",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-130-4.f32",
+      "bytes": 7680,
+      "sha256": "24a98a1b41f89d763ba16e0695014615b1480c7b25f1bf062f406d60e2652bfb",
+      "expected_sha256": "24a98a1b41f89d763ba16e0695014615b1480c7b25f1bf062f406d60e2652bfb",
+      "expected_bytes": 7680
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-131-0.f32",
+      "bytes": 15360,
+      "sha256": "556cda2c1731e888951fdccb846c1fa78eddcbda5df238f85727452c03687b21",
+      "expected_sha256": "556cda2c1731e888951fdccb846c1fa78eddcbda5df238f85727452c03687b21",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-131-1.f32",
+      "bytes": 30720,
+      "sha256": "60e7ca91c7780571ede304aab541e94fce48422ea75eedd411a7f9edeed38008",
+      "expected_sha256": "60e7ca91c7780571ede304aab541e94fce48422ea75eedd411a7f9edeed38008",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-131-2.f32",
+      "bytes": 61440,
+      "sha256": "bc4ff9ee0fb56a1846723cc4489508dcc8952158c64c557848490c004810b926",
+      "expected_sha256": "bc4ff9ee0fb56a1846723cc4489508dcc8952158c64c557848490c004810b926",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-131-3.f32",
+      "bytes": 122880,
+      "sha256": "61c924db1408fbd98d221b45f4cc1581227e3526eb1ecc7f6556b1f2c83c4aaa",
+      "expected_sha256": "61c924db1408fbd98d221b45f4cc1581227e3526eb1ecc7f6556b1f2c83c4aaa",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-131-4.f32",
+      "bytes": 7680,
+      "sha256": "c90a2973baa298ab7e28ff7cc70a8bbd25be1476581b3d6fcec582115278721a",
+      "expected_sha256": "c90a2973baa298ab7e28ff7cc70a8bbd25be1476581b3d6fcec582115278721a",
+      "expected_bytes": 7680
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-133-0.f32",
+      "bytes": 15360,
+      "sha256": "9ef0dd5f13f7e5e84a60bdf45b2776488d212a4eb658c4fd24662bd795c35dfe",
+      "expected_sha256": "9ef0dd5f13f7e5e84a60bdf45b2776488d212a4eb658c4fd24662bd795c35dfe",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-133-1.f32",
+      "bytes": 30720,
+      "sha256": "891d4cf4e1c8f0bef021ea484b33a895455957fb58e27f464dff55ef2e995acc",
+      "expected_sha256": "891d4cf4e1c8f0bef021ea484b33a895455957fb58e27f464dff55ef2e995acc",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-133-2.f32",
+      "bytes": 61440,
+      "sha256": "7ed0fe32841951864e119f997163d2977317eb1adee43519bb43064f27f28a47",
+      "expected_sha256": "7ed0fe32841951864e119f997163d2977317eb1adee43519bb43064f27f28a47",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-133-3.f32",
+      "bytes": 122880,
+      "sha256": "e6f84ca63ea5554b0f90386d5e0b59c6b3d4e902ee8726652da2c6fb452db008",
+      "expected_sha256": "e6f84ca63ea5554b0f90386d5e0b59c6b3d4e902ee8726652da2c6fb452db008",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-133-4.f32",
+      "bytes": 30720,
+      "sha256": "00779e6031e029d41f8dbe21675c04813e8e02d36b76b5db00571941c114464d",
+      "expected_sha256": "00779e6031e029d41f8dbe21675c04813e8e02d36b76b5db00571941c114464d",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-132-0.f32",
+      "bytes": 15360,
+      "sha256": "26c609275569a7fad9c4f73a8ab8ae7994e768e6642d3355b252ae695df1c3df",
+      "expected_sha256": "26c609275569a7fad9c4f73a8ab8ae7994e768e6642d3355b252ae695df1c3df",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-132-1.f32",
+      "bytes": 30720,
+      "sha256": "b16afe99dfd4632ce5403ce74b120d9aef25f57714cf09e4e02ba565861e78a6",
+      "expected_sha256": "b16afe99dfd4632ce5403ce74b120d9aef25f57714cf09e4e02ba565861e78a6",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-132-2.f32",
+      "bytes": 61440,
+      "sha256": "5a2670510638d69d0fa0ceaa4b8a3266c6c3ed5d6e875508d6032981d4ae199c",
+      "expected_sha256": "5a2670510638d69d0fa0ceaa4b8a3266c6c3ed5d6e875508d6032981d4ae199c",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-132-3.f32",
+      "bytes": 122880,
+      "sha256": "ee4561f85392693f680e64e45d729d3ebc22fbafcff5458aafbf2707797ee4dd",
+      "expected_sha256": "ee4561f85392693f680e64e45d729d3ebc22fbafcff5458aafbf2707797ee4dd",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-short-4-132-4.f32",
+      "bytes": 46080,
+      "sha256": "d793a5ea9170e6a6604d39a0b742e1bafd871bce45d26c3e6eb9358405803236",
+      "expected_sha256": "d793a5ea9170e6a6604d39a0b742e1bafd871bce45d26c3e6eb9358405803236",
+      "expected_bytes": 46080
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-0.f32",
+      "bytes": 15360,
+      "sha256": "dd8b3cb31cc1526813a27dce6821a1c5287bf075b5a9067f8b7c9329eeaba5cb",
+      "expected_sha256": "dd8b3cb31cc1526813a27dce6821a1c5287bf075b5a9067f8b7c9329eeaba5cb",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-1.f32",
+      "bytes": 30720,
+      "sha256": "88e0429e0454b63c1c6b4266023b212556f8da7c559aad8e9a11ae4b35664a62",
+      "expected_sha256": "88e0429e0454b63c1c6b4266023b212556f8da7c559aad8e9a11ae4b35664a62",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-2.f32",
+      "bytes": 61440,
+      "sha256": "c86cd4b3e4d2f83e826075b43779a0249411c579670704becc5b6677a7fb3ba7",
+      "expected_sha256": "c86cd4b3e4d2f83e826075b43779a0249411c579670704becc5b6677a7fb3ba7",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-3.f32",
+      "bytes": 122880,
+      "sha256": "aa0287ef245cc553c26867f1c058b33e05d329197f5a68adc24bcf79ca48e146",
+      "expected_sha256": "aa0287ef245cc553c26867f1c058b33e05d329197f5a68adc24bcf79ca48e146",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-4.f32",
+      "bytes": 192000,
+      "sha256": "47bc3f5524b6614a478f85cb90f1706648720cdc5212ad05ef14d9e210b46561",
+      "expected_sha256": "47bc3f5524b6614a478f85cb90f1706648720cdc5212ad05ef14d9e210b46561",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-5.f32",
+      "bytes": 192000,
+      "sha256": "84643f6c377a63c577eb0092957e06319b0e169f98438c345bd99e9d105e4a4c",
+      "expected_sha256": "84643f6c377a63c577eb0092957e06319b0e169f98438c345bd99e9d105e4a4c",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-156-6.f32",
+      "bytes": 92160,
+      "sha256": "c4af0fb8f182d79f7510e3f170e1e3d8a9d17669ea321dfd4ee16ed12fc932e2",
+      "expected_sha256": "c4af0fb8f182d79f7510e3f170e1e3d8a9d17669ea321dfd4ee16ed12fc932e2",
+      "expected_bytes": 92160
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-0.f32",
+      "bytes": 15360,
+      "sha256": "d0e1898492c1259a1164da435158e99dc206d180b66df485635f6fb853241992",
+      "expected_sha256": "d0e1898492c1259a1164da435158e99dc206d180b66df485635f6fb853241992",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-1.f32",
+      "bytes": 30720,
+      "sha256": "3b49da4359ca69df551fced114cdfbdb0dddf2cf87393d32cfac116069add38b",
+      "expected_sha256": "3b49da4359ca69df551fced114cdfbdb0dddf2cf87393d32cfac116069add38b",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-2.f32",
+      "bytes": 61440,
+      "sha256": "b8d796a9d18e505dea63cd3ae8a2efcb826db0f5f5186469b0f17626babc299f",
+      "expected_sha256": "b8d796a9d18e505dea63cd3ae8a2efcb826db0f5f5186469b0f17626babc299f",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-3.f32",
+      "bytes": 122880,
+      "sha256": "c4d4baf841292402d1ded8ef4ad747ac290b25669f95d291755346510c15e723",
+      "expected_sha256": "c4d4baf841292402d1ded8ef4ad747ac290b25669f95d291755346510c15e723",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-4.f32",
+      "bytes": 192000,
+      "sha256": "bd29539d19e2771463b4b39e01664c1379fcf79bf2c1b563cfeddeb810992f6e",
+      "expected_sha256": "bd29539d19e2771463b4b39e01664c1379fcf79bf2c1b563cfeddeb810992f6e",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-5.f32",
+      "bytes": 192000,
+      "sha256": "a18e105067673d4e9afd34722045363bbd9729f7a31c10a7f654e67ec12fe6d3",
+      "expected_sha256": "a18e105067673d4e9afd34722045363bbd9729f7a31c10a7f654e67ec12fe6d3",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-154-6.f32",
+      "bytes": 168960,
+      "sha256": "ce3982199bc2144ddc3dae4a3aae979566770fe369c40ca8f7fbfbd84c75b2ea",
+      "expected_sha256": "ce3982199bc2144ddc3dae4a3aae979566770fe369c40ca8f7fbfbd84c75b2ea",
+      "expected_bytes": 168960
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-0.f32",
+      "bytes": 15360,
+      "sha256": "2d20bd86acf100d68189311b0da806a900553efe9ea7f752ec18e3eb6e409a49",
+      "expected_sha256": "2d20bd86acf100d68189311b0da806a900553efe9ea7f752ec18e3eb6e409a49",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-1.f32",
+      "bytes": 30720,
+      "sha256": "00b37ded05c6a4144e5116351a1c072ceedba6b74e6b8fab5095bebda43f3a84",
+      "expected_sha256": "00b37ded05c6a4144e5116351a1c072ceedba6b74e6b8fab5095bebda43f3a84",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-2.f32",
+      "bytes": 61440,
+      "sha256": "f42a4ecf3a3ddde609c6789c4c8b13ae2c6b95cbdaea464aee07d65c63eb7a89",
+      "expected_sha256": "f42a4ecf3a3ddde609c6789c4c8b13ae2c6b95cbdaea464aee07d65c63eb7a89",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-3.f32",
+      "bytes": 122880,
+      "sha256": "98bf6c724979df18e1e81690fdd2e1f2914061ec8670ead293faadf0e510c3ac",
+      "expected_sha256": "98bf6c724979df18e1e81690fdd2e1f2914061ec8670ead293faadf0e510c3ac",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-4.f32",
+      "bytes": 192000,
+      "sha256": "17f866faaf7486475e3de13a6aba7eae506be9f2847883f0660d978cba222774",
+      "expected_sha256": "17f866faaf7486475e3de13a6aba7eae506be9f2847883f0660d978cba222774",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-5.f32",
+      "bytes": 192000,
+      "sha256": "51e74b460ae4636d8212a2dd75619e0c1e813e1570db93e1aba3a4ec066861d2",
+      "expected_sha256": "51e74b460ae4636d8212a2dd75619e0c1e813e1570db93e1aba3a4ec066861d2",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-157-6.f32",
+      "bytes": 168960,
+      "sha256": "ed431e21c01adc3d40c4cecd80c96beb813630e2fe996e22326158d15fcc2982",
+      "expected_sha256": "ed431e21c01adc3d40c4cecd80c96beb813630e2fe996e22326158d15fcc2982",
+      "expected_bytes": 168960
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-0.f32",
+      "bytes": 15360,
+      "sha256": "dea2a5086af46cb9c01492ca914c3e7b06631beffe5d2f967013a63bb48435ab",
+      "expected_sha256": "dea2a5086af46cb9c01492ca914c3e7b06631beffe5d2f967013a63bb48435ab",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-1.f32",
+      "bytes": 30720,
+      "sha256": "97c11810b93bf4a8962db0aa92554365f9cbea5d79cbd86da5d0955292e6f660",
+      "expected_sha256": "97c11810b93bf4a8962db0aa92554365f9cbea5d79cbd86da5d0955292e6f660",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-2.f32",
+      "bytes": 61440,
+      "sha256": "7d8b94501ab82d31f2fcc2e33c37478438cab894776c6f43d74ce4e5abd42be4",
+      "expected_sha256": "7d8b94501ab82d31f2fcc2e33c37478438cab894776c6f43d74ce4e5abd42be4",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-3.f32",
+      "bytes": 122880,
+      "sha256": "2588340db31da076617bf22f98fd4926ba3f8038a53c070744871ccfd91dd134",
+      "expected_sha256": "2588340db31da076617bf22f98fd4926ba3f8038a53c070744871ccfd91dd134",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-4.f32",
+      "bytes": 192000,
+      "sha256": "203aacff68386a3f448596f57c06a6c3d3478985315f6b064bb1512a6eb7e1b0",
+      "expected_sha256": "203aacff68386a3f448596f57c06a6c3d3478985315f6b064bb1512a6eb7e1b0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-5.f32",
+      "bytes": 192000,
+      "sha256": "b8e12cc02904d5ebcb70670827d0ea7dda9825b1aceee2d92893244e70b3c9fb",
+      "expected_sha256": "b8e12cc02904d5ebcb70670827d0ea7dda9825b1aceee2d92893244e70b3c9fb",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-6.f32",
+      "bytes": 192000,
+      "sha256": "3b75d1117d2e901739379db3144bd8b56177bccc8d8151cc58963d05c3b20970",
+      "expected_sha256": "3b75d1117d2e901739379db3144bd8b56177bccc8d8151cc58963d05c3b20970",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-medium-4-155-7.f32",
+      "bytes": 15360,
+      "sha256": "64b3e9b6f6b00db0f46ce13c930494c8f629e06e4927aa26095cc725d6bf2538",
+      "expected_sha256": "64b3e9b6f6b00db0f46ce13c930494c8f629e06e4927aa26095cc725d6bf2538",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-0.f32",
+      "bytes": 15360,
+      "sha256": "1e94bae90e8d58c379b593affa154e28d0b4ad3ceaea26a334fe65a5b7647e1d",
+      "expected_sha256": "1e94bae90e8d58c379b593affa154e28d0b4ad3ceaea26a334fe65a5b7647e1d",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-1.f32",
+      "bytes": 30720,
+      "sha256": "f4092234a0f5c8c173ecb2c5f900f48f2289ed31b3a02ca0746d2c0b02645b33",
+      "expected_sha256": "f4092234a0f5c8c173ecb2c5f900f48f2289ed31b3a02ca0746d2c0b02645b33",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-2.f32",
+      "bytes": 61440,
+      "sha256": "5b6b981ce9d3c87c484473ffde89d1d69e8cd5f4e50375c22b5de24befa36742",
+      "expected_sha256": "5b6b981ce9d3c87c484473ffde89d1d69e8cd5f4e50375c22b5de24befa36742",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-3.f32",
+      "bytes": 122880,
+      "sha256": "74ea51e648cceb3f8477e5d4348fb87aae9182616b7702e4ed5791871c4f1005",
+      "expected_sha256": "74ea51e648cceb3f8477e5d4348fb87aae9182616b7702e4ed5791871c4f1005",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-4.f32",
+      "bytes": 192000,
+      "sha256": "b54e4799d54048742f18dfb65cd456afc10c45c8856ce40b90a71eb236519f8a",
+      "expected_sha256": "b54e4799d54048742f18dfb65cd456afc10c45c8856ce40b90a71eb236519f8a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-5.f32",
+      "bytes": 192000,
+      "sha256": "5041285ad560c3356d9981e127ca84db48b941d07a88453a8dcbfa3a2d97c262",
+      "expected_sha256": "5041285ad560c3356d9981e127ca84db48b941d07a88453a8dcbfa3a2d97c262",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-6.f32",
+      "bytes": 192000,
+      "sha256": "0faec537bb43fde4df2bed288a2563a412e1cb0baf43bda189ca02d0578aec92",
+      "expected_sha256": "0faec537bb43fde4df2bed288a2563a412e1cb0baf43bda189ca02d0578aec92",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-7.f32",
+      "bytes": 192000,
+      "sha256": "5b9db0a185289a5f7b99b3e7589cac05d78093b6b5c08a37ef2efd746cc50db3",
+      "expected_sha256": "5b9db0a185289a5f7b99b3e7589cac05d78093b6b5c08a37ef2efd746cc50db3",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-8.f32",
+      "bytes": 192000,
+      "sha256": "d365960d4deecae9167dd66ce8fc588ccd0fd180125a8cf6bdb1e2c6b80263c5",
+      "expected_sha256": "d365960d4deecae9167dd66ce8fc588ccd0fd180125a8cf6bdb1e2c6b80263c5",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-9.f32",
+      "bytes": 192000,
+      "sha256": "73182a586656a717fdf732b4dfbce60a870088a09d86476af8ec7c119505b340",
+      "expected_sha256": "73182a586656a717fdf732b4dfbce60a870088a09d86476af8ec7c119505b340",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-10.f32",
+      "bytes": 192000,
+      "sha256": "16e4574a0c72a69d5b110babc8680530adc71e8c6643aaf4ad468bf691c3502c",
+      "expected_sha256": "16e4574a0c72a69d5b110babc8680530adc71e8c6643aaf4ad468bf691c3502c",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-11.f32",
+      "bytes": 192000,
+      "sha256": "bdb668e1d35251c4b85a8240b34f4c8354d53df9402780ae9112bb102b59db0e",
+      "expected_sha256": "bdb668e1d35251c4b85a8240b34f4c8354d53df9402780ae9112bb102b59db0e",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-12.f32",
+      "bytes": 192000,
+      "sha256": "aeb9b44ad863c0aff56a727c98e33567411579c3f9f91dd2e0bc615b7dd56e44",
+      "expected_sha256": "aeb9b44ad863c0aff56a727c98e33567411579c3f9f91dd2e0bc615b7dd56e44",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-13.f32",
+      "bytes": 192000,
+      "sha256": "ed54b85d9496a5666d22c27d5148ad6d8d04229c5a0147419244d36a3f1e5f57",
+      "expected_sha256": "ed54b85d9496a5666d22c27d5148ad6d8d04229c5a0147419244d36a3f1e5f57",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-14.f32",
+      "bytes": 192000,
+      "sha256": "ebdd3d1e172a67213d147ee8a845ac178161283eb3d82209f5cb7df056d77541",
+      "expected_sha256": "ebdd3d1e172a67213d147ee8a845ac178161283eb3d82209f5cb7df056d77541",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-15.f32",
+      "bytes": 192000,
+      "sha256": "b0b3727551195cfd6547cf452615a3fe38fec6d9a0e524786ce12341bbd0c6d7",
+      "expected_sha256": "b0b3727551195cfd6547cf452615a3fe38fec6d9a0e524786ce12341bbd0c6d7",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-16.f32",
+      "bytes": 192000,
+      "sha256": "91f2db55872eeb48ac31c3e0e11434c0b700908f92a47af2efde609fb49c44a8",
+      "expected_sha256": "91f2db55872eeb48ac31c3e0e11434c0b700908f92a47af2efde609fb49c44a8",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-181-17.f32",
+      "bytes": 46080,
+      "sha256": "4bae03fe06688bce9a5afe0678c862f1eaf03d28a15e42bb538502481d1dbed4",
+      "expected_sha256": "4bae03fe06688bce9a5afe0678c862f1eaf03d28a15e42bb538502481d1dbed4",
+      "expected_bytes": 46080
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-0.f32",
+      "bytes": 15360,
+      "sha256": "fe6d634751d79a3aeaa01b5dc57cc0c5aea616614d141bc80cdef1e408d32e22",
+      "expected_sha256": "fe6d634751d79a3aeaa01b5dc57cc0c5aea616614d141bc80cdef1e408d32e22",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-1.f32",
+      "bytes": 30720,
+      "sha256": "a05a78dc2da960b82da3b4af3dbbd168ad866833d4a7e2d583900a1dcc169231",
+      "expected_sha256": "a05a78dc2da960b82da3b4af3dbbd168ad866833d4a7e2d583900a1dcc169231",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-2.f32",
+      "bytes": 61440,
+      "sha256": "1c3020e08aaebbc789873481b04e8d95d2e9b91f6b6a4095677c2dbba57c98a5",
+      "expected_sha256": "1c3020e08aaebbc789873481b04e8d95d2e9b91f6b6a4095677c2dbba57c98a5",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-3.f32",
+      "bytes": 122880,
+      "sha256": "26da7ec67984e8be19f5f59d2e74a9ec8384fa2a70a588c42f2f6bc3f3c0e3d4",
+      "expected_sha256": "26da7ec67984e8be19f5f59d2e74a9ec8384fa2a70a588c42f2f6bc3f3c0e3d4",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-4.f32",
+      "bytes": 192000,
+      "sha256": "ecc5cab601ef6964d580c39cc5644dea1b4b465d19306ae8b03726b6407d55c6",
+      "expected_sha256": "ecc5cab601ef6964d580c39cc5644dea1b4b465d19306ae8b03726b6407d55c6",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-5.f32",
+      "bytes": 192000,
+      "sha256": "60ec216c32739b14cd3e5b8037caaac299eef26adbb6c1881cf8c91fce20c70d",
+      "expected_sha256": "60ec216c32739b14cd3e5b8037caaac299eef26adbb6c1881cf8c91fce20c70d",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-6.f32",
+      "bytes": 192000,
+      "sha256": "ae76f7ddc7d10a749088690368092aa6123bbaa910a0221663722cf0a9f0ff0f",
+      "expected_sha256": "ae76f7ddc7d10a749088690368092aa6123bbaa910a0221663722cf0a9f0ff0f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-7.f32",
+      "bytes": 192000,
+      "sha256": "4860eff237ad327fa1c10e2f381a84ece866cca75f0537e8e09171da80e5e2f4",
+      "expected_sha256": "4860eff237ad327fa1c10e2f381a84ece866cca75f0537e8e09171da80e5e2f4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-8.f32",
+      "bytes": 192000,
+      "sha256": "d4005c70ed133f1f0b28ca6cd6ba633909d7175426d75e79f4879dd3f3c37daf",
+      "expected_sha256": "d4005c70ed133f1f0b28ca6cd6ba633909d7175426d75e79f4879dd3f3c37daf",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-9.f32",
+      "bytes": 192000,
+      "sha256": "7106fc8676c483c3fe6d16422db4614609a32ab575bcd31bf3a05252ddf7b15a",
+      "expected_sha256": "7106fc8676c483c3fe6d16422db4614609a32ab575bcd31bf3a05252ddf7b15a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-10.f32",
+      "bytes": 192000,
+      "sha256": "7be6b876e2c8d6892692c75e2936aed94499476b6f45374c3e7f389af74829e5",
+      "expected_sha256": "7be6b876e2c8d6892692c75e2936aed94499476b6f45374c3e7f389af74829e5",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-11.f32",
+      "bytes": 192000,
+      "sha256": "158381cf26d748292304e7a454f51c3f5dbe12a167225c3dc05cb6fc207898ab",
+      "expected_sha256": "158381cf26d748292304e7a454f51c3f5dbe12a167225c3dc05cb6fc207898ab",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-12.f32",
+      "bytes": 192000,
+      "sha256": "41f1294ad8666ec20092c84800138acaf0d62c22f16de81cc89f4c8ffb746597",
+      "expected_sha256": "41f1294ad8666ec20092c84800138acaf0d62c22f16de81cc89f4c8ffb746597",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-13.f32",
+      "bytes": 192000,
+      "sha256": "7f7919905c7bdc1d9612e82cf262e261a7e662eee9a04dc30207ac43061d7010",
+      "expected_sha256": "7f7919905c7bdc1d9612e82cf262e261a7e662eee9a04dc30207ac43061d7010",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-14.f32",
+      "bytes": 192000,
+      "sha256": "2b3fbc68343e70723309082786a543ed5fc87e5a424e4e25d05fc148f98c3fae",
+      "expected_sha256": "2b3fbc68343e70723309082786a543ed5fc87e5a424e4e25d05fc148f98c3fae",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-15.f32",
+      "bytes": 192000,
+      "sha256": "4c2c0391de107e0220ae00a4cc0195730220de34ed96c30df7c09a60f0973140",
+      "expected_sha256": "4c2c0391de107e0220ae00a4cc0195730220de34ed96c30df7c09a60f0973140",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-16.f32",
+      "bytes": 192000,
+      "sha256": "a558d5284ccae551c8ec6e28be3fb87356883911b79928ef119e9f1fc9ddf24f",
+      "expected_sha256": "a558d5284ccae551c8ec6e28be3fb87356883911b79928ef119e9f1fc9ddf24f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-17.f32",
+      "bytes": 192000,
+      "sha256": "23f51e43e0726467618ec5b7d2a3bb0dbd9826caf60dc4909cb6923a7e09a790",
+      "expected_sha256": "23f51e43e0726467618ec5b7d2a3bb0dbd9826caf60dc4909cb6923a7e09a790",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-179-18.f32",
+      "bytes": 69120,
+      "sha256": "fca70415a188e1510c8d13459ac920b513c2526dcae6d048c1b2cd2b38b2e691",
+      "expected_sha256": "fca70415a188e1510c8d13459ac920b513c2526dcae6d048c1b2cd2b38b2e691",
+      "expected_bytes": 69120
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-0.f32",
+      "bytes": 15360,
+      "sha256": "b7b656b6d7eba76d93c0817979ebca87402f9ed934c16fe94e3b641971dc795c",
+      "expected_sha256": "b7b656b6d7eba76d93c0817979ebca87402f9ed934c16fe94e3b641971dc795c",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-1.f32",
+      "bytes": 30720,
+      "sha256": "b91a2e5f916db5d0b4b314b1e900c0febb7f566d4526b6aa8d4d989f9f22a78e",
+      "expected_sha256": "b91a2e5f916db5d0b4b314b1e900c0febb7f566d4526b6aa8d4d989f9f22a78e",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-2.f32",
+      "bytes": 61440,
+      "sha256": "949057ad3feafc20901f8999d2fdb64ffe47fcc3e7729a8ec565eff156c9fe29",
+      "expected_sha256": "949057ad3feafc20901f8999d2fdb64ffe47fcc3e7729a8ec565eff156c9fe29",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-3.f32",
+      "bytes": 122880,
+      "sha256": "c480b23f0f93c9c9d726745dc2b6c3975eb5e3a5a3f8d15afc78846249b6e46a",
+      "expected_sha256": "c480b23f0f93c9c9d726745dc2b6c3975eb5e3a5a3f8d15afc78846249b6e46a",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-4.f32",
+      "bytes": 192000,
+      "sha256": "edc318ae1ed717627eda1f5de4c19038354c9482ce94ceb7c3d012b88654965b",
+      "expected_sha256": "edc318ae1ed717627eda1f5de4c19038354c9482ce94ceb7c3d012b88654965b",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-5.f32",
+      "bytes": 192000,
+      "sha256": "b0733b23d7dc0ad1448771016a96bb0e8419db8a0b9185e2fd81c2f9fc9a8265",
+      "expected_sha256": "b0733b23d7dc0ad1448771016a96bb0e8419db8a0b9185e2fd81c2f9fc9a8265",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-6.f32",
+      "bytes": 192000,
+      "sha256": "edc82ac93ee34f010f7f0f4fcd807d41ba1df27738cd6fd59a921f03ea5bac2a",
+      "expected_sha256": "edc82ac93ee34f010f7f0f4fcd807d41ba1df27738cd6fd59a921f03ea5bac2a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-7.f32",
+      "bytes": 192000,
+      "sha256": "df4988e85a7e00bd105dc4b8131dfa73883cf9996f49d5073b57eab879658334",
+      "expected_sha256": "df4988e85a7e00bd105dc4b8131dfa73883cf9996f49d5073b57eab879658334",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-8.f32",
+      "bytes": 192000,
+      "sha256": "f3bce43c943f38c76acaf6a21ac36d6e82dd6418247875896c86b1ec615c3142",
+      "expected_sha256": "f3bce43c943f38c76acaf6a21ac36d6e82dd6418247875896c86b1ec615c3142",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-9.f32",
+      "bytes": 192000,
+      "sha256": "297e70a61189859323470ec08bffcccf321aa9075dd3273ae5f996aaca043112",
+      "expected_sha256": "297e70a61189859323470ec08bffcccf321aa9075dd3273ae5f996aaca043112",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-10.f32",
+      "bytes": 192000,
+      "sha256": "5652a777359c3ebff7c262c4c21245f84412d8307c6f5f0cd42773f9ece02ad8",
+      "expected_sha256": "5652a777359c3ebff7c262c4c21245f84412d8307c6f5f0cd42773f9ece02ad8",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-11.f32",
+      "bytes": 192000,
+      "sha256": "c2452db67ed3a49519fad29a6cb6d2b25bdbb6a74519bcceb07c2450b3821164",
+      "expected_sha256": "c2452db67ed3a49519fad29a6cb6d2b25bdbb6a74519bcceb07c2450b3821164",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-12.f32",
+      "bytes": 192000,
+      "sha256": "6090fd9c04189c18ebc20eb2de44308993d57a5b68ea6e1cef1d789f1d478a1a",
+      "expected_sha256": "6090fd9c04189c18ebc20eb2de44308993d57a5b68ea6e1cef1d789f1d478a1a",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-13.f32",
+      "bytes": 192000,
+      "sha256": "478842013c95245a9d44c43eb7ae0c7e86e83f362b18946fbd966acf597b62bd",
+      "expected_sha256": "478842013c95245a9d44c43eb7ae0c7e86e83f362b18946fbd966acf597b62bd",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-14.f32",
+      "bytes": 192000,
+      "sha256": "3fba9b532f2d65d24d4b0784ce47ec2f6c76a1d6a902e200bfc6e0ce4b24b4c6",
+      "expected_sha256": "3fba9b532f2d65d24d4b0784ce47ec2f6c76a1d6a902e200bfc6e0ce4b24b4c6",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-15.f32",
+      "bytes": 192000,
+      "sha256": "b10c0179b30817077016a8faf9adfa58c67337ebd7b1ed6508841c765e51dd4b",
+      "expected_sha256": "b10c0179b30817077016a8faf9adfa58c67337ebd7b1ed6508841c765e51dd4b",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-16.f32",
+      "bytes": 192000,
+      "sha256": "c0a10e818d166e76aa3365734b17c783b662ccb6c947bc60245c169e21e5ab89",
+      "expected_sha256": "c0a10e818d166e76aa3365734b17c783b662ccb6c947bc60245c169e21e5ab89",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-17.f32",
+      "bytes": 192000,
+      "sha256": "7913393dad1594d415c46acf2f3190b53d4215c163f94360136d53ffecbfb79b",
+      "expected_sha256": "7913393dad1594d415c46acf2f3190b53d4215c163f94360136d53ffecbfb79b",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-18.f32",
+      "bytes": 192000,
+      "sha256": "b8f047148937dc87c6355cf19c6c73c8f6447bb9f7db5f7e9be3a2c4f96431e4",
+      "expected_sha256": "b8f047148937dc87c6355cf19c6c73c8f6447bb9f7db5f7e9be3a2c4f96431e4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-180-19.f32",
+      "bytes": 76800,
+      "sha256": "65138913ddf122714e3256fd5b551818bd23766189e0f9630d1ce64c70e55c39",
+      "expected_sha256": "65138913ddf122714e3256fd5b551818bd23766189e0f9630d1ce64c70e55c39",
+      "expected_bytes": 76800
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-0.f32",
+      "bytes": 15360,
+      "sha256": "e1c8685dc6b4c214efeec14d77cb1cca436118818d866873a451cb4a7e2c177d",
+      "expected_sha256": "e1c8685dc6b4c214efeec14d77cb1cca436118818d866873a451cb4a7e2c177d",
+      "expected_bytes": 15360
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-1.f32",
+      "bytes": 30720,
+      "sha256": "4f6d24907fd13c77e8f27ea6fbc9a10f2e4d59f3240c3e84e9c8137cdf2222df",
+      "expected_sha256": "4f6d24907fd13c77e8f27ea6fbc9a10f2e4d59f3240c3e84e9c8137cdf2222df",
+      "expected_bytes": 30720
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-2.f32",
+      "bytes": 61440,
+      "sha256": "0c6ca1b8fdae4029d327937c7a70568dddbc8435b09bb4f90503adbb67ebe05f",
+      "expected_sha256": "0c6ca1b8fdae4029d327937c7a70568dddbc8435b09bb4f90503adbb67ebe05f",
+      "expected_bytes": 61440
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-3.f32",
+      "bytes": 122880,
+      "sha256": "a41db565d038dc7b51d434c9384596fef8735d4d8abb206308aefbd5af5afe78",
+      "expected_sha256": "a41db565d038dc7b51d434c9384596fef8735d4d8abb206308aefbd5af5afe78",
+      "expected_bytes": 122880
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-4.f32",
+      "bytes": 192000,
+      "sha256": "110460c5f1fd06d4b3f6f64e7800888b70f58897da47c8dfc5563d5f0c55c188",
+      "expected_sha256": "110460c5f1fd06d4b3f6f64e7800888b70f58897da47c8dfc5563d5f0c55c188",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-5.f32",
+      "bytes": 192000,
+      "sha256": "c65275709845a8f5232d600cef7c425048417d189c192d15af20ab956d1764b0",
+      "expected_sha256": "c65275709845a8f5232d600cef7c425048417d189c192d15af20ab956d1764b0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-6.f32",
+      "bytes": 192000,
+      "sha256": "d34cc1e1d927fe63cb4262a365dd70a1862ded892382d9379f778e4ab7afbffd",
+      "expected_sha256": "d34cc1e1d927fe63cb4262a365dd70a1862ded892382d9379f778e4ab7afbffd",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-7.f32",
+      "bytes": 192000,
+      "sha256": "70e2c669fb06bb1327e9bc22001038a9479fb1238d77ae591a171529b7b488e4",
+      "expected_sha256": "70e2c669fb06bb1327e9bc22001038a9479fb1238d77ae591a171529b7b488e4",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-8.f32",
+      "bytes": 192000,
+      "sha256": "cea0737672ab7611be3549533fa2c063ee721047cbbc03374208850ebba706b0",
+      "expected_sha256": "cea0737672ab7611be3549533fa2c063ee721047cbbc03374208850ebba706b0",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-9.f32",
+      "bytes": 192000,
+      "sha256": "64c0e7d00b68006aeb8ad979b19e7c242326dd9b311e06cda4eb057f599c599f",
+      "expected_sha256": "64c0e7d00b68006aeb8ad979b19e7c242326dd9b311e06cda4eb057f599c599f",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-10.f32",
+      "bytes": 192000,
+      "sha256": "3a4f921f95464db503d6bc2ca36a8f6a959fe596cb4028e8e0e1ed365eafcb25",
+      "expected_sha256": "3a4f921f95464db503d6bc2ca36a8f6a959fe596cb4028e8e0e1ed365eafcb25",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-11.f32",
+      "bytes": 192000,
+      "sha256": "c7d2e3e09daf62f821bd618faa014d532bbf3d141692b47ee2c3bcd218875867",
+      "expected_sha256": "c7d2e3e09daf62f821bd618faa014d532bbf3d141692b47ee2c3bcd218875867",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-12.f32",
+      "bytes": 192000,
+      "sha256": "e91294d6b15fd73691c6f1e2252520f82a3fe8e12833b5e0cf16a5c0471f142c",
+      "expected_sha256": "e91294d6b15fd73691c6f1e2252520f82a3fe8e12833b5e0cf16a5c0471f142c",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-13.f32",
+      "bytes": 192000,
+      "sha256": "a76fdb814422d356832ea0ff92945600aab14ebff3630795db74673cf52a2327",
+      "expected_sha256": "a76fdb814422d356832ea0ff92945600aab14ebff3630795db74673cf52a2327",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-14.f32",
+      "bytes": 192000,
+      "sha256": "891415932adeeec62f6cd894e5cb8f4e73d8f1f9be9be0efa1454953c9f2e2f7",
+      "expected_sha256": "891415932adeeec62f6cd894e5cb8f4e73d8f1f9be9be0efa1454953c9f2e2f7",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-15.f32",
+      "bytes": 192000,
+      "sha256": "714caa6ab31ac6caa689bc1e9e2cf26453b4f29399883e63ae5cb28b0d095cbd",
+      "expected_sha256": "714caa6ab31ac6caa689bc1e9e2cf26453b4f29399883e63ae5cb28b0d095cbd",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-16.f32",
+      "bytes": 192000,
+      "sha256": "23d48cc89faccfbe5ed003b39ca7c17947497b14aaa590d230dbbaef5242f8d9",
+      "expected_sha256": "23d48cc89faccfbe5ed003b39ca7c17947497b14aaa590d230dbbaef5242f8d9",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-17.f32",
+      "bytes": 192000,
+      "sha256": "f1ff493c8814593d00995e31ee1f86f028ef9ebec778b1d2f1ae20b92004b772",
+      "expected_sha256": "f1ff493c8814593d00995e31ee1f86f028ef9ebec778b1d2f1ae20b92004b772",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-18.f32",
+      "bytes": 192000,
+      "sha256": "65a6bf9d584e1038c27a86dc1298d55f0cc82fe112eec9554c55d0a520fe3400",
+      "expected_sha256": "65a6bf9d584e1038c27a86dc1298d55f0cc82fe112eec9554c55d0a520fe3400",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-19.f32",
+      "bytes": 192000,
+      "sha256": "b8c3acf7bf01428b678579fd05318fefa5f8cbe09c52fa79967b36ae40301999",
+      "expected_sha256": "b8c3acf7bf01428b678579fd05318fefa5f8cbe09c52fa79967b36ae40301999",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-20.f32",
+      "bytes": 192000,
+      "sha256": "844e5c0f181e921140ba5d1d4da58d6b55ea4d0ce058937b119287adf9de60bf",
+      "expected_sha256": "844e5c0f181e921140ba5d1d4da58d6b55ea4d0ce058937b119287adf9de60bf",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-21.f32",
+      "bytes": 192000,
+      "sha256": "8b96d1c00237029834c07a0d64ade77fb28498e4ae770ee9c99acd35311bb126",
+      "expected_sha256": "8b96d1c00237029834c07a0d64ade77fb28498e4ae770ee9c99acd35311bb126",
+      "expected_bytes": 192000
+    },
+    {
+      "path": "tts-cuda-wsl\\audio_chunks\\warmup-long-4-178-22.f32",
+      "bytes": 30720,
+      "sha256": "cfc9bcb3b1856500540369aacb5017e61a7cbc181c362401c810eb61ee0c39f7",
+      "expected_sha256": "cfc9bcb3b1856500540369aacb5017e61a7cbc181c362401c810eb61ee0c39f7",
+      "expected_bytes": 30720
+    }
+  ]
+}

@@ -4,6 +4,12 @@
 with. It exists because five earlier conclusions were wrong; see
 [methodology.md](methodology.md).
 
+For current Omni text/TTS execution, sustained load, host telemetry, separate
+tracing, worker-failure checks and evidence archival, use the
+[E2E profiling commands](../../benchmarks/edge_harness/PROFILING.md).
+The [60-pair profiling report](../../benchmarks/edge_harness/results/e2e_profiling_20260922/README.md)
+distinguishes measured desktop paths from missing complete mobile/PC pipelines.
+
 ## Running a comparison
 
 Arms are subprocess invocations of a single-run benchmark, so the measurement

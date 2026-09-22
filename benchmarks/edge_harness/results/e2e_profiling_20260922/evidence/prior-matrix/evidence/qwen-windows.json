@@ -1,0 +1,21 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "config": {
+    "model": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Qwen3.8-27B-NVFP4",
+    "language_model_only": true,
+    "max_model_len": 512,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 128,
+    "enforce_eager": true,
+    "gpu_memory_utilization": 0.8,
+    "cpu_offload_gb": 2,
+    "dtype": "bfloat16",
+    "stage_init_timeout": 120
+  },
+  "status": "failed",
+  "scope": "public Omni, short text only; explicit 2 GiB native offload",
+  "start": 1790055532.5138774,
+  "error": "ValueError(\"Model '\\\\\\\\\\\\\\\\wsl.localhost\\\\\\\\Ubuntu\\\\\\\\home\\\\\\\\zhout\\\\\\\\project\\\\\\\\edge_infer\\\\\\\\models\\\\\\\\Qwen3.8-27B-NVFP4' did not resolve to a registered Omni pipeline or a supported diffusion model.\")",
+  "traceback": "Traceback (most recent call last):\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\model_device_matrix_20260922\\qwen_omni_probe.py\", line 30, in main\n    engine = Omni(**config)\n             ^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\entrypoints\\omni_base.py\", line 223, in __init__\n    self.engine = AsyncOmniEngine(\n                  ^^^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\engine\\async_omni_engine.py\", line 228, in __init__\n    self.config_path, self.stage_configs = self._resolve_stage_configs(\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\engine\\async_omni_engine.py\", line 1101, in _resolve_stage_configs\n    load_and_resolve_stage_configs(\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\engine\\async_omni_engine.py\", line 106, in load_and_resolve_stage_configs\n    return resolve_omni_config(\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\config\\resolver.py\", line 254, in resolve_omni_config\n    raise ValueError(\nValueError: Model '\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\zhout\\\\project\\\\edge_infer\\\\models\\\\Qwen3.8-27B-NVFP4' did not resolve to a registered Omni pipeline or a supported diffusion model.\n",
+  "end": 1790055533.0640798
+}

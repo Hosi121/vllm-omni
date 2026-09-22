@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "evidence": "B",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "python": "/home/zhout/project/edge_infer/vllm-omni-edge/../.venvs/omni-cuda-029/bin/python",
+  "workload": {
+    "repeats": 20,
+    "concurrency": 1
+  },
+  "artifact": "/home/zhout/project/edge_infer/analysis/experiments/omni_abstraction_20260922/artifacts/cpu_add/manifest.json",
+  "samples_s": [
+    0.0040255889762192965,
+    0.0033558340510353446,
+    0.0017729569808579981,
+    0.0013527399860322475,
+    0.002440641983412206,
+    0.0013856349978595972,
+    0.0013715020031668246,
+    0.005610267980955541,
+    0.0013573350152000785,
+    0.0012883200543001294,
+    0.0012204480008222163,
+    0.0011961509590037167,
+    0.0017715750145725906,
+    0.0011716459994204342,
+    0.0011642409954220057,
+    0.001186243025586009,
+    0.0011836979538202286,
+    0.0013943579979240894,
+    0.0030256269965320826,
+    0.004145854036323726
+  ],
+  "started_unix": 1790047607.8205295,
+  "startup_s": 1.99209214001894,
+  "execution_plan": {
+    "backend": "external.graph.v1",
+    "stage_id": 0,
+    "worker_generation": "c2f7ca31da7e4afcb9751363336eead1",
+    "artifact_sha256": "4314a53e6394d9be101ec3b05b1d7baeea58dbd314fe8d5d2c12d94a6017b051",
+    "component": "cpu_add",
+    "route": {
+      "name": "amd-dml",
+      "interpreter": "/mnt/c/Users/zhout/dml-ep/Scripts/python.exe",
+      "worker": "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/edge/local/external/worker_ort.py",
+      "ep": "dml",
+      "is_windows": true,
+      "available": true,
+      "reason": "",
+      "extra": null
+    },
+    "reserved_bytes": {
+      "machine:ram": 536870912
+    },
+    "max_io_bytes": 8388608,
+    "placement": {
+      "ep": "dml",
+      "graph_path": "/home/zhout/project/edge_infer/analysis/experiments/omni_abstraction_20260922/artifacts/cpu_add/graph.onnx",
+      "session_providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "available_providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "node_counts": {
+        "DmlExecutionProvider": 1
+      },
+      "total_nodes": 1,
+      "target_nodes": 1,
+      "fraction_on_target": 1.0,
+      "session_create_s": 0.3837424000375904,
+      "warmup_s": 0.0069688999792560935,
+      "rss_bytes": 145149952,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            2,
+            3
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "y",
+          "type": "tensor(float)",
+          "shape": [
+            2,
+            3
+          ]
+        }
+      ],
+      "profile_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\omni_abstraction_20260922\\graph-dml-crossdomain.placement_2026-09-22_11-26-49.json",
+      "ep_directory": "",
+      "requested_provider_missing": "",
+      "fallback_note": "",
+      "onnxruntime": "1.24.4",
+      "note": ""
+    },
+    "worker": {
+      "executable": "C:\\Users\\zhout\\dml-ep\\Scripts\\python.exe",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "win32",
+      "pid": 33568,
+      "onnxruntime": "1.24.4",
+      "numpy": "2.5.3",
+      "available_providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "rss_bytes": 54603776,
+      "process_identity": {
+        "pid": 33568,
+        "created_filetime": 134345212080641171
+      }
+    },
+    "evidence": "B",
+    "stateful": false
+  },
+  "worker_stats": {
+    "runs": 20,
+    "total_run_s": 0.011883700266480446,
+    "rss_bytes": 145235968,
+    "peak_rss_bytes": 145256448,
+    "report": {
+      "ep": "dml",
+      "onnxruntime": "1.24.4",
+      "available_providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "session_create_s": 0.3837424000375904,
+      "session_providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            2,
+            3
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "y",
+          "type": "tensor(float)",
+          "shape": [
+            2,
+            3
+          ]
+        }
+      ],
+      "warmup_s": 0.0069688999792560935,
+      "profile_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\omni_abstraction_20260922\\graph-dml-crossdomain.placement_2026-09-22_11-26-49.json",
+      "node_counts": {
+        "DmlExecutionProvider": 1
+      },
+      "total_nodes": 1,
+      "target_nodes": 1,
+      "fraction_on_target": 1.0,
+      "rss_bytes": 145149952
+    }
+  },
+  "finite": true,
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "machine:ram": 1073741824
+    },
+    "reserved": {
+      "machine:ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  },
+  "ended_unix": 1790047610.5372653
+}

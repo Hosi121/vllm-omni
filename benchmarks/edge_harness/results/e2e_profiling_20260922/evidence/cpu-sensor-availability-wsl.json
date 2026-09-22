@@ -1,0 +1,5 @@
+{
+  "timestamp": 1790058042.2009394,
+  "temperature_sensor_paths": [],
+  "note": "Empty list means no exposed hwmon/thermal_zone temperature sensors in this WSL environment"
+}

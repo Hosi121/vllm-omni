@@ -1,0 +1,55 @@
+{
+  "status": "exited",
+  "pid": 27528,
+  "predecessor_pid": 60180,
+  "predecessor_created": 1790066472.3919215,
+  "jobs": [
+    {
+      "name": "tts-cuda-wsl-attribution",
+      "status": "exited",
+      "start": 1790072195.7733316,
+      "command": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "bash",
+        "-lc",
+        "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 VLLM_OMNI_STEP_STATS_DIR=/home/zhout/project/edge_infer/analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution-step-stats VLLM_OMNI_STEP_STATS_SYNC=0 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout 900 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_local_tts.py --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution --length-band medium --concurrency 1 --repeats 20 --sustained-seconds 0"
+      ],
+      "step_stats_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-wsl-attribution-step-stats",
+      "returncode": 124,
+      "end": 1790073097.2235334,
+      "benchmark_status": "running",
+      "error": null
+    },
+    {
+      "name": "tts-cuda-windows-attribution",
+      "status": "exited",
+      "start": 1790073097.3751867,
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_local_tts.py",
+        "--model",
+        "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-attribution",
+        "--length-band",
+        "medium",
+        "--concurrency",
+        "1",
+        "--repeats",
+        "20",
+        "--sustained-seconds",
+        "0"
+      ],
+      "step_stats_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-attribution-step-stats",
+      "returncode": 0,
+      "end": 1790073445.3144553,
+      "benchmark_status": "completed",
+      "error": null
+    }
+  ],
+  "end": 1790073477.1781323,
+  "analysis_returncode": 0
+}

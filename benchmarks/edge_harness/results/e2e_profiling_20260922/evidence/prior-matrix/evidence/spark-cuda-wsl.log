@@ -1,0 +1,25 @@
+...........                                                              [100%]
+=============================== warnings summary ===============================
+../.venvs/omni-cuda-029/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+tests/edge/local/test_e2e_local_text.py::test_the_masked_startup_reaches_a_decision
+  /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/pytest_asyncio/plugin.py:916: PytestDeprecationWarning: Overriding the "event_loop_policy" fixture is deprecated and will be removed in a future version of pytest-asyncio. Use the "pytest_asyncio_loop_factories" hook to customize event loop creation.
+    warnings.warn(
+
+tests/edge/local/test_e2e_local_text.py::test_the_masked_startup_reaches_a_decision
+  tests/edge/local/test_e2e_local_text.py:109: PytestWarning: The test <Function test_the_masked_startup_reaches_a_decision> is marked with '@pytest.mark.asyncio' but it is not an async function. Please remove the asyncio mark. If the test is not marked explicitly, check for global marks applied via 'pytestmark'.
+    def test_the_masked_startup_reaches_a_decision(model_dir):
+
+tests/edge/local/test_e2e_local_text.py::test_a_refused_plan_cannot_be_started
+  tests/edge/local/test_e2e_local_text.py:124: PytestWarning: The test <Function test_a_refused_plan_cannot_be_started> is marked with '@pytest.mark.asyncio' but it is not an async function. Please remove the asyncio mark. If the test is not marked explicitly, check for global marks applied via 'pytestmark'.
+    def test_a_refused_plan_cannot_be_started(model_dir):
+
+tests/edge/local/test_e2e_local_text.py::test_int8_is_refused_on_cuda_and_admitted_on_cpu
+  tests/edge/local/test_e2e_local_text.py:133: PytestWarning: The test <Function test_int8_is_refused_on_cuda_and_admitted_on_cpu> is marked with '@pytest.mark.asyncio' but it is not an async function. Please remove the asyncio mark. If the test is not marked explicitly, check for global marks applied via 'pytestmark'.
+    @pytest.mark.skipif(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--- Running Summary
+11 passed, 18 warnings in 261.25s (0:04:21)

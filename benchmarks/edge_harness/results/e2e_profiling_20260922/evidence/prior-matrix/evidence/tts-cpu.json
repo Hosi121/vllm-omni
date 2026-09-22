@@ -1,0 +1,9 @@
+{
+  "model": "/home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5",
+  "scope": "two codec frames only; no speech-quality claim",
+  "start": 1790055615.9570496,
+  "status": "failed",
+  "error": "OmniEngineDeadError('EngineCore encountered an issue. See stack trace (above) for the root cause.')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/zhout/project/edge_infer/analysis/experiments/model_device_matrix_20260922/tts_cpu_probe.py\", line 36, in main\n    outputs = engine.generate({\"prompt_token_ids\": [0] * length, \"additional_information\": info}, params)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/entrypoints/omni.py\", line 90, in generate\n    return list(self._run_generation(prompts, sampling_params_list, use_tqdm))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/entrypoints/omni.py\", line 173, in _run_generation\n    should_continue, req_id, stage_id, req_state = self._handle_output_message(msg)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/entrypoints/omni_base.py\", line 516, in _handle_output_message\n    raise OmniEngineDeadError(\nvllm_omni.entrypoints.omni_base.OmniEngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause.\n",
+  "end": 1790055667.554795
+}

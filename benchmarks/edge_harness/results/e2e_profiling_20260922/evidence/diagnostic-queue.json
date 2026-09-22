@@ -1,0 +1,99 @@
+{
+  "status": "exited",
+  "pid": 27376,
+  "predecessor_pid": 52656,
+  "predecessor_created": null,
+  "start": 1790065913.4098895,
+  "jobs": [
+    {
+      "name": "spark-cpu-wsl-trace",
+      "status": "exited",
+      "benchmark_status": "completed",
+      "reused_verified_report": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\spark-cpu-wsl-trace\\report.json"
+    },
+    {
+      "name": "spark-cuda-wsl-trace",
+      "command": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "bash",
+        "-lc",
+        "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout 1800 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_trace_diagnostic.py --kind spark --model ../models/Spark-X2.5-4B --out ../analysis/experiments/e2e_profiling_20260922/spark-cuda-wsl-trace"
+      ],
+      "status": "exited",
+      "start": 1790068263.6139073,
+      "returncode": 0,
+      "end": 1790068384.9514291,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "spark-cuda-windows-trace",
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_trace_diagnostic.py",
+        "--kind",
+        "spark",
+        "--model",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Spark-X2.5-4B",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\spark-cuda-windows-trace"
+      ],
+      "status": "exited",
+      "start": 1790068384.9575229,
+      "returncode": 0,
+      "end": 1790068648.1229272,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "tts-cuda-wsl-trace",
+      "command": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "bash",
+        "-lc",
+        "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout 1800 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/profile_trace_diagnostic.py --kind tts --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-trace"
+      ],
+      "status": "exited",
+      "start": 1790068648.1269243,
+      "returncode": 0,
+      "end": 1790068979.9018085,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "tts-cuda-windows-trace",
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_trace_diagnostic.py",
+        "--kind",
+        "tts",
+        "--model",
+        "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace"
+      ],
+      "status": "exited",
+      "start": 1790068979.908313,
+      "returncode": 0,
+      "end": 1790069182.5775964,
+      "benchmark_status": "completed",
+      "error": null
+    }
+  ],
+  "baseline_retry": {
+    "name": "spark-cuda-windows",
+    "status": "exited",
+    "reason": "Missing VLLM_CUDART_SO_PATH in native launcher",
+    "start": 1790065913.5339177,
+    "returncode": 0,
+    "benchmark_status": "completed",
+    "end": 1790068263.0334463
+  },
+  "end": 1790069182.5821192
+}

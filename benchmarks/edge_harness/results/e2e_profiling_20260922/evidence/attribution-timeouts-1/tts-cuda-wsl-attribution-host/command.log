@@ -1,0 +1,247 @@
+/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can caINFO 09-22 18:16:48 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 18:16:48 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+INFO 09-22 18:16:48 [configuration_qwen3_tts.py:437] code_predictor_config is None.[transformers] Model config: codec_eos_token_id must beINFO 09-22 18:16:48 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+INFO 09-22 18:16:49 [omni_base.py:216] [AsyncOmni] Initializing with model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5
+INFO 09-22 18:16:49 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5
+ERROR 09-22 18:16:49 [repo_utils.py:119] Error parsing config for /ho[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.12it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.12it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.50it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.50it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.03it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.03it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  7.20it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  7.19it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00, 25.31it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 
+(StageEngineCoreProc_stage0_replica0 pid=1528777) /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=1528777)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] Model config: codec_eos_token_id must be `None` or an integer within the vocabulary (between 0 and 3071), got 4198. This may result in unexpected behavior.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) JIT kernel warmup (1 compile keys):   0%|          | 0/1 [00:00<?, ?kernel/s](StageEngineCoreProc_stage0_replica0 pid=1528777) JIT kernel warmup (1 compile keys):   0%|          | 0/1 [00:00<?, ?kernel/s]JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00, 224.27kernel/s, ComputeSlotMappingKernel (1 keys)]
+JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00, 210.09kernel/s, ComputeSlotMappingKernel (1 keys)]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage1_replica0 pid=1528780)   warnings.warn(
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] Model config: codec_eos_token_id must be `None` or an integer within the vocabulary (between 0 and 3071), got 4198. This may result in unexpected behavior.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=1528777)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 2026-09-22 18:17:16,027 - INFO - autotuner.py:2789 - flashinfer.jit: [Autotuner]: Loaded 0 configs from /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/950d410991c69fa2fad5df4e9799f92ecddcf5c5874e9f613a037097bbc1efcc/autotune_configs.json
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 2026-09-22 18:17:16,028 - INFO - autotuner.py:972 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 2026-09-22 18:17:16,067 - INFO - autotuner.py:995 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 2026-09-22 18:17:16,101 - INFO - autotuner.py:2789 - flashinfer.jit: [Autotuner]: Loaded 0 configs from /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/50f3f22d277815e34018a894a95ec6f31c44909c9954ca6981e93c164b765601/autotune_configs.json
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 2026-09-22 18:17:16,101 - INFO - autotuner.py:972 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(StageEngineCoreProc_stage0_replica0 pid=1528777) 2026-09-22 18:17:16,130 - INFO - autotuner.py:2652 - flashinfer.jit: [Autotuner]: Saved 0 configs to /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/950d410991c69fa2fad5df4e9799f92ecddcf5c5874e9f613a037097bbc1efcc/autotune_configs.json (0 new, 0 from previous config)
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/4 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  25%|██▌       | 1/4 [00:00<00:01,  1.65it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  50%|█████     | 2/4 [00:01<00:01,  1.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▌  | 3/4 [00:01<00:00,  2.01it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:03<00:00,  1.11s/it]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:03<00:00,  1.09it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Capturing CUDA graphs (decode, FULL):   0%|          | 0/3 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):  33%|███▎      | 1/3 [00:00<00:00,  4.54it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 3/3 [00:00<00:00,  9.50it/s]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=1528777)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 2026-09-22 18:17:45,084 - INFO - autotuner.py:995 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(StageEngineCoreProc_stage1_replica0 pid=1528780) 2026-09-22 18:17:45,164 - INFO - autotuner.py:2652 - flashinfer.jit: [Autotuner]: Saved 0 configs to /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/50f3f22d277815e34018a894a95ec6f31c44909c9954ca6981e93c164b765601/autotune_configs.json (0 new, 0 from previous config)
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/4 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:00<00:00, 81.10it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) Capturing CUDA graphs (decode, FULL):   0%|          | 0/3 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 3/3 [00:00<00:00, 208.63it/s]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) /home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/transformers/modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage1_replica0 pid=1528780)   warnings.warn(
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage1_replica0 pid=1528780) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Exception ignored in audit hook:
+(StageEngineCoreProc_stage0_replica0 pid=1528777) Traceback (most recent call last):
+(StageEngineCoreProc_stage0_replica0 pid=1528777)   File "/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/filelock/_api.py", line 1785, in _audit_fork_safety
+(StageEngineCoreProc_stage0_replica0 pid=1528777)     def _audit_fork_safety(  # pragma: no cover - CPython disables tracing while Python audit hooks run
+(StageEngineCoreProc_stage0_replica0 pid=1528777)     
+(StageEngineCoreProc_stage0_replica0 pid=1528777)   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_engine_core_proc.py", line 230, in signal_handler
+(StageEngineCoreProc_stage0_replica0 pid=1528777)     raise SystemExit(_signal_exit_code(signum))
+(StageEngineCoreProc_stage0_replica0 pid=1528777) SystemExit: 143
+[rank0]:[W922 18:31:36.966060849 ProcessGroupNCCL.cpp:1624] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+te.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_21f6ed8d01a14418bedf5295d27c4cba backend=nccl
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:04 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:17:05 [gpu_generation_worker.py:103] OMNI GPUGenerationWorker forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:05 [topk_topp_sampler.py:46] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:05 [gpu_ar_worker.py:120] OMNI GPUARWorker forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:05 [topk_topp_sampler.py:46] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:05 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:05 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:05 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:05 [gpu_model_runner.py:5379] Starting to load model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5...
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:05 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:17:05 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:17:05 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:05 [gpu_model_runner.py:5379] Starting to load model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5...
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:05 [configuration_qwen3_tts_tokenizer_v2.py:156] encoder_config is None. Initializing encoder with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:05 [configuration_qwen3_tts_tokenizer_v2.py:159] decoder_config is None. Initializing decoder with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:17:06 [vllm.py:2952] `torch.compile` is turned on, but the model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 does not support it. Please open an issue on GitHub if you want it to be supported.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:06 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 1.69 GiB. Available RAM: 25.92 GiB.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:06 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:06 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:06 [flash_attn.py:897] Using FlashAttention version 2
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:07 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 0.64 GiB. Available RAM: 25.89 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:07 [configuration_qwen3_tts_tokenizer_v2.py:156] encoder_config is None. Initializing encoder with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:07 [configuration_qwen3_tts_tokenizer_v2.py:159] decoder_config is None. Initializing decoder with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:07 [speaker_cache.py:239] Speaker cache ready (max_bytes=536870912)
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:07 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 1.69 GiB. Available RAM: 25.81 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:07 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:07 [modeling_qwen3_tts_tokenizer_v2.py:865] Precomputed exp caches for 29 SnakeBeta activations
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:08 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 0.64 GiB. Available RAM: 25.49 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:08 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 0.64 GiB. Available RAM: 25.42 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:09 [qwen3_tts_talker.py:1192] Loaded 604 weights for Qwen3TTSTalkerForConditionalGeneration
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:09 [default_loader.py:430] Loading weights took 1.57 seconds
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:09 [segmented_graph_wrapper.py:326] Captured ICL prefix CUDA Graph for batch=1
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:09 [segmented_graph_wrapper.py:331] Captured xvec prefix CUDA Graph for batch=1
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:09 [segmented_graph_wrapper.py:335] Starting CUDA Graph warmup for 6 shapes: batch_sizes=[1] seq_lens=[6, 14, 30, 55, 80, 97]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:09 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=6
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:09 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=14
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=30
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:10 [gpu_model_runner.py:5471] Model loading took 1.94 GiB memory and 3.415367 seconds
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=55
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=80
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=97
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:10 [utils.py:306] Using LBNHC KV cache layout.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=6
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=14
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:10 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=30
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=55
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=80
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=97
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [modeling_qwen3_tts_tokenizer_v2.py:909] CUDA Graph enabled for decoder: batch_sizes=[1] seq_lens=[6, 14, 30, 55, 80, 97]
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [qwen3_tts_code2wav.py:206] Code2Wav decoder CUDA Graph enabled
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:11 [default_loader.py:430] Loading weights took 5.29 seconds
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:12 [gpu_model_runner.py:5471] Model loading took 0.54 GiB memory and 5.493188 seconds
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:13 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:13 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:13 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:13 [utils.py:306] Using LBNHC KV cache layout.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:14 [caching.py:343] reconstructed serializable fn from standalone compile artifacts. num_artifacts=4 num_submods=29
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:14 [decorators.py:313] Directly load AOT compilation from path /home/zhout/.cache/vllm/torch_compile_cache/torch_aot_compile/7db261aff95b5f1c2d680f8b909683b7f9c1cb10a8835d2989f18e3dfbe67f7b/rank_0_0/model
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:14 [monitor.py:53] torch.compile took 0.24 s in total
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:14 [monitor.py:81] Initial profiling/warmup run took 0.01 s
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [base.py:148] Available KV cache memory: 3.95 GiB (device-level profiling)
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [kv_cache_utils.py:2032] GPU KV cache size: 36,928 tokens, Maximum concurrency for 4,096 tokens per request: 9.02x
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:15 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:17:15 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [kernel_warmup.py:124] JIT kernel warmup starting.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [kernel_warmup.py:124] JIT kernel warmup starting.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [kernel_warmup.py:134] JIT kernel warmup finished in 0.01s.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [kernel_warmup.py:134] JIT kernel warmup finished in 0.01s.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:15 [kernel_warmup.py:309] Using FlashInfer autotune cache file: /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/950d410991c69fa2fad5df4e9799f92ecddcf5c5874e9f613a037097bbc1efcc/autotune_configs.json
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:16 [kernel_warmup.py:266] Running FlashInfer autotune with 512 tokens.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:16 [kernel_warmup.py:309] Using FlashInfer autotune cache file: /home/zhout/.cache/vllm/flashinfer_autotune_cache/0.6.18/120f/50f3f22d277815e34018a894a95ec6f31c44909c9954ca6981e93c164b765601/autotune_configs.json
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:16 [kernel_warmup.py:266] Running FlashInfer autotune with 65536 tokens.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:16 [gpu_model_runner.py:6955] Rank 0: Torch profiler disabled for CUDA graph capture
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:16 [qwen3_tts_code2wav.py:431] Code2Wav codec: frames=4096 q=16 uniq=1 range=[0,0] batch=1
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:21 [gpu_model_runner.py:7001] Graph capturing finished in 5 secs, took 0.05 GiB
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:21 [gpu_ar_model_runner.py:595] Capturing talker_mtp graphs for sizes [8, 4, 2, 1]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:33 [qwen3_code_predictor.py:1066] code_predictor: warmup done for buckets [1, 2, 4]
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:33 [qwen3_code_predictor.py:929] code_predictor: torch.compile (dynamic=False, no epilogue fusion)
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:40 [gpu_ar_model_runner.py:632] Captured talker_mtp graphs for 4 sizes
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:40 [gpu_worker.py:860] Free memory on device (22.58/23.89 GiB) on startup. Desired GPU memory utilization is (0.25, 5.97 GiB). Actual usage is 2.11 GiB for consumed memory (weights + non-torch), 0.01 GiB for peak activation, and 0.05 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=3921297408` (3.65 GiB) to fit into requested memory, or `--kv-cache-memory=21750611968` (20.26 GiB) to fully utilize gpu memory. Current kv cache memory in use is 3.95 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:41 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [torch_utils.py:277] Reducing Torch threads from 12 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [core.py:361] init engine (profile, create kv cache, warmup model) took 31.71 s (compilation: 0.24 s)
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:42 [scheduler.py:213] Using custom scheduler class vllm_omni.core.sched.omni_ar_scheduler.OmniARAsyncScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:17:42 [omni_scheduler_mixin.py:118] OMNI scheduler forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:17:42 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+INFO 09-22 18:17:42 [stage_runtime.py:943] [StageRuntime] Stage 0 engine startup completed
+INFO 09-22 18:17:42 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-0 [rep-0] initializing EngineCore
+INFO 09-22 18:17:42 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-0 [rep-0] EngineCore running
+INFO 09-22 18:17:42 [stage_runtime.py:958] [StageRuntime] Stage 0 initialized
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:17:45 [gpu_model_runner.py:6955] Rank 0: Torch profiler disabled for CUDA graph capture
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:48 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 8 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:48 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 4 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:48 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 2 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:48 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 1 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:48 [gpu_model_runner.py:7001] Graph capturing finished in 783 secs, took 0.00 GiB
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:48 [gpu_generation_model_runner.py:558] Dummy sampler run is not implemented for generation model
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [torch_utils.py:277] Reducing Torch threads from 12 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [core.py:368] init engine (profile, create kv cache, warmup model) took 816.90 s
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:49 [scheduler.py:213] Using custom scheduler class vllm_omni.core.sched.omni_generation_scheduler.OmniGenerationScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:49 [core.py:155] Disabling chunked prefill for model without KVCache
+(StageEngineCoreProc_stage1_replica0 pid=1528780) WARNING 09-22 18:30:49 [omni_scheduler_mixin.py:118] OMNI scheduler forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage1_replica0 pid=1528780) INFO 09-22 18:30:49 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+INFO 09-22 18:30:49 [stage_runtime.py:943] [StageRuntime] Stage 1 engine startup completed
+INFO 09-22 18:30:49 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-1 [rep-0] initializing EngineCore
+INFO 09-22 18:30:50 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-1 [rep-0] EngineCore running
+INFO 09-22 18:30:50 [stage_runtime.py:958] [StageRuntime] Stage 1 initialized
+INFO 09-22 18:30:50 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+INFO 09-22 18:30:50 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 18:30:50 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+INFO 09-22 18:30:50 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+INFO 09-22 18:30:50 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+INFO 09-22 18:30:51 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-22 18:30:51 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 2 stages
+INFO 09-22 18:30:51 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 842.48 seconds
+INFO 09-22 18:30:51 [omni_base.py:255] [AsyncOmni] Initialized with 2 stages for model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5
+WARNING 09-22 18:30:51 [input_processor.py:315] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:30:54 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:30:54 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:30:54 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:30:54 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) INFO 09-22 18:30:54 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=1528777) WARNING 09-22 18:30:54 [sampling_utils.py:57] min_tokens: dropped stop token ids [151645] that exceed the logits vocabulary (3072); the model head cannot emit them.

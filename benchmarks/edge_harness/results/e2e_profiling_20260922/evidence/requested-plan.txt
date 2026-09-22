@@ -1,0 +1,57 @@
+The plan should target end-to-end execution and profiling for every feasible pairing, with a documented feasibility result for every remaining cell. We cannot promise every model fits every device: Qwen3.8-27B alone needs approximately 12.6 GiB for ideal four-bit language weights, before other weights, state, workspace and the OS.
+Use the 60-cell audit as the backlog. Each cell progresses through artifact readiness → correctness → complete local execution → profiling → qualification.
+1. Establish shared prerequisites
+- Pin compatible Omni/vLLM/runtime builds. Resolve the CPU TTS version mismatch and native Windows CPU backend gap.
+- Obtain complete, pinned MiniCPM-o 4.5 and InternVLA-A1 checkpoints.
+- Define each device’s exact SKU, RAM, OS, drivers and power mode. Keep Windows and WSL results separate.
+- Finish integrating all native and external stages into the shared memory admission ledger.
+- Extend the existing stage boundary to support persistent backend sessions, explicit state lifetime, cancellation, backpressure and placement reporting.
+- Add a common qualification runner that consumes the matrix and archives configuration, outputs, traces and failures.
+Keep Omni’s orchestration and vLLM’s internal execution. Add model adapters and backend implementations without introducing another scheduler.
+2. Implement in this order
+Work package	Implementation	Completion gate
+M1: S25 Spark	Device-local controller; complete embedding, prefill, decode, ring/full KV, output head and sampling. Keep state resident between steps.	Reference checks, ≥128 generated tokens, 512-window/1024-bucket transitions, cancellation, measured resident memory and sustained generation.
+M2: Qwen3-TTS	Fix desktop playback stalls and CPU compatibility first. Then integrate mobile talker/predictor and vocoder with bounded streaming buffers.	Complete PCM, correct chunk boundaries/history, interruption and flush, measured playback underruns, 30-minute sustained run.
+M3: AMD acceleration	Connect useful model stages to 890M and AMD NPU. Start from the existing Qwen vision component and smaller compiler-compatible candidates.	Actual accelerator placement, quality checks, complete downstream model output, transfer and shared-memory costs included.
+M4: MiniCPM-o	Integrate encoders, thinker, speech head, flow/HiFT and their persistent state. Establish desktop reference before mobile quantization.	Separate text, image understanding, audio understanding and speech-generation suites; then combined streaming/interrupt tests.
+M4: InternVLA	Load real weights and integrate observation preprocessing, shared prefix state, iterative action generation and action metadata.	Reference action agreement, correct units/order/timestamps, observation-to-action latency and stale-observation handling.
+Independent Qwen27 track	Fix Omni pipeline registration; qualify text, then images/video. Evaluate same-model CPU/iGPU artifacts and explicit offload.	Full requested modality works; quality and loading/runtime peaks pass; longer contexts are qualified individually.
+
+
+Mobile execution needs access to a device capable of running our complete application. Existing AI Hub jobs establish component evidence; they do not establish the local stateful loop, playback behaviour or sustained co-residency.
+3. Cover each hardware configuration deliberately
+Configuration	E2E route to qualify
+CPU only, WSL	Matching vLLM CPU for supported paths; model-specific external CPU stages where needed. Qualify all five models subject to memory.
+CPU only, Windows	Establish an executable native CPU backend per model. Port the same contracts and acceptance suite; do not infer support from the current CUDA build.
+CPU + NVIDIA, Windows/WSL	Primary complete-model reference. Finish TTS, Qwen multimodal, MiniCPM-o and InternVLA; profile each OS separately.
+CPU + 890M	Complete CPU+iGPU pipelines, initially accelerating coarse stages. Test whole-model GPU execution only with a compatible artifact/backend.
+CPU + AMD NPU	Complete CPU+NPU pipelines with measured NPU contribution. CPU-only fallback remains a separately labelled result.
+CPU+iGPU+NPU±NVIDIA	Compare selected stage placements against the strongest single-backend baseline. Keep heterogeneous plans only when they improve latency, capacity or energy at equivalent quality.
+Galaxy S25	Spark first, TTS second, then memory-qualified MiniCPM-o and InternVLA. Gate Qwen27 on actual artifact size and available RAM before execution work.
+Other devices	Qualify S24, X Elite, SA8775P and RB3 separately after the first local pipeline works. Recompile and revalidate artifacts for each target.
+
+
+For Qualcomm, ORT QNN provides Android/Windows execution and profiling interfaces, making it a candidate stage backend; model compatibility still requires validation. Official QNN documentation.
+4. Profile every completed pipeline with the same protocol
+Dimension	Measurements
+Startup	Compile separately from process startup, model loading, first execution and warm restart. Record cache conditions.
+Text	TTFT, inter-token latency, decode throughput, total completion; separate effective prefill from isolated compute.
+Speech	First playable audio, real-time factor, chunk arrival intervals, playback underrun count/duration, interruption latency.
+Multimodal / VLA	Preprocessing, encoder and downstream latency; observation-to-action age and deadline misses.
+Memory	Loading and runtime peaks, weights, session state, workspace and transfer buffers; host RAM, WSL quota and discrete VRAM separately.
+Placement	Actual executed devices, CPU fallback, copies, layout conversions, synchronisation and queue waits.
+Power / thermal	Thirty-minute sustained runs, clocks, temperature and available energy measurements. Identify sensor scope; GPU power is not whole-device power.
+Reliability	Slow consumer, cancellation, repeated sessions, memory pressure and worker failure; verify release and absence of duplicate or stale output.
+
+
+Start at concurrency 1, then 2/4 where memory permits. Use short, medium and long workloads plus state-boundary cases. Collect at least 20 measured requests per steady-state configuration, retain raw samples, and report p50/p95 with sample counts. Run detailed tracing separately to quantify instrumentation overhead.
+For heterogeneous pipelines, measure single-backend, split-serial and split-overlapped execution using identical inputs and quality settings. Component timings cannot substitute for these measurements.
+5. Define release criteria before tuning
+A pairing earns E2E qualification only when it has:
+- A reproducible installation, pinned artifact and explicit execution plan.
+- Complete declared input-to-output behaviour and model-specific quality checks.
+- Correct streaming/state lifecycle and memory admission.
+- Verified device placement and explicit fallback.
+- Raw performance, memory and sustained-load reports.
+Functional qualification and performance qualification should remain separate. Proposed real-time TTS acceptance includes RTF below 1 and no post-startup playback underruns; text latency and VLA deadlines need workload-specific targets rather than invented universal thresholds.
+The first implementation batch should finish environment compatibility, the shared qualification runner and S25 Spark’s full local loop. Those establish the execution and measurement foundation for every subsequent matrix cell.

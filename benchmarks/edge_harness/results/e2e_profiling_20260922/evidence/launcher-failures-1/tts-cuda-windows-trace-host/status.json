@@ -1,0 +1,22 @@
+{
+  "command": [
+    "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_trace_diagnostic.py",
+    "--kind",
+    "tts",
+    "--model",
+    "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+    "--out",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace"
+  ],
+  "cwd": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge",
+  "host": "Windows-11-10.0.26200-SP0",
+  "scope": "Windows RAM includes WSL; GPU counters are whole-device, not model-exclusive",
+  "sample_interval_s": 1,
+  "start_unix": 1790060580.8961785,
+  "status": "exited",
+  "power_scheme": "\u9422\u57ab\u7c2e\u93c2\u89c4\ufffd\ufffd GUID: 27fa6203-3987-4dcc-918d-748559d549ec  (Performance)",
+  "pid": 13956,
+  "returncode": 1,
+  "end_unix": 1790060587.8268032
+}

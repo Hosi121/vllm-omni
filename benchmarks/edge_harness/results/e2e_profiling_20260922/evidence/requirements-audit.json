@@ -1,0 +1,237 @@
+{
+  "generated_unix": 1790076095.495247,
+  "objective": "Finish current check/profiling; mark unsupported reasons for user repair. Runtime implementation gaps are recorded, not silently counted as supported.",
+  "requirements": [
+    {
+      "id": "S1",
+      "requirement": "Compatible pinned runtimes",
+      "status": "checked_with_blockers",
+      "finding": "CPU TTS fails against vLLM 0.28/Omni 0.29; native Windows CPU attention operators absent. Versions recorded; user repair backlog.",
+      "evidence": [
+        "preflight-wsl-cpu.json",
+        "preflight-windows.json"
+      ]
+    },
+    {
+      "id": "S2",
+      "requirement": "Complete MiniCPM-o and InternVLA checkpoints",
+      "status": "checked_with_blockers",
+      "finding": "Complete matching checkpoints absent from checked roots; alternate MiniCPM5-2B is not substituted.",
+      "evidence": [
+        "preflight-wsl-cpu.json",
+        "preflight-windows.json"
+      ]
+    },
+    {
+      "id": "S3",
+      "requirement": "Exact devices, memory, OS, drivers and power",
+      "status": "checked_with_limits",
+      "finding": "Exact local hardware, runtime packages, memory, OS, driver and AC/Performance conditions are recorded. Remote component targets lack full application access and complete device build/RAM/power inventories. CPU package temperature and whole-device/CPU/NPU energy are unavailable.",
+      "evidence": [
+        "preflight-windows.json",
+        "preflight-wsl-cpu.json",
+        "resource-summary.json",
+        "prior-matrix/matrix.json"
+      ]
+    },
+    {
+      "id": "S4",
+      "requirement": "Unified native/external memory ledger",
+      "status": "checked_with_blockers",
+      "finding": "Current platform only implements full multi-pool admission for graph-containing plans; complete native ledger migration remains unimplemented.",
+      "evidence": [
+        "prior-evidence/README.md"
+      ]
+    },
+    {
+      "id": "S5",
+      "requirement": "Stateful mobile backend and bounded lifetime contracts",
+      "status": "checked_with_blockers",
+      "finding": "Desktop real-model cancellation/recovery and worker-failure probes completed; inspect individual outcomes. Spark reached queue capacity and rejected stale state. Stateful mobile sessions and complete device-local controllers remain absent; TTS internal buffer saturation and universal shared-ledger release are not qualified.",
+      "evidence": [
+        "summary/matrix.json",
+        "prior-evidence/README.md"
+      ]
+    },
+    {
+      "id": "S6",
+      "requirement": "Common qualification runner and archival",
+      "status": "completed_local_checks",
+      "finding": "Reusable text/TTS/host/trace/reliability runners and matrix/resource analyzers are implemented. All 60 pairs have evidence-backed dispositions; raw requests, warmup PCM, counters, traces and failed attempts are retained. Publication integrity is verified separately by the archive manifest.",
+      "evidence": [
+        "summary/matrix.json",
+        "FINAL_REVIEW.md"
+      ]
+    },
+    {
+      "id": "M1",
+      "requirement": "S25 Spark full local generation and boundary gates",
+      "status": "checked_with_blockers",
+      "finding": "No attached device/application execution route and no integrated prefill/decode/KV/ring/sampler controller. AI Hub attention component is not E2E.",
+      "evidence": [
+        "preflight-wsl-cpu.json",
+        "prior-evidence/aihub-s25-infer.json"
+      ]
+    },
+    {
+      "id": "M2",
+      "requirement": "Desktop/mobile TTS, streaming and sustained profiling",
+      "status": "checked_with_gaps",
+      "finding": "Both CUDA OS paths completed all nine measured groups and 30-minute sustained generation. Simulated playback deficits, model-specific speech/reference quality, forced normal shutdown and memory headroom remain findings. Mobile TTS and CPU compatibility remain blocked; see exact per-run counts and probe results.",
+      "evidence": [
+        "FINAL_REVIEW.md",
+        "summary/matrix.json",
+        "resource-summary.json"
+      ]
+    },
+    {
+      "id": "M3",
+      "requirement": "AMD iGPU/NPU complete downstream pipeline and placement",
+      "status": "checked_with_blockers",
+      "finding": "890M Qwen vision component only; tested NPU whole-vision export rejected; no complete model artifact/adapter or E2E joint plan.",
+      "evidence": [
+        "prior-matrix/matrix.json"
+      ]
+    },
+    {
+      "id": "M4a",
+      "requirement": "MiniCPM-o complete modality suites",
+      "status": "checked_with_blockers",
+      "finding": "Missing complete matching checkpoint and integrated local stage artifacts; speech-head components do not qualify all modes.",
+      "evidence": [
+        "preflight-wsl-cpu.json"
+      ]
+    },
+    {
+      "id": "M4b",
+      "requirement": "InternVLA real-weight actions and deadlines",
+      "status": "checked_with_blockers",
+      "finding": "Missing complete matching checkpoint; no current pipeline/action reference run. Robot control remains external.",
+      "evidence": [
+        "preflight-wsl-cpu.json"
+      ]
+    },
+    {
+      "id": "Q27",
+      "requirement": "Qwen27 text/images/video and CPU/iGPU/offload",
+      "status": "checked_with_blockers",
+      "finding": "Current public Omni pipeline registration fails; available CUDA artifacts do not establish CPU or mobile execution. Existing bare-vLLM text/vision component records remain scoped.",
+      "evidence": [
+        "prior-matrix/matrix.json"
+      ]
+    },
+    {
+      "id": "COVERAGE",
+      "requirement": "All 12 configurations x five models",
+      "status": "completed_check",
+      "finding": "All 12 configurations x five models checked: five runnable current desktop paths profiled, 55 explicitly not E2E-profileable with reasons and next actions. Component and historical results are retained without promotion to complete pipelines.",
+      "evidence": [
+        "summary/matrix.json",
+        "prior-matrix/matrix.json"
+      ]
+    },
+    {
+      "id": "P1",
+      "requirement": "Startup, cache conditions and compilation",
+      "status": "measured_with_limits",
+      "finding": "Constructor startup, host-launch/import interval, first warmup and runtime-reported load/compile lines are retained separately. Existing disk/JIT caches were not purged; isolated cold compilation, cold-disk startup and exhaustive warm-restart distributions are not qualified.",
+      "evidence": [
+        "resource-summary.json"
+      ]
+    },
+    {
+      "id": "P2",
+      "requirement": "Length x concurrency, 20 samples, p50/p95, raw outputs",
+      "status": "completed_measurement",
+      "finding": "All five paths contain at least 20 measured requests in every short/medium/long x concurrency 1/2/4 group. Raw requests and nearest-rank p50/p95 are retained; warmup/sustained records are excluded from these percentiles.",
+      "evidence": [
+        "summary/matrix.json"
+      ]
+    },
+    {
+      "id": "P3",
+      "requirement": "Text/PCM/modal/VLA latency and quality",
+      "status": "measured_with_quality_gaps",
+      "finding": "Text TTFT/decode/completion, effective prefill and delivery-spacing proxies; speech TTFA/RTF/chunk gaps/simulated underruns and interruption are measured. Text updates can coalesce tokens. Speech perceptual/tail/reference quality and independent text numerical parity are unqualified. Missing multimodal/VLA pipelines block modality/action/deadline measurements.",
+      "evidence": [
+        "summary/matrix.json",
+        "FINAL_REVIEW.md"
+      ]
+    },
+    {
+      "id": "P4",
+      "requirement": "Memory and shared-pool accounting",
+      "status": "measured_with_accounting_gaps",
+      "finding": "Windows host RAM, WSL quota/process measurements and whole-GPU VRAM sampled during startup and runtime. Peaks are lower bounds; per-allocation weights/state/workspace/transfer attribution and complete native multi-pool admission remain unimplemented. WSL TTS briefly coincided with only 24.5 MB Windows RAM available; see raw sample.",
+      "evidence": [
+        "resource-summary.json",
+        "tts-cuda-wsl-memory-headroom.json",
+        "prior-evidence/README.md"
+      ]
+    },
+    {
+      "id": "P5",
+      "requirement": "Actual placement, transfer, sync and queue costs",
+      "status": "measured_with_limits",
+      "finding": "Actual CPU/CUDA runtime evidence, CUDA kernels/copies/runtime calls, and separate TTS stage counters retained. Stage-specific trace prefixes avoid the observed rank-0 filename collision. Counters are host timers with overlapping scopes, not pooled GPU latency. No unmeasured joint-device execution, fallback-free blanket claim or component-sum E2E speedup.",
+      "evidence": [
+        "resource-summary.json",
+        "attribution-summary.json",
+        "summary/matrix.json"
+      ]
+    },
+    {
+      "id": "P6",
+      "requirement": "30-minute sustained power/thermal and frequency",
+      "status": "completed_measurement_with_sensor_gaps",
+      "finding": "All five paths completed at least 1800 seconds of medium-input concurrency-1 generation. Whole-NVIDIA-GPU clocks/power/temperature and host RAM sampled; first/last five-minute trends retained. CPU temperature and CPU/NPU/whole-device energy unavailable. GPU energy excludes telemetry gaps over five seconds and includes other processes.",
+      "evidence": [
+        "resource-summary.json",
+        "cpu-sensor-availability-windows.json",
+        "cpu-sensor-availability-wsl.json"
+      ]
+    },
+    {
+      "id": "P7",
+      "requirement": "Reliability: cancellation, slow consumers, repeated sessions, pressure and crashes",
+      "status": "checked_with_limits",
+      "finding": "Repeated sessions, real slow consumers, cancellation/recovery, stale-state fencing, oversized text admission and owned-worker failures checked. Inspect per-probe flags/errors/cleanup. TTS full buffer saturation, destructive OOM recovery, every internal queue and exhaustive state-boundary cases are unqualified.",
+      "evidence": [
+        "summary/matrix.json",
+        "FINAL_REVIEW.md"
+      ]
+    },
+    {
+      "id": "P8",
+      "requirement": "Trace overhead separate from baseline",
+      "status": "completed_diagnostics_with_limits",
+      "finding": "Separate three-before/three-traced/three-after diagnostics with profiler RPC times for each runnable path. Original CPU full trace and overwritten TTS traces preserved; final TTS traces use distinct stage prefixes. Tracing/export overhead is separate from baseline; stochastic speech length and sequential export idle time preclude a pure causal universal overhead ratio.",
+      "evidence": [
+        "summary/matrix.json",
+        "resource-summary.json",
+        "trace-collision-1/tts-cuda-wsl-trace-host/command.log"
+      ]
+    },
+    {
+      "id": "P9",
+      "requirement": "Single-backend vs split-serial vs split-overlap",
+      "status": "checked_with_blockers",
+      "finding": "No complete qualifying heterogeneous deployment for these model/configuration cells; cannot execute comparison.",
+      "evidence": [
+        "summary/matrix.json"
+      ]
+    },
+    {
+      "id": "RELEASE",
+      "requirement": "Reproducibility, quality, state, placement, profile, evidence and fork publication",
+      "status": "not_fully_qualified",
+      "finding": "Checks/profiles are complete for the executable current paths; full universal release gates are not met. Missing artifacts/backends/device access, quality suites, memory accounting and playback guarantees remain an explicit user repair backlog. The fork publication and archive hashes establish delivery/integrity, not model qualification.",
+      "evidence": [
+        "FINAL_REVIEW.md",
+        "summary/matrix.json",
+        "resource-summary.json"
+      ]
+    }
+  ],
+  "disposition": "Implementation and unavailable qualification gates are recorded for later user repair; performance completion is separate from release qualification."
+}

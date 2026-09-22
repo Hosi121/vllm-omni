@@ -2,6 +2,11 @@
 
 2026-09-22: **60 named pairings checked**, not 60 successful executions.
 
+Follow-up: [complete current E2E checks and profiling](../e2e_profiling_20260922/README.md)
+adds nine length/concurrency groups and 30-minute sustained runs for five runnable
+desktop paths. It preserves the blockers below and records additional performance,
+quality, memory and lifecycle gaps; a completed profile is not a release pass.
+
 PASS = specified full workload passed; PARTIAL = functional output with acceptance gaps; COMPONENT = one model component only; PROFILE_ONLY = component timing without quality; FAILED = attempted execution/startup failed; REJECTED = specific artifact refused; BLOCKED = a named prerequisite is missing. Historical evidence is marked in each finding.
 
 | Device / execution configuration | Spark-X2.5 | Qwen3-TTS 0.6B CustomVoice | Qwen3.8-27B | MiniCPM-o 4.5 | InternVLA-A1 |

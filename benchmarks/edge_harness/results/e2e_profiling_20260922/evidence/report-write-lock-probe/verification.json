@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "scope": "Native Windows reader excludes FILE_SHARE_DELETE on a workspace UNC report; running update is deferred and final update persists after handle closes.",
+  "deferred_update_s": 0.006112900038715452,
+  "permission_errors": 1
+}

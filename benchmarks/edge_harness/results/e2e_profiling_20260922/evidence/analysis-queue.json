@@ -1,0 +1,39 @@
+{
+  "status": "exited",
+  "pid": 61376,
+  "predecessor_pid": 61368,
+  "predecessor_created": 1790061648.4950807,
+  "jobs": [
+    {
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\summarize_e2e_profiles.py",
+        "--matrix",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\results\\model_device_matrix_20260922\\matrix.json",
+        "--runs",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\summary"
+      ],
+      "status": "exited",
+      "start": 1790069742.699028,
+      "returncode": 0,
+      "end": 1790069744.9127042
+    },
+    {
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\analyze_profile_resources.py",
+        "--runs",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\resource-summary.json"
+      ],
+      "status": "exited",
+      "start": 1790069744.9172206,
+      "returncode": 0,
+      "end": 1790069790.9965253
+    }
+  ],
+  "end": 1790069791.0010314
+}

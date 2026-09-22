@@ -1,0 +1,61 @@
+{
+  "status": "exited",
+  "pid": 60180,
+  "predecessor_pid": 61376,
+  "predecessor_created": 1790061788.3436823,
+  "reason": "Native TTS report replacement hit Windows read-handle sharing contention.",
+  "jobs": [
+    {
+      "name": "tts-cuda-windows",
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_local_tts.py",
+        "--model",
+        "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows"
+      ],
+      "status": "exited",
+      "start": 1790069791.4225519,
+      "returncode": 0,
+      "end": 1790072056.6190915,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "tts-cuda-windows-trace",
+      "status": "exited",
+      "benchmark_status": "completed",
+      "reused_verified_report": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace\\report.json",
+      "reason": "Same checkpoint/runtime/config; valid paired diagnostic from earlier queue."
+    },
+    {
+      "name": "tts-cuda-windows-reliability",
+      "command": [
+        "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\check_tts_reliability.py",
+        "--model",
+        "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+        "--out",
+        "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-reliability"
+      ],
+      "status": "exited",
+      "start": 1790072056.749325,
+      "returncode": 0,
+      "end": 1790072158.1103568,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "summarize_e2e_profiles.py",
+      "status": "exited",
+      "returncode": 0
+    },
+    {
+      "name": "analyze_profile_resources.py",
+      "status": "exited",
+      "returncode": 0
+    }
+  ],
+  "end": 1790072194.8652515
+}

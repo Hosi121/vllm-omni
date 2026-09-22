@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\check_text_reliability.py",
+    "--model",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Spark-X2.5-4B",
+    "--out",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\spark-cuda-windows-reliability"
+  ],
+  "cwd": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge",
+  "host": "Windows-11-10.0.26200-SP0",
+  "scope": "Windows RAM includes WSL; GPU counters are whole-device, not model-exclusive",
+  "sample_interval_s": 1,
+  "start_unix": 1790069359.9498675,
+  "status": "exited",
+  "power_scheme": "\u7535\u6e90\u65b9\u6848 GUID: 27fa6203-3987-4dcc-918d-748559d549ec  (Performance)",
+  "pid": 54268,
+  "returncode": 0,
+  "end_unix": 1790069506.3611681
+}

@@ -1,0 +1,162 @@
+INFO 09-22 18:38:08 [importing.py:53] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+WARNING 09-22 18:38:08 [importing.py:65] Triton is installed, but doesn't include CPU backend. Disabling Triton.
+INFO 09-22 18:38:08 [importing.py:88] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 09-22 18:38:09 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 18:38:10 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 18:38:10 [patch.py:640] CPU AOT compile-cache load shim installed: compiled models are reused across engine starts instead of being recompiled.
+INFO 09-22 18:38:10 [patch.py:750] CPU weight-load memory release installed (set VLLM_OMNI_CPU_RELEASE_MEMORY=0 to disable).
+INFO 09-22 18:38:11 [omni_base.py:216] [AsyncOmni] Initializing with model ../models/Spark-X2.5-1.7B-int8
+INFO 09-22 18:38:11 [async_omni_engine.py:172] [AsyncOmniEngi[transformers] Unrecognized keys in `rope_parameters` for 'INFO 09-22 18:38:11 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+WARNING 09-22 18:38:11 [utils.py:501] Dropping unknown OmniEngineArgs field 'inline_diffusion' (not declared on the dataclass)
+INFO 09-22 18:38:11 [model.py:672] Resolved architecture: Spark2_5ForCausalLM
+INFO 09-22 18:38:11 [model.py:1965] Using max model len 4096
+INFO 09-22 18:38:11 [scheduler.py:242] Chunked prefill is enabled with max_num_batched_tokens=512.
+WARNING 09-22 18:38:11 [vllm.py:1285] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+WARNING 09-22 18:38:11 [vllm/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.29.0rc2.dev71+g00510ce38.d20260922
+ --> vLLM version 0.28.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+W0922 18:38:16.750000 1547774 torch/utils/_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 18:38:16.776000 1547774 torch/utils/_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses INFO 09-22 18:38:17 [importing.py:53] Triton is installeW0922 18:38:23.393000 1547829 torch/utils/_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 18:38:23.419000 1547829 torch/utils/_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.29.0rc2.dev71+g00510ce38.d20260922
+ --> vLLM version 0.28.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+[W922 18:38:26.725084286 utils.cpp:68] Warning: NUMA binding: Using MEMBIND policy for memory allocation on the NUMA nodes (0). Memory allocations will be strictly bound to these NUMA nodes. (function init_cpu_memory_env)
+(Worker pid=1547829) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(Worker pid=1547829) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.21s/it]
+(Worker pid=1547829) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.22s/it]
+(Worker pid=1547829) 
+(StageEngineCoreProc_stage0_replica0 pid=1547774) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+(StageEngineCoreProc_stage0_replica0 pid=1547774) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+(StageEngineCoreProc_stage0_replica0 pid=1547774) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'full_attention', 'sliding_attention'}
+USDT:2026-09-22 18:38:40 1547829:1547829 SyncActivityProfilerHandler.cpp:52] profiler_start
+USDT:2026-09-22 18:38:46 1547829:1547829 SyncActivityProfilerHandler.cpp:59] profiler_stop
+/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+e_config': {'enable_auto_functionalized_v2': False}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [multiproc_executor.py:150] DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=127.0.0.1, mq_connect_ip=172.21.141.90 (local), world_size=1, local_world_size=1
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [ompmultiprocessing.py:185] OpenMP thread binding info: 
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [ompmultiprocessing.py:185] 	VLLM_CPU_OMP_THREADS_BIND='auto', auto_setup=True, skip_setup=False
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [ompmultiprocessing.py:185] 	local_world_size=1, reserve_cpu_num=1
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [ompmultiprocessing.py:185] 	local_rank=0, core ids=[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21]
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:19 [ompmultiprocessing.py:185] 	reserved_cpus=[23]
+INFO 09-22 18:38:24 [importing.py:53] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+WARNING 09-22 18:38:24 [importing.py:65] Triton is installed, but doesn't include CPU backend. Disabling Triton.
+INFO 09-22 18:38:24 [importing.py:88] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 09-22 18:38:25 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 18:38:25 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 18:38:25 [patch.py:640] CPU AOT compile-cache load shim installed: compiled models are reused across engine starts instead of being recompiled.
+INFO 09-22 18:38:25 [patch.py:750] CPU weight-load memory release installed (set VLLM_OMNI_CPU_RELEASE_MEMORY=0 to disable).
+WARNING 09-22 18:38:26 [vllm.py:652] Model Runner V2 requires Triton; using the V1 model runner instead.
+INFO 09-22 18:38:26 [wrapper.py:189] Torch profiling enabled. Traces will be saved to: /home/zhout/project/edge_infer/analysis/experiments/e2e_profiling_20260922/spark-cpu-wsl-trace/traces
+(Worker pid=1547829) WARNING 09-22 18:38:26 [cpu_worker.py:127] libiomp is not found in LD_PRELOAD. For best performance, please follow the section `set LD_PRELOAD` in https://docs.vllm.ai/en/latest/getting_started/installation/cpu/ to setup required pre-loaded libraries.
+(Worker pid=1547829) INFO 09-22 18:38:26 [parallel_state.py:1638] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_9c0916ce4cab452b9a4d5501e9cdf9b2 backend=gloo
+(Worker pid=1547829) INFO 09-22 18:38:26 [parallel_state.py:1982] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(Worker pid=1547829) INFO 09-22 18:38:26 [cpu_model_runner.py:131] Starting to load model ../models/Spark-X2.5-1.7B-int8...
+(Worker pid=1547829) INFO 09-22 18:38:26 [__init__.py:755] Selected CPUInt8ScaledMMLinearKernel for CompressedTensorsW8A8Int8
+(Worker pid=1547829) INFO 09-22 18:38:26 [selector.py:217] Using HND KV cache layout for CPU_ATTN backend.
+(Worker pid=1547829) INFO 09-22 18:38:26 [weight_utils.py:858] Filesystem type for checkpoints: EXT4. Checkpoint size: 1.84 GiB. Available RAM: 27.26 GiB.
+(Worker pid=1547829) INFO 09-22 18:38:26 [weight_utils.py:881] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(Worker pid=1547829) INFO 09-22 18:38:27 [default_loader.py:430] Loading weights took 1.23 seconds
+(Worker pid=1547829) INFO 09-22 18:38:28 [memory.py:91] Released 130 MiB after weight load (anonymous RSS 3586 -> 3456 MiB) via ['libc.so.6:malloc_trim', 'libtcmalloc_minimal.so.4:MallocExtension_ReleaseFreeMemory']
+(StageEngineCoreProc_stage0_replica0 pid=1547774) WARNING 09-22 18:38:28 [torch_utils.py:250] OMP_NUM_THREADS=8 is set; leaving Torch threads at 8 for serving. Multi-threaded torch CPU ops during serving can degrade performance through spin-wait contention and cgroup CPU-quota throttling.
+(Worker pid=1547829) INFO 09-22 18:38:28 [cpu_worker.py:255] Explicitly set (1.09/30.91) GiB for KV cache on node 0.
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:28 [kv_cache_utils.py:1869] GPU KV cache size: 44,431 tokens, Maximum concurrency for 4,096 tokens per request: 10.85x
+(Worker pid=1547829) INFO 09-22 18:38:28 [memory.py:91] Released -0 MiB after warm-up (anonymous RSS 4576 -> 4576 MiB) via ['libc.so.6:malloc_trim', 'libtcmalloc_minimal.so.4:MallocExtension_ReleaseFreeMemory']
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:28 [core.py:354] init engine (profile, create kv cache, warmup model) took 0.15 s
+(StageEngineCoreProc_stage0_replica0 pid=1547774) WARNING 09-22 18:38:29 [scheduler.py:182] Using custom scheduler class vllm_omni.core.sched.omni_ar_scheduler.OmniARAsyncScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage0_replica0 pid=1547774) WARNING 09-22 18:38:29 [vllm.py:652] Model Runner V2 requires Triton; using the V1 model runner instead.
+(StageEngineCoreProc_stage0_replica0 pid=1547774) WARNING 09-22 18:38:30 [vllm.py:1285] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(StageEngineCoreProc_stage0_replica0 pid=1547774) WARNING 09-22 18:38:30 [vllm.py:1354] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:30 [kernel.py:308] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:30 [patch.py:692] Restored explicit kv_cache_memory_bytes=1174405120 (1.094 GiB); VLLM_CPU_KVCACHE_SPACE would have overridden it.
+INFO 09-22 18:38:30 [stage_runtime.py:943] [StageRuntime] Stage 0 engine startup completed
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:38:30 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+INFO 09-22 18:38:30 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-0 [rep-0] initializing EngineCore
+INFO 09-22 18:38:30 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-0 [rep-0] EngineCore running
+INFO 09-22 18:38:30 [stage_runtime.py:958] [StageRuntime] Stage 0 initialized
+INFO 09-22 18:38:32 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-22 18:38:32 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-22 18:38:32 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 20.64 seconds
+INFO 09-22 18:38:32 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model ../models/Spark-X2.5-1.7B-int8
+WARNING 09-22 18:38:32 [input_processor.py:296] Passing raw prompts to InputProcessor is deprecated and will be removed in v0.18. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+(Worker pid=1547829) -----------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+(Worker pid=1547829)                                      Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls  
+(Worker pid=1547829) -----------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+(Worker pid=1547829)                      _C::onednn_scaled_mm        39.52%        2.283s        40.07%        2.315s     215.271us         10752  
+(Worker pid=1547829)      execute_context_0(0)_generation_1(1)        23.46%        1.355s        95.15%        5.496s      59.096ms            93  
+(Worker pid=1547829)                             _C::onednn_mm        11.84%     683.765ms        11.84%     683.896ms       7.124ms            96  
+(Worker pid=1547829)                                aten::gelu         2.84%     164.319ms         2.84%     164.319ms      61.131us          2688  
+(Worker pid=1547829)                               aten::copy_         2.06%     118.827ms         2.06%     118.827ms       2.787us         42636  
+(Worker pid=1547829)             vllm::unified_kv_cache_update         1.88%     108.698ms         3.67%     212.245ms      78.960us          2688  
+(Worker pid=1547829)             _C::dynamic_scaled_int8_quant         1.80%     103.954ms         1.80%     103.954ms       9.668us         10752  
+(Worker pid=1547829)       vllm::unified_attention_with_output         1.64%      94.729ms         2.97%     171.424ms      63.774us          2688  
+(Worker pid=1547829)                                 aten::mul         1.10%      63.437ms         1.10%      63.437ms       3.352us         18924  
+(Worker pid=1547829)                            aten::_to_copy         1.07%      62.025ms         3.55%     204.785ms       4.971us         41196  
+(Worker pid=1547829)           _C::cpu_attention_with_kv_cache         0.95%      55.159ms         0.95%      55.159ms      20.521us          2688  
+(Worker pid=1547829)                                 aten::sum         0.85%      49.063ms         1.06%      61.086ms       7.564us          8076  
+(Worker pid=1547829)     execute_context_1(18)_generation_0(0)         0.80%      46.288ms         3.99%     230.682ms      76.894ms             3  
+(Worker pid=1547829)                     vllm::spark_head_gate         0.76%      43.834ms         2.48%     143.425ms      53.357us          2688  
+(Worker pid=1547829)                       aten::empty_strided         0.73%      42.036ms         0.73%      42.036ms       0.669us         62796  
+(Worker pid=1547829)            _C::cpu_attn_reshape_and_cache         0.70%      40.455ms         0.70%      40.455ms      15.050us          2688  
+(Worker pid=1547829)                                 aten::add         0.60%      34.631ms         0.88%      50.622ms       4.546us         11136  
+(Worker pid=1547829)                                aten::view         0.60%      34.457ms         0.60%      34.457ms       0.973us         35424  
+(Worker pid=1547829)                                aten::div_         0.58%      33.554ms         0.95%      54.752ms      10.006us          5472  
+(Worker pid=1547829)                                  aten::to         0.53%      30.555ms         4.07%     235.340ms       4.472us         52620  
+(Worker pid=1547829)                               aten::slice         0.51%      29.536ms         0.79%      45.858ms       1.663us         27570  
+(Worker pid=1547829)                                 aten::pow         0.48%      27.781ms         0.56%      32.480ms       5.936us          5472  
+(Worker pid=1547829)                      _C::rotary_embedding         0.42%      24.279ms         0.42%      24.279ms       9.032us          2688  
+(Worker pid=1547829)                          aten::as_strided         0.40%      23.315ms         0.40%      23.315ms       0.526us         44286  
+(Worker pid=1547829)                                aten::mean         0.35%      20.452ms         1.92%     110.941ms      20.274us          5472  
+(Worker pid=1547829)                               aten::empty         0.35%      20.411ms         0.35%      20.411ms       0.743us         27456  
+(Worker pid=1547829)                          aten::empty_like         0.31%      18.063ms         0.59%      34.197ms       1.590us         21504  
+(Worker pid=1547829)                               aten::chunk         0.30%      17.157ms         1.02%      58.636ms      10.907us          5376  
+(Worker pid=1547829)                                aten::item         0.26%      15.135ms         0.33%      19.040ms       1.740us         10944  
+(Worker pid=1547829)                              aten::narrow         0.25%      14.167ms         0.55%      31.538ms       2.933us         10752  
+(Worker pid=1547829)                               aten::fill_         0.22%      12.697ms         0.22%      12.823ms       1.390us          9228  
+(Worker pid=1547829)                              aten::argmax         0.20%      11.541ms         0.21%      11.892ms     123.875us            96  
+(Worker pid=1547829)                               aten::rsqrt         0.19%      10.755ms         0.19%      10.755ms       1.966us          5472  
+(Worker pid=1547829)                    aten::split_with_sizes         0.17%       9.996ms         0.24%      13.733ms       5.109us          2688  
+(Worker pid=1547829)                               aten::split         0.17%       9.941ms         0.72%      41.480ms       7.716us          5376  
+(Worker pid=1547829)                                  aten::mm         0.15%       8.481ms         0.15%       8.528ms     101.522us            84  
+(Worker pid=1547829)                             aten::sigmoid         0.14%       8.085ms         0.14%       8.085ms       3.008us          2688  
+(Worker pid=1547829)                           aten::unflatten         0.14%       7.924ms         0.16%       9.218ms       3.429us          2688  
+(Worker pid=1547829)                           aten::unsqueeze         0.13%       7.415ms         0.16%       9.137ms       1.696us          5388  
+(Worker pid=1547829)                             aten::flatten         0.09%       5.076ms         0.11%       6.450ms       2.317us          2784  
+(Worker pid=1547829)                 aten::_local_scalar_dense         0.07%       3.905ms         0.07%       3.905ms       0.357us         10944  
+(Worker pid=1547829)                               aten::index         0.06%       3.688ms         0.09%       5.314ms      27.676us           192  
+(Worker pid=1547829)                           aten::new_empty         0.06%       3.274ms         0.10%       5.648ms       2.101us          2688  
+(Worker pid=1547829)                         aten::result_type         0.05%       3.107ms         0.05%       3.107ms       0.568us          5472  
+(Worker pid=1547829)      _C::compute_slot_mapping_kernel_impl         0.05%       2.849ms         0.05%       2.849ms       7.419us           384  
+(Worker pid=1547829)                        aten::index_select         0.03%       1.656ms         0.04%       2.080ms      10.835us           192  
+(Worker pid=1547829)                _C::get_scheduler_metadata         0.03%       1.642ms         0.04%       2.120ms       5.521us           384  
+(Worker pid=1547829)                              aten::detach         0.02%     966.314us         0.02%     966.314us       3.355us           288  
+(Worker pid=1547829)                              aten::select         0.01%     801.206us         0.02%     982.228us       3.411us           288  
+(Worker pid=1547829)      execute_context_0(0)_generation_0(0)         0.01%     712.856us         0.01%     763.772us     254.591us             3  
+(Worker pid=1547829) -----------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  
+(Worker pid=1547829) Self CPU time total: 5.776s
+(Worker pid=1547829) 
+(Worker pid=1547829) INFO 09-22 18:39:07 [wrapper.py:80] Profiler stopped successfully.
+INFO 09-22 18:39:13 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-22 18:39:13 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-22 18:39:13 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-22 18:39:13 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-22 18:39:13 [core_client.py:689] [shutdown] MPClient: start timeout=default
+INFO 09-22 18:39:13 [core_client.py:691] [shutdown] MPClient: stopping engine manager
+INFO 09-22 18:39:13 [utils.py:615] [shutdown] Process manager: send sigterm to process StageEngineCoreProc_stage0_replica0
+(Worker pid=1547829) INFO 09-22 18:39:13 [multiproc_executor.py:833] Parent process exited, terminating worker queues
+(Worker pid=1547829) INFO 09-22 18:39:13 [wrapper.py:156] Shutting down profiler
+(StageEngineCoreProc_stage0_replica0 pid=1547774) INFO 09-22 18:39:13 [multiproc_executor.py:469] [shutdown] Executor: waiting for worker exit count=1
+WARNING 09-22 18:39:18 [utils.py:635] [shutdown] Process manager: force killing remaining processes count=1
+WARNING 09-22 18:39:18 [utils.py:640] [shutdown] Process manager: force killing remaining process StageEngineCoreProc_stage0_replica0 pid 1547774
+INFO 09-22 18:39:18 [core_client.py:693] [shutdown] MPClient: engine manager stopped
+INFO 09-22 18:39:18 [core_client.py:694] [shutdown] MPClient: cleaning up background resources
+INFO 09-22 18:39:18 [core_client.py:696] [shutdown] MPClient: complete
+INFO 09-22 18:39:18 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down

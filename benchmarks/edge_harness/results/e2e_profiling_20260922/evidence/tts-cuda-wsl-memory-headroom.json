@@ -1,0 +1,27 @@
+{
+  "scope": "Whole Windows host including WSL and unrelated processes; no exclusive model attribution.",
+  "lowest_available_ram_sample": {
+    "unix": 1790062937.429733,
+    "monotonic": 517669.609,
+    "host_memory": {
+      "total": 67773509632,
+      "available": 24514560,
+      "percent": 100.0,
+      "used": 67748995072,
+      "free": 24514560
+    },
+    "host_cpu_percent": 56.4,
+    "power": {
+      "ACLineStatus": 1,
+      "BatteryFlag": 1,
+      "BatteryLifePercent": 100,
+      "SystemStatusFlag": 0,
+      "BatteryLifeTime": 4294967295,
+      "BatteryFullLifeTime": 4294967295
+    },
+    "gpu_csv": "GPU-bf6e910e-657c-15d7-c558-f169df134d8a, NVIDIA GeForce RTX 5090 Laptop GPU, 23800, 24463, 67, 64.29, 2760, 14001, 100, P0",
+    "gpu_returncode": 0
+  },
+  "sampling_interval_s": 1,
+  "conclusion": "Startup memory-headroom qualification requires review; successful generation is not sufficient."
+}

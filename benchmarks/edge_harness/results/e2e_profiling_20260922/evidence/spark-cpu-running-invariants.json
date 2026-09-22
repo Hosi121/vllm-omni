@@ -1,0 +1,149 @@
+{
+  "checked_unix": 1790059224.9174466,
+  "scope": "Snapshot raw generation completeness, output sequence/epoch, queue bounds and same-input token self-consistency. Not high-precision reference quality or completed cancellation testing.",
+  "requests_checked": 296,
+  "errors": [],
+  "groups": {
+    "warmup/short/c1": {
+      "n": 1,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 1
+      }
+    },
+    "measured/short/c1": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 20
+      }
+    },
+    "warmup/medium/c1": {
+      "n": 1,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 1
+      }
+    },
+    "measured/medium/c1": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 20
+      }
+    },
+    "warmup/long/c1": {
+      "n": 1,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "65d630c91577cb997483af9215499cef3d5ef2d039a9c849b891405624e36935": 1
+      }
+    },
+    "measured/long/c1": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "65d630c91577cb997483af9215499cef3d5ef2d039a9c849b891405624e36935": 20
+      }
+    },
+    "warmup/short/c2": {
+      "n": 2,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 2
+      }
+    },
+    "measured/short/c2": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 20
+      }
+    },
+    "warmup/medium/c2": {
+      "n": 2,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 2
+      }
+    },
+    "measured/medium/c2": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 20
+      }
+    },
+    "warmup/long/c2": {
+      "n": 2,
+      "distinct_token_sequences": 2,
+      "hash_counts": {
+        "064c2e46c5829c79fe59025712e1cdf727f37bbf2325cb1c53bd89ba62318075": 1,
+        "c1288cb96c77ed6c7d9eb6cac0c5713af3162efc8294ce8f431ecba16faca3c0": 1
+      }
+    },
+    "measured/long/c2": {
+      "n": 20,
+      "distinct_token_sequences": 2,
+      "hash_counts": {
+        "064c2e46c5829c79fe59025712e1cdf727f37bbf2325cb1c53bd89ba62318075": 10,
+        "c1288cb96c77ed6c7d9eb6cac0c5713af3162efc8294ce8f431ecba16faca3c0": 10
+      }
+    },
+    "warmup/short/c4": {
+      "n": 4,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 4
+      }
+    },
+    "measured/short/c4": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "0b959f6b38248a14457847c7fba642806f38093160e6aa63022f75f62e93e39a": 20
+      }
+    },
+    "warmup/medium/c4": {
+      "n": 4,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 4
+      }
+    },
+    "measured/medium/c4": {
+      "n": 20,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 20
+      }
+    },
+    "warmup/long/c4": {
+      "n": 4,
+      "distinct_token_sequences": 4,
+      "hash_counts": {
+        "064c2e46c5829c79fe59025712e1cdf727f37bbf2325cb1c53bd89ba62318075": 1,
+        "c1288cb96c77ed6c7d9eb6cac0c5713af3162efc8294ce8f431ecba16faca3c0": 1,
+        "65d630c91577cb997483af9215499cef3d5ef2d039a9c849b891405624e36935": 1,
+        "a9cef678cbb9de8b27ba8167384109683861a1bcd83772bb909910c4800198af": 1
+      }
+    },
+    "measured/long/c4": {
+      "n": 20,
+      "distinct_token_sequences": 4,
+      "hash_counts": {
+        "064c2e46c5829c79fe59025712e1cdf727f37bbf2325cb1c53bd89ba62318075": 5,
+        "c1288cb96c77ed6c7d9eb6cac0c5713af3162efc8294ce8f431ecba16faca3c0": 5,
+        "65d630c91577cb997483af9215499cef3d5ef2d039a9c849b891405624e36935": 5,
+        "a9cef678cbb9de8b27ba8167384109683861a1bcd83772bb909910c4800198af": 5
+      }
+    },
+    "sustained/medium/c1": {
+      "n": 95,
+      "distinct_token_sequences": 1,
+      "hash_counts": {
+        "90c6b649fbb4b50206f02b4bb161b74c1347f3660899e8c988c6559c95c8f072": 95
+      }
+    }
+  }
+}

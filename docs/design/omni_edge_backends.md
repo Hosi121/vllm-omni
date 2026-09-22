@@ -38,6 +38,17 @@ non-migratable. Legacy M0 defaults are explicitly preserved in `contracts.legacy
 
 ## Hardware composition
 
+The [E2E support roadmap](omni_edge_e2e_roadmap.md) maps every configuration to
+implementation work packages, model-specific acceptance gates and a common
+profiling protocol, including explicit artifact/capacity rejection outcomes.
+
+The [end-to-end profiling follow-up](../../benchmarks/edge_harness/results/e2e_profiling_20260922/README.md)
+checks the same 60 pairs and profiles five executable desktop paths with 20
+requests per length/concurrency group and 30-minute sustained runs. It retains
+explicit blockers for the other 55 cells. Performance completion is separate
+from release qualification: TTS playback/sustained real-time failures, quality,
+memory-accounting and unavailable-device gaps remain documented repair items.
+
 ### Mobile and PC × model support matrix
 
 **All 60 named pairings were checked on 2026-09-22** through actual runs,

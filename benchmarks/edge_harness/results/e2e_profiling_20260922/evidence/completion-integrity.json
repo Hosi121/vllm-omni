@@ -1,0 +1,59 @@
+{
+  "status": "verified",
+  "cells": 60,
+  "profiled_paths": 5,
+  "measured_baseline_requests": 900,
+  "trace_files": [
+    {
+      "path": "spark-cpu-wsl-trace/traces/profiler_out_0.txt",
+      "sha256": "04ca3c8494c773c191a7b89544c5bfd27fad017d7da3a05a3d83af6cb340cbc7"
+    },
+    {
+      "path": "spark-cpu-wsl-trace/traces/1790073491843072609-rank-0.1790073527497371957.pt.trace.json",
+      "sha256": "071c819a66987259e8d6aa420f135c674438d991a5016c1d41615a4280960de0"
+    },
+    {
+      "path": "spark-cuda-wsl-trace/traces/20260922-171224_e2e-diagnostic/trace_rank0.json.gz",
+      "sha256": "096f3cbd5f65e5d614eaabee270495a754a1cd4946e0f75c4703c844db9f741e"
+    },
+    {
+      "path": "spark-cuda-windows-trace/traces/20260922-171601_e2e-diagnostic/trace_rank0.json",
+      "sha256": "cb3db8804f8350585f09010704590d916913e08a511adb1b9b6511618e5bb82b"
+    },
+    {
+      "path": "tts-cuda-wsl-trace/traces/20260922-185614_e2e-stage1/trace_rank0.json",
+      "sha256": "b2ce835bb81df5a2d7e4e3894f7d2a6267cbd3b7a2664de4fceefd0b666d36ca"
+    },
+    {
+      "path": "tts-cuda-wsl-trace/traces/20260922-185614_e2e-stage0/trace_rank0.json",
+      "sha256": "7f7fd56ff97afc0a5d6cc2325ade11032cdd4b50dda10b7da4e081e5bc233df9"
+    },
+    {
+      "path": "tts-cuda-windows-trace/traces/20260922-185848_e2e-stage0/trace_rank0.json",
+      "sha256": "07510fee2ba52a5e2fd823738a829b2100c6125480005a7e3ae379fc629a874a"
+    },
+    {
+      "path": "tts-cuda-windows-trace/traces/20260922-185848_e2e-stage1/trace_rank0.json",
+      "sha256": "82e6e3d6ebd1a77704fb00105d6f99e3647817f292b7c0503b5939ed5141d9cc"
+    }
+  ],
+  "counter_files": [
+    {
+      "path": "tts-cuda-wsl-attribution-step-stats/stage0_1628534.json",
+      "sha256": "cf3c11fd9475d555ec339ae6cdc51f9a3ca508d0ce3343a7a1c0c96e7cc13b78"
+    },
+    {
+      "path": "tts-cuda-wsl-attribution-step-stats/stage1_1628537.json",
+      "sha256": "0109a0871a4db87778f62ffad628e93c29ace126f28bb69784ec95978e8802c4"
+    },
+    {
+      "path": "tts-cuda-windows-attribution-step-stats\\stage0_62016.json",
+      "sha256": "7ff79e2d17f2d1016a7239ccf70c0a6e2df601443fd63284b17d2437cb701a39"
+    },
+    {
+      "path": "tts-cuda-windows-attribution-step-stats\\stage1_13708.json",
+      "sha256": "b098ac3e0e0caca3bb5ab7f3ed0d31c5228c02af82c836af9fcdd99bc5c153f5"
+    }
+  ],
+  "scope": "Terminal sample coverage and source artifact integrity; not model-quality or release qualification."
+}

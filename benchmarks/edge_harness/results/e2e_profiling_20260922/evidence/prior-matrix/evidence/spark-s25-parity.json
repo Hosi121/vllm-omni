@@ -1,0 +1,47 @@
+{
+  "scope": "repeatability of the same compiled W8A16 single attention component, not checkpoint quality or complete generation",
+  "reference_job": "j57er3q9p",
+  "job": "jp0mvkj6g",
+  "model_id": "mnowl6xpq",
+  "input_dataset_id": "d7m83gjy2",
+  "outputs": [
+    {
+      "output": "output_0__0",
+      "shape": [
+        1,
+        1,
+        2048
+      ],
+      "dtype": "float32",
+      "finite": true,
+      "max_absolute_difference": 0.0,
+      "exact_equal": true
+    },
+    {
+      "output": "output_1__0",
+      "shape": [
+        1,
+        2,
+        1,
+        256
+      ],
+      "dtype": "float32",
+      "finite": true,
+      "max_absolute_difference": 0.0,
+      "exact_equal": true
+    },
+    {
+      "output": "output_2__0",
+      "shape": [
+        1,
+        2,
+        1,
+        256
+      ],
+      "dtype": "float32",
+      "finite": true,
+      "max_absolute_difference": 0.0,
+      "exact_equal": true
+    }
+  ]
+}

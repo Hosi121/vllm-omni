@@ -1,0 +1,6 @@
+{
+ "talker_step2|Snapdragon X Elite CRD|qnn_context_binary|npu": 19.583,
+ "talker_step2|SA8775P ADP|qnn_context_binary|npu": 23.822,
+ "code2wav|SA8775P ADP|tflite|gpu": 1700.577,
+ "code2wav|Dragonwing RB3 Gen 2 Vision Kit|tflite|gpu": 3107.047
+}

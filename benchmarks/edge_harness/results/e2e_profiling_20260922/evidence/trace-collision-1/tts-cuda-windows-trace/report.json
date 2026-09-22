@@ -1,0 +1,158 @@
+{
+  "status": "completed",
+  "start_unix": 1790069016.2296083,
+  "argv": [
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\profile_trace_diagnostic.py",
+    "--kind",
+    "tts",
+    "--model",
+    "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+    "--out",
+    "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace"
+  ],
+  "python": "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "runtime": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.13.0+cu130",
+    "vllm": "0.29.0",
+    "vllm_omni": "0.29.0rc2.dev71+g00510ce38.d20260922",
+    "vllm_omni_file": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\__init__.py",
+    "vllm_file": "C:\\Users\\zhout\\w2\\omni029venv\\Lib\\site-packages\\vllm\\__init__.py",
+    "checkouts": {}
+  },
+  "environment": {
+    "VLLM_USE_FLASHINFER_SAMPLER": "0",
+    "VLLM_WSL2_ENABLE_PIN_MEMORY": "1",
+    "TOKENIZERS_PARALLELISM": "false"
+  },
+  "scope": "diagnostic paired profiling overhead; not steady-state latency percentiles",
+  "text_output_tokens": 32,
+  "requests": [
+    {
+      "phase": "warmup",
+      "index": 0,
+      "wall_s": 1.3391625999938697,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 78720
+    },
+    {
+      "phase": "untraced_before",
+      "index": 0,
+      "wall_s": 0.7344883999903686,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 74880
+    },
+    {
+      "phase": "untraced_before",
+      "index": 1,
+      "wall_s": 0.5361469999770634,
+      "events": 4,
+      "finished": true,
+      "audio_samples": 57600
+    },
+    {
+      "phase": "untraced_before",
+      "index": 2,
+      "wall_s": 0.6898588999756612,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 71040
+    },
+    {
+      "phase": "traced",
+      "index": 0,
+      "wall_s": 0.8399949999875389,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 65280
+    },
+    {
+      "phase": "traced",
+      "index": 1,
+      "wall_s": 0.8887171999667771,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 76800
+    },
+    {
+      "phase": "traced",
+      "index": 2,
+      "wall_s": 0.8661076999851502,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 74880
+    },
+    {
+      "phase": "untraced_after",
+      "index": 0,
+      "wall_s": 0.7618433000170626,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 76800
+    },
+    {
+      "phase": "untraced_after",
+      "index": 1,
+      "wall_s": 0.763008699985221,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 72960
+    },
+    {
+      "phase": "untraced_after",
+      "index": 2,
+      "wall_s": 0.7355568999773823,
+      "events": 5,
+      "finished": true,
+      "audio_samples": 78720
+    }
+  ],
+  "profiler_config": {
+    "profiler": "torch",
+    "torch_profiler_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows-trace\\traces",
+    "torch_profiler_with_stack": false,
+    "torch_profiler_record_shapes": false,
+    "torch_profiler_with_memory": false,
+    "torch_profiler_use_gzip": true,
+    "torch_profiler_dump_cuda_time_total": false
+  },
+  "startup_s": 123.1539670000202,
+  "start_rpc": [
+    [
+      null
+    ],
+    [
+      null
+    ]
+  ],
+  "start_rpc_s": 0.08633940003346652,
+  "stop_rpc": [
+    [
+      null
+    ],
+    [
+      null
+    ]
+  ],
+  "stop_rpc_s": 29.191950400010683,
+  "median_wall_s": {
+    "untraced_before": 0.6898588999756612,
+    "traced": 0.8661076999851502,
+    "untraced_after": 0.7618433000170626
+  },
+  "traced_over_untraced_before": 1.2554852883911582,
+  "traced_over_untraced_after": 1.1368580651240912,
+  "overhead_caveat": "Same prompt but speech generation can vary; compare audio_samples alongside wall-time ratios.",
+  "traces": [
+    {
+      "path": "traces\\20260922-172543_e2e-diagnostic\\trace_rank0.json",
+      "bytes": 17029062,
+      "sha256": "96f22b8ad111cd2a8086c6ef8a04afaa3c5bdd63242b64500590d72bb3d1ca32"
+    }
+  ],
+  "end_unix": 1790069178.4638069
+}

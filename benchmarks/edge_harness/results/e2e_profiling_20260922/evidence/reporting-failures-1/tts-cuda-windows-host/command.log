@@ -1,0 +1,778 @@
+INFO 09-22 16:22:32 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 16:22:33 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 16:22:33 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-22 16:22:37 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+C:\Users\zhout\w2\omni029venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+  warnings.warn(
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:37 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 16:22:37 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:37 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] Model config: codec_eos_token_id must be `None` or an integer within the vocabulary (between 0 and 3071), got 4198. This may result in unexpected behavior.
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:37 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] You are using a model of type `qwen3_tts` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+INFO 09-22 16:22:37 [omni_base.py:216] [AsyncOmni] Initializing with model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+INFO 09-22 16:22:37 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+ERROR 09-22 16:22:37 [repo_utils.py:119] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-22 16:22:37 [repo_utils.py:119] 
+ERROR 09-22 16:22:37 [repo_utils.py:119] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`, retrying 1 of 2
+ERROR 09-22 16:22:39 [repo_utils.py:117] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-22 16:22:39 [repo_utils.py:117] 
+ERROR 09-22 16:22:39 [repo_utils.py:117] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+INFO 09-22 16:22:39 [utils.py:202] [deploy_profile] edge -> \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\deploy\edge\qwen3_tts.yaml
+ERROR 09-22 16:22:39 [repo_utils.py:119] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-22 16:22:39 [repo_utils.py:119] 
+ERROR 09-22 16:22:39 [repo_utils.py:119] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`, retrying 1 of 2
+ERROR 09-22 16:22:41 [repo_utils.py:117] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-22 16:22:41 [repo_utils.py:117] 
+ERROR 09-22 16:22:41 [repo_utils.py:117] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+INFO 09-22 16:22:41 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 2 stages
+INFO 09-22 16:22:41 [initialization.py:356] Loaded OmniTransferConfig with 1 connector configurations
+WARNING 09-22 16:22:41 [utils.py:501] Dropping unknown OmniEngineArgs field 'inline_diffusion' (not declared on the dataclass)
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+INFO 09-22 16:22:42 [model.py:684] Resolved architecture: Qwen3TTSTalkerForConditionalGeneration
+INFO 09-22 16:22:42 [model.py:2021] Using max model len 4096
+INFO 09-22 16:22:42 [scheduler.py:277] Chunked prefill is enabled with max_num_batched_tokens=512.
+INFO 09-22 16:22:42 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+WARNING 09-22 16:22:42 [utils.py:501] Dropping unknown OmniEngineArgs field 'inline_diffusion' (not declared on the dataclass)
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:22:42 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+INFO 09-22 16:22:42 [model.py:684] Resolved architecture: Qwen3TTSCode2Wav
+INFO 09-22 16:22:42 [model.py:2021] Using max model len 65536
+INFO 09-22 16:22:42 [scheduler.py:277] Chunked prefill is enabled with max_num_batched_tokens=65536.
+INFO 09-22 16:22:42 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+INFO 09-22 16:22:42 [stage_admission.py:161] [admission] device 0: capacity=23.89 required=15.56 (kv=9.56 graph=4.0 ext=1.0 margin=1.0) headroom=8.33 contributors=['stage0/replica0', 'stage1/replica0']
+INFO 09-22 16:22:42 [stage_runtime.py:853] [stage_init] Stage-0 set runtime devices: 0
+INFO 09-22 16:22:42 [stage_runtime.py:853] [stage_init] Stage-1 set runtime devices: 0
+INFO 09-22 16:22:59 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 16:22:59 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 16:22:59 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-22 16:22:59 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-22 16:22:59 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-22 16:22:59 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:02 [stage_engine_core_proc.py:67] [StageEngineCoreProc] parallel_stage_init: SH/EX phase locks on devices [0]
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:02 [core.py:123] Initializing a V1 LLM engine (v0.29.0) with config: model='C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c', speculative_config=None, tokenizer='C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::qwen4_exp_compute_ple_ngram_ids', 'vllm::qwen4_exp_ple_short_conv', 'vllm::qwen4_exp_qsa_with_output', 'vllm::linear_attention', 'vllm::qwen_gdn_attention_core', 'vllm::qwen_gdn_attention_core_fused_norm_packed', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::hpc_rope_norm_forward', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [512], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 8, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:02 [stage_engine_core_proc.py:67] [StageEngineCoreProc] parallel_stage_init: SH/EX phase locks on devices [0]
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:02 [core.py:123] Initializing a V1 LLM engine (v0.29.0) with config: model='C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c', speculative_config=None, tokenizer='C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=65536, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::qwen4_exp_compute_ple_ngram_ids', 'vllm::qwen4_exp_ple_short_conv', 'vllm::qwen4_exp_qsa_with_output', 'vllm::linear_attention', 'vllm::qwen_gdn_attention_core', 'vllm::qwen_gdn_attention_core_fused_norm_packed', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::hpc_rope_norm_forward', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [65536], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 8, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:03 [parallel_state.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file://C:\Users\zhout\AppData\Local\Temp/vllm_dist_46381e8f8fab46a5a0c21ed52f9489e0 backend=nccl
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:23:03 [parallel_state.py:1788] Distributed backend nccl is not available; falling back to gloo.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:03 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:23:04 [gpu_ar_worker.py:120] OMNI GPUARWorker forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:04 [topk_topp_sampler.py:46] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:04 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:23:04 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:23:04 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:04 [gpu_model_runner.py:5379] Starting to load model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c...
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:04 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:04 [flash_attn.py:897] Using FlashAttention version 2
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:05 [configuration_qwen3_tts_tokenizer_v2.py:156] encoder_config is None. Initializing encoder with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:05 [configuration_qwen3_tts_tokenizer_v2.py:159] decoder_config is None. Initializing decoder with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:05 [speaker_cache.py:239] Speaker cache ready (max_bytes=536870912)
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:05 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 1.69 GiB. Available RAM: 23.29 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:05 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (unknown) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.25s/it]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.25s/it]
+(StageEngineCoreProc_stage0_replica0 pid=24584) 
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:06 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 0.64 GiB. Available RAM: 23.28 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  4.23it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  4.21it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) 
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:06 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 0.64 GiB. Available RAM: 23.30 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00, 30.28it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) 
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:07 [qwen3_tts_talker.py:1192] Loaded 604 weights for Qwen3TTSTalkerForConditionalGeneration
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:07 [default_loader.py:430] Loading weights took 1.95 seconds
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:08 [gpu_model_runner.py:5471] Model loading took 1.94 GiB memory and 2.490717 seconds
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:08 [utils.py:306] Using LBNHC KV cache layout.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:09 [parallel_state.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file://C:\Users\zhout\AppData\Local\Temp/vllm_dist_3a377eaf895e4f46a66b94a6544b20a0 backend=nccl
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:23:09 [parallel_state.py:1788] Distributed backend nccl is not available; falling back to gloo.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:09 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:23:09 [gpu_generation_worker.py:103] OMNI GPUGenerationWorker forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:09 [topk_topp_sampler.py:46] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:09 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:23:09 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:23:09 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:09 [gpu_model_runner.py:5379] Starting to load model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c...
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [configuration_qwen3_tts_tokenizer_v2.py:156] encoder_config is None. Initializing encoder with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [configuration_qwen3_tts_tokenizer_v2.py:159] decoder_config is None. Initializing decoder with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:23:10 [vllm.py:2952] `torch.compile` is turned on, but the model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c does not support it. Please open an issue on GitHub if you want it to be supported.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 1.69 GiB. Available RAM: 22.45 GiB.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (unknown) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(StageEngineCoreProc_stage1_replica0 pid=41276) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00, 199.99it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) 
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [weight_utils.py:863] Filesystem type for checkpoints: unknown. Checkpoint size: 0.64 GiB. Available RAM: 22.44 GiB.
+(StageEngineCoreProc_stage1_replica0 pid=41276) Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.98it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.98it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) 
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:10 [modeling_qwen3_tts_tokenizer_v2.py:865] Precomputed exp caches for 29 SnakeBeta activations
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:326] Captured ICL prefix CUDA Graph for batch=1
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:331] Captured xvec prefix CUDA Graph for batch=1
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:335] Starting CUDA Graph warmup for 6 shapes: batch_sizes=[1] seq_lens=[6, 14, 30, 55, 80, 97]
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=6
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=14
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=30
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:11 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=55
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=80
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:346] Captured combined suffix CUDA Graph for batch=1 size=97
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=6
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=14
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=30
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=55
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=80
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [segmented_graph_wrapper.py:361] Captured xvec suffix CUDA Graph for batch=1 size=97
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [modeling_qwen3_tts_tokenizer_v2.py:909] CUDA Graph enabled for decoder: batch_sizes=[1] seq_lens=[6, 14, 30, 55, 80, 97]
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [qwen3_tts_code2wav.py:206] Code2Wav decoder CUDA Graph enabled
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:12 [default_loader.py:430] Loading weights took 1.98 seconds
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:13 [gpu_model_runner.py:5471] Model loading took 0.54 GiB memory and 2.112417 seconds
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:13 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:23:13 [utils.py:306] Using LBNHC KV cache layout.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:13 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:13 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) C:\Users\zhout\w2\omni029venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=24584)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] Model config: codec_eos_token_id must be `None` or an integer within the vocabulary (between 0 and 3071), got 4198. This may result in unexpected behavior.
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:13 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) C:\Users\zhout\w2\omni029venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=24584)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [backends.py:1094] Using cache directory: C:\Users\zhout\c29\torch_compile_cache\c14d177c66\rank_0_0\backbone for vLLM's torch.compile
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:30 [backends.py:1155] Dynamo bytecode transform time: 8.58 s
+remark: cqjsl3vrkcsbnqba3i7kxatjevocsd7zbj73gduhfvrfz7oawacd.py:22:0: 83 instructions in function
+remark: cachxjstilshqt6zd2rl3r5afpeend3trktklo3mbq2eubhgg5y4.py:22:0: 156 instructions in function
+remark: cachxjstilshqt6zd2rl3r5afpeend3trktklo3mbq2eubhgg5y4.py:22:0: 143 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 225 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 297 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 225 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 408 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 225 instructions in function
+remark: chmepedwwfj4rvjo2svigouk4tg7dvrcvk5oqionqfbcxs3s3utb.py:22:0: 137 instructions in function
+remark: c5taht2bemben6bombte5yuwqdrj4rtyvu2xxzt6v3mw374lcxmk.py:22:0: 148 instructions in function
+remark: c5taht2bemben6bombte5yuwqdrj4rtyvu2xxzt6v3mw374lcxmk.py:22:0: 706 instructions in function
+remark: c5taht2bemben6bombte5yuwqdrj4rtyvu2xxzt6v3mw374lcxmk.py:22:0: 2754 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 446 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 1001 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 448 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 1129 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 448 instructions in function
+remark: cpcn6exoq53ts4d55fgj2s72nkir6wsa7n4orzsaxpez4am5tvbe.py:21:0: 1576 instructions in function
+remark: cdvgaz5pm74tpqhtvltqsmtzc3xkbuk7l267tmezqswojiwnoky3.py:18:0: 156 instructions in function
+remark: cdvgaz5pm74tpqhtvltqsmtzc3xkbuk7l267tmezqswojiwnoky3.py:18:0: 143 instructions in function
+remark: cxph7su2ev6n64e7nk5ksycxcsky6njg46bf2owerkzwt5tuf7wq.py:18:0: 83 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 446 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 1001 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 448 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 1129 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 448 instructions in function
+remark: c5d2cqtbhgdcj6joyhlqtww7r7crp2tzsjgh2onaxmhxblzdfmkz.py:21:0: 1576 instructions in function
+remark: c7w64tnj6faq2nllq7nafhciy3ra3nknd763isdjy7ckp6d5egfg.py:18:0: 95 instructions in function
+remark: cvtjz3jpghp2aisd33wsjmu7xo7opnps3wtm4v64xq4u5bvlse44.py:18:0: 186 instructions in function
+remark: cvtjz3jpghp2aisd33wsjmu7xo7opnps3wtm4v64xq4u5bvlse44.py:18:0: 61 instructions in function
+remark: csojsq2ygqi7jmwixcsipa32wzdiolglhxfwugsjwm7iaphhafvi.py:18:0: 113 instructions in function
+remark: ch6k2xkhc2kvhorz5rm3p2wjgpmhburd5gortj2e3r4iehes5gjt.py:18:0: 156 instructions in function
+remark: ch6k2xkhc2kvhorz5rm3p2wjgpmhburd5gortj2e3r4iehes5gjt.py:18:0: 143 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 446 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 1001 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 448 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 1129 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 448 instructions in function
+remark: ckm5bei4qwdgxaitgavwkmorlm4uhfdstvktad7mbw3b3g4ugz7b.py:21:0: 1576 instructions in function
+remark: c4ayp3a5ujx67656iu5agyytkfr47g6uge4oz5sytsyzlajsib45.py:18:0: 105 instructions in function
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:49 [backends.py:393] Compiling a graph for compile range (1, 512) takes 19.25 s
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:52 [backends.py:920] collected artifacts: 29 entries, 4 artifacts, 7319709 bytes total
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:52 [decorators.py:719] saved AOT compiled function to C:\Users\zhout\c29\torch_compile_cache\torch_aot_compile\26490595520e6f42ca3bc4011a5aed1cc6b50e7c7d991485fa9c5c0afc5bb74f\rank_0_0\model
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:52 [monitor.py:53] torch.compile took 30.40 s in total
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:52 [monitor.py:81] Initial profiling/warmup run took 0.01 s
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:53 [base.py:148] Available KV cache memory: 3.86 GiB (device-level profiling)
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:53 [kv_cache_utils.py:2032] GPU KV cache size: 36,160 tokens, Maximum concurrency for 4,096 tokens per request: 8.83x
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:23:53 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:53 [kernel_warmup.py:124] JIT kernel warmup starting.
+(StageEngineCoreProc_stage0_replica0 pid=24584) JIT kernel warmup (1 compile keys):   0%|          | 0/1 [00:00<?, ?kernel/s]remark: block_table.py:412:0: 293 instructions in function
+JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00,  5.10kernel/s, ComputeSlotMappingKernel (1 keys)]JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00,  5.07kernel/s, ComputeSlotMappingKernel (1 keys)]
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:53 [kernel_warmup.py:134] JIT kernel warmup finished in 0.20s.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:54 [ll_bf16.py:30] cuteDSL (CUTLASS Python) not available, ll_bf16_gemm disabled
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:54 [gpu_model_runner.py:6955] Rank 0: Torch profiler disabled for CUDA graph capture
+(StageEngineCoreProc_stage0_replica0 pid=24584) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/4 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:00<00:00, 28.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:00<00:00, 28.20it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) Capturing CUDA graphs (decode, FULL):   0%|          | 0/3 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):  67%|██████▋   | 2/3 [00:00<00:00, 19.16it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 3/3 [00:00<00:00, 22.73it/s]
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:55 [gpu_model_runner.py:7001] Graph capturing finished in 1 secs, took 0.05 GiB
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:23:55 [gpu_ar_model_runner.py:595] Capturing talker_mtp graphs for sizes [8, 4, 2, 1]
+(StageEngineCoreProc_stage0_replica0 pid=24584) C:\Users\zhout\w2\omni029venv\Lib\site-packages\torch\_inductor\compile_fx.py:321: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+(StageEngineCoreProc_stage0_replica0 pid=24584)   warnings.warn(
+remark: csd4afffnqyxc3uvyoy5psr5io24fyn77cxkwkpllx3hfbviyg5u.py:18:0: 82 instructions in function
+remark: cy4ubntmyrsckhhwy2njg4cvn3imcnnqqixq5dozf4chzjxmww4n.py:18:0: 145 instructions in function
+remark: cy4ubntmyrsckhhwy2njg4cvn3imcnnqqixq5dozf4chzjxmww4n.py:18:0: 447 instructions in function
+remark: cy4ubntmyrsckhhwy2njg4cvn3imcnnqqixq5dozf4chzjxmww4n.py:18:0: 1559 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 362 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 409 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 371 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 598 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 366 instructions in function
+remark: c7i74d3nnl4f3tnxauvbis3zf3fchgwbqakdx5snieeruc3ezjle.py:18:0: 265 instructions in function
+remark: cnzbfrqeipervggpxshbmfausv2nnoacx7utdanedp2kt4n3y5yh.py:18:0: 84 instructions in function
+remark: cnzbfrqeipervggpxshbmfausv2nnoacx7utdanedp2kt4n3y5yh.py:18:0: 310 instructions in function
+remark: cnzbfrqeipervggpxshbmfausv2nnoacx7utdanedp2kt4n3y5yh.py:18:0: 1184 instructions in function
+remark: cnzbfrqeipervggpxshbmfausv2nnoacx7utdanedp2kt4n3y5yh.py:18:0: 5042 instructions in function
+remark: cunce4mib4aqnjw7lqdolxsnkq6y7ppfycc2lov3t5wqa5wzii72.py:18:0: 39 instructions in function
+remark: cunce4mib4aqnjw7lqdolxsnkq6y7ppfycc2lov3t5wqa5wzii72.py:18:0: 36 instructions in function
+remark: ck3qtdvc4k6bvtv4zbzg5ve3gwdsb4ppjqqceidmuafk3xoay4nl.py:18:0: 34 instructions in function
+remark: ck3qtdvc4k6bvtv4zbzg5ve3gwdsb4ppjqqceidmuafk3xoay4nl.py:18:0: 31 instructions in function
+remark: cnooihv4pk52qsmaizfm5qwub3trrzh6zoub2n6lmpp2smigll2j.py:18:0: 94 instructions in function
+remark: c5jk43zzugnjginxkhgmcc2ho7evwsqxirwvude7kuwftmwpnrsi.py:18:0: 107 instructions in function
+remark: c5jk43zzugnjginxkhgmcc2ho7evwsqxirwvude7kuwftmwpnrsi.py:18:0: 60 instructions in function
+remark: cmz7qxs7g2euiizhrdvcvc2uioqg5ykllv7b7dnqrriahes4blq2.py:18:0: 106 instructions in function
+remark: cyzmax3lhjo2rjusbkpjlkseefr46cnrk7gz62zphuqhdu7n5g6c.py:18:0: 118 instructions in function
+remark: ch5bpovlpuc6y74xrzwuf5pvry2ypnijpe3re6zynd2r5ounrcfy.py:18:0: 134 instructions in function
+remark: cmnjda6fxohi7lksbnooqfq2baerjk3kqnnv355zkdtffo5wfnex.py:18:0: 134 instructions in function
+remark: citwprv52g5iutkaal5oirjuthqpcbxgylurt4f7gbznr7jm5kpg.py:18:0: 104 instructions in function
+remark: c7ty6jflmpdpmoyh2dw3jlkqbdr5vcnee2dgobm2xnrfcfzucs2i.py:18:0: 82 instructions in function
+remark: cjdmebgdixl5zwep52idbnfbif2cyxubsaxrvb6eevcgmu2ypla6.py:18:0: 145 instructions in function
+remark: cjdmebgdixl5zwep52idbnfbif2cyxubsaxrvb6eevcgmu2ypla6.py:18:0: 447 instructions in function
+remark: cjdmebgdixl5zwep52idbnfbif2cyxubsaxrvb6eevcgmu2ypla6.py:18:0: 1553 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 381 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 419 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 388 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 635 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 385 instructions in function
+remark: cd3vsffznqysbbanwnuix3optyhyxs3vx7hx27nyasznnpafrarz.py:18:0: 280 instructions in function
+remark: cdp67tilyvvgyk5wc2dxkkgzfzgacifp7scqmvsjw5m4i2e2vvjg.py:18:0: 91 instructions in function
+remark: cdp67tilyvvgyk5wc2dxkkgzfzgacifp7scqmvsjw5m4i2e2vvjg.py:18:0: 337 instructions in function
+remark: cdp67tilyvvgyk5wc2dxkkgzfzgacifp7scqmvsjw5m4i2e2vvjg.py:18:0: 1283 instructions in function
+remark: cdp67tilyvvgyk5wc2dxkkgzfzgacifp7scqmvsjw5m4i2e2vvjg.py:18:0: 5435 instructions in function
+remark: c7v2xm4xqqaxfztcice6ep2dq7jgd7ozjoqunqkll7hi3tv7dqa7.py:18:0: 26 instructions in function
+remark: c7v2xm4xqqaxfztcice6ep2dq7jgd7ozjoqunqkll7hi3tv7dqa7.py:18:0: 17 instructions in function
+remark: cfiwmxoj73gl3l554aqsa6j5teebimnicrc5uytid2jf75mwn2s7.py:18:0: 72 instructions in function
+remark: cfiwmxoj73gl3l554aqsa6j5teebimnicrc5uytid2jf75mwn2s7.py:18:0: 42 instructions in function
+remark: c5sivg6yprgf6uuyztlikuvxps6h3msmijbc7n2jcoocs2sprmeg.py:18:0: 59 instructions in function
+remark: c5sivg6yprgf6uuyztlikuvxps6h3msmijbc7n2jcoocs2sprmeg.py:18:0: 41 instructions in function
+remark: c2j6dg7v7gjucw64mxquk23ea3rzmdyq2kv3i5guvsrt6hgyg2yk.py:18:0: 94 instructions in function
+remark: cp7thvakupqoxuibcg3lg5npbojxjzfhg47koyuts4papcyyd7zw.py:18:0: 185 instructions in function
+remark: cp7thvakupqoxuibcg3lg5npbojxjzfhg47koyuts4papcyyd7zw.py:18:0: 60 instructions in function
+remark: chczer2y5f4xjo5zbme57mkvqzmfh6iktczkeoevx5bluyuwtpnj.py:18:0: 106 instructions in function
+remark: cguegqffesrnr2sb7gknn2c5jxemk4o55k3gpzu3h3z5cpzood6a.py:18:0: 118 instructions in function
+remark: ccxffixhkan6fkv4askwmc4uqkq3p7bq2nzgpa2uijkd3puwvjlr.py:18:0: 134 instructions in function
+remark: cdlreu2hela4syhdsfbfaydfdaqm7hbzkcewh7vdz7squtvnc4zb.py:18:0: 134 instructions in function
+remark: cjo52oq5cecieiqmozt5tt5alxrqa7yylxr46pkvrfojblfk6qxu.py:18:0: 104 instructions in function
+remark: cfobi43regyl7djw4chqruin2gbfckt5c6z477skb425cyc6zcyv.py:18:0: 82 instructions in function
+remark: cyndqj4pzl4zno252n3yj43syq6vx6a2vjjkol4iwrxhb7db33bj.py:18:0: 145 instructions in function
+remark: cyndqj4pzl4zno252n3yj43syq6vx6a2vjjkol4iwrxhb7db33bj.py:18:0: 447 instructions in function
+remark: cyndqj4pzl4zno252n3yj43syq6vx6a2vjjkol4iwrxhb7db33bj.py:18:0: 1550 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 381 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 473 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 388 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 633 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 385 instructions in function
+remark: cywuqduml4h5jmym63uk5xhdkqc6xyf7csa6hlxbchf4nvk4dsnh.py:18:0: 280 instructions in function
+remark: cufpqte2sdpbwehbhjsclejgru3wwdth6x6g2vs7lwrz2uors4hq.py:18:0: 91 instructions in function
+remark: cufpqte2sdpbwehbhjsclejgru3wwdth6x6g2vs7lwrz2uors4hq.py:18:0: 337 instructions in function
+remark: cufpqte2sdpbwehbhjsclejgru3wwdth6x6g2vs7lwrz2uors4hq.py:18:0: 1283 instructions in function
+remark: cufpqte2sdpbwehbhjsclejgru3wwdth6x6g2vs7lwrz2uors4hq.py:18:0: 5431 instructions in function
+remark: cruqudsr6y7p65pxrrhqelpcx7n522c5etdqbub7kiqfqxaj3wzl.py:18:0: 26 instructions in function
+remark: cruqudsr6y7p65pxrrhqelpcx7n522c5etdqbub7kiqfqxaj3wzl.py:18:0: 17 instructions in function
+remark: cbvpfrroult7uvk4gyacqzgjc5mblb7rcsigoulcte7axgqgpo6x.py:18:0: 72 instructions in function
+remark: cbvpfrroult7uvk4gyacqzgjc5mblb7rcsigoulcte7axgqgpo6x.py:18:0: 42 instructions in function
+remark: c2nkm6igrii2mbvxfyoeat7ogwcfthswguenorhzp7fz6yct2imo.py:18:0: 59 instructions in function
+remark: c2nkm6igrii2mbvxfyoeat7ogwcfthswguenorhzp7fz6yct2imo.py:18:0: 41 instructions in function
+remark: cctdjgy3e6usgg5tgihw4xtzejmhfc2nenn2vciypcphn74lnxkj.py:18:0: 94 instructions in function
+remark: cn6xwsj6j4lsd5ccoqjs4fblcp4kxhyyjhdebi5swhptsv5tjy44.py:18:0: 184 instructions in function
+remark: cn6xwsj6j4lsd5ccoqjs4fblcp4kxhyyjhdebi5swhptsv5tjy44.py:18:0: 59 instructions in function
+remark: cj5odgcntqpz3rnh4kabct6xj6d2w2fviikhqmr6v5ercrb2yisz.py:18:0: 106 instructions in function
+remark: c4dzdvqba4lgpvzukgeywxngdhmaizr4oxz6ymjcjxh3ah7hwjwk.py:18:0: 118 instructions in function
+remark: cfy2n2cenr6p7ec3xfq5xs6dr7gn4tphioq5lleu6nol5lteetpy.py:18:0: 134 instructions in function
+remark: cizm5a2f6crscygely7bkknlxdgb5a4agxbddd3eoni6sfcxr4rn.py:18:0: 134 instructions in function
+remark: chgsjh3ufaxqjnahywjdbrpk2akjsc4vxadlr6ugkenhkrvnc7zq.py:18:0: 104 instructions in function
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:35 [qwen3_code_predictor.py:1066] code_predictor: warmup done for buckets [1, 2, 4]
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:35 [qwen3_code_predictor.py:929] code_predictor: torch.compile (dynamic=False, no epilogue fusion)
+remark: cxxoi6jglc7h2cco4ogpbsxbt264gfhuejihyegrdlourpngj4ls.py:18:0: 82 instructions in function
+remark: cdnm5wtbv3hk2q3o4gvtwemkmiraltuaqscwxakfee3f5ea4itlx.py:18:0: 145 instructions in function
+remark: cdnm5wtbv3hk2q3o4gvtwemkmiraltuaqscwxakfee3f5ea4itlx.py:18:0: 447 instructions in function
+remark: cdnm5wtbv3hk2q3o4gvtwemkmiraltuaqscwxakfee3f5ea4itlx.py:18:0: 1550 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 381 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 473 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 388 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 633 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 385 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 280 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 353 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 341 instructions in function
+remark: chpiswv2faigrdlhcbvahka4atfuzfjuw5sgy2kzjgb7hpxtpiln.py:18:0: 341 instructions in function
+remark: ckcxpeyee725lohfogx4pglqbj6fb32lfhrch5mpw6yu53obhggz.py:18:0: 91 instructions in function
+remark: ckcxpeyee725lohfogx4pglqbj6fb32lfhrch5mpw6yu53obhggz.py:18:0: 337 instructions in function
+remark: ckcxpeyee725lohfogx4pglqbj6fb32lfhrch5mpw6yu53obhggz.py:18:0: 1283 instructions in function
+remark: ckcxpeyee725lohfogx4pglqbj6fb32lfhrch5mpw6yu53obhggz.py:18:0: 5429 instructions in function
+remark: cdfp65atxn7ltlmba3h2erxzjhomjqu7kxnmjm5wjmmzlbtmu3hd.py:18:0: 42 instructions in function
+remark: cdfp65atxn7ltlmba3h2erxzjhomjqu7kxnmjm5wjmmzlbtmu3hd.py:18:0: 26 instructions in function
+remark: ce43g7ctxmzfxvy7wxzzhdmpyjzbkxkfnnfdtfz2z3nbuxj4ojkc.py:18:0: 72 instructions in function
+remark: ce43g7ctxmzfxvy7wxzzhdmpyjzbkxkfnnfdtfz2z3nbuxj4ojkc.py:18:0: 42 instructions in function
+remark: cqisgpmnk34sgp5nt2lfbwldgwjh6z5upbmaeuqkn25cj2desmkx.py:18:0: 59 instructions in function
+remark: cqisgpmnk34sgp5nt2lfbwldgwjh6z5upbmaeuqkn25cj2desmkx.py:18:0: 41 instructions in function
+remark: celo2rcw5o53s6hwuq46juk2rd36ksmc3gsjch5fiwijioz7lpjl.py:18:0: 94 instructions in function
+remark: cykdl5vywumj5tvvr5cyn6zjtqkdqxdfxkzvevfp5kfdun274mqn.py:18:0: 184 instructions in function
+remark: cykdl5vywumj5tvvr5cyn6zjtqkdqxdfxkzvevfp5kfdun274mqn.py:18:0: 59 instructions in function
+remark: cy2c2werggpxljiuyb5z6hc3wazpbrdz53o3scfopsj7e2jpsnjw.py:18:0: 106 instructions in function
+remark: cicdeagyu7mdlgzert226gdg5jutc4jsnjxil76jll7rac4r5lat.py:18:0: 118 instructions in function
+remark: c2nb7j5bxeixizwle3yfo6dapuwmohzybrlnpt6rfb54llnjiru6.py:18:0: 134 instructions in function
+remark: chu6dkcssyqbkfyrx2njsz3fam32fld3f7aem5hqwhxvxa5zvmj6.py:18:0: 134 instructions in function
+remark: c7u62kcnukk4rwxwe2mfaowt4toyilwfsll33nqkdavqlkcuwlti.py:18:0: 104 instructions in function
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:50 [gpu_ar_model_runner.py:632] Captured talker_mtp graphs for 4 sizes
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:50 [gpu_worker.py:860] Free memory on device (22.61/23.89 GiB) on startup. Desired GPU memory utilization is (0.25, 5.97 GiB). Actual usage is 2.12 GiB for consumed memory (weights + non-torch), 0.09 GiB for peak activation, and 0.05 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=3833073152` (3.57 GiB) to fit into requested memory, or `--kv-cache-memory=21695942144` (20.21 GiB) to fully utilize gpu memory. Current kv cache memory in use is 3.86 GiB.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:50 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [torch_utils.py:277] Reducing Torch threads from 12 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [core.py:361] init engine (profile, create kv cache, warmup model) took 103.11 s (compilation: 30.40 s)
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) C:\Users\zhout\w2\omni029venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage0_replica0 pid=24584)   warnings.warn(
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:51 [base.py:173] [LLM Worker 0] Sleep Mode DISABLED.
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:51 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:51 [kernel_warmup.py:124] JIT kernel warmup starting.
+(StageEngineCoreProc_stage1_replica0 pid=41276) JIT kernel warmup (1 compile keys):   0%|          | 0/1 [00:00<?, ?kernel/s]JIT kernel warmup (1 compile keys): 100%|██████████| 1/1 [00:00<00:00, 83.31kernel/s, ComputeSlotMappingKernel (1 keys)]
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:51 [kernel_warmup.py:134] JIT kernel warmup finished in 0.02s.
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:24:52 [scheduler.py:213] Using custom scheduler class vllm_omni.core.sched.omni_ar_scheduler.OmniARAsyncScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:24:52 [omni_scheduler_mixin.py:118] OMNI scheduler forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:52 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:52 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:52 [ll_bf16.py:30] cuteDSL (CUTLASS Python) not available, ll_bf16_gemm disabled
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:52 [gpu_model_runner.py:6955] Rank 0: Torch profiler disabled for CUDA graph capture
+INFO 09-22 16:24:52 [stage_runtime.py:943] [StageRuntime] Stage 0 engine startup completed
+INFO 09-22 16:24:52 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-0 [rep-0] initializing EngineCore
+(StageEngineCoreProc_stage1_replica0 pid=41276) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/4 [00:00<?, ?it/s](StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:52 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 8 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:52 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 4 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:52 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 2 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:52 [qwen3_tts_code2wav.py:365] Code2Wav input_ids length 1 not divisible by num_quantizers 16; skipping malformed request and suppressing repeats for this length.
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 4/4 [00:00<00:00, 666.48it/s]
+(StageEngineCoreProc_stage1_replica0 pid=41276) Capturing CUDA graphs (decode, FULL):   0%|          | 0/3 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 3/3 [00:00<00:00, 599.99it/s]
+INFO 09-22 16:24:52 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-0 [rep-0] EngineCore running
+INFO 09-22 16:24:52 [stage_runtime.py:958] [StageRuntime] Stage 0 initialized
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:52 [gpu_model_runner.py:7001] Graph capturing finished in 1 secs, took 0.00 GiB
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:53 [gpu_generation_model_runner.py:558] Dummy sampler run is not implemented for generation model
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [torch_utils.py:277] Reducing Torch threads from 12 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [core.py:368] init engine (profile, create kv cache, warmup model) took 100.03 s
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) C:\Users\zhout\w2\omni029venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+(StageEngineCoreProc_stage1_replica0 pid=41276)   warnings.warn(
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] Model config: codec_eos_token_id must be `None` or an integer within the vocabulary (between 0 and 3071), got 4198. This may result in unexpected behavior.
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage1_replica0 pid=41276) [transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'interleaved', 'mrope_section'}
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:53 [scheduler.py:213] Using custom scheduler class vllm_omni.core.sched.omni_generation_scheduler.OmniGenerationScheduler. This scheduler interface is not public and compatibility may not be maintained. If you have subclassed Scheduler instead of AsyncScheduler, you will see degraded performance due to async scheduling being disabled.
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:53 [core.py:155] Disabling chunked prefill for model without KVCache
+(StageEngineCoreProc_stage1_replica0 pid=41276) WARNING 09-22 16:24:53 [omni_scheduler_mixin.py:118] OMNI scheduler forces v1 model runner for omni hooks.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:53 [factory.py:46] Created connector: SharedMemoryConnector
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:54 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+INFO 09-22 16:24:54 [stage_runtime.py:943] [StageRuntime] Stage 1 engine startup completed
+INFO 09-22 16:24:54 [stage_engine_core_client.py:159] [StageEngineCoreClient] stage-1 [rep-0] initializing EngineCore
+INFO 09-22 16:24:54 [stage_engine_core_client.py:215] [StageEngineCoreClient] stage-1 [rep-0] EngineCore running
+INFO 09-22 16:24:54 [stage_runtime.py:958] [StageRuntime] Stage 1 initialized
+INFO 09-22 16:24:54 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:24:54 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+INFO 09-22 16:24:54 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:24:54 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+INFO 09-22 16:24:54 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+[transformers] Unrecognized keys in `rope_parameters` for 'rope_type'='default': {'mrope_section', 'interleaved'}
+INFO 09-22 16:24:56 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-22 16:24:56 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 2 stages
+INFO 09-22 16:24:56 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 139.07 seconds
+INFO 09-22 16:24:56 [omni_base.py:255] [AsyncOmni] Initialized with 2 stages for model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+WARNING 09-22 16:24:56 [input_processor.py:315] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:56 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:56 [configuration_qwen3_tts.py:483] talker_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:56 [configuration_qwen3_tts.py:486] speaker_encoder_config is None. Initializing talker model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:56 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) [transformers] `layer_type_validation` is deprecated and will be removed in v5.20. Use `PreTrainedConfig.validate_layer_type` instead
+(StageEngineCoreProc_stage0_replica0 pid=24584) INFO 09-22 16:24:56 [configuration_qwen3_tts.py:437] code_predictor_config is None. Initializing code_predictor model with default values
+(StageEngineCoreProc_stage0_replica0 pid=24584) WARNING 09-22 16:24:56 [sampling_utils.py:57] min_tokens: dropped stop token ids [151645] that exceed the logits vocabulary (3072); the model head cannot emit them.
+(StageEngineCoreProc_stage1_replica0 pid=41276) INFO 09-22 16:24:57 [qwen3_tts_code2wav.py:431] Code2Wav codec: frames=2 q=16 uniq=29 range=[85,2008] batch=1
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: [])
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: [])
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: [])
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: ['measured-short-1-2-9576df15'])
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: ['measured-short-1-2-9576df15'])
+WARNING 09-22 16:24:57 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-1-1-825a376a at stage-0 (known reqs: ['measured-short-1-2-9576df15'])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: [])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: [])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: ['measured-short-1-4-95531e2e'])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: ['measured-short-1-4-95531e2e'])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: ['measured-short-1-4-95531e2e'])
+WARNING 09-22 16:24:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-3-bbbf711c at stage-0 (known reqs: ['measured-short-1-4-95531e2e'])
+WARNING 09-22 16:24:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-4-95531e2e at stage-0 (known reqs: [])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: [])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: [])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: ['measured-short-1-7-b419aeca'])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: ['measured-short-1-7-b419aeca'])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: ['measured-short-1-7-b419aeca'])
+WARNING 09-22 16:25:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-6-b5e842cc at stage-0 (known reqs: ['measured-short-1-7-b419aeca'])
+WARNING 09-22 16:25:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-9-b8c6b10c at stage-0 (known reqs: [])
+WARNING 09-22 16:25:03 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-11-9d5bae35 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:03 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-11-9d5bae35 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-12-99b7ba54 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-12-99b7ba54 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-14-96a46f0d at stage-0 (known reqs: [])
+WARNING 09-22 16:25:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-14-96a46f0d at stage-0 (known reqs: [])
+WARNING 09-22 16:25:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-14-96a46f0d at stage-0 (known reqs: ['measured-short-1-15-b88bbe85'])
+WARNING 09-22 16:25:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-14-96a46f0d at stage-0 (known reqs: ['measured-short-1-15-b88bbe85'])
+WARNING 09-22 16:25:08 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-19-8872724c at stage-0 (known reqs: [])
+WARNING 09-22 16:25:08 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-19-8872724c at stage-0 (known reqs: ['measured-short-1-20-b518b00c'])
+WARNING 09-22 16:25:08 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-1-19-8872724c at stage-0 (known reqs: ['measured-short-1-20-b518b00c'])
+profiled short concurrency=1
+WARNING 09-22 16:25:12 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-23-b7bb7a59 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:12 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-23-b7bb7a59 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-24-b0b4c97e at stage-0 (known reqs: [])
+WARNING 09-22 16:25:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-24-b0b4c97e at stage-0 (known reqs: [])
+WARNING 09-22 16:25:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-24-b0b4c97e at stage-0 (known reqs: ['measured-medium-1-25-af7b00c3'])
+WARNING 09-22 16:25:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-24-b0b4c97e at stage-0 (known reqs: ['measured-medium-1-25-af7b00c3'])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: ['measured-medium-1-27-a99b23c3'])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: ['measured-medium-1-27-a99b23c3'])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: ['measured-medium-1-27-a99b23c3'])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: ['measured-medium-1-27-a99b23c3'])
+WARNING 09-22 16:25:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-26-a786bc92 at stage-0 (known reqs: ['measured-medium-1-27-a99b23c3'])
+WARNING 09-22 16:25:18 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-27-a99b23c3 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:18 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-27-a99b23c3 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: [])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: [])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: ['measured-medium-1-29-b3c9b6f2'])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: ['measured-medium-1-29-b3c9b6f2'])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: ['measured-medium-1-29-b3c9b6f2'])
+WARNING 09-22 16:25:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-28-b264a1ea at stage-0 (known reqs: ['measured-medium-1-29-b3c9b6f2'])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: ['measured-medium-1-30-bce95b38'])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: ['measured-medium-1-30-bce95b38'])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: ['measured-medium-1-30-bce95b38'])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: ['measured-medium-1-30-bce95b38'])
+WARNING 09-22 16:25:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-29-b3c9b6f2 at stage-0 (known reqs: ['measured-medium-1-30-bce95b38'])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: [])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: [])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: ['measured-medium-1-32-bebabcf9'])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: ['measured-medium-1-32-bebabcf9'])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: ['measured-medium-1-32-bebabcf9'])
+WARNING 09-22 16:25:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-31-84dea6fe at stage-0 (known reqs: ['measured-medium-1-32-bebabcf9'])
+WARNING 09-22 16:25:26 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-32-bebabcf9 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:26 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-32-bebabcf9 at stage-0 (known reqs: ['measured-medium-1-33-b874068b'])
+WARNING 09-22 16:25:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-34-9ca80fea at stage-0 (known reqs: [])
+WARNING 09-22 16:25:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-34-9ca80fea at stage-0 (known reqs: [])
+WARNING 09-22 16:25:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-34-9ca80fea at stage-0 (known reqs: ['measured-medium-1-35-90e8aa60'])
+WARNING 09-22 16:25:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-38-b91beae9 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-38-b91beae9 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-38-b91beae9 at stage-0 (known reqs: ['measured-medium-1-39-9dc46f00'])
+WARNING 09-22 16:25:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-40-9a7a4999 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-40-9a7a4999 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: [])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: ['measured-medium-1-42-8f56d7b7'])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: ['measured-medium-1-42-8f56d7b7'])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: ['measured-medium-1-42-8f56d7b7'])
+WARNING 09-22 16:25:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-1-41-ad4f6d33 at stage-0 (known reqs: ['measured-medium-1-42-8f56d7b7'])
+profiled medium concurrency=1
+WARNING 09-22 16:26:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-46-8fa18d5d at stage-0 (known reqs: [])
+WARNING 09-22 16:26:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-46-8fa18d5d at stage-0 (known reqs: [])
+WARNING 09-22 16:26:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-46-8fa18d5d at stage-0 (known reqs: ['measured-long-1-47-9200b3fe'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: [])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: [])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-51-a9ed9fcf at stage-0 (known reqs: ['measured-long-1-52-85e9e97e'])
+WARNING 09-22 16:26:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-52-85e9e97e at stage-0 (known reqs: [])
+WARNING 09-22 16:26:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-52-85e9e97e at stage-0 (known reqs: [])
+WARNING 09-22 16:26:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-52-85e9e97e at stage-0 (known reqs: ['measured-long-1-53-81ba469f'])
+WARNING 09-22 16:26:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-52-85e9e97e at stage-0 (known reqs: ['measured-long-1-53-81ba469f'])
+WARNING 09-22 16:26:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-52-85e9e97e at stage-0 (known reqs: ['measured-long-1-53-81ba469f'])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: [])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: [])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: ['measured-long-1-54-8fc99aa3'])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: ['measured-long-1-54-8fc99aa3'])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: ['measured-long-1-54-8fc99aa3'])
+WARNING 09-22 16:26:40 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-53-81ba469f at stage-0 (known reqs: ['measured-long-1-54-8fc99aa3'])
+WARNING 09-22 16:26:45 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-54-8fc99aa3 at stage-0 (known reqs: [])
+WARNING 09-22 16:26:45 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-54-8fc99aa3 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:07 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-58-b0e981d4 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:07 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-58-b0e981d4 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:07 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-1-58-b0e981d4 at stage-0 (known reqs: ['measured-long-1-59-972b9eeb'])
+profiled long concurrency=1
+WARNING 09-22 16:27:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-2-65-a11296e5 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-2-65-a11296e5 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-2-65-a11296e5 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-2-65-a11296e5 at stage-0 (known reqs: ['measured-short-2-66-ba169570', 'measured-short-2-67-8b60c3c7'])
+WARNING 09-22 16:27:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-short-2-65-a11296e5 at stage-0 (known reqs: ['measured-short-2-66-ba169570', 'measured-short-2-67-8b60c3c7'])
+WARNING 09-22 16:27:37 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-68-9bb553b9 at stage-0 (known reqs: ['measured-short-2-69-900e0a31'])
+WARNING 09-22 16:27:37 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-69-900e0a31 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:37 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-69-900e0a31 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:37 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-69-900e0a31 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:38 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-71-93aa1830 at stage-0 (known reqs: ['measured-short-2-70-bd172ba1'])
+WARNING 09-22 16:27:38 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-70-bd172ba1 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:38 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-71-93aa1830 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:38 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-70-bd172ba1 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-72-8d0b424e at stage-0 (known reqs: [])
+WARNING 09-22 16:27:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-73-a78e4108 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:44 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-85-b925eaab at stage-0 (known reqs: [])
+WARNING 09-22 16:27:44 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-85-b925eaab at stage-0 (known reqs: [])
+profiled short concurrency=2
+WARNING 09-22 16:27:44 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-85-b925eaab at stage-0 (known reqs: ['warmup-medium-2-86-8a53ab5c', 'warmup-medium-2-87-baef9b8f'])
+WARNING 09-22 16:27:44 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-2-85-b925eaab at stage-0 (known reqs: ['warmup-medium-2-86-8a53ab5c', 'warmup-medium-2-87-baef9b8f'])
+WARNING 09-22 16:27:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-89-809ee44d at stage-0 (known reqs: [])
+WARNING 09-22 16:27:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-89-809ee44d at stage-0 (known reqs: [])
+WARNING 09-22 16:27:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-89-809ee44d at stage-0 (known reqs: ['measured-medium-2-90-ad0795f0', 'measured-medium-2-91-a6f261bb'])
+WARNING 09-22 16:27:52 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-93-b4a63570 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:54 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-95-be089be4 at stage-0 (known reqs: ['measured-medium-2-94-8119426c'])
+WARNING 09-22 16:27:54 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-95-be089be4 at stage-0 (known reqs: ['measured-medium-2-94-8119426c'])
+WARNING 09-22 16:27:54 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-95-be089be4 at stage-0 (known reqs: ['measured-medium-2-94-8119426c'])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-96-bb5ce64d at stage-0 (known reqs: ['measured-medium-2-97-8b044ca1'])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-96-bb5ce64d at stage-0 (known reqs: [])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-97-8b044ca1 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-96-bb5ce64d at stage-0 (known reqs: [])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-97-8b044ca1 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-97-8b044ca1 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-98-a6c2c918 at stage-0 (known reqs: [])
+WARNING 09-22 16:27:58 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-98-a6c2c918 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-101-87aa55e9 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-101-87aa55e9 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-103-ad70ee82 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-103-ad70ee82 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-103-ad70ee82 at stage-0 (known reqs: ['measured-medium-2-104-930f3cdf', 'measured-medium-2-105-a2be3467'])
+WARNING 09-22 16:28:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-105-a2be3467 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-105-a2be3467 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-105-a2be3467 at stage-0 (known reqs: ['measured-medium-2-106-aa74a225', 'measured-medium-2-107-9b2e424e'])
+WARNING 09-22 16:28:04 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-105-a2be3467 at stage-0 (known reqs: ['measured-medium-2-106-aa74a225', 'measured-medium-2-107-9b2e424e'])
+WARNING 09-22 16:28:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-106-aa74a225 at stage-0 (known reqs: [])
+WARNING 09-22 16:28:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-2-106-aa74a225 at stage-0 (known reqs: [])
+profiled medium concurrency=2
+WARNING 09-22 16:28:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-114-836c753d at stage-0 (known reqs: ['measured-long-2-115-82386760'])
+WARNING 09-22 16:28:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-114-836c753d at stage-0 (known reqs: ['measured-long-2-115-82386760'])
+WARNING 09-22 16:28:34 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-114-836c753d at stage-0 (known reqs: ['measured-long-2-115-82386760'])
+WARNING 09-22 16:28:42 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-116-a687e289 at stage-0 (known reqs: ['measured-long-2-117-bc15f6f3'])
+WARNING 09-22 16:28:42 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-116-a687e289 at stage-0 (known reqs: ['measured-long-2-117-bc15f6f3'])
+WARNING 09-22 16:28:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-118-a2275491 at stage-0 (known reqs: ['measured-long-2-119-8ee61ba2'])
+WARNING 09-22 16:28:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-118-a2275491 at stage-0 (known reqs: ['measured-long-2-119-8ee61ba2'])
+WARNING 09-22 16:28:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-118-a2275491 at stage-0 (known reqs: ['measured-long-2-119-8ee61ba2'])
+WARNING 09-22 16:28:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-118-a2275491 at stage-0 (known reqs: ['measured-long-2-119-8ee61ba2'])
+WARNING 09-22 16:28:48 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-118-a2275491 at stage-0 (known reqs: ['measured-long-2-119-8ee61ba2'])
+WARNING 09-22 16:28:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-120-ba6b571e at stage-0 (known reqs: [])
+WARNING 09-22 16:29:10 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-124-9029807a at stage-0 (known reqs: [])
+WARNING 09-22 16:29:10 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-124-9029807a at stage-0 (known reqs: [])
+WARNING 09-22 16:29:10 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-124-9029807a at stage-0 (known reqs: ['measured-long-2-126-908967ba', 'measured-long-2-127-ab004a32'])
+WARNING 09-22 16:29:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-126-908967ba at stage-0 (known reqs: [])
+WARNING 09-22 16:29:24 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-129-a6d60783 at stage-0 (known reqs: ['measured-long-2-128-9a81097a'])
+WARNING 09-22 16:29:24 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-129-a6d60783 at stage-0 (known reqs: ['measured-long-2-128-9a81097a'])
+WARNING 09-22 16:29:24 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-129-a6d60783 at stage-0 (known reqs: ['measured-long-2-128-9a81097a'])
+WARNING 09-22 16:29:24 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-129-a6d60783 at stage-0 (known reqs: ['measured-long-2-128-9a81097a'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: [])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: [])
+profiled long concurrency=2
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:25 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-2-128-9a81097a at stage-0 (known reqs: ['warmup-short-4-130-be998d4c', 'warmup-short-4-131-8f0433df', 'warmup-short-4-132-95c32a02', 'warmup-short-4-133-aa56dd26'])
+WARNING 09-22 16:29:28 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-140-a48df920 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:28 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-140-a48df920 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:28 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-140-a48df920 at stage-0 (known reqs: ['measured-short-4-142-98288f24', 'measured-short-4-143-85651347', 'measured-short-4-144-97a3373e', 'measured-short-4-145-87fddf6a'])
+WARNING 09-22 16:29:31 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-153-a7011f91 at stage-0 (known reqs: ['measured-short-4-150-9b2e07bb', 'measured-short-4-152-92104c4a'])
+WARNING 09-22 16:29:31 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-150-9b2e07bb at stage-0 (known reqs: ['measured-short-4-152-92104c4a'])
+WARNING 09-22 16:29:31 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-153-a7011f91 at stage-0 (known reqs: ['measured-short-4-152-92104c4a'])
+WARNING 09-22 16:29:31 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-short-4-150-9b2e07bb at stage-0 (known reqs: ['measured-short-4-152-92104c4a'])
+profiled short concurrency=4
+WARNING 09-22 16:29:36 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-159-8a70337f at stage-0 (known reqs: ['measured-medium-4-158-b10df67d', 'measured-medium-4-160-96cf2d93', 'measured-medium-4-161-8dad6bc8'])
+WARNING 09-22 16:29:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-163-b220b215 at stage-0 (known reqs: ['measured-medium-4-164-ae8d9553', 'measured-medium-4-165-949165c4'])
+WARNING 09-22 16:29:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-163-b220b215 at stage-0 (known reqs: ['measured-medium-4-164-ae8d9553', 'measured-medium-4-165-949165c4'])
+WARNING 09-22 16:29:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-163-b220b215 at stage-0 (known reqs: ['measured-medium-4-164-ae8d9553', 'measured-medium-4-165-949165c4'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-166-86eee772 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d', 'measured-medium-4-169-968cd7e3'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-166-86eee772 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d', 'measured-medium-4-169-968cd7e3'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-166-86eee772 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d', 'measured-medium-4-169-968cd7e3'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-166-86eee772 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d', 'measured-medium-4-169-968cd7e3'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-166-86eee772 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d', 'measured-medium-4-169-968cd7e3'])
+WARNING 09-22 16:29:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-169-968cd7e3 at stage-0 (known reqs: ['measured-medium-4-167-a3c203f2', 'measured-medium-4-168-bbfa5d2d'])
+WARNING 09-22 16:29:46 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-177-a96ad792 at stage-0 (known reqs: ['measured-medium-4-174-9b7f46df', 'measured-medium-4-175-9ef0a4d1', 'measured-medium-4-176-b46d5c60'])
+WARNING 09-22 16:29:46 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-medium-4-177-a96ad792 at stage-0 (known reqs: ['measured-medium-4-174-9b7f46df', 'measured-medium-4-175-9ef0a4d1', 'measured-medium-4-176-b46d5c60'])
+profiled medium concurrency=4
+WARNING 09-22 16:29:55 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-181-9adf57eb at stage-0 (known reqs: ['warmup-long-4-178-98307a14', 'warmup-long-4-179-8bbf2f6c', 'warmup-long-4-180-aa1c39e2'])
+WARNING 09-22 16:29:55 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-181-9adf57eb at stage-0 (known reqs: ['warmup-long-4-178-98307a14', 'warmup-long-4-179-8bbf2f6c', 'warmup-long-4-180-aa1c39e2'])
+WARNING 09-22 16:29:55 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-181-9adf57eb at stage-0 (known reqs: ['warmup-long-4-178-98307a14', 'warmup-long-4-179-8bbf2f6c', 'warmup-long-4-180-aa1c39e2'])
+WARNING 09-22 16:29:55 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-181-9adf57eb at stage-0 (known reqs: ['warmup-long-4-178-98307a14', 'warmup-long-4-179-8bbf2f6c', 'warmup-long-4-180-aa1c39e2'])
+WARNING 09-22 16:29:55 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-179-8bbf2f6c at stage-0 (known reqs: ['warmup-long-4-178-98307a14', 'warmup-long-4-180-aa1c39e2'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-180-aa1c39e2 at stage-0 (known reqs: ['warmup-long-4-178-98307a14'])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-178-98307a14 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-178-98307a14 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-178-98307a14 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-178-98307a14 at stage-0 (known reqs: [])
+WARNING 09-22 16:29:56 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req warmup-long-4-178-98307a14 at stage-0 (known reqs: [])
+WARNING 09-22 16:30:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-182-a388d3c0 at stage-0 (known reqs: ['measured-long-4-183-bdaf4346', 'measured-long-4-184-a65846b4'])
+WARNING 09-22 16:30:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-183-bdaf4346 at stage-0 (known reqs: ['measured-long-4-184-a65846b4'])
+WARNING 09-22 16:30:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-183-bdaf4346 at stage-0 (known reqs: ['measured-long-4-184-a65846b4'])
+WARNING 09-22 16:30:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-183-bdaf4346 at stage-0 (known reqs: ['measured-long-4-184-a65846b4'])
+WARNING 09-22 16:30:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-183-bdaf4346 at stage-0 (known reqs: ['measured-long-4-184-a65846b4'])
+WARNING 09-22 16:30:06 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-184-a65846b4 at stage-0 (known reqs: [])
+WARNING 09-22 16:30:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-187-8b9da509 at stage-0 (known reqs: ['measured-long-4-186-9d12d682', 'measured-long-4-188-9efaa325', 'measured-long-4-189-8bc23d45'])
+WARNING 09-22 16:30:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-187-8b9da509 at stage-0 (known reqs: ['measured-long-4-186-9d12d682', 'measured-long-4-188-9efaa325', 'measured-long-4-189-8bc23d45'])
+WARNING 09-22 16:30:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-187-8b9da509 at stage-0 (known reqs: ['measured-long-4-186-9d12d682', 'measured-long-4-188-9efaa325', 'measured-long-4-189-8bc23d45'])
+WARNING 09-22 16:30:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-189-8bc23d45 at stage-0 (known reqs: ['measured-long-4-186-9d12d682', 'measured-long-4-188-9efaa325'])
+WARNING 09-22 16:30:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-192-870ebdf4 at stage-0 (known reqs: ['measured-long-4-190-a7864658', 'measured-long-4-191-b065e63a', 'measured-long-4-193-8751b72c'])
+WARNING 09-22 16:30:22 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-192-870ebdf4 at stage-0 (known reqs: ['measured-long-4-190-a7864658', 'measured-long-4-191-b065e63a', 'measured-long-4-193-8751b72c'])
+WARNING 09-22 16:30:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-198-99a0a79a at stage-0 (known reqs: ['measured-long-4-200-8534f00f', 'measured-long-4-201-be20d365'])
+WARNING 09-22 16:30:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-198-99a0a79a at stage-0 (known reqs: ['measured-long-4-200-8534f00f', 'measured-long-4-201-be20d365'])
+WARNING 09-22 16:30:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-198-99a0a79a at stage-0 (known reqs: ['measured-long-4-200-8534f00f', 'measured-long-4-201-be20d365'])
+WARNING 09-22 16:30:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-198-99a0a79a at stage-0 (known reqs: ['measured-long-4-200-8534f00f', 'measured-long-4-201-be20d365'])
+WARNING 09-22 16:30:41 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req measured-long-4-198-99a0a79a at stage-0 (known reqs: ['measured-long-4-200-8534f00f', 'measured-long-4-201-be20d365'])
+profiled long concurrency=4
+WARNING 09-22 16:30:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-202-8d0de69d at stage-0 (known reqs: [])
+WARNING 09-22 16:30:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-202-8d0de69d at stage-0 (known reqs: [])
+WARNING 09-22 16:30:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-202-8d0de69d at stage-0 (known reqs: ['sustained-medium-1-203-a8c13dcc'])
+WARNING 09-22 16:30:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-202-8d0de69d at stage-0 (known reqs: ['sustained-medium-1-203-a8c13dcc'])
+WARNING 09-22 16:30:47 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-205-92634bed at stage-0 (known reqs: [])
+WARNING 09-22 16:30:47 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-205-92634bed at stage-0 (known reqs: [])
+WARNING 09-22 16:30:47 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-205-92634bed at stage-0 (known reqs: ['sustained-medium-1-206-b1946b36'])
+WARNING 09-22 16:30:49 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-206-b1946b36 at stage-0 (known reqs: [])
+WARNING 09-22 16:30:51 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-207-9e4dcfae at stage-0 (known reqs: [])
+WARNING 09-22 16:30:51 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-207-9e4dcfae at stage-0 (known reqs: [])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: [])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: [])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:30:59 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-212-9b1bdc7f at stage-0 (known reqs: ['sustained-medium-1-213-9a16970e'])
+WARNING 09-22 16:31:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-213-9a16970e at stage-0 (known reqs: [])
+WARNING 09-22 16:31:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-213-9a16970e at stage-0 (known reqs: [])
+WARNING 09-22 16:31:00 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-213-9a16970e at stage-0 (known reqs: ['sustained-medium-1-214-80ee2996'])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: ['sustained-medium-1-215-99f31953'])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: ['sustained-medium-1-215-99f31953'])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: ['sustained-medium-1-215-99f31953'])
+WARNING 09-22 16:31:02 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-214-80ee2996 at stage-0 (known reqs: ['sustained-medium-1-215-99f31953'])
+WARNING 09-22 16:31:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-216-b91311e0 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-216-b91311e0 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-216-b91311e0 at stage-0 (known reqs: ['sustained-medium-1-217-a98db586'])
+WARNING 09-22 16:31:05 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-216-b91311e0 at stage-0 (known reqs: ['sustained-medium-1-217-a98db586'])
+WARNING 09-22 16:31:06 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-217-a98db586 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:06 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-217-a98db586 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:06 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-217-a98db586 at stage-0 (known reqs: ['sustained-medium-1-218-8ebcc734'])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: ['sustained-medium-1-221-a2a29b44'])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: ['sustained-medium-1-221-a2a29b44'])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: ['sustained-medium-1-221-a2a29b44'])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: ['sustained-medium-1-221-a2a29b44'])
+WARNING 09-22 16:31:11 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-220-b1fc9e68 at stage-0 (known reqs: ['sustained-medium-1-221-a2a29b44'])
+WARNING 09-22 16:31:12 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-221-a2a29b44 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:12 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-221-a2a29b44 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:13 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-221-a2a29b44 at stage-0 (known reqs: ['sustained-medium-1-222-b62d44ae'])
+WARNING 09-22 16:31:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-222-b62d44ae at stage-0 (known reqs: [])
+WARNING 09-22 16:31:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-222-b62d44ae at stage-0 (known reqs: [])
+WARNING 09-22 16:31:14 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-222-b62d44ae at stage-0 (known reqs: ['sustained-medium-1-223-890225fe'])
+WARNING 09-22 16:31:17 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-224-a2a33617 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-226-b892408f at stage-0 (known reqs: [])
+WARNING 09-22 16:31:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-226-b892408f at stage-0 (known reqs: ['sustained-medium-1-227-941b396f'])
+WARNING 09-22 16:31:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-226-b892408f at stage-0 (known reqs: ['sustained-medium-1-227-941b396f'])
+WARNING 09-22 16:31:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-226-b892408f at stage-0 (known reqs: ['sustained-medium-1-227-941b396f'])
+WARNING 09-22 16:31:20 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-226-b892408f at stage-0 (known reqs: ['sustained-medium-1-227-941b396f'])
+WARNING 09-22 16:31:28 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-231-be012188 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-232-8929e7c8 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-232-8929e7c8 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:29 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-232-8929e7c8 at stage-0 (known reqs: ['sustained-medium-1-233-8e8f11c5'])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: [])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: [])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: ['sustained-medium-1-235-8c9330bf'])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: ['sustained-medium-1-235-8c9330bf'])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: ['sustained-medium-1-235-8c9330bf'])
+WARNING 09-22 16:31:32 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-234-ba80188e at stage-0 (known reqs: ['sustained-medium-1-235-8c9330bf'])
+WARNING 09-22 16:31:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-236-a2b1f11d at stage-0 (known reqs: [])
+WARNING 09-22 16:31:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-236-a2b1f11d at stage-0 (known reqs: [])
+WARNING 09-22 16:31:35 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-236-a2b1f11d at stage-0 (known reqs: ['sustained-medium-1-237-af746e51'])
+WARNING 09-22 16:31:37 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-237-af746e51 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:38 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-238-9b02ca1a at stage-0 (known reqs: [])
+WARNING 09-22 16:31:39 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-238-9b02ca1a at stage-0 (known reqs: [])
+WARNING 09-22 16:31:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-241-88ba5c55 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-241-88ba5c55 at stage-0 (known reqs: [])
+WARNING 09-22 16:31:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-241-88ba5c55 at stage-0 (known reqs: ['sustained-medium-1-242-bf8173e8'])
+WARNING 09-22 16:31:43 [orchestrator.py:1513] [Orchestrator] Dropping output for unknown req sustained-medium-1-241-88ba5c55 at stage-0 (known reqs: ['sustained-medium-1-242-bf8173e8'])
+Traceback (most recent call last):
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\profile_local_tts.py", line 172, in run
+    await request("medium", 1, "sustained")
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\profile_local_tts.py", line 159, in request
+    save(args.out / "report.json", report)
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\profile_local_text.py", line 35, in save
+    temp.replace(path)
+  File "C:\Users\zhout\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 1376, in replace
+    os.replace(self, target)
+PermissionError: [WinError 5] 拒绝访问。: '\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows\\report.tmp' -> '\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\tts-cuda-windows\\report.json'
+INFO 09-22 16:31:49 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-22 16:31:49 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-22 16:31:49 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-22 16:31:49 [orchestrator.py:3092] [Orchestrator] Shutting down all 2 client(s)
+INFO 09-22 16:31:49 [core_client.py:689] [shutdown] MPClient: start timeout=default
+INFO 09-22 16:31:49 [core_client.py:691] [shutdown] MPClient: stopping engine manager
+INFO 09-22 16:31:49 [utils.py:626] [shutdown] Process manager: send sigterm to process StageEngineCoreProc_stage0_replica0
+INFO 09-22 16:31:50 [core_client.py:693] [shutdown] MPClient: engine manager stopped
+INFO 09-22 16:31:50 [core_client.py:694] [shutdown] MPClient: cleaning up background resources
+INFO 09-22 16:31:50 [core_client.py:696] [shutdown] MPClient: complete
+INFO 09-22 16:31:50 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+INFO 09-22 16:31:50 [core_client.py:689] [shutdown] MPClient: start timeout=default
+INFO 09-22 16:31:50 [utils.py:626] [shutdown] Process manager: send sigterm to process StageEngineCoreProc_stage1_replica0
+INFO 09-22 16:31:50 [stage_pool.py:1354] [StagePool] Stage 1 replica 0 shut down

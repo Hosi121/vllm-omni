@@ -1,0 +1,10 @@
+{
+  "status": "exited",
+  "pid": 48364,
+  "predecessor_pid": 20772,
+  "reason": "Initial GPU launch failures: expanded Windows PATH in bash and native Python GBK default.",
+  "archive": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\analysis\\experiments\\e2e_profiling_20260922\\launcher-failures-1",
+  "sweep_returncode": 0,
+  "diagnostic_returncode": 0,
+  "end": 1790069182.6348138
+}

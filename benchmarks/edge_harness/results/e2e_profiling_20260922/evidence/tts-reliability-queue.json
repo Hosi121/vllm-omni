@@ -1,0 +1,33 @@
+{
+  "status": "exited",
+  "pid": 61368,
+  "predecessor_pid": 38844,
+  "predecessor_created": 1790061223.3723552,
+  "jobs": [
+    {
+      "name": "tts-cuda-wsl-reliability",
+      "status": "exited",
+      "start": 1790069506.8470492,
+      "command": [
+        "wsl",
+        "-d",
+        "Ubuntu",
+        "--",
+        "bash",
+        "-lc",
+        "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. HF_HUB_OFFLINE=1 VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WSL2_ENABLE_PIN_MEMORY=1 CUDA_HOME=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13 PATH=/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib timeout 900 ../.venvs/omni-cuda-029/bin/python benchmarks/edge_harness/check_tts_reliability.py --model /home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5 --out ../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-reliability"
+      ],
+      "returncode": 0,
+      "end": 1790069741.7608776,
+      "benchmark_status": "completed",
+      "error": null
+    },
+    {
+      "name": "tts-cuda-windows-reliability",
+      "status": "not_run",
+      "reason": "Baseline did not complete",
+      "baseline_error": "PermissionError(13, '\u62d2\u7edd\u8bbf\u95ee\u3002')"
+    }
+  ],
+  "end": 1790069741.786447
+}

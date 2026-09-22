@@ -1,0 +1,262 @@
+# E2E check and profiling
+
+All 60 pairings have a disposition. Profiling completion does not imply full release qualification.
+
+## Configuration × model
+
+NOT E2E means the current artifacts/runtime cannot run the complete requested pipeline. See the per-cell reasons below.
+
+| Device | Spark-X2.5 | Qwen3-TTS 0.6B CustomVoice | Qwen3.8-27B | MiniCPM-o 4.5 | InternVLA-A1 |
+|---|---|---|---|---|---|
+| PC HX370: CPU / WSL | profile completed | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| PC HX370: CPU / native Windows | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| PC HX370 + RTX 5090 Laptop / WSL | profile completed | profile completed | NOT E2E | NOT E2E | NOT E2E |
+| PC HX370 + RTX 5090 Laptop / Windows | profile completed | profile completed | NOT E2E | NOT E2E | NOT E2E |
+| PC HX370 + Radeon 890M / Windows worker | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| PC HX370 + AMD NPU / Windows worker | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| PC Snapdragon X Elite CRD / AI Hub | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| Embedded SA8775P ADP / AI Hub | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | NOT E2E | NOT E2E | NOT E2E | NOT E2E | NOT E2E |
+
+## Per-cell reasons and next steps
+
+| Device | Model | Current profiling disposition | Reason / remaining work | Next step |
+|---|---|---|---|---|
+| PC HX370: CPU / WSL | Spark-X2.5 | PROFILE_COMPLETED | not fully qualified: reference-quality and remaining reliability/performance gates must be reviewed | Qualify a matching vLLM 0.29 CPU build and token parity separately. |
+| PC HX370: CPU / WSL | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Fresh real-weight two-frame probe loaded both stages but generation failed in sanitize_min_tokens_stop_ids: expected four tuple fields, got three. Existing CPU wheel is vLLM 0.28 versus Omni 0.29. No audio pass. | Use a matching CPU runtime or explicitly validated compatibility fix; repeat real audio, then full streaming gates. |
+| PC HX370: CPU / WSL | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No compatible CPU artifact/deployment for this model was found in the checked model roots. Available Qwen 27B FP8/NVFP4 CUDA artifacts do not establish a CPU route. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / WSL | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / WSL | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / native Windows | Spark-X2.5 | NOT_E2E_PROFILEABLE | The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / native Windows | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / native Windows | Qwen3.8-27B | NOT_E2E_PROFILEABLE | The installed native Windows vLLM extension lacks cpu_attn_reshape_and_cache and cpu_attn_get_scheduler_metadata. The separate ORT CPU graph worker is not a whole-model text/TTS adapter; a qualified CPU build/binding is missing. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / native Windows | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370: CPU / native Windows | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + RTX 5090 Laptop / WSL | Spark-X2.5 | PROFILE_COMPLETED | not fully qualified: reference-quality and remaining reliability/performance gates must be reviewed | Broaden only with a named workload/device/precision qualification. |
+| PC HX370 + RTX 5090 Laptop / WSL | Qwen3-TTS 0.6B CustomVoice | PROFILE_COMPLETED | not fully qualified: reference-quality and remaining reliability/performance gates must be reviewed | Resolve and measure playback stalls; run quality, interruption and thermal tests. |
+| PC HX370 + RTX 5090 Laptop / WSL | Qwen3.8-27B | NOT_E2E_PROFILEABLE | Fresh public Omni startup rejects the real NVFP4 checkpoint: no registered Omni pipeline. Historical bare-vLLM short-text success does not qualify this integration or multimodal inference. | Add/validate an Omni pipeline binding; rerun text, image, context and artifact-quality tests. |
+| PC HX370 + RTX 5090 Laptop / WSL | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + RTX 5090 Laptop / WSL | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + RTX 5090 Laptop / Windows | Spark-X2.5 | PROFILE_COMPLETED | not fully qualified: reference-quality and remaining reliability/performance gates must be reviewed | Broaden only with a named workload/device/precision qualification. |
+| PC HX370 + RTX 5090 Laptop / Windows | Qwen3-TTS 0.6B CustomVoice | PROFILE_COMPLETED | not fully qualified: reference-quality and remaining reliability/performance gates must be reviewed | Resolve and measure playback stalls; run quality, interruption and thermal tests. |
+| PC HX370 + RTX 5090 Laptop / Windows | Qwen3.8-27B | NOT_E2E_PROFILEABLE | Fresh public Omni startup rejects the real NVFP4 checkpoint: no registered Omni pipeline. Historical bare-vLLM short-text success does not qualify this integration or multimodal inference. | Add/validate an Omni pipeline binding; rerun text, image, context and artifact-quality tests. |
+| PC HX370 + RTX 5090 Laptop / Windows | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + RTX 5090 Laptop / Windows | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete matching checkpoint found in the inventoried workspace, HF cache and native model roots. MiniCPM5-2B is not MiniCPM-o 4.5. Runtime registration alone is not a model run. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + Radeon 890M / Windows worker | Spark-X2.5 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + Radeon 890M / Windows worker | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + Radeon 890M / Windows worker | Qwen3.8-27B | NOT_E2E_PROFILEABLE | FP32 448x448 vision tower: DirectML 85/113 nodes; normalized max error 9.095e-06 versus torch CPU. Historical component path, not full 27B or current graph-stage image-to-text integration. | Recover the hashed tower bundle and qualify its current Omni graph handoff with the language stage. |
+| PC HX370 + Radeon 890M / Windows worker | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + Radeon 890M / Windows worker | InternVLA-A1 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + AMD NPU / Windows worker | Spark-X2.5 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + AMD NPU / Windows worker | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + AMD NPU / Windows worker | Qwen3.8-27B | NOT_E2E_PROFILEABLE | The tested A16W8 whole-vision-tower export failed NPU placement. This conclusion is specific to that export, not all future Qwen/NPU combinations. | Validate a supported export or smaller useful component, including same-checkpoint numerical quality. |
+| PC HX370 + AMD NPU / Windows worker | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC HX370 + AMD NPU / Windows worker | InternVLA-A1 | NOT_E2E_PROFILEABLE | No placement- and quality-verified whole-model graph bundle/stateful adapter for this model on this AMD route. Small backend graphs do not establish model support. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | Spark-X2.5 | NOT_E2E_PROFILEABLE | No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC CPU+iGPU+NPU +/- discrete GPU, joint model execution | InternVLA-A1 | NOT_E2E_PROFILEABLE | No qualifying same-model multi-accelerator deployment/artifact plan or overlap/recovery evidence. Individual routes are not a joint pipeline. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC Snapdragon X Elite CRD / AI Hub | Spark-X2.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC Snapdragon X Elite CRD / AI Hub | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Historical QNN talker profile re-fetched successfully; no numerical/full-pipeline gate. Historical TFLite vocoder target was refused on this Windows ARM device. | Validate target-specific numerical quality, complete local execution, memory and sustained behavior. |
+| PC Snapdragon X Elite CRD / AI Hub | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC Snapdragon X Elite CRD / AI Hub | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| PC Snapdragon X Elite CRD / AI Hub | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | Spark-X2.5 | NOT_E2E_PROFILEABLE | Fresh 2026-09-22 W8A16 full-attention component inference/profile passed; full1024 denotes one cache bucket. No full prefill/decode/KV/ring/sampling loop. | Implement and validate local 128-token generation, 512/1024 transitions, cancellation and resident memory. |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Fresh FP16 predictor inference passed; its one output exactly matches the same compiled artifact/dataset reference. Historical decoder parity exists. No complete co-resident NPU/GPU stream. | Validate the device-local talker/predictor/vocoder pipeline, output quality, recovery and 30-minute thermal behavior. |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | Fresh FP16 speech-head inference passed; all 41 outputs exactly match the same artifact/dataset reference. Historical FP16 numerical parity passed; tested W8A16 top-1 parity failed. Thinker/encoders/vocoder are not qualified together. | Supply a qualified complete mobile checkpoint/export and validate the full multimodal/stateful pipeline. |
+| Mobile Galaxy S25 / Snapdragon 8 Elite for Galaxy | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | Spark-X2.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Historical FP16 decoder parity has SNR 39.13 dB. Tested calibrated INT8 decoder parity failed with negative SNR. Neither result is a full local TTS stream. | Validate the complete local pipeline and a quality-passing artifact set. |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | Historical FP16 speech-head job re-fetched successfully; SNR 49.22 dB/top-1 match in the recorded parity test. W8A16 top-1 failed. Not complete MiniCPM-o. | Qualify thinker/encoders/vocoder and stateful local integration. |
+| Mobile Galaxy S24 / Snapdragon 8 Gen 3 | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded SA8775P ADP / AI Hub | Spark-X2.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded SA8775P ADP / AI Hub | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Historical NPU talker and GPU vocoder profiles re-fetched successfully; no complete pipeline, parity or co-residency qualification. | Validate target-specific numerical quality, complete local execution, memory and sustained behavior. |
+| Embedded SA8775P ADP / AI Hub | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded SA8775P ADP / AI Hub | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded SA8775P ADP / AI Hub | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | Spark-X2.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | Qwen3-TTS 0.6B CustomVoice | NOT_E2E_PROFILEABLE | Historical GPU vocoder profile re-fetched successfully. The attempted NPU talker build was rejected for floating-point inputs. No full model pipeline. | Validate target-specific numerical quality, complete local execution, memory and sustained behavior. |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | Qwen3.8-27B | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | MiniCPM-o 4.5 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+| Embedded RB3 Gen 2 / QCS6490 / AI Hub | InternVLA-A1 | NOT_E2E_PROFILEABLE | No complete qualified target artifact and device-local stateful Omni backend. Hub jobs provide component execution, not an on-device generation/streaming controller; ADB has no attached device. | Supply and validate the missing matching artifact/backend, then run the complete specified workload. |
+
+## Measured request timing
+
+Nearest-rank p50/p95; warmups and sustained requests excluded. Values are observations under recorded power/cache conditions, not latency targets. Spark CPU uses 1.7B INT8; CUDA uses 4B BF16, so these are not same-model acceleration comparisons.
+
+### PC HX370: CPU / WSL — Spark-X2.5
+
+Status: completed. Full timing protocol complete: True. Startup: 20.767 s. Sustained run: 1805.768 s.
+
+| Length | Concurrent requests | n | Metric | p50 | p95 |
+|---|---:|---:|---|---:|---:|
+| long | 1 | 20 | ttft_s | 3.377 | 3.668 |
+| long | 1 | 20 | wall_s | 11.838 | 15.504 |
+| long | 1 | 20 | decode_tok_per_s | 14.923 | 15.631 |
+| long | 2 | 20 | ttft_s | 3.630 | 6.942 |
+| long | 2 | 20 | wall_s | 15.120 | 17.792 |
+| long | 2 | 20 | decode_tok_per_s | 11.509 | 15.800 |
+| long | 4 | 20 | ttft_s | 8.034 | 14.609 |
+| long | 4 | 20 | wall_s | 22.493 | 26.072 |
+| long | 4 | 20 | decode_tok_per_s | 8.815 | 15.010 |
+| medium | 1 | 20 | ttft_s | 0.762 | 0.801 |
+| medium | 1 | 20 | wall_s | 8.830 | 9.446 |
+| medium | 1 | 20 | decode_tok_per_s | 15.663 | 16.069 |
+| medium | 2 | 20 | ttft_s | 0.824 | 1.584 |
+| medium | 2 | 20 | wall_s | 9.409 | 10.202 |
+| medium | 2 | 20 | decode_tok_per_s | 15.142 | 16.564 |
+| medium | 4 | 20 | ttft_s | 1.618 | 3.173 |
+| medium | 4 | 20 | wall_s | 11.504 | 11.861 |
+| medium | 4 | 20 | decode_tok_per_s | 13.201 | 15.387 |
+| short | 1 | 20 | ttft_s | 0.148 | 0.175 |
+| short | 1 | 20 | wall_s | 8.234 | 9.761 |
+| short | 1 | 20 | decode_tok_per_s | 15.704 | 16.269 |
+| short | 2 | 20 | ttft_s | 0.232 | 0.301 |
+| short | 2 | 20 | wall_s | 7.996 | 10.014 |
+| short | 2 | 20 | decode_tok_per_s | 16.237 | 16.804 |
+| short | 4 | 20 | ttft_s | 0.447 | 0.571 |
+| short | 4 | 20 | wall_s | 8.661 | 10.261 |
+| short | 4 | 20 | decode_tok_per_s | 15.451 | 16.508 |
+
+### PC HX370 + RTX 5090 Laptop / WSL — Spark-X2.5
+
+Status: completed. Full timing protocol complete: True. Startup: 23.693 s. Sustained run: 1802.602 s.
+
+| Length | Concurrent requests | n | Metric | p50 | p95 |
+|---|---:|---:|---|---:|---:|
+| long | 1 | 20 | ttft_s | 0.363 | 0.386 |
+| long | 1 | 20 | wall_s | 2.987 | 3.163 |
+| long | 1 | 20 | decode_tok_per_s | 48.210 | 50.041 |
+| long | 2 | 20 | ttft_s | 0.457 | 0.828 |
+| long | 2 | 20 | wall_s | 3.566 | 3.982 |
+| long | 2 | 20 | decode_tok_per_s | 41.427 | 45.763 |
+| long | 4 | 20 | ttft_s | 0.848 | 1.430 |
+| long | 4 | 20 | wall_s | 4.175 | 4.354 |
+| long | 4 | 20 | decode_tok_per_s | 38.124 | 45.331 |
+| medium | 1 | 20 | ttft_s | 0.090 | 0.103 |
+| medium | 1 | 20 | wall_s | 2.810 | 2.987 |
+| medium | 1 | 20 | decode_tok_per_s | 46.545 | 48.369 |
+| medium | 2 | 20 | ttft_s | 0.097 | 0.192 |
+| medium | 2 | 20 | wall_s | 2.847 | 3.007 |
+| medium | 2 | 20 | decode_tok_per_s | 46.499 | 48.199 |
+| medium | 4 | 20 | ttft_s | 0.185 | 0.369 |
+| medium | 4 | 20 | wall_s | 3.031 | 3.065 |
+| medium | 4 | 20 | decode_tok_per_s | 44.901 | 47.283 |
+| short | 1 | 20 | ttft_s | 0.035 | 0.045 |
+| short | 1 | 20 | wall_s | 2.552 | 2.703 |
+| short | 1 | 20 | decode_tok_per_s | 50.203 | 51.126 |
+| short | 2 | 20 | ttft_s | 0.047 | 0.064 |
+| short | 2 | 20 | wall_s | 2.576 | 2.604 |
+| short | 2 | 20 | decode_tok_per_s | 50.216 | 50.462 |
+| short | 4 | 20 | ttft_s | 0.065 | 0.069 |
+| short | 4 | 20 | wall_s | 2.655 | 2.675 |
+| short | 4 | 20 | decode_tok_per_s | 48.944 | 49.154 |
+
+### PC HX370 + RTX 5090 Laptop / WSL — Qwen3-TTS 0.6B CustomVoice
+
+Status: completed. Full timing protocol complete: True. Startup: 345.168 s. Sustained run: 1801.183 s.
+
+| Length | Concurrent requests | n | Metric | p50 | p95 |
+|---|---:|---:|---|---:|---:|
+| long | 1 | 20 | ttfa_ms | 68.518 | 100.566 |
+| long | 1 | 20 | rtf_total | 0.176 | 0.183 |
+| long | 1 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| long | 2 | 20 | ttfa_ms | 79.379 | 138.556 |
+| long | 2 | 20 | rtf_total | 0.215 | 0.217 |
+| long | 2 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| long | 4 | 20 | ttfa_ms | 117.755 | 144.011 |
+| long | 4 | 20 | rtf_total | 0.259 | 0.274 |
+| long | 4 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| medium | 1 | 20 | ttfa_ms | 73.956 | 111.604 |
+| medium | 1 | 20 | rtf_total | 0.175 | 0.182 |
+| medium | 1 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| medium | 2 | 20 | ttfa_ms | 82.497 | 120.043 |
+| medium | 2 | 20 | rtf_total | 0.219 | 0.224 |
+| medium | 2 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| medium | 4 | 20 | ttfa_ms | 127.905 | 160.158 |
+| medium | 4 | 20 | rtf_total | 0.274 | 0.285 |
+| medium | 4 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| short | 1 | 20 | ttfa_ms | 67.583 | 91.833 |
+| short | 1 | 20 | rtf_total | 0.203 | 0.215 |
+| short | 1 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| short | 2 | 20 | ttfa_ms | 95.470 | 120.562 |
+| short | 2 | 20 | rtf_total | 0.246 | 0.255 |
+| short | 2 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+| short | 4 | 20 | ttfa_ms | 118.914 | 145.742 |
+| short | 4 | 20 | rtf_total | 0.302 | 0.323 |
+| short | 4 | 20 | stall_at_ttfa_ms | 0.000 | 0.000 |
+
+### PC HX370 + RTX 5090 Laptop / Windows — Spark-X2.5
+
+Status: completed. Full timing protocol complete: True. Startup: 95.155 s. Sustained run: 1803.249 s.
+
+| Length | Concurrent requests | n | Metric | p50 | p95 |
+|---|---:|---:|---|---:|---:|
+| long | 1 | 20 | ttft_s | 0.363 | 0.415 |
+| long | 1 | 20 | wall_s | 3.045 | 3.986 |
+| long | 1 | 20 | decode_tok_per_s | 47.550 | 48.902 |
+| long | 2 | 20 | ttft_s | 0.412 | 0.738 |
+| long | 2 | 20 | wall_s | 3.383 | 3.497 |
+| long | 2 | 20 | decode_tok_per_s | 44.115 | 48.104 |
+| long | 4 | 20 | ttft_s | 0.751 | 1.375 |
+| long | 4 | 20 | wall_s | 4.009 | 4.211 |
+| long | 4 | 20 | decode_tok_per_s | 39.814 | 46.459 |
+| medium | 1 | 20 | ttft_s | 0.100 | 0.129 |
+| medium | 1 | 20 | wall_s | 2.827 | 3.537 |
+| medium | 1 | 20 | decode_tok_per_s | 44.656 | 48.311 |
+| medium | 2 | 20 | ttft_s | 0.122 | 0.250 |
+| medium | 2 | 20 | wall_s | 3.595 | 4.379 |
+| medium | 2 | 20 | decode_tok_per_s | 36.433 | 46.294 |
+| medium | 4 | 20 | ttft_s | 0.189 | 0.367 |
+| medium | 4 | 20 | wall_s | 3.034 | 3.138 |
+| medium | 4 | 20 | decode_tok_per_s | 44.989 | 47.472 |
+| short | 1 | 20 | ttft_s | 0.052 | 0.097 |
+| short | 1 | 20 | wall_s | 2.677 | 3.256 |
+| short | 1 | 20 | decode_tok_per_s | 48.084 | 50.892 |
+| short | 2 | 20 | ttft_s | 0.058 | 0.145 |
+| short | 2 | 20 | wall_s | 2.652 | 2.816 |
+| short | 2 | 20 | decode_tok_per_s | 48.831 | 49.710 |
+| short | 4 | 20 | ttft_s | 0.068 | 0.106 |
+| short | 4 | 20 | wall_s | 2.642 | 2.710 |
+| short | 4 | 20 | decode_tok_per_s | 49.173 | 50.890 |
+
+### PC HX370 + RTX 5090 Laptop / Windows — Qwen3-TTS 0.6B CustomVoice
+
+Status: completed. Full timing protocol complete: True. Startup: 79.792 s. Sustained run: 1804.298 s.
+
+| Length | Concurrent requests | n | Metric | p50 | p95 |
+|---|---:|---:|---|---:|---:|
+| long | 1 | 20 | ttfa_ms | 98.490 | 311.112 |
+| long | 1 | 20 | rtf_total | 0.175 | 0.192 |
+| long | 1 | 20 | stall_at_ttfa_ms | 0.000 | 118.271 |
+| long | 2 | 20 | ttfa_ms | 131.331 | 344.353 |
+| long | 2 | 20 | rtf_total | 0.207 | 0.219 |
+| long | 2 | 20 | stall_at_ttfa_ms | 0.000 | 105.641 |
+| long | 4 | 20 | ttfa_ms | 228.525 | 299.547 |
+| long | 4 | 20 | rtf_total | 0.256 | 0.263 |
+| long | 4 | 20 | stall_at_ttfa_ms | 0.000 | 118.746 |
+| medium | 1 | 20 | ttfa_ms | 111.521 | 302.522 |
+| medium | 1 | 20 | rtf_total | 0.178 | 0.210 |
+| medium | 1 | 20 | stall_at_ttfa_ms | 0.000 | 40.773 |
+| medium | 2 | 20 | ttfa_ms | 128.019 | 255.811 |
+| medium | 2 | 20 | rtf_total | 0.224 | 0.246 |
+| medium | 2 | 20 | stall_at_ttfa_ms | 0.000 | 77.119 |
+| medium | 4 | 20 | ttfa_ms | 158.285 | 265.148 |
+| medium | 4 | 20 | rtf_total | 0.281 | 0.296 |
+| medium | 4 | 20 | stall_at_ttfa_ms | 73.005 | 75.003 |
+| short | 1 | 20 | ttfa_ms | 103.066 | 206.838 |
+| short | 1 | 20 | rtf_total | 0.203 | 0.260 |
+| short | 1 | 20 | stall_at_ttfa_ms | 0.000 | 44.172 |
+| short | 2 | 20 | ttfa_ms | 123.335 | 137.089 |
+| short | 2 | 20 | rtf_total | 0.258 | 0.292 |
+| short | 2 | 20 | stall_at_ttfa_ms | 0.000 | 134.419 |
+| short | 4 | 20 | ttfa_ms | 161.902 | 299.999 |
+| short | 4 | 20 | rtf_total | 0.291 | 0.327 |
+| short | 4 | 20 | stall_at_ttfa_ms | 0.000 | 120.313 |
+

@@ -1,0 +1,269 @@
+{
+  "status": "running",
+  "argv": [
+    "benchmarks/edge_harness/profile_local_tts.py",
+    "--model",
+    "/home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5",
+    "--out",
+    "../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution",
+    "--length-band",
+    "medium",
+    "--concurrency",
+    "1",
+    "--repeats",
+    "20",
+    "--sustained-seconds",
+    "0"
+  ],
+  "python": "/home/zhout/project/edge_infer/vllm-omni-edge/../.venvs/omni-cuda-029/bin/python",
+  "host_environment": {
+    "CUDA_HOME": "/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/nvidia/cu13"
+  },
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "runtime": {
+    "python": "3.12.13",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "torch": "2.13.0+cu130",
+    "vllm": "0.29.0",
+    "vllm_omni": "0.29.0rc2.dev71+g00510ce38.d20260922",
+    "vllm_omni_file": "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/__init__.py",
+    "vllm_file": "/home/zhout/project/edge_infer/.venvs/omni-cuda-029/lib/python3.12/site-packages/vllm/__init__.py",
+    "checkouts": {
+      "/home/zhout/project/edge_infer/vllm-omni-edge": "ab2f2a3d658db5be5ec96a950da55cb74b48e7aa-dirty",
+      "/home/zhout/project/edge_infer": "758b3af238b19e2c2abc668f23a767bb835a4a22-dirty"
+    }
+  },
+  "settings": {
+    "model": "/home/zhout/.cache/huggingface/hub/models--Qwen--Qwen3-TTS-12Hz-0.6B-CustomVoice/snapshots/85e237c12c027371202489a0ec509ded67b5e4b5",
+    "out": "../analysis/experiments/e2e_profiling_20260922/tts-cuda-wsl-attribution",
+    "repeats": 20,
+    "sustained_seconds": 0.0,
+    "length_band": "medium",
+    "concurrency": 1
+  },
+  "start_unix": 1790072208.7752407,
+  "requests": 3,
+  "cache_condition": "existing disk/JIT caches; not cold disk",
+  "quality_gate": "finite PCM checks only; ASR/speaker/listening reference gates pending",
+  "playback_scope": "arrival-based simulated playback; no sound-device measurement",
+  "terminal_audio": "DELTA output required; terminal audio is included once in complete playback metrics and archived separately",
+  "prompts": {
+    "short": {
+      "prompt_token_ids": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "additional_information": {
+        "task_type": [
+          "CustomVoice"
+        ],
+        "text": [
+          "Hello, this is a speech test."
+        ],
+        "language": [
+          "English"
+        ],
+        "speaker": [
+          "Vivian"
+        ]
+      }
+    },
+    "medium": {
+      "prompt_token_ids": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "additional_information": {
+        "task_type": [
+          "CustomVoice"
+        ],
+        "text": [
+          "The garden has trees, flowers, and a small pond. We walk along the path and listen to the birds."
+        ],
+        "language": [
+          "English"
+        ],
+        "speaker": [
+          "Vivian"
+        ],
+        "global_request_id": [
+          "measured-medium-1-3-a9ae9432"
+        ]
+      }
+    },
+    "long": {
+      "prompt_token_ids": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "additional_information": {
+        "task_type": [
+          "CustomVoice"
+        ],
+        "text": [
+          "Today we are testing a local speech system. It should speak clearly and keep the audio flowing smoothly. Today we are testing a local speech system. It should speak clearly and keep the audio flowing smoothly. Today we are testing a local speech system. It should speak clearly and keep the audio flowing smoothly. Today we are testing a local speech system. It should speak clearly and keep the audio flowing smoothly. "
+        ],
+        "language": [
+          "English"
+        ],
+        "speaker": [
+          "Vivian"
+        ]
+      }
+    }
+  },
+  "startup_s": 842.4820281619905,
+  "sampling_params": [
+    "SamplingParams(n=1, presence_penalty=0.0, frequency_penalty=0.0, repetition_penalty=1.05, temperature=0.9, top_p=1.0, top_k=50, min_p=0.0, seed=None, stop=[], stop_token_ids=[2150], bad_words=[], thinking_token_budget=None, include_stop_str_in_output=False, ignore_eos=False, max_tokens=4096, min_tokens=2, logprobs=None, prompt_logprobs=None, skip_special_tokens=True, spaces_between_special_tokens=True, structured_outputs=None, extra_args=None)",
+    "SamplingParams(n=1, presence_penalty=0.0, frequency_penalty=0.0, repetition_penalty=1.0, temperature=0.0, top_p=1.0, top_k=0, min_p=0.0, seed=None, stop=[], stop_token_ids=[], bad_words=[], thinking_token_budget=None, include_stop_str_in_output=False, ignore_eos=False, max_tokens=65536, min_tokens=0, logprobs=None, prompt_logprobs=None, skip_special_tokens=True, spaces_between_special_tokens=True, structured_outputs=None, extra_args=None)"
+  ],
+  "memory_after_load": {
+    "samples": 2504,
+    "interval_s": 0.25,
+    "note": "peaks are lower bounds: anything shorter than interval_s is missed. nvml_device_used is the whole card including other processes; tree_pss includes a share of file-backed pages. These three counters are different accountings and must not be summed.",
+    "nvml_device_used_peak": 25472774144,
+    "nvml_device_used_min": 3440640000,
+    "tree_rss_peak": 6974894080,
+    "tree_pss_peak": 5938809856,
+    "host_available_min": 25622679552
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "wsl",
+    "-d",
+    "Ubuntu",
+    "--",
+    "bash",
+    "-lc",
+    "cd /home/zhout/project/edge_infer/vllm-omni-edge && PYTHONPATH=. VLLM_CPU_KVCACHE_SPACE=2 OMP_NUM_THREADS=8 timeout 7200 ../.venvs/omni-cpu/bin/python benchmarks/edge_harness/profile_local_text.py --model ../models/Spark-X2.5-1.7B-int8 --out ../analysis/experiments/e2e_profiling_20260922/spark-cpu-wsl"
+  ],
+  "cwd": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer",
+  "host": "Windows-11-10.0.26200-SP0",
+  "scope": "Windows RAM includes WSL; GPU counters are whole-device, not model-exclusive",
+  "sample_interval_s": 1,
+  "start_unix": 1790057051.2559848,
+  "status": "exited",
+  "power_scheme": null,
+  "pid": 51548,
+  "returncode": 0,
+  "end_unix": 1790060170.7685852
+}

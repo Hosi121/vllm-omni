@@ -1,0 +1,6 @@
+{
+  "checked_at": "2026-09-22T14:20:41.7894572+08:00",
+  "scope": "CPU package temperature availability; ACPI zones are not assumed CPU package sensors",
+  "acpi_error": "拒绝访问 ",
+  "power_scheme": "电源方案 GUID: 27fa6203-3987-4dcc-918d-748559d549ec  (Performance)\r\n"
+}
