@@ -38,6 +38,35 @@ non-migratable. Legacy M0 defaults are explicitly preserved in `contracts.legacy
 
 ## Hardware composition
 
+### Model × PC configuration matrix
+
+The tested PC is a Ryzen AI 9 HX370 laptop with Radeon 890M, AMD NPU and
+RTX 5090 Laptop GPU. Selecting CPU-only or a subset of those accelerators is
+an execution configuration on that PC, not evidence from a different PC SKU.
+Model support is specific to the following pairings:
+
+| Model / artifact | PC execution configuration | OS / backend | Qualification |
+|---|---|---|---|
+| Spark-X2.5-4B BF16 | CPU + RTX 5090 Laptop GPU | WSL / vLLM CUDA | Current branch: M0 text/state/cancellation workload passed. |
+| Spark-X2.5-4B BF16 | CPU + RTX 5090 Laptop GPU | Native Windows / vLLM CUDA | Current branch: M0 text/state/cancellation workload passed. |
+| Spark-X2.5-1.7B INT8 | CPU execution; accelerators unused | WSL / vLLM CPU | Historical M0 acceptance and token parity passed on 2026-09-15; not freshly requalified on this extraction branch. |
+| Spark-X2.5-1.7B INT8 | CPU execution; no NVIDIA dependency | Native Windows | Model path not yet qualified; CPU Add graph success is not text-model support. |
+| Qwen3-TTS-12Hz-0.6B CustomVoice | CPU + RTX 5090 Laptop GPU; both stages on GPU | WSL / vLLM CUDA | Current branch: real-weight audio streaming completes; playback stalls and remaining M2 gates stay open. |
+| Qwen3-TTS-12Hz-0.6B CustomVoice | CPU + RTX 5090 Laptop GPU; both stages on GPU | Native Windows / vLLM CUDA | Current branch: real-weight audio streaming completes; playback stalls and remaining M2 gates stay open. |
+| Qwen3.8-27B vision tower, FP32 ONNX | CPU + Radeon 890M iGPU | Windows / ORT DirectML | Historical component validation only; not the complete 27B model or a newly qualified graph-stage vision-to-language pipeline. |
+| Qwen3.8-27B vision tower, tested A16W8 exports | CPU + AMD NPU | Windows / ORT VitisAI | Tested whole-tower artifacts were rejected by NPU partitioning. This does not rule out other exports or smaller components. |
+| Qwen3.8-27B complete multimodal pipeline | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Not qualified by this abstraction release; earlier short-text loading is not complete multimodal validation. |
+| MiniCPM-o | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Full model × PC combinations remain unqualified for this release. |
+| InternVLA | CPU/iGPU/NPU, with optional discrete GPU | Target-specific | Full model × PC combinations remain unqualified for this release. |
+
+ORT Add and the small AMD NPU graph are backend probes, so they are deliberately
+not listed as supported application models. Likewise, a Galaxy S25 Spark attention
+component run in AI Hub is a separate **model component × phone** pairing, not a
+PC pairing or proof of complete mobile Spark execution. Other model × PC × backend
+combinations require their own artifact and workload qualification.
+
+### Hardware layouts represented by the abstraction
+
 The abstraction supports these single-machine compositions. This table separates
 topology/admission support from successful execution of a particular model; it
 does not promise that every listed accelerator can run every model.
