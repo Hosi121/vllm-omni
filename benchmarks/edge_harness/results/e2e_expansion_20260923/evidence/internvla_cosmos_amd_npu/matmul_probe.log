@@ -1,0 +1,6 @@
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I20260924 04:09:19.598042 44928 register_dynamicdispatch.cpp:49] Running DynamicDispatchOpRegister::register_ops
+I20260924 04:09:19.598042 44928 register_castavx.cpp:48] Running CastAvxOpRegister::register_ops
+Assertion failed: idx < size(), file C:\Develop\ar\w\vitis_flexml\vitis_flexml\third-party\llvm-project\llvm\include\llvm/ADT/SmallVector.h, line 291
+Assertion failed: idx < size(), file C:\Develop\ar\w\vitis_flexml\vitis_flexml\third-party\llvm-project\llvm\include\llvm/ADT/SmallVector.h, line 291
+Assertion failed: idx < size(), file C:\Develop\ar\w\vitis_flex

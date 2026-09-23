@@ -1,0 +1,22 @@
+{
+  "scope": "real InternVLA Cosmos fixed encoder A16W8 QDQ on CPU; no NPU placement or action-policy E2E claim",
+  "quantized_sha256": "54a05fafd3055a9e46566819cfe2c55d3667bd3d2003a791092940bb65c88bea",
+  "fixtures_sha256": "dcbaf1391ca914d4bbccc1cb384daf05666e771d9cdae90c4f069ec8fcf05368",
+  "providers": [
+    "CPUExecutionProvider"
+  ],
+  "rows": [
+    {
+      "fixture": "ramp",
+      "finite": true,
+      "max_abs": 1.5696761906147003,
+      "relative_l2": 0.11774751015264003
+    },
+    {
+      "fixture": "pattern",
+      "finite": true,
+      "max_abs": 0.7318163514137268,
+      "relative_l2": 0.050279947518114286
+    }
+  ]
+}

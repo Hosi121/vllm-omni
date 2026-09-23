@@ -1,0 +1,719 @@
+INFO 09-24 04:27:37 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 04:27:37 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 04:27:41 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 04:27:41 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 13] Permission denied: 'C:\\Users\\zhout'
+{
+  "scope": "MiniCPM-o GGUF complete audio+image\u2192text+speech through Omni StageRuntime/StagePool",
+  "placement": "cpu",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "cli_sha256": "29247187ddf3b13591cd14cc070e5e25c6bb7547296acc5e8a74e2945811d725",
+  "reference_sha256": "cf4bb5cd9acbfbf67596d4a53310652b61ef4b7ede1d54eb03ef4882ca40223a",
+  "input_sha256": {
+    "audio_wav": "14ee147cbf2ce9afd9e32c8c8228d7cfe11985cd7e63456b2ad33871492aefcc",
+    "image_jpeg": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d"
+  },
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 22548578304
+    },
+    "demands": {
+      "host_ram": 22548578304
+    }
+  },
+  "profile_count": 20,
+  "warmup_count": 1,
+  "host_available_bytes_before": 23579480064,
+  "startup_s": 9.227718599955551,
+  "execution_plan_at_start": {
+    "backend": "external.minicpmo.gguf.v1",
+    "stage_id": 0,
+    "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+    "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+    "artifact_sha256": {
+      "MiniCPM-o-4_5-Q4_K_M.gguf": "1237a97ee081b8abebc47aa7dad565701e8f5f904cdc92f6723ac4281bbc0932",
+      "audio/MiniCPM-o-4_5-audio-F16.gguf": "d5b188ac7feaf98e17175c3f9bd14bf269301bfd187439fdaa3e3a494fc32ef7",
+      "vision/MiniCPM-o-4_5-vision-F16.gguf": "1453678cc4e4fe18de241952962e234f265cb8dda780773526103ab8ba82f421",
+      "tts/MiniCPM-o-4_5-tts-F16.gguf": "c7be3748a863dd6966ae7eed42600b7f41ca67affb03729ff245247f0e5ea088",
+      "tts/MiniCPM-o-4_5-projector-F16.gguf": "4b1b5b377358a5e594a304ff6ea5d52df606a9ba7d886c4299d232f0c67dd1fd",
+      "token2wav-gguf/encoder.gguf": "7f8d265da594eaf5e1de2db8f5f1867dbcb0bb75ef5878fadf2952347116f4d0",
+      "token2wav-gguf/flow_matching.gguf": "eda6069f3edeb5dd3a87fbf2aedb2ddd1b46f3273926c4fcf09b24476a39cab8",
+      "token2wav-gguf/flow_extra.gguf": "c67611aa7d02500fe395a7798bf0bfdfb55c74d37ba93934ca74d82b4e63f78d",
+      "token2wav-gguf/hifigan2.gguf": "1b8b3bf5d8d3066aeee4324fdcdd41aefce170d0ee907645858de408d82835c2",
+      "token2wav-gguf/prompt_cache.gguf": "81fe6f541ebe0b67db06a1e395df928da47991dc9637c2cf47d6c59d5b979f2c"
+    },
+    "cli_sha256": "29247187ddf3b13591cd14cc070e5e25c6bb7547296acc5e8a74e2945811d725",
+    "requested_placement": "cpu",
+    "ggml_vk_visible_devices": null,
+    "shared_ram_reservation": {
+      "host_ram": 22548578304
+    },
+    "weights_bytes": 8872297088,
+    "memory_overhead_bytes": 12884901888,
+    "context_tokens": 2048,
+    "max_new_tokens": 96,
+    "request_capacity": 1,
+    "stateful_session": "C++-owned within one request; discarded after completion",
+    "placement_evidence": "pending first request"
+  },
+  "warmups": [
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 24.470191000029445,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 61440,
+        "duration_s": 2.56,
+        "pcm_sha256": "b623d109a96823251214bc9108c6ecc1cbd959d95a706dd1765ed44b3e1396fd"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-warmup-0",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 24.44817290001083,
+        "peak_sampled_rss_bytes": 13103550464,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-1-0caf373d5d6748bfba17bc79b0fdf092.log"
+      }
+    }
+  ],
+  "measured": [
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.394862000015564,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 52800,
+        "duration_s": 2.2,
+        "pcm_sha256": "eb68b09e3deaa3c6f0d2a99a96c76cba958bda1bdf32c3cdf7d4c824e2512ed8"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-0",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.38540779997129,
+        "peak_sampled_rss_bytes": 13103669248,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-2-a68a4bb2c9c844d09284f99713f42ee3.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.796761499950662,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 62400,
+        "duration_s": 2.6,
+        "pcm_sha256": "47278e99d28a1ee4f9d286af800ab4d5f2305ee6fd8bcf0439ffdcddf3ddf6bd"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-1",
+        "stage_id": 0,
+        "epoch": 3,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.78645650006365,
+        "peak_sampled_rss_bytes": 13103607808,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-3-2d52a8a1746649cf86ef6bd0d3b084be.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.850380199961364,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 69120,
+        "duration_s": 2.88,
+        "pcm_sha256": "110c54bce1e963cc6116a08da159426c2bd59aab7f3d437625d5fbf0479f0ae1"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-2",
+        "stage_id": 0,
+        "epoch": 4,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.839218000066467,
+        "peak_sampled_rss_bytes": 13103464448,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-4-b46c9bf60d5442aa90a5b54449102ae5.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.753635700093582,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 66240,
+        "duration_s": 2.76,
+        "pcm_sha256": "ed375eb8ebd01c9b15d00bc4cf8828a2272715d94fc9a4592418bedb03079b61"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-3",
+        "stage_id": 0,
+        "epoch": 5,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.744324499974027,
+        "peak_sampled_rss_bytes": 13103575040,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-5-f21754fc03f3477d85b4e6c6b2e6a0fc.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.58140080003068,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 59520,
+        "duration_s": 2.48,
+        "pcm_sha256": "51266e42d98ef601f0f3374f3fa05c4103c50c19986eb9de02e1e2c7f92ef07e"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-4",
+        "stage_id": 0,
+        "epoch": 6,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.572613300057128,
+        "peak_sampled_rss_bytes": 13103710208,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-6-699e00987db54dc78cb7c8fbcbfdb18a.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.262896099942736,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 55680,
+        "duration_s": 2.32,
+        "pcm_sha256": "7c4857b8a31b822bea5f1bba414f40783da235946505e943558fdda2484c44a7"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-5",
+        "stage_id": 0,
+        "epoch": 7,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.254388200002722,
+        "peak_sampled_rss_bytes": 13103624192,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-7-9fd31face69845ba8950d00209640d98.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.707535000052303,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 61440,
+        "duration_s": 2.56,
+        "pcm_sha256": "24bb28ec1f42d54a064392acf5e49c37197577b8e882eec9f918c566e7e8b80b"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-6",
+        "stage_id": 0,
+        "epoch": 8,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.69719089998398,
+        "peak_sampled_rss_bytes": 13103656960,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-8-32008986f26448b8b6252c832b04ff80.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.619812299963087,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 54720,
+        "duration_s": 2.28,
+        "pcm_sha256": "96558f1cebd610121986bf7b32bab102e004f8c6a690f454f58da02cd03405be"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-7",
+        "stage_id": 0,
+        "epoch": 9,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.614285299903713,
+        "peak_sampled_rss_bytes": 13103632384,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-9-f3b0764945534992b4be5776816d7dc3.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.87777569994796,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 67200,
+        "duration_s": 2.8,
+        "pcm_sha256": "95c93f4ea852f75da052a962ebb061c895ef0e43915867ed4c270104d8f2b49e"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-8",
+        "stage_id": 0,
+        "epoch": 10,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.864101100014523,
+        "peak_sampled_rss_bytes": 13103677440,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-10-b23dd68a31c84ee4b759b3cfffdef482.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.517970300046727,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 60480,
+        "duration_s": 2.52,
+        "pcm_sha256": "5e82218b9a7be6663a6c410abf2af8034bcad3021d8826af344c1dfdba1c7b10"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-9",
+        "stage_id": 0,
+        "epoch": 11,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.50602660002187,
+        "peak_sampled_rss_bytes": 13103689728,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-11-a35d11dac08243a493702a4447415115.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.392010999959894,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 55680,
+        "duration_s": 2.32,
+        "pcm_sha256": "78e503ccc35be5748c8628b6c2f0f1c05763981c852bc8a0cf150c245c9699bd"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-10",
+        "stage_id": 0,
+        "epoch": 12,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.382912799948826,
+        "peak_sampled_rss_bytes": 13103501312,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-12-07599db1769b4335b84c8d82a45fcfd6.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.86784219997935,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 56640,
+        "duration_s": 2.36,
+        "pcm_sha256": "29dd8eaa311d7e54fac1f1eb8d6bcb69e75054b6d0746870d19f5ea81b819193"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-11",
+        "stage_id": 0,
+        "epoch": 13,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.859692300087772,
+        "peak_sampled_rss_bytes": 13103624192,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-13-e1314e7f64944d46a6541d51980f34cf.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 22.873880599974655,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 58560,
+        "duration_s": 2.44,
+        "pcm_sha256": "0c8626dab5f9fb5426b5aced6b94b7952232c5fef0b840d64f19893424f10784"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-12",
+        "stage_id": 0,
+        "epoch": 14,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 22.86469610000495,
+        "peak_sampled_rss_bytes": 13103603712,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-14-896ac8c055d94cae8c7747ff435a8198.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.422426000004634,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 52800,
+        "duration_s": 2.2,
+        "pcm_sha256": "3ebf596dc1ad6b726819eaa4395152baf5e0eb51f99177a7caa43a74fb197d3d"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-13",
+        "stage_id": 0,
+        "epoch": 15,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.41397989995312,
+        "peak_sampled_rss_bytes": 13103411200,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-15-f9cfe6f742844074aa4c9149e342ceca.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.663394100032747,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 53760,
+        "duration_s": 2.24,
+        "pcm_sha256": "2e18d7256f76582001f1a00b08d1d213fb7000e150d7a75e0cddcd6cb917f131"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-14",
+        "stage_id": 0,
+        "epoch": 16,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.653667400009,
+        "peak_sampled_rss_bytes": 13103333376,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-16-5d4b9ec6bf45471f9eec2d5b960e4231.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 21.519943799939938,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 38400,
+        "duration_s": 1.6,
+        "pcm_sha256": "8881f07d8d8745f4a1deb775870d9cca00cf9d4b464ce6610f596f9156cad640"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-15",
+        "stage_id": 0,
+        "epoch": 17,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 21.510163799976,
+        "peak_sampled_rss_bytes": 13097029632,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-17-16244117244f4373919d880ce2705353.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 24.11228250002023,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 62400,
+        "duration_s": 2.6,
+        "pcm_sha256": "94f6219561065b8b576e2d5e12875d68d63274c8108a9bb0cef71c8c9e951240"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-16",
+        "stage_id": 0,
+        "epoch": 18,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 24.105954200029373,
+        "peak_sampled_rss_bytes": 13103681536,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-18-c45d0a1e943c4f0d846be2bce30985d2.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.48929900000803,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 53760,
+        "duration_s": 2.24,
+        "pcm_sha256": "f9296c61be98c3104d2f95752750697c69ae34be4fc1699009ebef24be7dfdb8"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-17",
+        "stage_id": 0,
+        "epoch": 19,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.480017599998973,
+        "peak_sampled_rss_bytes": 13103583232,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-19-6180ec6c09e34f7fa7611e0d5d479866.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.647962899995036,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 59520,
+        "duration_s": 2.48,
+        "pcm_sha256": "e708d4f82685aa0065a5e83dc737945de704f1d1a3cb32d25c104df4f0dc4398"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-18",
+        "stage_id": 0,
+        "epoch": 20,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.636080999975093,
+        "peak_sampled_rss_bytes": 13103517696,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-20-9204a77eb20c45d8ab6ea187abad6757.log"
+      }
+    },
+    {
+      "text": "The square in the image is red.",
+      "wall_s": 23.825408999924548,
+      "audio_metadata": {
+        "sample_rate_hz": 24000,
+        "channels": 1,
+        "pcm_frames": 61440,
+        "duration_s": 2.56,
+        "pcm_sha256": "d79ccd04952208ffbf4d9ec2954907e4a75f944201d03dd3165637413c3e2fb8"
+      },
+      "stage_event": {
+        "request_id": "minicpmo-measured-19",
+        "stage_id": 0,
+        "epoch": 21,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "minicpmo_whole_request_wall_s": 23.81448940001428,
+        "peak_sampled_rss_bytes": 13103603712,
+        "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-21-f535a20e7d41454fb0ba4cfe35b2b8e6.log"
+      }
+    }
+  ],
+  "complete_request": {
+    "text": "The square in the image is red.",
+    "wall_s": 23.394862000015564,
+    "audio_metadata": {
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "pcm_frames": 52800,
+      "duration_s": 2.2,
+      "pcm_sha256": "eb68b09e3deaa3c6f0d2a99a96c76cba958bda1bdf32c3cdf7d4c824e2512ed8"
+    },
+    "stage_event": {
+      "request_id": "minicpmo-measured-0",
+      "stage_id": 0,
+      "epoch": 2,
+      "seq": 1,
+      "kind": "audio",
+      "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+      "buffers": [],
+      "terminal": true,
+      "error": null
+    },
+    "metrics": {
+      "minicpmo_whole_request_wall_s": 23.38540779997129,
+      "peak_sampled_rss_bytes": 13103669248,
+      "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-2-a68a4bb2c9c844d09284f99713f42ee3.log"
+    }
+  },
+  "nearest_rank_p50_wall_s": 23.619812299963087,
+  "nearest_rank_p95_wall_s": 23.87777569994796,
+  "output_wav": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\results\\e2e_expansion_20260923\\evidence\\minicpmo_omni_native_weights_io\\cpu_native_profile20.wav",
+  "execution_plan_after_request": {
+    "backend": "external.minicpmo.gguf.v1",
+    "stage_id": 0,
+    "worker_generation": "e28a825aa2224d3ba1be158a4064aa05",
+    "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+    "artifact_sha256": {
+      "MiniCPM-o-4_5-Q4_K_M.gguf": "1237a97ee081b8abebc47aa7dad565701e8f5f904cdc92f6723ac4281bbc0932",
+      "audio/MiniCPM-o-4_5-audio-F16.gguf": "d5b188ac7feaf98e17175c3f9bd14bf269301bfd187439fdaa3e3a494fc32ef7",
+      "vision/MiniCPM-o-4_5-vision-F16.gguf": "1453678cc4e4fe18de241952962e234f265cb8dda780773526103ab8ba82f421",
+      "tts/MiniCPM-o-4_5-tts-F16.gguf": "c7be3748a863dd6966ae7eed42600b7f41ca67affb03729ff245247f0e5ea088",
+      "tts/MiniCPM-o-4_5-projector-F16.gguf": "4b1b5b377358a5e594a304ff6ea5d52df606a9ba7d886c4299d232f0c67dd1fd",
+      "token2wav-gguf/encoder.gguf": "7f8d265da594eaf5e1de2db8f5f1867dbcb0bb75ef5878fadf2952347116f4d0",
+      "token2wav-gguf/flow_matching.gguf": "eda6069f3edeb5dd3a87fbf2aedb2ddd1b46f3273926c4fcf09b24476a39cab8",
+      "token2wav-gguf/flow_extra.gguf": "c67611aa7d02500fe395a7798bf0bfdfb55c74d37ba93934ca74d82b4e63f78d",
+      "token2wav-gguf/hifigan2.gguf": "1b8b3bf5d8d3066aeee4324fdcdd41aefce170d0ee907645858de408d82835c2",
+      "token2wav-gguf/prompt_cache.gguf": "81fe6f541ebe0b67db06a1e395df928da47991dc9637c2cf47d6c59d5b979f2c"
+    },
+    "cli_sha256": "29247187ddf3b13591cd14cc070e5e25c6bb7547296acc5e8a74e2945811d725",
+    "requested_placement": "cpu",
+    "ggml_vk_visible_devices": null,
+    "shared_ram_reservation": {
+      "host_ram": 22548578304
+    },
+    "weights_bytes": 8872297088,
+    "memory_overhead_bytes": 12884901888,
+    "context_tokens": 2048,
+    "max_new_tokens": 96,
+    "request_capacity": 1,
+    "stateful_session": "C++-owned within one request; discarded after completion",
+    "placement_evidence": {
+      "observed": "cpu",
+      "worker_pid": 62336,
+      "peak_sampled_rss_bytes": 13103603712,
+      "worker_log": "C:\\Users\\zhout\\w2\\minicpmo_io_cpu_native_profile20_logs\\minicpmo-21-f535a20e7d41454fb0ba4cfe35b2b8e6.log"
+    }
+  },
+  "abort_check": {
+    "stale_output": false,
+    "ledger": {
+      "capacities": {
+        "host_ram": 22548578304
+      },
+      "reserved": {
+        "host_ram": 0
+      },
+      "owners": [],
+      "quarantined": []
+    }
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 22548578304
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

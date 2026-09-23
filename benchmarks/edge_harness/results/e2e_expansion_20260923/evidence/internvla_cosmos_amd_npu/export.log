@@ -1,0 +1,88 @@
+/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/copyreg.py:99: FutureWarning: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+  return cls.__new__(cls, *args)
+[torch.onnx] Obtain model graph for `LatentOnly([...]` with `torch.export.export(..., strict=False)`...
+[torch.onnx] Obtain model graph for `LatentOnly([...]` with `torch.export.export(..., strict=False)`... ✅
+[torch.onnx] Run decompositions...
+[torch.onnx] Run decompositions... ✅
+[torch.onnx] Translate the graph into ONNX...
+[torch.onnx] Translate the graph into ONNX... ✅
+{
+  "scope": "real InternVLA Cosmos CI8x8 encoder; fixed [6,3,256,256] FP32; component only",
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "source_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "torch": "2.13.0+cpu",
+  "onnx": "1.22.0",
+  "onnxruntime": "1.29.0",
+  "input_shape": [
+    6,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "float32",
+  "output_shape": [
+    6,
+    16,
+    32,
+    32
+  ],
+  "opset": 21,
+  "export_s": 2.1051182380178943,
+  "cpu_parity": {
+    "ramp": {
+      "max_abs": 1.5974044799804688e-05,
+      "relative_l2": 8.737077337173105e-07
+    },
+    "pattern": {
+      "max_abs": 2.8371810913085938e-05,
+      "relative_l2": 2.2867118332214886e-06
+    }
+  },
+  "fixtures": {
+    "path": "/home/zhout/project/edge_infer/models/InternVLA-cosmos-onnx/fixtures.npz",
+    "sha256": "dcbaf1391ca914d4bbccc1cb384daf05666e771d9cdae90c4f069ec8fcf05368",
+    "bytes": 2081321
+  },
+  "artifact": {
+    "onnx": {
+      "path": "/home/zhout/project/edge_infer/models/InternVLA-cosmos-onnx/cosmos_encoder.onnx",
+      "sha256": "fee79864e393df35475ba243e14b4995c5651aa33e7e182cd1fda726425668b7",
+      "bytes": 502735
+    },
+    "external_data": [
+      {
+        "path": "/home/zhout/project/edge_infer/models/InternVLA-cosmos-onnx/cosmos_encoder.onnx.data",
+        "sha256": "b9bc3411c10f05daec2ff977698ee100979ef756ed7f0d685275403517558b58",
+        "bytes": 124649472
+      }
+    ]
+  },
+  "node_op_types": [
+    "Add",
+    "Cast",
+    "CastLike",
+    "Concat",
+    "Constant",
+    "Conv",
+    "Div",
+    "Expand",
+    "GroupNormalization",
+    "Identity",
+    "MatMul",
+    "Mul",
+    "Pad",
+    "Pow",
+    "Reshape",
+    "Shape",
+    "Sigmoid",
+    "Slice",
+    "Softmax",
+    "Tile",
+    "Transpose",
+    "Unsqueeze"
+  ],
+  "status": "passed"
+}

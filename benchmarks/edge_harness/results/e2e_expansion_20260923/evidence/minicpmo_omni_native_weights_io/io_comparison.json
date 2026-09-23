@@ -1,0 +1,98 @@
+{
+  "scope": "four sequential fresh-worker one-request MiniCPM-o Omni comparisons; same model/CLI hashes and synthetic fixture within CPU and Radeon pairs; uncontrolled OS cache and run order",
+  "rows": [
+    {
+      "condition": "cpu_native",
+      "placement": "cpu",
+      "storage": "native NTFS",
+      "startup_s": 9.01500210002996,
+      "request_wall_s": 21.163147200015374,
+      "worker_load_s": 12.74709,
+      "host_available_bytes_before": 31848599552,
+      "prefetch_warnings": 0,
+      "text": "The square in the image is red.",
+      "wav_duration_s": 2.0,
+      "ledger_after_shutdown": {
+        "capacities": {
+          "host_ram": 22548578304
+        },
+        "reserved": {
+          "host_ram": 0
+        },
+        "owners": [],
+        "quarantined": []
+      }
+    },
+    {
+      "condition": "cpu_unc",
+      "placement": "cpu",
+      "storage": "WSL UNC",
+      "startup_s": 52.358583500026725,
+      "request_wall_s": 79.2008684000466,
+      "worker_load_s": 40.89886,
+      "host_available_bytes_before": 31919353856,
+      "prefetch_warnings": 2,
+      "text": "The square in the image is red.",
+      "wav_duration_s": 2.96,
+      "ledger_after_shutdown": {
+        "capacities": {
+          "host_ram": 22548578304
+        },
+        "reserved": {
+          "host_ram": 0
+        },
+        "owners": [],
+        "quarantined": []
+      }
+    },
+    {
+      "condition": "radeon_native",
+      "placement": "radeon-hybrid",
+      "storage": "native NTFS",
+      "startup_s": 9.053687200066634,
+      "request_wall_s": 16.890039299963973,
+      "worker_load_s": 4.89595,
+      "host_available_bytes_before": 27048873984,
+      "prefetch_warnings": 0,
+      "text": "The square in the image is red.",
+      "wav_duration_s": 2.84,
+      "ledger_after_shutdown": {
+        "capacities": {
+          "host_ram": 22548578304
+        },
+        "reserved": {
+          "host_ram": 0
+        },
+        "owners": [],
+        "quarantined": []
+      }
+    },
+    {
+      "condition": "radeon_unc",
+      "placement": "radeon-hybrid",
+      "storage": "WSL UNC",
+      "startup_s": 50.66291730001103,
+      "request_wall_s": 90.62775189999957,
+      "worker_load_s": 27.53058,
+      "host_available_bytes_before": 26973949952,
+      "prefetch_warnings": 2,
+      "text": "The square in the image is red.",
+      "wav_duration_s": 2.4,
+      "ledger_after_shutdown": {
+        "capacities": {
+          "host_ram": 22548578304
+        },
+        "reserved": {
+          "host_ram": 0
+        },
+        "owners": [],
+        "quarantined": []
+      }
+    }
+  ],
+  "request_wall_unc_over_native": {
+    "cpu": 3.742395573376207,
+    "radeon": 5.365751392904863
+  },
+  "interpretation": "UNC storage strongly associated with longer startup/load/request and prefetch warnings here; no isolated causal or sustained-performance claim"
+}

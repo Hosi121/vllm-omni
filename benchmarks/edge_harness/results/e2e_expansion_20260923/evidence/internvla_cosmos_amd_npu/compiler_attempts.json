@@ -1,0 +1,58 @@
+{
+  "scope": "artifact-specific native Windows VitisAI attempts on real InternVLA Cosmos encoder; no NPU execution established",
+  "fixture_order": [
+    "ramp",
+    "pattern"
+  ],
+  "cpu_gate_max_relative_l2": 0.001,
+  "rows": [
+    {
+      "candidate": "Conv+MatMul per-tensor A16W8 QDQ",
+      "sha256": "54a05fafd3055a9e46566819cfe2c55d3667bd3d2003a791092940bb65c88bea",
+      "cpu_relative_l2": [
+        0.11774751015264003,
+        0.050279947518114286
+      ],
+      "npu_outcome": "VitisAI native fatal assertion: Attrs does not contain attribute scale; process interrupted after extended crash path",
+      "process_exit": "interrupt after fatal; not a completed inference",
+      "log": "probe.log",
+      "npu_node_events": null
+    },
+    {
+      "candidate": "MatMul-only A16W8 QDQ",
+      "sha256": "e136dcba6253db452def10350932b6b6d492acb0b4b9e16bffc00d94eeebf2d0",
+      "cpu_relative_l2": [
+        9.461636356105624e-07,
+        2.341125601892923e-06
+      ],
+      "npu_outcome": "VitisAI native LLVM SmallVector index assertion during session compilation",
+      "process_exit": 3,
+      "log": "matmul_probe.log",
+      "npu_node_events": null
+    },
+    {
+      "candidate": "preprocessed MatMul-only A16W8 QDQ",
+      "sha256": "56b24cfe5c4866a780865d9eda6eb866223fb6bfaab50eb66315f5d64766f1a1",
+      "cpu_relative_l2": [
+        9.461636356105624e-07,
+        2.341125601892923e-06
+      ],
+      "npu_outcome": "VitisAI native LLVM SmallVector index assertion during session compilation",
+      "process_exit": 3,
+      "log": "preprocessed_matmul_probe.log",
+      "npu_node_events": null
+    },
+    {
+      "candidate": "Conv+MatMul per-channel A16W8 QDQ",
+      "sha256": "6d59ebfa2d9fec3b360e4be4acb7743d0d8e52b5bb348cbd1479740f2793bb6c",
+      "cpu_relative_l2": [
+        0.03143759133734766,
+        0.02772901072216827
+      ],
+      "npu_outcome": "not submitted: failed 0.001 relative-L2 CPU gate",
+      "process_exit": null,
+      "log": null,
+      "npu_node_events": null
+    }
+  ]
+}

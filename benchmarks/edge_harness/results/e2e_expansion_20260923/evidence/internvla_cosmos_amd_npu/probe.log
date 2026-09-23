@@ -1,0 +1,51 @@
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md
+WARNING:root:Expected bias 'val_26' to be an initializer
+WARNING:root:Expected bias 'val_31' to be an initializer
+WARNING:root:Expected bias 'val_37' to be an initializer
+WARNING:root:Expected bias 'val_42' to be an initializer
+WARNING:root:Expected bias 'val_47' to be an initializer
+WARNING:root:Expected bias 'val_52' to be an initializer
+WARNING:root:Expected bias 'val_76' to be an initializer
+WARNING:root:Expected bias 'val_81' to be an initializer
+WARNING:root:Expected bias 'val_86' to be an initializer
+WARNING:root:Expected bias 'val_91' to be an initializer
+WARNING:root:Expected bias 'val_96' to be an initializer
+WARNING:root:Expected bias 'val_101' to be an initializer
+WARNING:root:Please consider pre-processing before quantization. See https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I20260924 04:00:48.821516 63408 register_dynamicdispatch.cpp:49] Running DynamicDispatchOpRegister::register_ops
+I20260924 04:00:48.821516 63408 register_castavx.cpp:48] Running CastAvxOpRegister::register_ops
+F20260924 04:01:03.346521 63408 attrs_imp.cpp:38] Check failed: attrs_.count(key) > 0 Attrs doesn't contain attribute scale
+[1;37;41m2026-09-24 04:01:03.3468623 [F:onnxruntime:, attrs_imp.cpp:38 attrs_imp.cpp] Check failed: attrs_.count(key) > 0 Attrs doesn't contain attribute scale[m
+[0;93m2026-09-24 04:01:03.3820522 [W:onnxruntime:, pass_main.cpp:419 pass_main.cpp] Unexcepted exception: (Exception type: struct vaip_core::GlogFatalException) public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+xir_deserialize_cif
+xir_deserialize_cif
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+xir_deserialize_cif
+xir_deserialize_cif
+xir_deserialize_cif
+xir_deserialize_cif
+xir_deserialize_cif
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+xir_deserialize_cif
+xir_deserialize_cif
+xir_deserialize_cif
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+public: int __cdecl vaip_core::TarWriter::write(class vaip_core::IStreamReader const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64) __ptr64
+ReleaseEpFactory
+public: class vaip_core::TryFuseProto * __ptr64 __cdecl vaip_core::DpuSubgraphEntryProto::mutable_try_fuse(void) __ptr64
+public: class vaip_core::TryFuseProto * __ptr64 __cdecl vaip_core::DpuSubgraphEntryProto::mutable_try_fuse(void) __ptr64
+public: class vaip_cxx::Model & __ptr64 __cdecl vaip_cxx::Model::set_metadata(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const & __ptr64,class std::basic_string<char,struct std::char_traits<char>,class std::al
+class std::shared_ptr<class vaip_core::PassContext> __cdecl vaip_core::load_context(class std::filesystem::path const & __ptr64)
+public: static void __cdecl vaip_core::IPass::run_passes(class std::vector<class std::shared_ptr<class vaip_core::IPass>,class std::allocator<class std::shared_ptr<class vaip_core::IPass> > >,struct onnxruntime::Graph & __ptr64)
+class std::vector<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vaip_core::ExecutionProvider> >,class std::allocator<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vai
+public: class vaip_cxx::ModelConstRef __cdecl vaip_cxx::Model::ref(void)const __ptr64
+class std::vector<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vaip_core::ExecutionProvider> >,class std::allocator<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vai
+class std::vector<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vaip_core::ExecutionProvider> >,class std::allocator<class std::unique_ptr<class vaip_core::ExecutionProvider,struct std::default_delete<class vai
+compile_onnx_model_vitisai_ep_v4
+morphizen_main
+morphizen_main
+PyInit_onnxruntime_pybind11_state
+PyInit_onnxruntime_pybind11_state[m

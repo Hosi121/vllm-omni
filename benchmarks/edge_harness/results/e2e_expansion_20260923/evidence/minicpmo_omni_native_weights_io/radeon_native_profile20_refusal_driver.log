@@ -1,0 +1,108 @@
+INFO 09-24 04:37:22 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 04:37:23 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 04:37:26 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 04:37:26 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 13] Permission denied: 'C:\\Users\\zhout'
+ERROR 09-24 04:37:26 [stage_runtime.py:265] [StageRuntime] Stage initialization failed; shutting down 0 initialized client(s)
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265] Traceback (most recent call last):
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 252, in initialize
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     initialized_clients = self._initialize_stage_replicas(stage_plans, self._stage_init_timeout)
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 589, in _initialize_stage_replicas
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     raise primary_exc
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 550, in _init_group
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     client = self._initialize_replica(
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 817, in _initialize_replica
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     return create_graph_client(
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\backends\__init__.py", line 27, in create_graph_client
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     return MiniCPMOCppStageClient(metadata, backend, ledger, reservation)
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]   File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\backends\minicpmo_cpp.py", line 186, in __init__
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265]     raise ResourceUnavailable("available host/shared RAM below MiniCPM-o reservation")
+
+ERROR 09-24 04:37:26 [stage_runtime.py:265] vllm_omni.engine.resource_ledger.ResourceUnavailable: available host/shared RAM below MiniCPM-o reservation
+{
+  "scope": "MiniCPM-o GGUF complete audio+image\u2192text+speech through Omni StageRuntime/StagePool",
+  "placement": "radeon-hybrid",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "cli_sha256": "66a512386aafeb708f49a7394a9054d94ec777c362395c8917a3d198aef1b523",
+  "reference_sha256": "cf4bb5cd9acbfbf67596d4a53310652b61ef4b7ede1d54eb03ef4882ca40223a",
+  "input_sha256": {
+    "audio_wav": "14ee147cbf2ce9afd9e32c8c8228d7cfe11985cd7e63456b2ad33871492aefcc",
+    "image_jpeg": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d"
+  },
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 22548578304
+    },
+    "demands": {
+      "host_ram": 22548578304
+    }
+  },
+  "profile_count": 20,
+  "warmup_count": 1,
+  "host_available_bytes_before": 23520821248,
+  "status": "failed",
+  "error": "ResourceUnavailable: available host/shared RAM below MiniCPM-o reservation",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 22548578304
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}
+Traceback (most recent call last):
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\experiments\probe_omni_minicpmo_cpp.py", line 187, in <module>
+    asyncio.run(main())
+  File "C:\Users\zhout\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\experiments\probe_omni_minicpmo_cpp.py", line 101, in main
+    runtime.initialize()
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 278, in initialize
+    raise exc
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 252, in initialize
+    initialized_clients = self._initialize_stage_replicas(stage_plans, self._stage_init_timeout)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 589, in _initialize_stage_replicas
+    raise primary_exc
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 550, in _init_group
+    client = self._initialize_replica(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\stage_runtime.py", line 817, in _initialize_replica
+    return create_graph_client(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\backends\__init__.py", line 27, in create_graph_client
+    return MiniCPMOCppStageClient(metadata, backend, ledger, reservation)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\vllm_omni\engine\backends\minicpmo_cpp.py", line 186, in __init__
+    raise ResourceUnavailable("available host/shared RAM below MiniCPM-o reservation")
+vllm_omni.engine.resource_ledger.ResourceUnavailable: available host/shared RAM below MiniCPM-o reservation
