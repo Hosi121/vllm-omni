@@ -1,0 +1,78 @@
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "cuda",
+  "pipeline": "internvla_a1_external_whole",
+  "host_available_bytes_before": 30188298240,
+  "cuda_before": {
+    "free_bytes": 24242028544,
+    "total_bytes": 25650855936,
+    "device_name": "NVIDIA GeForce RTX 5090 Laptop GPU"
+  },
+  "budget": {
+    "capacities": {
+      "host_ram": 30064771072,
+      "cuda:0": 22548578304
+    },
+    "demands": {
+      "host_ram": 17179869184,
+      "cuda:0": 17179869184
+    }
+  },
+  "startup_s": 45.694621764996555,
+  "request_wall_s": 0.9651285309810191,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "e977580bc094f8249e49960e75a6a22efc7d0efc6a112b1f5c3be9d09c752e94",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790191737772515406,
+        "generation_timestamp_ns": 1790191738735014566,
+        "observation_age_s": 0.96249916,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-a7ccbbc0",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "b11061835edd447aaf2581732b2eb932",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "b11061835edd447aaf2581732b2eb932",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

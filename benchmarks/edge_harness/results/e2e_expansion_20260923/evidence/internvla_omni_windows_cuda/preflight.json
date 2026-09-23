@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-09-24T03:36:31.154440+08:00",
+  "os": "Windows-11-10.0.26200-SP0",
+  "host_available_bytes": 20566712320,
+  "cuda_free_bytes": 24275582976,
+  "cuda_total_bytes": 25650855936,
+  "cuda_device": "NVIDIA GeForce RTX 5090 Laptop GPU",
+  "required_host_reservation_bytes": 17179869184,
+  "admissible": true
+}

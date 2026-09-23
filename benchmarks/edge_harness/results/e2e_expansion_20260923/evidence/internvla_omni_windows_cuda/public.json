@@ -1,0 +1,78 @@
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "cuda",
+  "pipeline": "internvla_a1_external_whole",
+  "host_available_bytes_before": 24073027584,
+  "cuda_before": {
+    "free_bytes": 24275582976,
+    "total_bytes": 25650855936,
+    "device_name": "NVIDIA GeForce RTX 5090 Laptop GPU"
+  },
+  "budget": {
+    "capacities": {
+      "host_ram": 19327352832,
+      "cuda:0": 22548578304
+    },
+    "demands": {
+      "host_ram": 17179869184,
+      "cuda:0": 17179869184
+    }
+  },
+  "startup_s": 155.15575060003903,
+  "request_wall_s": 1.8624655000166968,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "c03531d6c5b230e2bedb2f10af5183646f42462dc19bff13c34defce305977d2",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790192998287945000,
+        "generation_timestamp_ns": 1790193000130250000,
+        "observation_age_s": 1.842305,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-bb5b801c",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "9058c78591ec49f29986103d7d35c05b",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "9058c78591ec49f29986103d7d35c05b",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

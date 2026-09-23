@@ -25,14 +25,23 @@ async def main() -> None:
     for name in ("model-dir", "cosmos-dir", "processor-dir", "python-bin", "log-file", "output-report"):
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--graph-file", type=Path)
-    parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    parser.add_argument("--placement", choices=("cpu", "cuda", "radeon-cosmos"), required=True)
     parser.add_argument("--capacity-gib", type=int, default=30)
     parser.add_argument("--reserve-gib", type=int, default=16)
+    parser.add_argument("--vram-capacity-gib", type=int)
+    parser.add_argument("--vram-reserve-gib", type=int)
     args = parser.parse_args()
     if args.placement == "radeon-cosmos" and args.graph_file is None:
         parser.error("Radeon placement requires graph-file")
     if args.reserve_gib < 1 or args.capacity_gib < args.reserve_gib:
         parser.error("invalid explicit host-RAM budget")
+    if args.placement == "cuda" and (
+        args.vram_capacity_gib is None or args.vram_reserve_gib is None
+        or args.vram_reserve_gib < 1 or args.vram_capacity_gib < args.vram_reserve_gib
+    ):
+        parser.error("CUDA placement requires an explicit positive VRAM capacity and reservation")
+    if args.placement != "cuda" and (args.vram_capacity_gib is not None or args.vram_reserve_gib is not None):
+        parser.error("VRAM budget is only valid for CUDA placement")
 
     import numpy as np
     import psutil
@@ -45,6 +54,15 @@ async def main() -> None:
     host_available_bytes = psutil.virtual_memory().available
     if args.capacity_gib << 30 > host_available_bytes:
         raise RuntimeError("declared host-RAM capacity exceeds OS available RAM before load")
+    cuda_before = None
+    if args.placement == "cuda":
+        if not torch.cuda.is_available():
+            raise RuntimeError("CUDA placement requested but no CUDA device is available")
+        free_vram, total_vram = torch.cuda.mem_get_info(0)
+        cuda_before = {"free_bytes": free_vram, "total_bytes": total_vram,
+                       "device_name": torch.cuda.get_device_name(0)}
+        if args.vram_capacity_gib << 30 > free_vram:
+            raise RuntimeError("declared CUDA capacity exceeds observed free VRAM before load")
 
     model = args.model_dir.resolve(strict=True)
     cosmos = args.cosmos_dir.resolve(strict=True)
@@ -63,6 +81,7 @@ async def main() -> None:
         files["graph"] = graph
     backend = {
         "name": "external.internvla.policy.v1", "placement": args.placement,
+        "expected_cuda_device_name": cuda_before["device_name"] if cuda_before else None,
         "python_bin": str(python), "expected_torch": str(torch.__version__),
         "model_dir": str(model), "cosmos_dir": str(cosmos), "processor_dir": str(processor),
         "graph_file": str(graph) if graph else None,
@@ -71,10 +90,15 @@ async def main() -> None:
         "max_input_bytes": 8 << 20, "max_action_bytes": 1 << 20,
         "start_timeout_s": 180, "request_timeout_s": 60,
     }
+    budget = {"capacities": {"host_ram": args.capacity_gib << 30},
+              "demands": {"host_ram": args.reserve_gib << 30}}
+    if args.placement == "cuda":
+        budget["capacities"]["cuda:0"] = args.vram_capacity_gib << 30
+        budget["demands"]["cuda:0"] = args.vram_reserve_gib << 30
     report = {"entrypoint": "AsyncOmni.generate", "placement": args.placement,
               "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type,
               "host_available_bytes_before": host_available_bytes,
-              "budget": {"capacity_gib": args.capacity_gib, "reserve_gib": args.reserve_gib}}
+              "cuda_before": cuda_before, "budget": budget}
     engine = None
     try:
         with tempfile.TemporaryDirectory(prefix="omni-internvla-") as directory:
@@ -83,8 +107,7 @@ async def main() -> None:
                 "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type,
                 "async_chunk": False,
                 "stages": [{"stage_id": 0, "backend": backend,
-                            "resource_budget": {"capacities": {"host_ram": args.capacity_gib << 30},
-                                                "demands": {"host_ram": args.reserve_gib << 30}}}],
+                            "resource_budget": budget}],
             }), encoding="utf-8")
             started = time.perf_counter()
             engine = AsyncOmni(

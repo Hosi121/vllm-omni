@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Bounded whole-policy InternVLA stage on CPU or CPU plus Radeon Cosmos.
+"""Bounded whole-policy InternVLA stage on CPU, CUDA or CPU plus Radeon Cosmos.
 
 The existing Omni diffusion policy owns action semantics. StageRuntime owns
 shared-RAM admission, one in-flight request, terminal output and cancellation.
@@ -65,9 +65,10 @@ class InternVLAStageClient(CrispTTSStageClient):
         self._request_timeout_s = float(config.get("request_timeout_s", 60))
         self._port = int(config.get("port") or _local_port())
         self._placement = str(config.get("placement", ""))
+        self._cuda_demand_bytes = reservation.demands.get("cuda:0", 0)
         try:
             if (
-                self._placement not in {"cpu", "radeon-cosmos"} or self._max_input_bytes <= 0
+                self._placement not in {"cpu", "cuda", "radeon-cosmos"} or self._max_input_bytes <= 0
                 or self._max_action_bytes <= 0 or self._request_timeout_s <= 0
                 or not 0 < self._port < 65536
             ):
@@ -75,6 +76,8 @@ class InternVLAStageClient(CrispTTSStageClient):
             if self._memory_pool not in reservation.demands:
                 raise ResourceUnavailable("InternVLA shared-RAM pool absent from stage reservation")
             demand = reservation.demands[self._memory_pool]
+            if self._placement == "cuda" and reservation.demands.get("cuda:0", 0) <= 0:
+                raise ResourceUnavailable("InternVLA CUDA placement requires an explicit cuda:0 reservation")
             if self._max_input_bytes + self._max_action_bytes > demand:
                 raise ResourceUnavailable("InternVLA I/O bound exceeds stage reservation")
 
@@ -109,6 +112,12 @@ class InternVLAStageClient(CrispTTSStageClient):
             artifact_bytes = sum(path.stat().st_size for name, path in artifacts.items() if name != "python")
             if overhead <= 0 or artifact_bytes + overhead > demand:
                 raise ResourceUnavailable("InternVLA weights, graph and state/workspace/headroom exceed reservation")
+            cuda_min_bytes = 0
+            if self._placement == "cuda":
+                cuda_min_bytes = (artifacts["model"].stat().st_size
+                                  + artifacts["cosmos_encoder"].stat().st_size + overhead)
+                if cuda_min_bytes > self._cuda_demand_bytes:
+                    raise ResourceUnavailable("InternVLA CUDA weights and workspace/headroom exceed reservation")
 
             self._log_path = Path(config["log_file"]).resolve()
             self._log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -117,7 +126,8 @@ class InternVLAStageClient(CrispTTSStageClient):
             repo_root = Path(__file__).resolve().parents[3]
             env.update({
                 "PYTHONPATH": str(repo_root) + os.pathsep + env.get("PYTHONPATH", ""),
-                "CUDA_VISIBLE_DEVICES": "", "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1",
+                "CUDA_VISIBLE_DEVICES": "0" if self._placement == "cuda" else "",
+                "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1",
                 "OMP_NUM_THREADS": "8", "MKL_NUM_THREADS": "8", "PYTHONUTF8": "1",
                 "TOKENIZERS_PARALLELISM": "false",
             })
@@ -160,7 +170,7 @@ class InternVLAStageClient(CrispTTSStageClient):
                 or Path(props.get("model_dir", "")).resolve() != self._model_dir
                 or Path(props.get("processor_dir", "")).resolve() != self._processor_dir
                 or Path(props.get("cosmos_dir", "")).resolve() != self._cosmos_dir
-                or props.get("policy_device") != "cpu"
+                or props.get("policy_device") != ("cuda" if self._placement == "cuda" else "cpu")
                 or props.get("runtime_mode") != "real_checkpoint_loaded"
                 or props.get("policy_dtype") != "bfloat16"
                 or props.get("cosmos_dtype") != ("float32" if expected_external else "bfloat16")
@@ -170,6 +180,11 @@ class InternVLAStageClient(CrispTTSStageClient):
                 or props.get("torch") != str(config["expected_torch"])
                 or bool(observed_external) != expected_external
                 or (expected_external and observed_external.get("device_name") != "AMD Radeon(TM) 890M Graphics")
+                or (self._placement == "cuda" and (
+                    props.get("cuda_device_name") != config.get("expected_cuda_device_name")
+                    or props.get("cuda_device_index") != 0
+                    or not 0 < props.get("cuda_reserved_after_load_bytes", 0) <= reservation.demands["cuda:0"]
+                ))
             ):
                 raise RuntimeError("InternVLA worker model, precision or device differs from plan")
             import psutil
@@ -199,6 +214,7 @@ class InternVLAStageClient(CrispTTSStageClient):
                 "loaded_process_tree": self._loaded_process_tree,
                 "reserved_bytes": dict(reservation.demands),
                 "memory_overhead_bytes": overhead,
+                "cuda_weights_and_headroom_min_bytes": cuda_min_bytes,
                 "max_input_bytes": self._max_input_bytes,
                 "max_action_bytes": self._max_action_bytes,
                 "request_capacity": 1,
@@ -268,17 +284,23 @@ class InternVLAStageClient(CrispTTSStageClient):
             )
             with np.load(io.BytesIO(data), allow_pickle=False) as response:
                 if set(response.files) != {"actions", "observation_timestamp_ns",
-                                          "generation_timestamp_ns", "request_id", "worker_wall_s"}:
+                                          "generation_timestamp_ns", "request_id", "worker_wall_s",
+                                          "cuda_peak_reserved_bytes"}:
                     raise ValueError("InternVLA response fields differ from declared action contract")
                 actions = np.asarray(response["actions"])
                 observation_ns = int(response["observation_timestamp_ns"].item())
                 generation_ns = int(response["generation_timestamp_ns"].item())
                 returned_id = str(response["request_id"].item())
                 worker_wall_s = float(response["worker_wall_s"].item())
+                cuda_peak_reserved = int(response["cuda_peak_reserved_bytes"].item())
             if (returned_id != request.request_id or actions.dtype != np.float32
                 or actions.shape != (1, 50, 32) or not np.isfinite(actions).all()
                 or generation_ns < observation_ns):
                 raise ValueError("InternVLA worker returned invalid, stale or misrouted actions")
+            if self._placement == "cuda" and not 0 < cuda_peak_reserved <= self._cuda_demand_bytes:
+                raise ResourceUnavailable("InternVLA CUDA peak reservation exceeded the admitted VRAM budget")
+            if self._placement != "cuda" and cuda_peak_reserved != 0:
+                raise ValueError("InternVLA non-CUDA worker reported CUDA allocation")
             ref = BufferRef(
                 "actions", str(self.stage_id), self._generation, "float32", tuple(actions.shape), int(actions.nbytes)
             )
@@ -301,7 +323,8 @@ class InternVLAStageClient(CrispTTSStageClient):
                     },
                 },
                 metrics={"policy_wall_s": time.perf_counter() - started,
-                         "worker_wall_s": worker_wall_s},
+                         "worker_wall_s": worker_wall_s,
+                         "cuda_peak_reserved_bytes": cuda_peak_reserved},
             )
         except asyncio.CancelledError:
             raise

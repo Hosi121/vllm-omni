@@ -1,0 +1,97 @@
+INFO 09-24 03:28:07 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 03:28:07 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 03:28:07 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 03:28:12 [omni_base.py:216] [AsyncOmni] Initializing with model /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen
+INFO 09-24 03:28:12 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen
+ERROR 09-24 03:28:12 [repo_utils.py:119] Error parsing config for /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen: Unrecognized model in /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen. Should have a `model_type` key in its config.json., retrying 1 of 2
+ERROR 09-24 03:28:14 [repo_utils.py:117] Error parsing config for /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen: Unrecognized model in /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen. Should have a `model_type` key in its config.json.
+INFO 09-24 03:28:14 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-24 03:28:14 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-24 03:28:14 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-24 03:28:57 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-24 03:28:57 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-24 03:28:57 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 45.69 seconds
+INFO 09-24 03:28:57 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen
+INFO 09-24 03:28:58 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-24 03:28:58 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-24 03:28:58 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-24 03:28:58 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-24 03:28:59 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "cuda",
+  "pipeline": "internvla_a1_external_whole",
+  "host_available_bytes_before": 30188298240,
+  "cuda_before": {
+    "free_bytes": 24242028544,
+    "total_bytes": 25650855936,
+    "device_name": "NVIDIA GeForce RTX 5090 Laptop GPU"
+  },
+  "budget": {
+    "capacities": {
+      "host_ram": 30064771072,
+      "cuda:0": 22548578304
+    },
+    "demands": {
+      "host_ram": 17179869184,
+      "cuda:0": 17179869184
+    }
+  },
+  "startup_s": 45.694621764996555,
+  "request_wall_s": 0.9651285309810191,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "e977580bc094f8249e49960e75a6a22efc7d0efc6a112b1f5c3be9d09c752e94",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790191737772515406,
+        "generation_timestamp_ns": 1790191738735014566,
+        "observation_age_s": 0.96249916,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-a7ccbbc0",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "b11061835edd447aaf2581732b2eb932",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "b11061835edd447aaf2581732b2eb932",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

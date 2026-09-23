@@ -1,0 +1,15 @@
+{
+  "scope": "same patterned synthetic Place_Markpen observation/noise; no robot task tolerance",
+  "reference": "WSL CUDA Omni first measured actions",
+  "candidate": "native Windows CUDA Omni first measured actions",
+  "reference_file_sha256": "c4157bd68b586611f96919a571e9f91fc3c2f6d06921d0e13383ed4d65201e24",
+  "candidate_file_sha256": "586653ea5638651842ffb30678ee8735a05d29ed2dab569c5204fd2e60772ad0",
+  "shape": [
+    1,
+    50,
+    32
+  ],
+  "max_abs": 0.013449281454086304,
+  "relative_l2": 0.015554326586425304,
+  "cosine": 0.9998864531517029
+}

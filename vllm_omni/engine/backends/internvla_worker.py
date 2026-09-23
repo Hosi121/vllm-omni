@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""CPU InternVLA action worker with an optional Radeon Cosmos encoder.
+"""InternVLA action worker on CPU/CUDA with an optional Radeon Cosmos encoder.
 
 The policy remains the existing Omni diffusion implementation. Requests carry
 explicit normalized camera histories and state; the worker owns policy state
@@ -33,7 +33,7 @@ def main() -> None:
     parser.add_argument("--model-dir", type=Path, required=True)
     parser.add_argument("--processor-dir", type=Path, required=True)
     parser.add_argument("--cosmos-dir", type=Path, required=True)
-    parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    parser.add_argument("--placement", choices=("cpu", "cuda", "radeon-cosmos"), required=True)
     parser.add_argument("--graph", type=Path)
     parser.add_argument("--graph-sha256")
     parser.add_argument("--port", type=int, required=True)
@@ -44,8 +44,9 @@ def main() -> None:
         parser.error("invalid port, threads or input bound")
     if args.placement == "radeon-cosmos" and (args.graph is None or not args.graph_sha256):
         parser.error("Radeon route requires a graph and hash")
-    if os.environ.get("CUDA_VISIBLE_DEVICES") != "":
-        raise RuntimeError("InternVLA CPU worker requires CUDA_VISIBLE_DEVICES empty")
+    expected_visible = "0" if args.placement == "cuda" else ""
+    if os.environ.get("CUDA_VISIBLE_DEVICES") != expected_visible:
+        raise RuntimeError("InternVLA CUDA visibility differs from the placement plan")
     if os.environ.get("HF_HUB_OFFLINE") != "1":
         raise RuntimeError("InternVLA worker requires offline checkpoint loading")
 
@@ -58,6 +59,9 @@ def main() -> None:
     import numpy as np
     import torch
 
+    if args.placement == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("InternVLA CUDA placement requested but CUDA is unavailable")
+
     from vllm_omni.diffusion.data import OmniDiffusionConfig
     from vllm_omni.diffusion.registry import initialize_model
     from vllm_omni.diffusion.request import OmniDiffusionRequest
@@ -65,10 +69,11 @@ def main() -> None:
     from vllm_omni.inputs.data import OmniDiffusionSamplingParams
 
     torch.set_num_threads(args.threads)
+    policy_device = "cuda" if args.placement == "cuda" else "cpu"
     config = OmniDiffusionConfig(
         model=str(model_dir), model_class_name="InternVLAA1Pipeline", dtype=torch.bfloat16,
         custom_pipeline_args={
-            "device": "cpu", "dtype": "bfloat16", "compile_model": False,
+            "device": policy_device, "dtype": "bfloat16", "compile_model": False,
             "enable_regional_compile": False, "enable_warmup": False,
             "strict_load": True, "processor_model_name": str(processor_dir),
         },
@@ -78,8 +83,8 @@ def main() -> None:
     policy_load_s = time.perf_counter() - started
     if pipeline.runtime_mode() != "real_checkpoint_loaded":
         raise RuntimeError("InternVLA real checkpoint did not load")
-    if {parameter.device.type for parameter in pipeline.policy.parameters()} != {"cpu"}:
-        raise RuntimeError("InternVLA policy parameters did not remain on CPU")
+    if {parameter.device.type for parameter in pipeline.policy.parameters()} != {policy_device}:
+        raise RuntimeError("InternVLA policy parameters differ from the placement plan")
 
     external = None
     external_report = None
@@ -127,7 +132,11 @@ def main() -> None:
         "cosmos_dir": str(cosmos_dir), "placement": args.placement,
         "torch": torch.__version__, "policy_dtype": "bfloat16",
         "cosmos_dtype": "float32" if external is not None else "bfloat16",
-        "policy_device": "cpu", "runtime_mode": pipeline.runtime_mode(),
+        "policy_device": policy_device, "runtime_mode": pipeline.runtime_mode(),
+        "cuda_device_name": torch.cuda.get_device_name(0) if policy_device == "cuda" else None,
+        "cuda_device_index": torch.cuda.current_device() if policy_device == "cuda" else None,
+        "cuda_allocated_after_load_bytes": torch.cuda.memory_allocated(0) if policy_device == "cuda" else None,
+        "cuda_reserved_after_load_bytes": torch.cuda.memory_reserved(0) if policy_device == "cuda" else None,
         "policy_load_s": policy_load_s, "action_shape": [1, 50, 32],
         "image_shape": [1, 2, 3, 224, 224], "state_shape": [1, 32],
         "action_mode": "delta", "action_units": "unverified",
@@ -195,17 +204,17 @@ def main() -> None:
                     raise ValueError("state must be finite float32 [1,32]")
                 if noise.dtype != np.float32 or noise.shape != (1, 50, 32) or not np.isfinite(noise).all():
                     raise ValueError("noise must be finite float32 [1,50,32]")
-                batch = {"observation.state": torch.from_numpy(state.copy()).to(torch.bfloat16),
+                batch = {"observation.state": torch.from_numpy(state.copy()).to(device=policy_device, dtype=torch.bfloat16),
                          "observation.task": [task]}
                 for i in range(3):
-                    batch[f"observation.images.image{i}"] = torch.from_numpy(images[i].copy()).to(torch.bfloat16)
-                    batch[f"observation.images.image{i}_mask"] = torch.from_numpy(masks[i].copy())
+                    batch[f"observation.images.image{i}"] = torch.from_numpy(images[i].copy()).to(device=policy_device, dtype=torch.bfloat16)
+                    batch[f"observation.images.image{i}_mask"] = torch.from_numpy(masks[i].copy()).to(policy_device)
                 started = time.perf_counter()
                 result = pipeline.forward(DiffusionRequestBatch(requests=[
                     OmniDiffusionRequest(
                         prompt="",
                         sampling_params=OmniDiffusionSamplingParams(extra_args={
-                            "batch_inputs": batch, "noise": torch.from_numpy(noise.copy()),
+                            "batch_inputs": batch, "noise": torch.from_numpy(noise.copy()).to(policy_device),
                             "decode_image": False,
                         }),
                         request_id=request_id,
@@ -214,15 +223,19 @@ def main() -> None:
                 if result.error:
                     raise RuntimeError(result.error)
                 actions = result.output["payload"]["actions"]
-                if actions.device.type != "cpu" or tuple(actions.shape) != (1, 50, 32):
+                if actions.device.type != policy_device or tuple(actions.shape) != (1, 50, 32):
                     raise RuntimeError("policy action device or shape differs from plan")
                 values = actions.detach().float().cpu().contiguous().numpy()
+                if policy_device == "cuda":
+                    torch.cuda.synchronize(0)
+                cuda_peak_reserved = torch.cuda.max_memory_reserved(0) if policy_device == "cuda" else 0
                 if not np.isfinite(values).all():
                     raise RuntimeError("policy returned nonfinite actions")
                 with io.BytesIO() as out:
                     np.savez(out, actions=values, observation_timestamp_ns=np.int64(observation_ns),
                              generation_timestamp_ns=np.int64(time.time_ns()), request_id=np.array(request_id),
-                             worker_wall_s=np.float64(time.perf_counter() - started))
+                             worker_wall_s=np.float64(time.perf_counter() - started),
+                             cuda_peak_reserved_bytes=np.int64(cuda_peak_reserved))
                     body = out.getvalue()
                 self.send_response(200)
                 self.send_header("Content-Type", "application/octet-stream")

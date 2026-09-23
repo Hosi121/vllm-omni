@@ -30,11 +30,13 @@ async def main() -> None:
     for name in ("model-dir", "cosmos-dir", "processor-dir", "python-bin", "log-file", "output-report"):
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--graph-file", type=Path)
-    parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    parser.add_argument("--placement", choices=("cpu", "cuda", "radeon-cosmos"), required=True)
     parser.add_argument("--output-actions", type=Path)
     parser.add_argument("--reference-actions", type=Path)
     parser.add_argument("--capacity-gib", type=int, default=30)
     parser.add_argument("--reserve-gib", type=int, default=16)
+    parser.add_argument("--vram-capacity-gib", type=int)
+    parser.add_argument("--vram-reserve-gib", type=int)
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--repeats", type=int, default=20)
     parser.add_argument("--admission-refusal", action="store_true")
@@ -44,6 +46,13 @@ async def main() -> None:
         parser.error("invalid profile counts or explicit memory budget")
     if args.placement == "radeon-cosmos" and args.graph_file is None:
         parser.error("Radeon placement requires --graph-file")
+    if args.placement == "cuda" and (
+        args.vram_capacity_gib is None or args.vram_reserve_gib is None
+        or args.vram_reserve_gib < 1 or args.vram_capacity_gib < args.vram_reserve_gib
+    ):
+        parser.error("CUDA placement requires an explicit positive VRAM capacity and reservation")
+    if args.placement != "cuda" and (args.vram_capacity_gib is not None or args.vram_reserve_gib is not None):
+        parser.error("VRAM budget is only valid for CUDA placement")
 
     import numpy as np
     import psutil
@@ -74,8 +83,19 @@ async def main() -> None:
     hashes = {name: sha256(path) for name, path in files.items()}
     import torch
 
+    cuda_before = None
+    if args.placement == "cuda":
+        if not torch.cuda.is_available():
+            raise RuntimeError("CUDA placement requested but no CUDA device is available")
+        free_vram, total_vram = torch.cuda.mem_get_info(0)
+        cuda_before = {"free_bytes": free_vram, "total_bytes": total_vram,
+                       "device_name": torch.cuda.get_device_name(0)}
+        if args.vram_capacity_gib << 30 > free_vram:
+            raise RuntimeError("declared CUDA capacity exceeds observed free VRAM before load")
+
     backend = {
         "name": "external.internvla.policy.v1", "placement": args.placement,
+        "expected_cuda_device_name": cuda_before["device_name"] if cuda_before else None,
         "python_bin": str(python), "expected_torch": str(torch.__version__),
         "model_dir": str(model), "cosmos_dir": str(cosmos), "processor_dir": str(processor),
         "graph_file": str(graph) if graph else None, "artifact_sha256": hashes,
@@ -85,6 +105,9 @@ async def main() -> None:
     }
     budget = {"capacities": {"host_ram": args.capacity_gib << 30},
               "demands": {"host_ram": args.reserve_gib << 30}}
+    if args.placement == "cuda":
+        budget["capacities"]["cuda:0"] = args.vram_capacity_gib << 30
+        budget["demands"]["cuda:0"] = args.vram_reserve_gib << 30
     deploy = DeployConfig(async_chunk=False, stages=[StageDeployConfig(
         stage_id=0, backend=backend, resource_budget=budget,
     )])
@@ -96,6 +119,7 @@ async def main() -> None:
         "scope": "real InternVLA Place_Markpen checkpoint via bounded Omni whole-policy graph stage; synthetic patterned observations/noise; no robot-task quality claim",
         "placement": args.placement, "artifact_sha256": hashes, "budget": budget,
         "host_available_bytes_before": host_available_bytes,
+        "cuda_before": cuda_before,
         "warmups": args.warmups, "repeats": args.repeats,
     }
     try:
