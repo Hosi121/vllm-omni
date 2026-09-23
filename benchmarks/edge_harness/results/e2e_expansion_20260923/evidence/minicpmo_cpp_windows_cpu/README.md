@@ -1,0 +1,24 @@
+# Native Windows CPU MiniCPM-o 4.5 GGUF scoped complete path
+
+On Windows 11 build 26200, the Ryzen AI 9 HX 370 CPU ran one **standalone** combined synthetic JPEG+16 kHz WAV input through MiniCPM-o language/vision/audio/TTS/Token2Wav to nonempty text and complete speech. This is a scoped functional path (P for this fixture), not an Omni StageRuntime/StagePool integration, an AMD Radeon/NPU result, or a semantic-quality qualification. Native Windows vLLM CPU attention operators remain unavailable in the installed wheel; this C++ backend is a separate route.
+
+The complete ten-file Q4_K_M/F16 set is [openbmb/MiniCPM-o-4_5-gguf](https://huggingface.co/openbmb/MiniCPM-o-4_5-gguf/tree/db25077c33951fe163b42986fba0132e279872a2) revision `db25077c33951fe163b42986fba0132e279872a2`. The C++ source is [tc-mb/llama.cpp-omni](https://github.com/tc-mb/llama.cpp-omni/tree/5202b7b2f4d11f50b9f996161e7a2f8b8571b890) at `5202b7b2f4d11f50b9f996161e7a2f8b8571b890`, cross-built with MinGW-w64 GCC 13-posix, x86-64-v3, CMake/Ninja Release, CUDA/Vulkan/OpenMP off and [this patch](../minicpmo_cpp_cpu/llama_cpp_omni_cpu.patch). The patch adds explicit CPU Token2Wav selection, portable Windows compatibility and a configurable bounded wait that reports failure if speech is incomplete. [The verification report](full_report.json) pins all ten Windows-copy GGUF byte counts and SHA256 hashes and the exact executable hash; the files match the [WSL-copy report](../minicpmo_cpp_cpu/minicpm_omni_cpu_full_report.json). The GGUF weights and executable remain outside Git.
+
+| Observation | Raw evidence |
+|---|---|
+| The log reports zero GPU layers, CPU vision and CPU Token2Wav/vocoder placement. Index 0 supplied the system/reference-audio prompt; index 1 actually passed a 448×448 red-square JPEG and 2 s/440 Hz tone through image and audio prefill. | [combined log](full.combined.log), [image](fixture_0001.jpg), [tone](fixture_0001.wav), [reference tone](fixture_0000.wav) |
+| The decoder returned [nonempty text](response_text.txt); the audio completion marker was present. The verifier found 50 gap-free, nonzero mono 24 kHz PCM16 [WAV chunks](round_000/tts_wav/), 1,179,840 total frames/49.16 s, RMS 2,572.52 PCM16, and assembled their original PCM into a [single WAV](full_merged.wav). | [verification report](full_report.json), [raw chunks](round_000/tts_wav/), [debug text](round_000/llm_debug/) |
+| One cold process took 137.34 s. At 100 ms intervals, maximum sampled RSS/private bytes were 13.10/13.31 GB; these are observed maxima, not proven loading peaks. The 49.16 s speech took longer than real time. This is one observation, with no warmup distribution. | [process profile](full.profile.json), [raw timing/stderr](full.stderr.log) |
+| Pinned CPU `openai/whisper-tiny` recognized the generated Mandarin speech with 13.59% CJK/alphanumeric character error against the model's **own** text after OpenCC traditional-to-simplified normalization (25.24% before normalization), across two 25 s ASR windows. This is only an intelligibility proxy. | [ASR report](speech_asr_proxy.json), [ASR log](speech_asr_proxy.log), [probe](../../../../experiments/probe_tts_asr_cjk.py) |
+
+The response was a generic story about visiting the Arctic rather than a description of the square or tone. The CLI fixture did not supply an explicit describe-the-input instruction, so this observation cannot establish grounded task quality. The runtime's optional merger still looked for `tts_output_chunk_N.wav` while the vocoder wrote `wav_N.wav`, and it attempted merging before all audio was ready. [The verifier](../../../../experiments/verify_minicpm_cpp_output.py) assembled the original PCM only after checking the completion flag and all chunks; this does not provide live playable streaming. The [first native attempt](../minicpmo_cpp_windows_cpu_attempt1/README.md) exited 0 with partial audio because of a 120 s wait; it is retained as a failed run. Omni admission/state/cancellation, real image/audio quality, repeat latency, loading peak and sustained power/thermal behavior remain open.
+
+Reproduce from the pinned C++ checkout after applying the patch and obtaining the pinned GGUF set. Cross-build using `-DCMAKE_SYSTEM_NAME=Windows -DCMAKE_SYSTEM_PROCESSOR=x86_64`, MinGW-w64 `gcc-posix/g++-posix`, `-DCMAKE_C_FLAGS=-march=x86-64-v3 -DCMAKE_CXX_FLAGS=-march=x86-64-v3`, `-DGGML_CUDA=OFF -DGGML_VULKAN=OFF -DGGML_OPENMP=OFF -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=ON`, then build `llama-omni-cli`. The native run used:
+
+```powershell
+llama-omni-cli.exe -m C:\path\to\MiniCPM-o-4_5-Q4_K_M.gguf `
+  -ngl 0 -c 2048 --omni --t2w-device cpu --t2w-wait-seconds 900 `
+  --ref-audio C:\path\to\default_ref_audio.wav --test C:\path\to\fixture_ 2
+```
+
+The fixture requires `fixture_0000.wav` for the reference/system prompt and `fixture_0001.wav` plus `fixture_0001.jpg` for the user index. The result is a single cold run; no p50/p95 is implied.

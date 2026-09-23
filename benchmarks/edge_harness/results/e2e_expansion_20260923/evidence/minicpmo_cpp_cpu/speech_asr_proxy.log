@@ -1,0 +1,18 @@
+{
+  "scope": "Whisper Mandarin ASR proxy for generated speech; no input-task or perceptual-quality claim",
+  "asr_model": "openai/whisper-tiny",
+  "asr_revision": "169d4a4341b33bc18d8881c4b69c2e104e1cc0af",
+  "asr_weights_sha256": "7ebd0e69e78190ffe1438491fa05cc1f5c1aa3a4c4db3bc1723adbb551ea2395",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "7b8073169b1561905e539bfa0807cbfad7b59636d603c58c716cec2e76c33154",
+  "wav_duration_s": 9.24,
+  "reference_text": "���ڿ��Կ�ʼ���ܶ������������������䡢ѧϰ�¶������������壬������������������죬�о��ر��ʵ�ء�",
+  "transcript": "�F�ڿ����_ʼ���ܶ����������������g,�W���|��,���I���w�������������������X�؄e�䌍��",
+  "asr_segments_25_s": 1,
+  "character_error_rate_raw": 0.32558139534883723,
+  "character_error_rate_t2s_normalized": 0.09302325581395349,
+  "normalization": "OpenCC 0.1.7 t2s; punctuation ignored",
+  "load_s": 0.6843268999364227,
+  "inference_s": 1.35040409991052
+}

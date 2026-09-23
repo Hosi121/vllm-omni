@@ -1,0 +1,341 @@
+{
+  "scope": "standalone MiniCPM-o 4.5 GGUF audio+image input to text+speech on native-Windows-11-HX370-CPU",
+  "status": "scoped_complete_path_pass",
+  "quality": "synthetic red-square/tone response not established as semantically correct",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "artifacts": {
+    "MiniCPM-o-4_5-Q4_K_M.gguf": {
+      "bytes": 5026714400,
+      "sha256": "1237a97ee081b8abebc47aa7dad565701e8f5f904cdc92f6723ac4281bbc0932"
+    },
+    "audio/MiniCPM-o-4_5-audio-F16.gguf": {
+      "bytes": 660167904,
+      "sha256": "d5b188ac7feaf98e17175c3f9bd14bf269301bfd187439fdaa3e3a494fc32ef7"
+    },
+    "vision/MiniCPM-o-4_5-vision-F16.gguf": {
+      "bytes": 1095113184,
+      "sha256": "1453678cc4e4fe18de241952962e234f265cb8dda780773526103ab8ba82f421"
+    },
+    "tts/MiniCPM-o-4_5-tts-F16.gguf": {
+      "bytes": 1157244416,
+      "sha256": "c7be3748a863dd6966ae7eed42600b7f41ca67affb03729ff245247f0e5ea088"
+    },
+    "tts/MiniCPM-o-4_5-projector-F16.gguf": {
+      "bytes": 14948640,
+      "sha256": "4b1b5b377358a5e594a304ff6ea5d52df606a9ba7d886c4299d232f0c67dd1fd"
+    },
+    "token2wav-gguf/encoder.gguf": {
+      "bytes": 151339008,
+      "sha256": "7f8d265da594eaf5e1de2db8f5f1867dbcb0bb75ef5878fadf2952347116f4d0"
+    },
+    "token2wav-gguf/flow_matching.gguf": {
+      "bytes": 458250240,
+      "sha256": "eda6069f3edeb5dd3a87fbf2aedb2ddd1b46f3273926c4fcf09b24476a39cab8"
+    },
+    "token2wav-gguf/flow_extra.gguf": {
+      "bytes": 13663328,
+      "sha256": "c67611aa7d02500fe395a7798bf0bfdfb55c74d37ba93934ca74d82b4e63f78d"
+    },
+    "token2wav-gguf/hifigan2.gguf": {
+      "bytes": 83242816,
+      "sha256": "1b8b3bf5d8d3066aeee4324fdcdd41aefce170d0ee907645858de408d82835c2"
+    },
+    "token2wav-gguf/prompt_cache.gguf": {
+      "bytes": 211613152,
+      "sha256": "81fe6f541ebe0b67db06a1e395df928da47991dc9637c2cf47d6c59d5b979f2c"
+    }
+  },
+  "runtime_binary_sha256": "55eb866533dabe7e09ceba2c9174060b950b35a214f231e6908c55dce5ed78e8",
+  "input_image_sha256": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d",
+  "input_audio_sha256": "cf4bb5cd9acbfbf67596d4a53310652b61ef4b7ede1d54eb03ef4882ca40223a",
+  "response_text": "哎呀，这个问题挺有意思的！要是让我去一个完全没去过的地方，那我肯定得去北极啊！你想啊，那地方冰天雪地的，白茫茫的一片，连路都没有，走路都得小心翼翼的。但你说这地方多刺激！穿厚厚的羽绒服，戴上防风手套，脚底下踩着雪板或者雪鞋，一步一步往前挪，呼哧呼哧喘着粗气。抬头看天，全是星星，连北极光都能看见，那叫一个美！不过呢，也挺难的，吃饭得靠口哨，因为风声太大，说话听不清。坐那儿吃点热汤，暖暖身子，再看看远处的冰山，那才叫过瘾！你说这地方荒不荒？可就是这荒，才让人觉得活着真痛快！",
+  "audio_chunks": [
+    {
+      "name": "wav_0.wav",
+      "frames": 20160,
+      "sha256": "ccaf11f4d508f6714ee40f6cbc10f0443ce3a5a1c817e1098c9492fde006e5ef"
+    },
+    {
+      "name": "wav_1.wav",
+      "frames": 24000,
+      "sha256": "24f4927c3ee76c1f3dbe530be2f9e409353694693fa200682b70a175ae043a45"
+    },
+    {
+      "name": "wav_2.wav",
+      "frames": 24000,
+      "sha256": "6d5e2017555de66b7b5d10f2d9405ab7aa838f4919f8cd481b50ad60144391a1"
+    },
+    {
+      "name": "wav_3.wav",
+      "frames": 24000,
+      "sha256": "80435ac30f252004b3d3aeda4a04add0948b8b200b7bcfb14059d3e7058425f7"
+    },
+    {
+      "name": "wav_4.wav",
+      "frames": 24000,
+      "sha256": "6573999fb18bb302e18a15e5716ca98ffd4f4d8860a107303886af47bd8f45c3"
+    },
+    {
+      "name": "wav_5.wav",
+      "frames": 24000,
+      "sha256": "1b2237ec3731e5cf3132c8ea0a0f1d4d050b5e26e99434092c76cde7818074a1"
+    },
+    {
+      "name": "wav_6.wav",
+      "frames": 24000,
+      "sha256": "824b4e215c9602087b993547361abc9657b8c8f39ab3cc24fbf3e724e8bd8a79"
+    },
+    {
+      "name": "wav_7.wav",
+      "frames": 24000,
+      "sha256": "fef914a2fe781eda722b07cfe0720776ee2e5a319c8229cda805285925e607bc"
+    },
+    {
+      "name": "wav_8.wav",
+      "frames": 24000,
+      "sha256": "0ce28877d81c1a760929495c3ba4369466c8ef1bf8f96e1df1a3e781a154dde2"
+    },
+    {
+      "name": "wav_9.wav",
+      "frames": 24000,
+      "sha256": "6601959926fe73677365ce3c5f650cf9cc88b0521af7e9cff7332a36ba5e1a05"
+    },
+    {
+      "name": "wav_10.wav",
+      "frames": 24000,
+      "sha256": "908c73e428c8d5558b2f6dbf3468e151bcae61a5ddc329a4b89bbc68917ccac4"
+    },
+    {
+      "name": "wav_11.wav",
+      "frames": 24000,
+      "sha256": "485b6d0a5bd286741de6252a1ce453117717e6171f707be9984767c82875cf8d"
+    },
+    {
+      "name": "wav_12.wav",
+      "frames": 24000,
+      "sha256": "a4121fd0b15a2755a80703c52859737df7fcbcb310f725cf504bedfb941b0605"
+    },
+    {
+      "name": "wav_13.wav",
+      "frames": 24000,
+      "sha256": "300623668516f1a049f1d99e5ade0b93e8a73deb298e9e04854b983f0fd76f81"
+    },
+    {
+      "name": "wav_14.wav",
+      "frames": 24000,
+      "sha256": "0a9a9a08eea009460590bb032d33edffe0153193e50c366a743ead46e2d0e2a9"
+    },
+    {
+      "name": "wav_15.wav",
+      "frames": 24000,
+      "sha256": "baab0f1f8d00de92073d4ffa9834ca7da9cedbf575f39f4a9cebde680381bcf0"
+    },
+    {
+      "name": "wav_16.wav",
+      "frames": 24000,
+      "sha256": "af52c89f21ac5f948e33787e605df8e883579632f1036ea6bcdbd9c7a8fbdcda"
+    },
+    {
+      "name": "wav_17.wav",
+      "frames": 24000,
+      "sha256": "ec70aa4c48e88ffed9505a68058b499b58ca4adc8ea6644a4799ab144997f405"
+    },
+    {
+      "name": "wav_18.wav",
+      "frames": 24000,
+      "sha256": "cec1bc909334fcc6de69af4a826f9fc77425077e33990b7b532ca25910adb01c"
+    },
+    {
+      "name": "wav_19.wav",
+      "frames": 24000,
+      "sha256": "cb5423b0db3a5528470da14b21eee3dd465daf243378e067c4d976e1876c387b"
+    },
+    {
+      "name": "wav_20.wav",
+      "frames": 24000,
+      "sha256": "bb48ff18018f36906ff8bcac0291444b1000d2fee6ec928f82d916b96f3eaa81"
+    },
+    {
+      "name": "wav_21.wav",
+      "frames": 24000,
+      "sha256": "3ef0c77893e626ea65aed16aff60034b960d633c6bb175350ebb27cfebe7c3c3"
+    },
+    {
+      "name": "wav_22.wav",
+      "frames": 24000,
+      "sha256": "44751508ac8a2f6a5e00744c8025eccd4f47f950b5c8fda3d9aac896594a9e77"
+    },
+    {
+      "name": "wav_23.wav",
+      "frames": 24000,
+      "sha256": "14520c03ab4e42f4477003de37394f634d0159f34416c8a977614d2ba17bab29"
+    },
+    {
+      "name": "wav_24.wav",
+      "frames": 24000,
+      "sha256": "a8897359ccf0fe7209747b1969c040697f84e6cbd2bfb9af0812802e937f250c"
+    },
+    {
+      "name": "wav_25.wav",
+      "frames": 24000,
+      "sha256": "8a558610b0452664e8426bd52e18d939d5b8a6e5cb30f716b50b0085b1ff53c6"
+    },
+    {
+      "name": "wav_26.wav",
+      "frames": 24000,
+      "sha256": "ebb83e4ce6c6c5e38af3e4efe1052ec36650a7b45b7110e7ad4c1ee7eaadff85"
+    },
+    {
+      "name": "wav_27.wav",
+      "frames": 24000,
+      "sha256": "571c311f90e702ccc36710282d6fe076facbe6d7d9cce0e75fef3a0aec182465"
+    },
+    {
+      "name": "wav_28.wav",
+      "frames": 24000,
+      "sha256": "963516c1d2997c807577d4e6f070442a9ef245e9abdfb0c59d38e1586cfd03cd"
+    },
+    {
+      "name": "wav_29.wav",
+      "frames": 24000,
+      "sha256": "95895af80fe40af98a478470a7e2bbad628af3bf21ae584326aa861116a41c24"
+    },
+    {
+      "name": "wav_30.wav",
+      "frames": 24000,
+      "sha256": "417baf3112430c5d91b72ebb7719c62516f7a22941895a42ced4480eb61e22d8"
+    },
+    {
+      "name": "wav_31.wav",
+      "frames": 24000,
+      "sha256": "0cea7e377d403c76bdd5239338a86c9d7c256ce88bb6a07aa5e890f71d9dc72d"
+    },
+    {
+      "name": "wav_32.wav",
+      "frames": 24000,
+      "sha256": "22019ed1005e7c8c804f31075ad3b44b24dbf518f9a32df2e3fdf6b46aa93b1e"
+    },
+    {
+      "name": "wav_33.wav",
+      "frames": 24000,
+      "sha256": "450c5669164ed7907e9349284d4a13af87e59b7767545de71521d84dd4ab505e"
+    },
+    {
+      "name": "wav_34.wav",
+      "frames": 24000,
+      "sha256": "f7afa07c68e4015d79e14dfabb819c8e77940e395546730567b01f74b902ff2d"
+    },
+    {
+      "name": "wav_35.wav",
+      "frames": 24000,
+      "sha256": "e5059b3194c5388d78e5fa0bf62f21ef311e5fd6e2d68f27728bde89dafa26ca"
+    },
+    {
+      "name": "wav_36.wav",
+      "frames": 24000,
+      "sha256": "5dfb632767047359bc87b2cc4c1b832043742c1ff38ddb309f77bcb9564c99bf"
+    },
+    {
+      "name": "wav_37.wav",
+      "frames": 24000,
+      "sha256": "b8b3a87ec594ba197964e01340d4f67d57b0ad1bb892c8f7b6e2ccac61790955"
+    },
+    {
+      "name": "wav_38.wav",
+      "frames": 24000,
+      "sha256": "06aeeebd73a91f80f7259cd69e70c95aad06eccd5dafa57cfdee49d12ea765cf"
+    },
+    {
+      "name": "wav_39.wav",
+      "frames": 24000,
+      "sha256": "d19073d56e22d2498d5d88ed53c6129773db0c88629770cebe2822e17c1dd10f"
+    },
+    {
+      "name": "wav_40.wav",
+      "frames": 24000,
+      "sha256": "674f787916d660663af553222e6f7475de281150e45442b17bacd086f92539a9"
+    },
+    {
+      "name": "wav_41.wav",
+      "frames": 24000,
+      "sha256": "bb712e6f0962193139dcef6bc32b14806fb95bfe50d0233a80bc3074767a5747"
+    },
+    {
+      "name": "wav_42.wav",
+      "frames": 24000,
+      "sha256": "17cf982832ae9495d57ae0ddc6062a9a371bded22843bf47528053a7e7feec6c"
+    },
+    {
+      "name": "wav_43.wav",
+      "frames": 24000,
+      "sha256": "605c0400cfe18ef70c5df7aa4444352f260fd111715c59857c2759e72215219c"
+    },
+    {
+      "name": "wav_44.wav",
+      "frames": 24000,
+      "sha256": "737571d20af2ab45afe8794de001ad5f8005e8726999cc03541d1efb2bb009b1"
+    },
+    {
+      "name": "wav_45.wav",
+      "frames": 24000,
+      "sha256": "ff061aad11f2079d6262060581e9a692391b024f5344e3f9cdb01e4ae5b8e4e2"
+    },
+    {
+      "name": "wav_46.wav",
+      "frames": 24000,
+      "sha256": "b7fcad9b9e0a175343089b3ab4e84c5659fd683139ef82a3c72a8a5c6ed1af11"
+    },
+    {
+      "name": "wav_47.wav",
+      "frames": 24000,
+      "sha256": "3ece4590e97ed99ffd2ab023a5916f7acb48c5428a6e109dc568ee9da4d525ba"
+    },
+    {
+      "name": "wav_48.wav",
+      "frames": 24000,
+      "sha256": "4e5d26b5a0d61000c3c6394fa7f7ff6ef912726382668704b0e65ccfea82a29a"
+    },
+    {
+      "name": "wav_49.wav",
+      "frames": 7680,
+      "sha256": "bd7c0b1674ff6cebcd2c9fa5dc3aac7fa75e72eb141c87b3c1635e848b14a510"
+    }
+  ],
+  "audio_frames": 1179840,
+  "audio_duration_s": 49.16,
+  "audio_rms_pcm16": 2572.517821545514,
+  "pcm_sha256": "f24c45ec32bb0b7d32486546e91148f41b8348d563bbc8fc2c6e8babb3da098a",
+  "merged_wav_sha256": "a38e7fdea006f4b785b8ee857aeb4c3b4b0f4a7a2039c6e34f6723c105c8da02",
+  "peak_rss_kib_from_time": null,
+  "wall_clock_from_time": null,
+  "sampled_process_profile": {
+    "command": [
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu_v3\\llama-omni-cli.exe",
+      "-m",
+      "C:\\Users\\zhout\\w2\\models\\MiniCPM-o-4_5-gguf\\MiniCPM-o-4_5-Q4_K_M.gguf",
+      "-ngl",
+      "0",
+      "-c",
+      "2048",
+      "--omni",
+      "--t2w-device",
+      "cpu",
+      "--t2w-wait-seconds",
+      "900",
+      "--ref-audio",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu_v3\\default_ref_audio.wav",
+      "--test",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu_v3\\fixture_",
+      "2"
+    ],
+    "cwd": "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu_v3",
+    "exit_code": 0,
+    "wall_s": 137.33765170001425,
+    "memory_sample_interval_ms": 100,
+    "memory_samples": 1365,
+    "peak_sampled_rss_bytes": 13104742400,
+    "peak_sampled_private_bytes": 13314060288,
+    "measurement_note": "sampled process values, not guaranteed loading peaks"
+  },
+  "upstream_merge_name_mismatch": true
+}

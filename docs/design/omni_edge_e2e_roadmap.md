@@ -46,6 +46,18 @@ from GPU, swap is heavily used, and stage 0 requires forced shutdown with
 shared-memory cleanup warnings. These single requests do not inherit the
 20-request text latency profile or establish real image/audio quality.
 
+A separate [pinned GGUF C++ route](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_cpu/README.md)
+completed one **combined** synthetic image+audio to text+speech request on WSL
+CPU. Its [native Windows CPU follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_windows_cpu/README.md)
+completed the same input path with a corrected bounded Token2Wav wait and an
+x86-64-v3 build: 50 verified WAV chunks/49.16 s audio in one 137.34 s cold
+process, with 13.10 GB maximum sampled RSS. The initial native attempt
+[exited 0 with incomplete speech](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_windows_cpu_attempt1/README.md),
+and is retained as a failure. Both complete C++ responses were generic rather
+than input descriptions; the fixture supplied no explicit description task,
+so quality remains unqualified. These runs do not close the Omni stage,
+admission, cancellation, streaming or M4 video/real-observation gates.
+
 Native Windows HX370 CPU now also completes two Qwen3-TTS CustomVoice
 text-to-WAV requests through Qwen's standalone PyTorch wrapper using the pinned
 0.6B checkpoint. A separate 1-warmup/20-measured serial profile of one short

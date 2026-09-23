@@ -1,0 +1,18 @@
+{
+  "scope": "Whisper Mandarin ASR proxy for generated speech; no input-task or perceptual-quality claim",
+  "asr_model": "openai/whisper-tiny",
+  "asr_revision": "169d4a4341b33bc18d8881c4b69c2e104e1cc0af",
+  "asr_weights_sha256": "7ebd0e69e78190ffe1438491fa05cc1f5c1aa3a4c4db3bc1723adbb551ea2395",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "a38e7fdea006f4b785b8ee857aeb4c3b4b0f4a7a2039c6e34f6723c105c8da02",
+  "wav_duration_s": 49.16,
+  "reference_text": "哎呀，这个问题挺有意思的！要是让我去一个完全没去过的地方，那我肯定得去北极啊！你想啊，那地方冰天雪地的，白茫茫的一片，连路都没有，走路都得小心翼翼的。但你说这地方多刺激！穿厚厚的羽绒服，戴上防风手套，脚底下踩着雪板或者雪鞋，一步一步往前挪，呼哧呼哧喘着粗气。抬头看天，全是星星，连北极光都能看见，那叫一个美！不过呢，也挺难的，吃饭得靠口哨，因为风声太大，说话听不清。坐那儿吃点热汤，暖暖身子，再看看远处的冰山，那才叫过瘾！你说这地方荒不荒？可就是这荒，才让人觉得活着真痛快！",
+  "transcript": "哎呀,这个问题挺有意思的。要是让我去一个完全没去过的地方,难我肯定得去北极啊。你想啊。那地方冰天雪地的白茫茫的一片,别路都没有。走路都得小心一一单。但你说这地方多刺激,传后后的雨容符,带上房风手套,脚底下踩着雪板或者雪鞋,一步一步往前挪,胡植胡植传着出气。排透看天 全是星星連北極光都能看見 那叫一個美不過呢 也挺難的 吃飯得靠口事兒因為風聲太大 說話聽不清 做那吃點熱湯 暖暖身子在看看遠處的冰山 那才叫過言你說 這地方荒不荒可就是這荒 才讓人覺得活著真痛快",
+  "asr_segments_25_s": 2,
+  "character_error_rate_raw": 0.2524271844660194,
+  "character_error_rate_t2s_normalized": 0.13592233009708737,
+  "normalization": "OpenCC 0.1.7 t2s; punctuation ignored",
+  "load_s": 0.7400863000657409,
+  "inference_s": 3.526489199954085
+}

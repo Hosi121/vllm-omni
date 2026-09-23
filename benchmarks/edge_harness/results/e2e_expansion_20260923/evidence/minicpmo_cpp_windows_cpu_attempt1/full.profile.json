@@ -1,0 +1,27 @@
+{
+  "command": [
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu\\llama-omni-cli.exe",
+    "-m",
+    "C:\\Users\\zhout\\w2\\models\\MiniCPM-o-4_5-gguf\\MiniCPM-o-4_5-Q4_K_M.gguf",
+    "-ngl",
+    "0",
+    "-c",
+    "2048",
+    "--omni",
+    "--t2w-device",
+    "cpu",
+    "--ref-audio",
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu\\default_ref_audio.wav",
+    "--test",
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu\\fixture_",
+    "2"
+  ],
+  "cwd": "C:\\Users\\zhout\\w2\\minicpmo_cpp_cpu",
+  "exit_code": 0,
+  "wall_s": 615.1948444000445,
+  "memory_sample_interval_ms": 100,
+  "memory_samples": 6120,
+  "peak_sampled_rss_bytes": 9741307904,
+  "peak_sampled_private_bytes": 9946738688,
+  "measurement_note": "sampled process values, not guaranteed loading peaks"
+}
