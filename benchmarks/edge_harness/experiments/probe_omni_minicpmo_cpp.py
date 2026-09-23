@@ -11,6 +11,7 @@ import argparse
 import asyncio
 import hashlib
 import json
+import math
 import time
 import wave
 from pathlib import Path
@@ -28,7 +29,11 @@ async def main() -> None:
     parser.add_argument("--capacity-gib", type=int, default=30)
     parser.add_argument("--abort-check", action="store_true")
     parser.add_argument("--expect-admission-refusal", action="store_true")
+    parser.add_argument("--warmups", type=int, default=0)
+    parser.add_argument("--repeats", type=int, default=1)
     args = parser.parse_args()
+    if args.warmups < 0 or args.repeats < 1:
+        parser.error("warmups must be nonnegative and repeats must be positive")
 
     from vllm_omni.config.stage_config import DeployConfig, StageDeployConfig, merge_pipeline_deploy
     from vllm_omni.engine.stage_runtime import StageRuntime
@@ -70,7 +75,8 @@ async def main() -> None:
               "artifact_sha256": backend["artifact_sha256"],
               "cli_sha256": args.cli_sha256, "reference_sha256": reference_hash,
               "input_sha256": {key: hashlib.sha256(value).hexdigest() for key, value in inputs.items()},
-              "memory_budget": budget, "profile_count": 1, "warmup_count": 0}
+              "memory_budget": budget, "profile_count": args.repeats,
+              "warmup_count": args.warmups}
     try:
         started = time.perf_counter()
         if args.expect_admission_refusal:
@@ -118,15 +124,29 @@ async def main() -> None:
                 output.release_stage_buffers()
                 await asyncio.sleep(0)
 
-        result = await request_one("minicpmo-1")
-        pcm = result.pop("pcm")
+        report["warmups"] = []
+        for index in range(args.warmups):
+            item = await request_one(f"minicpmo-warmup-{index}")
+            item.pop("pcm")
+            report["warmups"].append(item)
+        measured = []
+        report["measured"] = measured
+        for index in range(args.repeats):
+            item = await request_one(f"minicpmo-measured-{index}")
+            if index == 0:
+                pcm = item["pcm"]
+                report["complete_request"] = {key: value for key, value in item.items() if key != "pcm"}
+            item.pop("pcm")
+            measured.append(item)
+        walls = sorted(item["wall_s"] for item in measured)
+        report["nearest_rank_p50_wall_s"] = walls[math.ceil(0.50 * len(walls)) - 1]
+        report["nearest_rank_p95_wall_s"] = walls[math.ceil(0.95 * len(walls)) - 1]
         args.output_wav.parent.mkdir(parents=True, exist_ok=True)
         with wave.open(str(args.output_wav), "wb") as out:
             out.setnchannels(1)
             out.setsampwidth(2)
             out.setframerate(24000)
             out.writeframes(pcm)
-        report["complete_request"] = result
         report["output_wav"] = str(args.output_wav)
         report["execution_plan_after_request"] = dict(pool.stage_client.execution_plan)
         if args.abort_check:

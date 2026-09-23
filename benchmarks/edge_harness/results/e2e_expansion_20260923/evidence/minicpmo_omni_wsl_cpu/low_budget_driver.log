@@ -1,0 +1,57 @@
+INFO 09-24 00:17:15 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 00:17:16 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 00:17:16 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 00:17:16 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 00:17:16 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 21] Is a directory: '/home/zhout/project/edge_infer/vllm-omni-edge'
+ERROR 09-24 00:17:21 [stage_runtime.py:265] [StageRuntime] Stage initialization failed; shutting down 0 initialized client(s)
+ERROR 09-24 00:17:21 [stage_runtime.py:265] Traceback (most recent call last):
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 252, in initialize
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     initialized_clients = self._initialize_stage_replicas(stage_plans, self._stage_init_timeout)
+ERROR 09-24 00:17:21 [stage_runtime.py:265]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 589, in _initialize_stage_replicas
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     raise primary_exc
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 550, in _init_group
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     client = self._initialize_replica(
+ERROR 09-24 00:17:21 [stage_runtime.py:265]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 817, in _initialize_replica
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     return create_graph_client(
+ERROR 09-24 00:17:21 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/__init__.py", line 27, in create_graph_client
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     return MiniCPMOCppStageClient(metadata, backend, ledger, reservation)
+ERROR 09-24 00:17:21 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:17:21 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/minicpmo_cpp.py", line 208, in __init__
+ERROR 09-24 00:17:21 [stage_runtime.py:265]     raise ResourceUnavailable("MiniCPM-o weights, state/workspace, I/O and headroom exceed reservation")
+ERROR 09-24 00:17:21 [stage_runtime.py:265] vllm_omni.engine.resource_ledger.ResourceUnavailable: MiniCPM-o weights, state/workspace, I/O and headroom exceed reservation
+{
+  "scope": "MiniCPM-o GGUF complete audio+image\u2192text+speech through Omni StageRuntime/StagePool",
+  "placement": "cpu",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "cli_sha256": "5c41298e2a234f76f10342e8b3b3aee7c93f77ea246c121f259ea89c682a6e42",
+  "reference_sha256": "cf4bb5cd9acbfbf67596d4a53310652b61ef4b7ede1d54eb03ef4882ca40223a",
+  "input_sha256": {
+    "audio_wav": "14ee147cbf2ce9afd9e32c8c8228d7cfe11985cd7e63456b2ad33871492aefcc",
+    "image_jpeg": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d"
+  },
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 32212254720
+    },
+    "demands": {
+      "host_ram": 8589934592
+    }
+  },
+  "profile_count": 1,
+  "warmup_count": 0,
+  "admission_refusal": "ResourceUnavailable: MiniCPM-o weights, state/workspace, I/O and headroom exceed reservation",
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 32212254720
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

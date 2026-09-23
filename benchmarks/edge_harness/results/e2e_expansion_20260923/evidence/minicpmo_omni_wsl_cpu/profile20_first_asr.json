@@ -1,0 +1,16 @@
+{
+  "scope": "local Whisper tiny.en ASR proxy for generated speech; no perceptual quality claim",
+  "asr_model": "openai/whisper-tiny.en",
+  "asr_revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+  "asr_weights_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "25e83ba6488a08bc90c6021230381375d4177cd88c8367a7937b488cc3197029",
+  "input_sample_rate": 24000,
+  "input_duration_s": 2.0,
+  "reference_text": "The square in the image is red.",
+  "transcript": "The square in the image is red.",
+  "word_error_rate": 0.0,
+  "asr_load_s": 1.1057805999880657,
+  "asr_inference_s": 0.9375752999912947
+}

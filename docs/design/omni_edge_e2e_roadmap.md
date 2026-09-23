@@ -85,6 +85,18 @@ does not stream playable chunks, post-cancel restart is untested, and the
 single synthetic case does not establish broad multimodal quality, loading
 peak, concurrency, video, mobile artifacts or sustained power behavior.
 
+The same [GGUF Omni whole-session stage on WSL CPU](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_omni_wsl_cpu/README.md)
+now passes a combined spoken visual question to text+speech on CPU-only C++
+execution. One warmup plus 20 serial complete requests all returned the correct
+red-square answer and complete speech, with nearest-rank wall p50/p95
+22.67/24.83 s. The first measured WAV independently transcribed exactly with
+pinned Whisper tiny.en; the 20 speech durations varied, so this is one scoped
+intelligibility check rather than a quality or alignment qualification. A
+24 GiB WSL shared-RAM reservation, 8 GiB refusal and in-flight cancellation
+with zero remaining ledger passed. This closes the WSL CPU GGUF Omni stage
+binding for the named input, while real input suites, video, playable streaming,
+loading peak, concurrency and sustained behavior remain M4 work.
+
 Native Windows HX370 CPU now also completes two Qwen3-TTS CustomVoice
 text-to-WAV requests through Qwen's standalone PyTorch wrapper using the pinned
 0.6B checkpoint. A separate 1-warmup/20-measured serial profile of one short
