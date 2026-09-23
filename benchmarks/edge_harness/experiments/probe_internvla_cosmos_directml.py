@@ -54,11 +54,13 @@ def main() -> None:
     parser.add_argument("--encoder", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--dml-index", type=int, default=1)
+    parser.add_argument("--batch-size", type=int, default=1)
+    parser.add_argument("--model-dtype", choices=("float32", "bfloat16"), default="float32")
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--repeats", type=int, default=20)
     args = parser.parse_args()
-    if args.warmups < 0 or args.repeats < 1:
-        parser.error("invalid warmup or measured count")
+    if args.warmups < 0 or args.repeats < 1 or args.batch_size < 1:
+        parser.error("invalid batch size, warmup or measured count")
 
     import numpy as np
     import psutil
@@ -83,8 +85,8 @@ def main() -> None:
         "device_name": device_name,
         "torch": torch.__version__,
         "torch_directml": __import__("importlib.metadata", fromlist=["version"]).version("torch-directml"),
-        "input_shape": [1, 3, 256, 256],
-        "input_dtype": "float32",
+        "input_shape": [args.batch_size, 3, 256, 256],
+        "input_dtype": args.model_dtype,
         "warmups": args.warmups,
         "repeats": args.repeats,
     }
@@ -94,9 +96,12 @@ def main() -> None:
         image[:, 0, 48:208, 48:208] = 1
         image[:, 1, 48:208, 48:208] = -1
         image[:, 2, :, :] = torch.linspace(-1, 1, 256)[None, None, :]
+        image = image.repeat(args.batch_size, 1, 1, 1)
+        model_dtype = getattr(torch, args.model_dtype)
+        image = image.to(model_dtype)
 
         started = time.perf_counter()
-        cpu_model = source.load_cosmos_component(encoder, component="encoder", device="cpu")
+        cpu_model = source.load_cosmos_component(encoder, component="encoder", device="cpu").to(model_dtype)
         report["cpu_load_s"] = time.perf_counter() - started
         with safe_open(str(encoder), framework="pt", device="cpu") as checkpoint:
             checkpoint_keys = set(checkpoint.keys())
@@ -125,7 +130,7 @@ def main() -> None:
             set(report["checkpoint_unexpected_keys"]) != set(checkpoint_buffers)):
             raise RuntimeError("Cosmos encoder checkpoint/state keys do not match")
         started = time.perf_counter()
-        dml_model = source.load_cosmos_component(encoder, component="encoder", device="cpu").to(dml)
+        dml_model = source.load_cosmos_component(encoder, component="encoder", device="cpu").to(dtype=model_dtype, device=dml)
         report["dml_load_and_transfer_s"] = time.perf_counter() - started
         if {parameter.device.type for parameter in cpu_model.parameters()} != {"cpu"}:
             raise RuntimeError("CPU reference encoder placement differs")

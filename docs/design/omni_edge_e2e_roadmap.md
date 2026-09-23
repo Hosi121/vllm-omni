@@ -33,9 +33,15 @@ and output were checked on DirectML, with one warmup and 20 measured patterned
 256×256 encodes at 26.56/27.49 ms p50/p95 including transfer and readback,
 versus 156.49/158.71 ms for the same CPU source. Relative L2 error was
 4.73e-07. The separate older DirectML runtime cannot host the current Omni
-policy directly. M4 remains open for complete actions, real observations,
-time/units, state/admission and a measured full-request handoff benefit; no
-joint CPU+iGPU InternVLA E2E status is inferred from this component timing.
+policy directly. A follow-up fixed-six-frame FP32 export ran in the existing
+Omni external DirectML worker while the real-weight BF16 action policy stayed
+on WSL CPU. Twenty paired synthetic complete-policy requests after one warmup
+gave hybrid p50/p95 2.952/3.322 s versus CPU 3.178/3.266 s, with 16/20 paired
+calls faster but a worse hybrid tail. Action relative L2 difference was 0.9007%
+without a task tolerance. This advances M4 to a synthetic CPU+iGPU policy
+path, while real observations/reference actions, units/time, shared-RAM
+admission, cancellation and sustained benefit remain open. It does not turn
+the joint CPU+iGPU+NPU matrix cell into a pass.
 
 The WSL RTX MiniCPM-o image-to-text+speech path now passes for one 448×448
 synthetic red-square image under an explicit 0.61 thinker GPU budget. The

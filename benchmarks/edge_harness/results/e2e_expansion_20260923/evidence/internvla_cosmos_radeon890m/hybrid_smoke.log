@@ -1,0 +1,178 @@
+/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.29.0rc2.dev71+g00510ce38.d20260922
+ --> vLLM version 0.28.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+W0924 01:00:26.790000 3704813 torch/utils/_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0924 01:00:26.813000 3704813 torch/utils/_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+INFO 09-24 01:00:28 [importing.py:53] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+WARNING 09-24 01:00:28 [importing.py:65] Triton is installed, but doesn't include CPU backend. Disabling Triton.
+INFO 09-24 01:00:28 [importing.py:88] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 09-24 01:00:28 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 01:00:28 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 01:00:28 [patch.py:646] CPU AOT compile-cache load shim installed: compiled models are reused across engine starts instead of being recompiled.
+INFO 09-24 01:00:29 [patch.py:756] CPU weight-load memory release installed (set VLLM_OMNI_CPU_RELEASE_MEMORY=0 to disable).
+INFO 09-24 01:00:35 [pipeline_internvla_a1.py:164] Loading InternVLA-A1 weights from /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen
+{
+  "scope": "InternVLA real Place_Markpen checkpoint, synthetic zero camera/state observations and zero diffusion noise; CPU BF16 policy with FP32 Radeon Cosmos encoder; no robot-task quality claim",
+  "model_checkpoint_sha256": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313",
+  "graph_sha256": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704",
+  "graph_export": {
+    "status": "passed",
+    "scope": "fixed-shape Cosmos CI8x8 encoder graph; no InternVLA action-policy claim",
+    "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+    "source_sha256": {
+      "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+      "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+    },
+    "torch": "2.4.1+cpu",
+    "input_shape": [
+      6,
+      3,
+      256,
+      256
+    ],
+    "input_dtype": "torch.float32",
+    "output_shape": [
+      6,
+      16,
+      32,
+      32
+    ],
+    "max_abs_export_error": 0.0,
+    "export_s": 3.224664800101891,
+    "artifact_sha256": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704",
+    "artifact_bytes": 129872312,
+    "artifact_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2"
+  },
+  "policy_torch": "2.13.0+cpu",
+  "warmups": 0,
+  "repeats": 1,
+  "status": "passed",
+  "policy_load_s": 29.812130431004334,
+  "policy_parameters_device": "cpu",
+  "worker_start_and_graph_load_s": 3.608572050987277,
+  "worker_hello": {
+    "torch": "2.4.1+cu121",
+    "torch_directml": "unknown",
+    "available_providers": [
+      "NVIDIA GeForce RTX 5090 Laptop GPU\u0000",
+      "AMD Radeon(TM) 890M Graphics\u0000"
+    ],
+    "executable": "/home/zhout/project/edge_infer/.venvs/dml/bin/python"
+  },
+  "worker_load": {
+    "ep": "dml",
+    "graph_path": "/home/zhout/project/edge_infer/models/InternVLA-cosmos-encoder-batch6.pt2",
+    "session_providers": [
+      "torch-directml"
+    ],
+    "available_providers": [
+      "torch-directml"
+    ],
+    "node_counts": {
+      "dml": 1,
+      "cpu": 0
+    },
+    "total_nodes": 1,
+    "target_nodes": 1,
+    "fraction_on_target": 1.0,
+    "session_create_s": 0.8515134960180148,
+    "warmup_s": 0.8757424399955198,
+    "rss_bytes": 696877056,
+    "inputs": [
+      {
+        "name": "pixels",
+        "shape": [
+          6,
+          3,
+          256,
+          256
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out_0",
+        "shape": [
+          6,
+          16,
+          32,
+          32
+        ]
+      }
+    ],
+    "profile_path": "",
+    "ep_directory": "",
+    "requested_provider_missing": "",
+    "fallback_note": "",
+    "onnxruntime": "",
+    "note": ""
+  },
+  "action_shape": [
+    1,
+    50,
+    32
+  ],
+  "cpu_action_sha256_last": "db60d6590e242694948f7dcdf873b2fff44819d31b0b178fdad5ec9608d46140",
+  "hybrid_action_sha256_last": "256b244d3b6a8745391690ff88182a5f0f6f9325d279de1e9c5287a00c463798",
+  "max_action_abs_error": 0.007147848606109619,
+  "max_action_relative_l2_error": 0.009007224813103676,
+  "min_action_cosine": 0.9999594688415527,
+  "cpu_p50_wall_s": 3.4815611069789156,
+  "cpu_p95_wall_s": 3.4815611069789156,
+  "hybrid_p50_wall_s": 4.190806481987238,
+  "hybrid_p95_wall_s": 4.190806481987238,
+  "external_encoder_calls": 1,
+  "worker_stats": {
+    "runs": 1,
+    "total_run_s": 1.3663232960388996,
+    "rss_bytes": 697073664,
+    "peak_rss_bytes": 910974976,
+    "report": {
+      "ep": "dml",
+      "device_name": "AMD Radeon(TM) 890M Graphics\u0000",
+      "torch": "2.4.1+cu121",
+      "session_create_s": 0.8515134960180148,
+      "session_providers": [
+        "torch-directml"
+      ],
+      "available_providers": [
+        "torch-directml"
+      ],
+      "inputs": [
+        {
+          "name": "pixels",
+          "shape": [
+            6,
+            3,
+            256,
+            256
+          ]
+        }
+      ],
+      "warmup_s": 0.8757424399955198,
+      "node_counts": {
+        "dml": 1,
+        "cpu": 0
+      },
+      "total_nodes": 1,
+      "target_nodes": 1,
+      "fraction_on_target": 1.0,
+      "outputs": [
+        {
+          "name": "out_0",
+          "shape": [
+            6,
+            16,
+            32,
+            32
+          ]
+        }
+      ],
+      "rss_bytes": 696877056
+    }
+  },
+  "parent_rss_bytes_after": 9304088576,
+  "wsl_available_bytes_after": 21880107008
+}

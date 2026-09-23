@@ -1,0 +1,114 @@
+{
+  "scope": "InternVLA real Cosmos CI8x8 image encoder component; synthetic patterned 256x256 input; no full policy or robot-task claim",
+  "source_files_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "device_name": "AMD Radeon(TM) 890M Graphics",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "0.2.5.dev240914",
+  "input_shape": [
+    6,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "float32",
+  "warmups": 1,
+  "repeats": 20,
+  "cpu_load_s": 0.5824802999850363,
+  "checkpoint_tensor_count": 90,
+  "encoder_state_tensor_count": 88,
+  "checkpoint_missing_keys": [],
+  "checkpoint_unexpected_keys": [
+    "encoder.patcher._arange",
+    "encoder.patcher.wavelets"
+  ],
+  "nonpersistent_buffer_comparison": {
+    "encoder.patcher._arange": {
+      "checkpoint_shape": [
+        2
+      ],
+      "model_shape": [
+        2
+      ],
+      "checkpoint_dtype": "torch.int64",
+      "model_dtype": "torch.int64",
+      "max_abs_error": 0.0
+    },
+    "encoder.patcher.wavelets": {
+      "checkpoint_shape": [
+        2
+      ],
+      "model_shape": [
+        2
+      ],
+      "checkpoint_dtype": "torch.bfloat16",
+      "model_dtype": "torch.float32",
+      "max_abs_error": 7.551908493041992e-05
+    }
+  },
+  "dml_load_and_transfer_s": 0.65743709995877,
+  "status": "passed",
+  "output_shape": [
+    6,
+    16,
+    32,
+    32
+  ],
+  "cpu_output_sha256_float32": "e9e6cf789cbefb1c2f288cf17066f257a89de5548d528e66d2e984ddfddfbe79",
+  "dml_output_sha256_float32": "f371d1faaf6dfe00759a15d4b238844b6c75aba7757d10683a6b72a7c7c95df0",
+  "max_abs_error": 1.049041748046875e-05,
+  "relative_l2_error": 5.140985308571544e-07,
+  "cosine_similarity": 0.9999999403953552,
+  "cpu_nearest_rank_p50_wall_s": 0.8351699999766424,
+  "cpu_nearest_rank_p95_wall_s": 0.8514761000405997,
+  "dml_nearest_rank_p50_wall_s": 0.13381510006729513,
+  "dml_nearest_rank_p95_wall_s": 0.14488479995634407,
+  "cpu_times_s": [
+    0.8759546000510454,
+    0.8428523000329733,
+    0.8379843001021072,
+    0.837651600013487,
+    0.8445929000154138,
+    0.8227816999424249,
+    0.835246599977836,
+    0.8439408000558615,
+    0.8240886999992654,
+    0.8341848999261856,
+    0.825562399928458,
+    0.8514761000405997,
+    0.8318861000007018,
+    0.8337026999797672,
+    0.8306489000096917,
+    0.8351699999766424,
+    0.8360441999975592,
+    0.8495628000237048,
+    0.8333365999860689,
+    0.79932450002525
+  ],
+  "dml_times_s": [
+    0.3357291999273002,
+    0.12866579997353256,
+    0.1395762999309227,
+    0.13055210001766682,
+    0.12943259999155998,
+    0.13381510006729513,
+    0.13458940002601594,
+    0.13404289993923157,
+    0.1437174000311643,
+    0.12850900006014854,
+    0.12948820006567985,
+    0.12899790005758405,
+    0.1348303999984637,
+    0.12745120003819466,
+    0.13730459997896105,
+    0.14488479995634407,
+    0.1366466999752447,
+    0.12663509999401867,
+    0.13856200000736862,
+    0.1294181999983266
+  ],
+  "process_rss_bytes_after": 2996514816
+}

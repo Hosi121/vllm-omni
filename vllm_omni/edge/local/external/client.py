@@ -64,6 +64,8 @@ class LoadReport:
 
     ep: str
     graph_path: str
+    device_name: str = ""
+    placement_granularity: str = "graph_nodes"
     session_providers: tuple[str, ...] = ()
     available_providers: tuple[str, ...] = ()
     node_counts: dict[str, int] = field(default_factory=dict)
@@ -89,6 +91,8 @@ class LoadReport:
         return cls(
             ep=ep,
             graph_path=graph_path,
+            device_name=str(body.get("device_name") or "").rstrip("\x00"),
+            placement_granularity=str(body.get("placement_granularity") or "graph_nodes"),
             session_providers=tuple(body.get("session_providers") or ()),
             available_providers=tuple(body.get("available_providers") or ()),
             node_counts=dict(body.get("node_counts") or {}),
@@ -116,9 +120,11 @@ class LoadReport:
             placement = f"placement unverified ({self.note or 'no profiled run'})"
         else:
             split = ", ".join(f"{k}={v}" for k, v in sorted(self.node_counts.items()))
-            placement = f"{self.target_nodes}/{self.total_nodes} nodes on {self.ep} ({split})"
+            counted = "outputs" if self.placement_granularity == "output_device" else "nodes"
+            placement = f"{self.target_nodes}/{self.total_nodes} {counted} on {self.ep} ({split})"
+        device_suffix = f" ({self.device_name})" if self.device_name else ""
         return (
-            f"{Path(self.graph_path).name} on {self.ep}: {placement}; "
+            f"{Path(self.graph_path).name} on {self.ep}{device_suffix}: {placement}; "
             f"session {self.session_create_s:.3f}s, warmup {self.warmup_s:.3f}s, "
             f"worker rss {self.rss_bytes / 2**20:.0f} MiB"
         )

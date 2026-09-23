@@ -152,6 +152,20 @@ def test_verify_placement_accepts_a_real_split(a16w8_graph, npu_device):
     assert verify_placement(plan, report) is None
 
 
+def test_load_report_preserves_selected_adapter_name():
+    from vllm_omni.edge.local.external.client import LoadReport
+
+    report = LoadReport.from_body(
+        {"device_name": "AMD Radeon(TM) 890M Graphics\x00", "fraction_on_target": 1.0,
+         "placement_granularity": "output_device", "target_nodes": 1, "total_nodes": 1},
+        ep="dml", graph_path="cosmos.pt2",
+    )
+    assert report.device_name == "AMD Radeon(TM) 890M Graphics"
+    assert report.placement_granularity == "output_device"
+    assert "1/1 outputs" in report.summary()
+    assert report.to_dict()["device_name"] == report.device_name
+
+
 def test_refusing_a_plan_cannot_be_opened(a16w8_graph, npu_device):
     plan = plan_external_stage(_artifact(a16w8_graph, fmt=FORMAT_ONNX_FP16), [npu_device])
     with pytest.raises(PlacementRefused):

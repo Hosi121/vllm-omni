@@ -1,0 +1,186 @@
+{
+  "scope": "InternVLA real Place_Markpen checkpoint, synthetic zero camera/state observations and zero diffusion noise; CPU BF16 policy with FP32 Radeon Cosmos encoder; no robot-task quality claim",
+  "model_checkpoint_sha256": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313",
+  "graph_sha256": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704",
+  "graph_export": {
+    "status": "passed",
+    "scope": "fixed-shape Cosmos CI8x8 encoder graph; no InternVLA action-policy claim",
+    "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+    "source_sha256": {
+      "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+      "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+    },
+    "torch": "2.4.1+cpu",
+    "input_shape": [
+      6,
+      3,
+      256,
+      256
+    ],
+    "input_dtype": "torch.float32",
+    "output_shape": [
+      6,
+      16,
+      32,
+      32
+    ],
+    "max_abs_export_error": 0.0,
+    "export_s": 3.224664800101891,
+    "artifact_sha256": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704",
+    "artifact_bytes": 129872312,
+    "artifact_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2"
+  },
+  "policy_torch": "2.13.0+cpu",
+  "warmups": 0,
+  "repeats": 1,
+  "status": "passed",
+  "policy_load_s": 29.15763967798557,
+  "policy_parameters_device": "cpu",
+  "worker_start_and_graph_load_s": 3.116139805992134,
+  "worker_hello": {
+    "torch": "2.4.1+cu121",
+    "torch_directml": "unknown",
+    "available_providers": [
+      "NVIDIA GeForce RTX 5090 Laptop GPU\u0000",
+      "AMD Radeon(TM) 890M Graphics\u0000"
+    ],
+    "executable": "/home/zhout/project/edge_infer/.venvs/dml/bin/python"
+  },
+  "worker_load": {
+    "ep": "dml",
+    "graph_path": "/home/zhout/project/edge_infer/models/InternVLA-cosmos-encoder-batch6.pt2",
+    "device_name": "AMD Radeon(TM) 890M Graphics",
+    "placement_granularity": "output_device",
+    "session_providers": [
+      "torch-directml"
+    ],
+    "available_providers": [
+      "torch-directml"
+    ],
+    "node_counts": {
+      "dml": 1,
+      "cpu": 0
+    },
+    "total_nodes": 1,
+    "target_nodes": 1,
+    "fraction_on_target": 1.0,
+    "session_create_s": 0.8267001520143822,
+    "warmup_s": 0.5573145250091329,
+    "rss_bytes": 696872960,
+    "inputs": [
+      {
+        "name": "pixels",
+        "shape": [
+          6,
+          3,
+          256,
+          256
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out_0",
+        "shape": [
+          6,
+          16,
+          32,
+          32
+        ]
+      }
+    ],
+    "profile_path": "",
+    "ep_directory": "",
+    "requested_provider_missing": "",
+    "fallback_note": "",
+    "onnxruntime": "",
+    "note": ""
+  },
+  "action_shape": [
+    1,
+    50,
+    32
+  ],
+  "cpu_action_sha256_last": "db60d6590e242694948f7dcdf873b2fff44819d31b0b178fdad5ec9608d46140",
+  "hybrid_action_sha256_last": "256b244d3b6a8745391690ff88182a5f0f6f9325d279de1e9c5287a00c463798",
+  "cpu_wall_s": [
+    3.2618731430266052
+  ],
+  "hybrid_wall_s": [
+    3.699077647004742
+  ],
+  "per_request_action_error": [
+    {
+      "max_abs": 0.007147848606109619,
+      "relative_l2": 0.009007224813103676,
+      "cosine": 0.9999594688415527
+    }
+  ],
+  "max_action_abs_error": 0.007147848606109619,
+  "max_action_relative_l2_error": 0.009007224813103676,
+  "min_action_cosine": 0.9999594688415527,
+  "cpu_p50_wall_s": 3.2618731430266052,
+  "cpu_p95_wall_s": 3.2618731430266052,
+  "hybrid_p50_wall_s": 3.699077647004742,
+  "hybrid_p95_wall_s": 3.699077647004742,
+  "external_encoder_calls": 1,
+  "external_encoder_timings": [
+    {
+      "worker_s": 0.9252440289710648,
+      "round_trip_s": 0.9288088360335678,
+      "transport_s": 0.0035648070625029504
+    }
+  ],
+  "worker_stats": {
+    "runs": 1,
+    "total_run_s": 0.9252440289710648,
+    "rss_bytes": 692346880,
+    "peak_rss_bytes": 911052800,
+    "report": {
+      "ep": "dml",
+      "device_name": "AMD Radeon(TM) 890M Graphics\u0000",
+      "placement_granularity": "output_device",
+      "torch": "2.4.1+cu121",
+      "session_create_s": 0.8267001520143822,
+      "session_providers": [
+        "torch-directml"
+      ],
+      "available_providers": [
+        "torch-directml"
+      ],
+      "inputs": [
+        {
+          "name": "pixels",
+          "shape": [
+            6,
+            3,
+            256,
+            256
+          ]
+        }
+      ],
+      "warmup_s": 0.5573145250091329,
+      "node_counts": {
+        "dml": 1,
+        "cpu": 0
+      },
+      "total_nodes": 1,
+      "target_nodes": 1,
+      "fraction_on_target": 1.0,
+      "outputs": [
+        {
+          "name": "out_0",
+          "shape": [
+            6,
+            16,
+            32,
+            32
+          ]
+        }
+      ],
+      "rss_bytes": 696872960
+    }
+  },
+  "parent_rss_bytes_after": 9297932288,
+  "wsl_available_bytes_after": 21906087936
+}

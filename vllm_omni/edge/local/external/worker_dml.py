@@ -150,6 +150,7 @@ def _load(state: _Session, body: dict[str, Any], tensors: dict[str, np.ndarray])
     info: dict[str, Any] = {
         "ep": "dml",
         "device_name": device_name,
+        "placement_granularity": "output_device",
         "torch": torch.__version__,
         "session_create_s": create_s,
         "session_providers": ["torch-directml"],

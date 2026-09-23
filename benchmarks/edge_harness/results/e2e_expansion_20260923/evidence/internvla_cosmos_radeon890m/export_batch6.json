@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "scope": "fixed-shape Cosmos CI8x8 encoder graph; no InternVLA action-policy claim",
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "source_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "torch": "2.4.1+cpu",
+  "input_shape": [
+    6,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "torch.float32",
+  "output_shape": [
+    6,
+    16,
+    32,
+    32
+  ],
+  "max_abs_export_error": 0.0,
+  "export_s": 3.224664800101891,
+  "artifact_sha256": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704",
+  "artifact_bytes": 129872312,
+  "artifact_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2"
+}
