@@ -1,0 +1,16 @@
+Prompt:
+<|im_start|>system
+You are MiniCPM-o, a helpful multimodal assistant that can understand images, audio and video, and respond in text and speech.<|im_end|>
+<|im_start|>user
+(<audio>./</audio>)
+What is the content of this audio?<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<|tts_bos|>
+vllm_text_output:
+A loud and high pitched beep.
+vllm_token_ids:
+[32, 17361, 323, 1550, 48998, 90954, 13, 151704, 151645]

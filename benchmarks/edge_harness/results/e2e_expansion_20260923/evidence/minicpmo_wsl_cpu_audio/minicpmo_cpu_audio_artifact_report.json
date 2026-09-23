@@ -1,0 +1,15 @@
+{
+  "scope": "WSL CPU, real MiniCPM-o checkpoint, one synthetic audio input to text+speech request",
+  "text": "A loud and high pitched beep.",
+  "token_count": 9,
+  "text_match_wsl_gpu": false,
+  "token_ids_match_wsl_gpu": false,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 51840,
+    "duration_s": 2.16,
+    "nonzero_samples": 50375,
+    "rms_float": 0.02436868422594072,
+    "sha256": "e6a6e2b1c09b578936ab8c571410d6b16560651abcc94355479cf0c7e6400fd1"
+  }
+}

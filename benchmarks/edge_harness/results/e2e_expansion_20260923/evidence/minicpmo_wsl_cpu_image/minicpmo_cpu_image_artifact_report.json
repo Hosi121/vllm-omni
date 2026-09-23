@@ -1,0 +1,15 @@
+{
+  "scope": "WSL CPU, real MiniCPM-o checkpoint, one synthetic image input to text+speech request",
+  "text": "The image shows a solid red square centered on a white background. There are no other visible elements, text, or details.",
+  "token_count": 27,
+  "text_match_wsl_gpu": false,
+  "token_ids_match_wsl_gpu": false,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 124800,
+    "duration_s": 5.2,
+    "nonzero_samples": 123513,
+    "rms_float": 0.09555768475943359,
+    "sha256": "d1f5890a6aafa3c2dcea0ea4ae34e500d03ada1369ce61a8a005e9a35a5c3805"
+  }
+}
