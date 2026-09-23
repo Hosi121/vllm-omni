@@ -1,0 +1,31 @@
+{
+  "scope": "real checkpoint, synthetic zero observations and noise; no task-quality claim",
+  "model_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-A1-3B-FT-Place_Markpen",
+  "runtime_mode": "real_checkpoint_loaded",
+  "device": "cpu",
+  "policy_devices": [
+    "cpu"
+  ],
+  "actions_device": "cpu",
+  "dtype": "torch.float32",
+  "action_shape": [
+    1,
+    50,
+    32
+  ],
+  "finite": true,
+  "action_sha256_float32": "51b01235e490aa4cfc7bf5147bb692a3f7fd7feb6875addeb577e04581686599",
+  "first_action_prefix": [
+    0.021896986290812492,
+    -0.034019432961940765,
+    0.004346882924437523,
+    0.031385887414216995,
+    -0.0046007889322936535,
+    -0.016123272478580475,
+    0.01791001483798027,
+    -0.09050343930721283
+  ],
+  "startup_s": 61.65885859995615,
+  "forward_s": 3.363868599990383,
+  "cuda_peak_allocated_bytes": null
+}

@@ -1,0 +1,15 @@
+Prompt:
+<|im_start|>system
+You are MiniCPM-o, a helpful multimodal assistant that can understand images, audio and video, and respond in text and speech.<|im_end|>
+<|im_start|>user
+Say hello, then introduce vLLM-Omni in one sentence.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+
+vllm_text_output:
+Hello! vLLM-Omni is a versatile, high-performance large language model designed for efficient and accurate text generation and understanding.
+vllm_token_ids:
+[9707, 0, 348, 4086, 44, 23620, 76, 7751, 374, 264, 31945, 11, 1550, 57474, 3460, 4128, 1614, 6188, 369, 11050, 323, 13382, 1467, 9471, 323, 8660, 13, 151645]

@@ -21,6 +21,7 @@ import inspect
 import math
 import os
 import warnings
+from collections import defaultdict
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, replace
 from functools import partial
@@ -3422,24 +3423,37 @@ class MiniCPMO45OmniLLMMultiModalProcessor(BaseMultiModalProcessor[MiniCPMO45Omn
         self,
         mm_items: MultiModalDataItems,
         hf_processor_mm_kwargs: Mapping[str, object],
-    ) -> BatchFeature:
+        prompt: str | list[int] | None = None,
+        tokenization_kwargs: Mapping[str, object] | None = None,
+        *,
+        enable_hf_prompt_update: bool | None = None,
+    ) -> BatchFeature | tuple[list[int], BatchFeature, bool]:
         """
         Process each modality independently because the MiniCPM processor
         asserts that image tags and image sizes have matching lengths.
+
+        vLLM 0.28 passes the prompt here and expects a three-tuple; 0.29
+        tokenizes the prompt separately and expects only the BatchFeature.
         """
         valid_mm_items = mm_items.select({key for key, count in mm_items.get_all_counts().items() if count > 0})
         mm_data, passthrough_data = self._get_hf_mm_data(valid_mm_items)
 
+        mm_inputs = self.process_mm_inputs(mm_data, hf_processor_mm_kwargs)
+        if prompt is not None:
+            if isinstance(prompt, str):
+                # vLLM 0.28's generic text-only path invokes the HF
+                # multimodal processor without media, which rejects MiniCPM
+                # modality placeholders in dummy prompts.
+                prompt_ids = self.info.get_tokenizer().encode(prompt)
+            else:
+                prompt_ids = self._apply_hf_processor_tokens_only(prompt)
+            processed_data = BatchFeature(dict(mm_inputs))
+            processed_data.update(passthrough_data)
+            return prompt_ids, processed_data, False
+
         tokenizer = self.info.get_tokenizer()
         prompt_text = self.dummy_inputs.get_dummy_text(mm_items.get_all_counts())
-        input_ids = torch.tensor([tokenizer.encode(prompt_text)])
-        mm_inputs = self.process_mm_inputs(mm_data, hf_processor_mm_kwargs)
-        processed_data = BatchFeature(
-            {
-                "input_ids": input_ids,
-                **mm_inputs,
-            }
-        )
+        processed_data = BatchFeature({"input_ids": torch.tensor([tokenizer.encode(prompt_text)]), **mm_inputs})
         processed_data.update(passthrough_data)
         return processed_data
 
@@ -3597,13 +3611,32 @@ class MiniCPMO45OmniLLMMultiModalProcessor(BaseMultiModalProcessor[MiniCPMO45Omn
     ) -> dict[str, NestedTensors]:
         from vllm.model_executor.models.minicpmv import MiniCPMVMultiModalProcessor
 
-        return MiniCPMVMultiModalProcessor._call_hf_processor_on_prompts(
-            self,
-            prompts,
-            mm_data,
-            {key: value for key, value in mm_kwargs.items() if key != "use_tts"},
-            out_keys=out_keys,
-        )
+        mm_kwargs = {key: value for key, value in mm_kwargs.items() if key != "use_tts"}
+        call_prompts = getattr(MiniCPMVMultiModalProcessor, "_call_hf_processor_on_prompts", None)
+        if call_prompts is not None:
+            return call_prompts(self, prompts, mm_data, mm_kwargs, out_keys=out_keys)
+
+        # vLLM 0.28 predates this MiniCPMV helper. Keep the same per-modality
+        # processing contract while using its available HF processor context.
+        if self.info.get_model_version() in {(2, 6), (4, 0), (4, 5), (4, 6)}:
+            inputs = self.info.ctx.call_hf_processor(
+                self.info.get_hf_processor(**mm_kwargs),
+                dict(text=prompts, **mm_data),
+                mm_kwargs,
+            )
+        else:
+            inputs = defaultdict(list)
+            for i, prompt in enumerate(prompts):
+                inputs_one = self.info.ctx.call_hf_processor(
+                    self.info.get_hf_processor(**mm_kwargs),
+                    dict(text=prompt, **{key: value[i] for key, value in mm_data.items()}),
+                    mm_kwargs,
+                )
+                for key, value in inputs_one.items():
+                    if len(value) != 1:
+                        raise ValueError(f"Expected one {key} item per MiniCPM-o prompt, got {len(value)}")
+                    inputs[key].append(value[0])
+        return {key: inputs[key] for key in out_keys}
 
     def _get_prompt_updates(
         self,

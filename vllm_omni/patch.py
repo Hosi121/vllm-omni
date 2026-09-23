@@ -536,6 +536,12 @@ _patch_inductor_factorable_divisibility()
 # (not a slot or C extension).  If CuMemAllocator is rewritten in C/Cython,
 # this monkey-patch will silently become a no-op.
 def _patch_cumem_free_callback_cuda() -> None:
+    if sys.platform == "win32":
+        # The native Windows vLLM build may not load libcudart before this
+        # module is imported. This Linux CUDA atexit workaround is not needed
+        # to import Omni on that platform.
+        _PATCH_LOGGER.debug("[cumem-cuda] native Windows; skipping patch")
+        return
     try:
         import torch
 

@@ -21,6 +21,7 @@ def main() -> None:
     parser.add_argument("--cosmos-dir", type=Path, required=True)
     parser.add_argument("--processor-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--actions-output", type=Path, help="Optional float32 .npy actions for reference comparison")
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
@@ -58,6 +59,10 @@ def main() -> None:
     pipeline = initialize_model(config)
     if pipeline.runtime_mode() != "real_checkpoint_loaded":
         raise RuntimeError(f"Unexpected InternVLA runtime mode: {pipeline.runtime_mode()}")
+    policy_devices = sorted({parameter.device.type for parameter in pipeline.policy.parameters()})
+    requested_device_type = torch.device(args.device).type
+    if policy_devices != [requested_device_type]:
+        raise RuntimeError(f"InternVLA policy ran on {policy_devices}, not {requested_device_type}")
     startup_s = time.perf_counter() - started
 
     batch_inputs = pipeline._build_fake_batch_inputs()
@@ -98,13 +103,23 @@ def main() -> None:
         raise RuntimeError(f"Unexpected action output: {type(actions).__name__}")
     if not torch.isfinite(actions).all():
         raise RuntimeError("InternVLA returned non-finite actions")
+    if actions.device.type != requested_device_type:
+        raise RuntimeError(f"InternVLA actions were on {actions.device}, not {requested_device_type}")
 
-    action_bytes = actions.detach().float().cpu().contiguous().numpy().tobytes()
+    action_array = actions.detach().float().cpu().contiguous().numpy()
+    action_bytes = action_array.tobytes()
+    if args.actions_output is not None:
+        import numpy as np
+
+        args.actions_output.parent.mkdir(parents=True, exist_ok=True)
+        np.save(args.actions_output, action_array)
     report = {
         "scope": "real checkpoint, synthetic zero observations and noise; no task-quality claim",
         "model_dir": str(model_dir),
         "runtime_mode": pipeline.runtime_mode(),
         "device": args.device,
+        "policy_devices": policy_devices,
+        "actions_device": str(actions.device),
         "dtype": str(actions.dtype),
         "action_shape": list(actions.shape),
         "finite": True,

@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""Measure serial real-weight MiniCPM-o text-to-speech requests on one device."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import os
+import platform
+import threading
+import time
+from pathlib import Path
+
+import numpy as np
+import psutil
+import torch
+import vllm
+
+from examples.offline_inference.minicpmo.end2end import get_text_query
+from vllm_omni.entrypoints.omni import Omni
+
+
+class MemorySampler:
+    def __init__(self, interval_s: float = 0.5):
+        self.interval_s = interval_s
+        self.stop = threading.Event()
+        self.samples: list[dict[str, int | float]] = []
+        self.thread = threading.Thread(target=self._run, name="memory-sampler", daemon=True)
+
+    def _run(self) -> None:
+        parent = psutil.Process()
+        while not self.stop.is_set():
+            memory = psutil.virtual_memory()
+            swap = psutil.swap_memory()
+            rss_sum = 0
+            for proc in [parent, *parent.children(recursive=True)]:
+                try:
+                    rss_sum += proc.memory_info().rss
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
+            self.samples.append(
+                {
+                    "monotonic_s": time.perf_counter(),
+                    "wsl_used_bytes": memory.used,
+                    "wsl_available_bytes": memory.available,
+                    "swap_used_bytes": swap.used,
+                    "process_tree_rss_sum_bytes": rss_sum,
+                }
+            )
+            self.stop.wait(self.interval_s)
+
+    def __enter__(self):
+        self.thread.start()
+        return self
+
+    def __exit__(self, *_exc):
+        self.stop.set()
+        self.thread.join()
+
+
+def _nearest_rank(values: list[float], percentile: float) -> float:
+    ordered = sorted(values)
+    return ordered[max(0, math.ceil(percentile * len(ordered)) - 1)]
+
+
+def _run_request(omni: Omni, prompt: dict, memory_sampler: MemorySampler) -> dict:
+    started = time.perf_counter()
+    first_text_s = None
+    first_audio_s = None
+    text = None
+    token_ids = None
+    audio_samples = None
+    audio_rms = None
+    request_ids = set()
+
+    for output in omni.generate([prompt], None):
+        request_ids.add(output.request_id)
+        if output.final_output_type == "text":
+            first_text_s = time.perf_counter() - started
+            text = output.outputs[0].text.strip()
+            token_ids = list(output.outputs[0].token_ids)
+        elif output.final_output_type == "audio":
+            first_audio_s = time.perf_counter() - started
+            audio = output.outputs[0].multimodal_output["audio"]
+            if isinstance(audio, list):
+                audio = torch.cat(
+                    [
+                        part.flatten() if isinstance(part, torch.Tensor) else torch.as_tensor(part).flatten()
+                        for part in audio
+                    ]
+                )
+            wave = audio.detach().float().cpu().numpy().reshape(-1)
+            if not np.isfinite(wave).all():
+                raise RuntimeError("MiniCPM-o generated non-finite audio")
+            audio_samples = int(wave.size)
+            audio_rms = float(np.sqrt(np.mean(wave.astype(np.float64) ** 2)))
+
+    completed = time.perf_counter()
+    if not text or not token_ids or not audio_samples or audio_rms == 0:
+        raise RuntimeError("MiniCPM-o did not produce both nonempty text and nonzero audio")
+    samples = [sample for sample in memory_sampler.samples if started <= sample["monotonic_s"] <= completed]
+    return {
+        "request_ids": sorted(request_ids),
+        "wall_s": completed - started,
+        "first_text_s": first_text_s,
+        "first_audio_s": first_audio_s,
+        "text": text,
+        "token_ids": token_ids,
+        "audio_samples": audio_samples,
+        "audio_duration_s_at_24khz": audio_samples / 24000,
+        "audio_rms_float": audio_rms,
+        "sampled_memory": {
+            "n": len(samples),
+            "max_wsl_used_bytes": max((s["wsl_used_bytes"] for s in samples), default=None),
+            "min_wsl_available_bytes": min((s["wsl_available_bytes"] for s in samples), default=None),
+            "max_swap_used_bytes": max((s["swap_used_bytes"] for s in samples), default=None),
+            # Sum of RSS can double-count shared pages; it is not unique RAM.
+            "max_process_tree_rss_sum_bytes": max((s["process_tree_rss_sum_bytes"] for s in samples), default=None),
+        },
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model", type=Path, required=True)
+    parser.add_argument("--deploy-config", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--warmups", type=int, default=1)
+    parser.add_argument("--repeats", type=int, default=20)
+    args = parser.parse_args()
+    if args.warmups < 0 or args.repeats < 1:
+        parser.error("warmups must be nonnegative and repeats must be positive")
+
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    prompt = {**get_text_query(use_tts=True).inputs, "modalities": ["text", "audio"]}
+    with MemorySampler() as sampler:
+        started = time.perf_counter()
+        omni = Omni(
+            model=str(args.model.resolve()),
+            deploy_config=str(args.deploy_config.resolve()),
+            trust_remote_code=True,
+        )
+        startup_s = time.perf_counter() - started
+        try:
+            rows = []
+            with args.output.with_suffix(".jsonl").open("w", encoding="utf-8") as raw:
+                for index in range(args.warmups + args.repeats):
+                    row = _run_request(omni, prompt, sampler)
+                    row["index"] = index
+                    row["warmup"] = index < args.warmups
+                    rows.append(row)
+                    raw.write(json.dumps(row) + "\n")
+                    raw.flush()
+                    print(f"request={index} warmup={row['warmup']} wall_s={row['wall_s']:.3f}", flush=True)
+        finally:
+            omni.close()
+
+    measured = [row for row in rows if not row["warmup"]]
+    times = [row["wall_s"] for row in measured]
+    output = {
+        "scope": "serial one-request-at-a-time MiniCPM-o text-to-speech; no speech-quality claim",
+        "model": str(args.model.resolve()),
+        "deploy_config": str(args.deploy_config.resolve()),
+        "deploy_config_sha256": hashlib.sha256(args.deploy_config.read_bytes()).hexdigest(),
+        "platform": platform.platform(),
+        "torch": torch.__version__,
+        "vllm": vllm.__version__,
+        "torch_cuda_available": torch.cuda.is_available(),
+        "environment": {
+            name: os.environ.get(name)
+            for name in ("VLLM_TARGET_DEVICE", "VLLM_CPU_KVCACHE_SPACE", "OMP_NUM_THREADS", "CUDA_VISIBLE_DEVICES")
+        },
+        "startup_s": startup_s,
+        "warmups": args.warmups,
+        "repeats": args.repeats,
+        "wall_s_p50_nearest_rank": _nearest_rank(times, 0.5),
+        "wall_s_p95_nearest_rank": _nearest_rank(times, 0.95),
+        "requests": rows,
+    }
+    args.output.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {args.output}", flush=True)
+
+
+if __name__ == "__main__":
+    main()

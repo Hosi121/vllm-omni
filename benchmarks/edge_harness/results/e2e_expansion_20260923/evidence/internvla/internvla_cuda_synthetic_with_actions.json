@@ -1,0 +1,27 @@
+{
+  "scope": "real checkpoint, synthetic zero observations and noise; no task-quality claim",
+  "model_dir": "/home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen",
+  "runtime_mode": "real_checkpoint_loaded",
+  "device": "cuda",
+  "dtype": "torch.float32",
+  "action_shape": [
+    1,
+    50,
+    32
+  ],
+  "finite": true,
+  "action_sha256_float32": "71ddd577e166f417639dd09f8cdaeef5a1bc91a6152c53672542504328675dd6",
+  "first_action_prefix": [
+    0.02230919525027275,
+    -0.033485047519207,
+    0.005473435390740633,
+    0.02993217296898365,
+    -0.00445316918194294,
+    -0.01604151912033558,
+    0.018104737624526024,
+    -0.09112925827503204
+  ],
+  "startup_s": 33.11364810500527,
+  "forward_s": 1.3273328139912337,
+  "cuda_peak_allocated_bytes": 6683068416
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "one real-weight MiniCPM-o 4.5 three-stage WSL CPU text-to-speech request; speech meaning unverified",
+  "cpu_text_tokens": 32,
+  "cpu_cuda_text_token_ids_equal": true,
+  "wave_frames": 124800,
+  "wave_sample_rate_hz": 24000,
+  "wave_channels": 1,
+  "wave_sample_width_bytes": 2,
+  "wave_duration_s": 5.2,
+  "wave_nonzero_samples": 124147,
+  "wave_peak_abs_pcm16": 21850,
+  "wave_rms_pcm16": 3319.410484644662,
+  "wave_sha256": "ded62a7285136fe16f28c7e6eb546048a6deb7e385a7a974031032c55df2de40"
+}
