@@ -55,8 +55,8 @@ process, with 13.10 GB maximum sampled RSS. The initial native attempt
 [exited 0 with incomplete speech](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_windows_cpu_attempt1/README.md),
 and is retained as a failure. Both complete C++ responses were generic rather
 than input descriptions; the fixture supplied no explicit description task,
-so quality remains unqualified. These runs do not close the Omni stage,
-admission, cancellation, streaming or M4 video/real-observation gates.
+so quality remains unqualified. These earlier standalone runs did not establish
+an Omni stage, admission, cancellation, streaming or M4 video/real-observation gate.
 
 The same GGUF set now also completes [native Windows Radeon 890M+CPU combined
 input](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_radeon890m/README.md).
@@ -69,8 +69,21 @@ The [same prompted CPU run](../../benchmarks/edge_harness/results/e2e_expansion_
 returned identical text and eight language token IDs in 24.66 s, though speech
 PCM differed. This advances the M4 desktop feasibility evidence for a
 CPU+iGPU hybrid; neither the one-case quality check nor the standalone C++
-control path closes Omni integration, admission, streaming, real-input quality,
-mobile artifacts or sustained profiling.
+control path establishes streaming, real-input quality, mobile artifacts or
+sustained profiling.
+
+The [Omni MiniCPM-o GGUF follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_omni_cpp/README.md)
+now binds that complete audio+image → text+speech request as one graph stage on
+native Windows CPU and Radeon 890M+CPU. The same pinned weights and spoken
+red-square fixture produced the correct answer and a complete WAV on both;
+one cold complete request took 24.34 s on CPU and 18.27 s on Radeon+CPU.
+Artifact hashes, actual CPU/Vulkan placement, 24 GiB shared-RAM reservation,
+terminal event/acknowledgement and in-flight cancellation with zero remaining
+ledger reservation were checked. An 8 GiB demand was refused. This closes the
+scoped desktop GGUF Omni stage-binding task, not M4 acceptance: the C++ worker
+does not stream playable chunks, post-cancel restart is untested, and the
+single synthetic case does not establish broad multimodal quality, loading
+peak, concurrency, video, mobile artifacts or sustained power behavior.
 
 Native Windows HX370 CPU now also completes two Qwen3-TTS CustomVoice
 text-to-WAV requests through Qwen's standalone PyTorch wrapper using the pinned
