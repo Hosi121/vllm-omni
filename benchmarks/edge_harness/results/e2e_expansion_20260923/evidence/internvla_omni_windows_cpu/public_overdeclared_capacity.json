@@ -1,0 +1,62 @@
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "cpu",
+  "pipeline": "internvla_a1_external_whole",
+  "startup_s": 134.27176439994946,
+  "request_wall_s": 4.887951400014572,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "82dd03dc31833fda60bff6620030315bad4034089b0c6c34c9de74e1c97e8d36",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790186329520927600,
+        "generation_timestamp_ns": 1790186334391448900,
+        "observation_age_s": 4.8705213,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-98389184",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "ef0afc8c9290443981d3cfb7ed0915d4",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "ef0afc8c9290443981d3cfb7ed0915d4",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

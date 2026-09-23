@@ -46,6 +46,11 @@ async def main() -> None:
         parser.error("Radeon placement requires --graph-file")
 
     import numpy as np
+    import psutil
+
+    host_available_bytes = psutil.virtual_memory().available
+    if args.capacity_gib << 30 > host_available_bytes:
+        raise RuntimeError("declared host-RAM capacity exceeds OS available RAM before load")
 
     from vllm_omni.config.stage_config import DeployConfig, StageDeployConfig, merge_pipeline_deploy
     from vllm_omni.diffusion.models.internvla_a1_whole_pipeline import INTERNVLA_A1_WHOLE_POLICY_PIPELINE
@@ -90,6 +95,7 @@ async def main() -> None:
     report = {
         "scope": "real InternVLA Place_Markpen checkpoint via bounded Omni whole-policy graph stage; synthetic patterned observations/noise; no robot-task quality claim",
         "placement": args.placement, "artifact_sha256": hashes, "budget": budget,
+        "host_available_bytes_before": host_available_bytes,
         "warmups": args.warmups, "repeats": args.repeats,
     }
     try:

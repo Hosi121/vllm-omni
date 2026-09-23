@@ -26,16 +26,25 @@ async def main() -> None:
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--graph-file", type=Path)
     parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    parser.add_argument("--capacity-gib", type=int, default=30)
+    parser.add_argument("--reserve-gib", type=int, default=16)
     args = parser.parse_args()
     if args.placement == "radeon-cosmos" and args.graph_file is None:
         parser.error("Radeon placement requires graph-file")
+    if args.reserve_gib < 1 or args.capacity_gib < args.reserve_gib:
+        parser.error("invalid explicit host-RAM budget")
 
     import numpy as np
+    import psutil
     import torch
     import yaml
 
     from vllm_omni.diffusion.models.internvla_a1_whole_pipeline import INTERNVLA_A1_WHOLE_POLICY_PIPELINE
     from vllm_omni.entrypoints.async_omni import AsyncOmni
+
+    host_available_bytes = psutil.virtual_memory().available
+    if args.capacity_gib << 30 > host_available_bytes:
+        raise RuntimeError("declared host-RAM capacity exceeds OS available RAM before load")
 
     model = args.model_dir.resolve(strict=True)
     cosmos = args.cosmos_dir.resolve(strict=True)
@@ -63,7 +72,9 @@ async def main() -> None:
         "start_timeout_s": 180, "request_timeout_s": 60,
     }
     report = {"entrypoint": "AsyncOmni.generate", "placement": args.placement,
-              "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type}
+              "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type,
+              "host_available_bytes_before": host_available_bytes,
+              "budget": {"capacity_gib": args.capacity_gib, "reserve_gib": args.reserve_gib}}
     engine = None
     try:
         with tempfile.TemporaryDirectory(prefix="omni-internvla-") as directory:
@@ -72,8 +83,8 @@ async def main() -> None:
                 "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type,
                 "async_chunk": False,
                 "stages": [{"stage_id": 0, "backend": backend,
-                            "resource_budget": {"capacities": {"host_ram": 30 << 30},
-                                                "demands": {"host_ram": 16 << 30}}}],
+                            "resource_budget": {"capacities": {"host_ram": args.capacity_gib << 30},
+                                                "demands": {"host_ram": args.reserve_gib << 30}}}],
             }), encoding="utf-8")
             started = time.perf_counter()
             engine = AsyncOmni(

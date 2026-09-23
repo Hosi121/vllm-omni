@@ -1,0 +1,28 @@
+W0924 01:50:24.677000 39924 Lib\site-packages\torch\utils\cpp_extension.py:178] No CUDA runtime is found, using CUDA_HOME='C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.4'
+INFO 09-24 01:50:27 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 01:50:27 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 01:50:32 [pipeline_internvla_a1.py:164] Loading InternVLA-A1 weights from \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen
+internvla-worker ready port=62205 props={"model_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-A1-3B-FT-Place_Markpen", "processor_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Qwen3-VL-2B-Instruct-processor", "cosmos_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Cosmos-Tokenizer-CI8x8", "placement": "cpu", "torch": "2.13.0+cu130", "policy_dtype": "bfloat16", "cosmos_dtype": "bfloat16", "policy_device": "cpu", "runtime_mode": "real_checkpoint_loaded", "policy_load_s": 77.1901350999251, "action_shape": [1, 50, 32], "image_shape": [1, 2, 3, 224, 224], "state_shape": [1, 32], "action_mode": "delta", "action_units": "unverified", "action_joint_order": "unverified", "action_step_s": null, "control_ready": false, "external_load": null}
+127.0.0.1 - - [24/Sep/2026 01:51:49] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:51:49] "GET /props HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:51:54] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:51:59] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:04] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:09] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:14] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:19] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:24] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:29] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:33] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:38] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:43] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:48] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:53] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:52:58] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:03] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:08] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:12] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:17] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:22] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:27] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 01:53:32] "POST /v1/actions HTTP/1.1" 200 -

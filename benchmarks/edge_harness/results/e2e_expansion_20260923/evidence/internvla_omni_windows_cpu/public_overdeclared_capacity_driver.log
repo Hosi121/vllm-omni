@@ -1,0 +1,80 @@
+INFO 09-24 01:55:57 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 01:55:57 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 01:56:37 [omni_base.py:216] [AsyncOmni] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen
+INFO 09-24 01:56:37 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen
+ERROR 09-24 01:56:37 [repo_utils.py:119] Error parsing config for \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen: Unrecognized model in \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen. Should have a `model_type` key in its config.json., retrying 1 of 2
+ERROR 09-24 01:56:39 [repo_utils.py:117] Error parsing config for \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen: Unrecognized model in \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen. Should have a `model_type` key in its config.json.
+INFO 09-24 01:56:39 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-24 01:56:39 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-24 01:56:39 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-24 01:58:49 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-24 01:58:49 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-24 01:58:49 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 132.47 seconds
+INFO 09-24 01:58:49 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen
+INFO 09-24 01:58:54 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-24 01:58:54 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-24 01:58:54 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-24 01:58:54 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-24 01:58:54 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "cpu",
+  "pipeline": "internvla_a1_external_whole",
+  "startup_s": 134.27176439994946,
+  "request_wall_s": 4.887951400014572,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "82dd03dc31833fda60bff6620030315bad4034089b0c6c34c9de74e1c97e8d36",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790186329520927600,
+        "generation_timestamp_ns": 1790186334391448900,
+        "observation_age_s": 4.8705213,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-98389184",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "ef0afc8c9290443981d3cfb7ed0915d4",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "ef0afc8c9290443981d3cfb7ed0915d4",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}
