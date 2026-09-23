@@ -1,0 +1,26 @@
+{
+  "scope": "complete resident Qwen3-TTS CustomVoice text-to-WAV through Omni StageRuntime/StagePool",
+  "placement": "Radeon Vulkan talker/codec + CPU FP32 code predictor",
+  "warmup_count": 0,
+  "measured_count": 1,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "status": "failed",
+  "error": "ResourceUnavailable: TTS weights plus declared state/workspace/headroom exceed reservation",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

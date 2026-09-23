@@ -83,3 +83,20 @@ QWEN3_TTS_TALKER_ONLY_PIPELINE = PipelineConfig(
         ),
     ),
 )
+
+
+# Whole-session hybrid fallback for the pinned CustomVoice GGUF artifact.
+# CrispASR owns talker, iterative code predictor and codec within one backend;
+# graph is only the Omni complete-request admission and acknowledgement path.
+QWEN3_TTS_CRISP_HYBRID_PIPELINE = PipelineConfig(
+    model_type="qwen3_tts_crisp_hybrid",
+    stages=(
+        StagePipelineConfig(
+            stage_id=0,
+            model_stage="audio",
+            execution_type=StageExecutionType.GRAPH,
+            final_output=True,
+            final_output_type="audio",
+        ),
+    ),
+)

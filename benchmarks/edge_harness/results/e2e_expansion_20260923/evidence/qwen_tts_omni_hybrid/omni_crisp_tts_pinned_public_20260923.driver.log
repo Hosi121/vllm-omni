@@ -1,0 +1,52 @@
+INFO 09-23 20:46:11 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-23 20:46:11 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-23 20:46:15 [omni_base.py:216] [AsyncOmni] Initializing with model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+INFO 09-23 20:46:15 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+ERROR 09-23 20:46:15 [repo_utils.py:119] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+
+ERROR 09-23 20:46:15 [repo_utils.py:119] 
+
+ERROR 09-23 20:46:15 [repo_utils.py:119] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`, retrying 1 of 2
+ERROR 09-23 20:46:17 [repo_utils.py:117] Error parsing config for C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+
+ERROR 09-23 20:46:17 [repo_utils.py:117] 
+
+ERROR 09-23 20:46:17 [repo_utils.py:117] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+INFO 09-23 20:46:17 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-23 20:46:17 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-23 20:46:17 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-23 20:46:21 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-23 20:46:21 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-23 20:46:21 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 6.84 seconds
+INFO 09-23 20:46:21 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model C:\Users\zhout\w2\models\Qwen3-TTS-0.6B-85e237c
+INFO 09-23 20:46:25 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-23 20:46:25 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-23 20:46:25 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-23 20:46:25 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-23 20:46:25 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+{
+  "entrypoint": "AsyncOmni.generate",
+  "pipeline": "qwen3_tts_crisp_hybrid",
+  "startup_s": 6.844502300024033,
+  "request_wall_s": 3.4202576000243425,
+  "outputs": [
+    {
+      "request_id": "public-tts-1",
+      "sample_rate": 24000,
+      "frames": 61440,
+      "pcm_sha256": "57f60228e2b456f6dfefc7e49df862c7bff6ba7cf39231ef1824f615948a1539",
+      "stage_event": {
+        "request_id": "public-tts-1-b42cf9e7",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "533c35d38e094bdf95f88ccac2dbab01",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

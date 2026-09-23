@@ -1,0 +1,17 @@
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+{
+  "scope": "local Whisper tiny.en ASR proxy for generated speech; no perceptual quality claim",
+  "asr_model": "openai/whisper-tiny.en",
+  "asr_revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+  "asr_weights_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "1bb9590f367ab531c66fc20d9b8aed9f0477fde67f2bdbe16e60de5a40b17e27",
+  "input_sample_rate": 24000,
+  "input_duration_s": 2.56,
+  "reference_text": "Hello from the local computer.",
+  "transcript": "Hello from the local computer.",
+  "word_error_rate": 0.0,
+  "asr_load_s": 1.1599759999662638,
+  "asr_inference_s": 1.4488219999475405
+}

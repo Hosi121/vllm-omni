@@ -111,7 +111,11 @@ from vllm_omni.model_executor.models.qwen3_omni.pipeline import (
     QWEN3_OMNI_THINKER_ONLY_PIPELINE,
     resolve_qwen3_omni_pipeline,
 )
-from vllm_omni.model_executor.models.qwen3_tts.pipeline import QWEN3_TTS_PIPELINE, QWEN3_TTS_TALKER_ONLY_PIPELINE
+from vllm_omni.model_executor.models.qwen3_tts.pipeline import (
+    QWEN3_TTS_CRISP_HYBRID_PIPELINE,
+    QWEN3_TTS_PIPELINE,
+    QWEN3_TTS_TALKER_ONLY_PIPELINE,
+)
 from vllm_omni.model_executor.models.spark2_5.pipeline import (
     SPARK2_5_GGUF_TEXT_PIPELINE,
     SPARK2_5_PIPELINE,
@@ -144,6 +148,7 @@ OMNI_PIPELINES: dict[str, PipelineConfig | PipelineResolverFunc] = {
     "qwen3_omni_moe_thinker_only": QWEN3_OMNI_THINKER_ONLY_PIPELINE,
     "qwen3_tts": QWEN3_TTS_PIPELINE,
     "qwen3_tts_talker_only": QWEN3_TTS_TALKER_ONLY_PIPELINE,
+    "qwen3_tts_crisp_hybrid": QWEN3_TTS_CRISP_HYBRID_PIPELINE,
     # Single-stage text: an AR decoder with no companion stage. It lives in
     # the same registry as the multi-stage pipelines so that one code path
     # resolves every model (see the M0 local text mode).

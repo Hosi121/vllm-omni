@@ -13,4 +13,8 @@ def create_graph_client(metadata, config, ledger, reservation):
         from .llamacpp import LlamaCppTextStageClient
 
         return LlamaCppTextStageClient(metadata, backend, ledger, reservation)
+    if name == "external.crisp.tts.v1":
+        from .crisp_tts import CrispTTSStageClient
+
+        return CrispTTSStageClient(metadata, backend, ledger, reservation)
     raise ValueError(f"unsupported complete-request stage backend: {name!r}")

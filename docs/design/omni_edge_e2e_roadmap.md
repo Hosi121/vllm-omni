@@ -133,6 +133,8 @@ outputs need reference analysis; timing alone cannot identify their cause.
 
 The 2026-09-23 [Spark GGUF Omni follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_omni_llamacpp/README.md) adds a separate native Windows CPU/Radeon 890M whole-session option. Its pinned 1.7B Q4_K_M artifact passed two named complete text requests and 20 serial inventory requests per device through `StageRuntime`/`StagePool`; public `AsyncOmni` short requests passed on both devices. It verifies CPU or Vulkan1 placement, explicit 4 GiB host reservation, terminal event/acknowledgement and cancellation drain. This does not change the vLLM M0 acceptance or establish M1 mobile generation. Its next gates are incremental output, post-cancel restart, broader token/quality parity, loading/device-memory peaks, concurrency and sustained power/thermal behavior.
 
+The [Qwen3-TTS Omni hybrid follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_hybrid/README.md) adds one complete-request stage for the native Windows HX370 CPU+Radeon 890M route. A pinned Q8_0 talker and F16 codec produced two named PCM outputs exactly matching the prior standalone backend; one warmup plus 20 serial requests measured 3.298/3.336 s p50/p95 for 2.56 s of audio. Public `AsyncOmni` audio, cancellation drain and explicit 8 GiB host admission passed. This is progress toward M2 integration, not M2 acceptance: RTF remains above 1, and playable chunk streaming, post-cancel restart, loading/iGPU peaks, broader voice quality and 30-minute thermal behavior remain open. No NPU participated.
+
 VLA qualification here ends at action data. Physical robot control, collision
 avoidance and actuator safety belong to the external controller.
 
