@@ -1,0 +1,14 @@
+{
+  "scope": "synthetic 440 Hz, 2 s, 16 kHz mono sine tone to text+speech, one request, WSL RTX 5090 Laptop",
+  "model_response": "A loud whistling sound.",
+  "token_count": 9,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 51840,
+    "duration_s": 2.16,
+    "nonzero_samples": 51150,
+    "rms_float": 0.03495909656809984,
+    "sha256": "c8b999c0b340feff3c0a4618a74a54780b98ed6f354ddaa192079ec45742a87e"
+  },
+  "shutdown_note": "Python resource_tracker reported one shared_memory object"
+}
