@@ -21,4 +21,8 @@ def create_graph_client(metadata, config, ledger, reservation):
         from .qwen_tts_cpu import QwenTTSCPUStageClient
 
         return QwenTTSCPUStageClient(metadata, backend, ledger, reservation)
+    if name == "external.minicpmo.gguf.v1":
+        from .minicpmo_cpp import MiniCPMOCppStageClient
+
+        return MiniCPMOCppStageClient(metadata, backend, ledger, reservation)
     raise ValueError(f"unsupported complete-request stage backend: {name!r}")

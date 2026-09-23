@@ -87,3 +87,21 @@ MINICPMO_4_5_PIPELINE = PipelineConfig(
         ),
     ),
 )
+
+
+# The GGUF C++ worker owns the complete autoregressive/vision/audio/TTS session.
+# This is a separate whole-session deployment of MiniCPM-o, not a replacement
+# for the three-stage vLLM checkpoint above. Omni's graph path controls one
+# bounded request, resource reservation and terminal audio acknowledgement.
+MINICPMO_4_5_GGUF_WHOLE_PIPELINE = PipelineConfig(
+    model_type="minicpmo_4_5_gguf_whole",
+    stages=(
+        StagePipelineConfig(
+            stage_id=0,
+            model_stage="audio",
+            execution_type=StageExecutionType.GRAPH,
+            final_output=True,
+            final_output_type="audio",
+        ),
+    ),
+)

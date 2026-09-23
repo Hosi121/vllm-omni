@@ -89,7 +89,10 @@ from vllm_omni.model_executor.models.ming_tts.pipeline import (
     MING_TTS_MOE_PIPELINE,
     MING_TTS_PIPELINE,
 )
-from vllm_omni.model_executor.models.minicpmo_4_5.pipeline import MINICPMO_4_5_PIPELINE
+from vllm_omni.model_executor.models.minicpmo_4_5.pipeline import (
+    MINICPMO_4_5_GGUF_WHOLE_PIPELINE,
+    MINICPMO_4_5_PIPELINE,
+)
 from vllm_omni.model_executor.models.minimax_h3.pipeline import MINIMAX_H3_PIPELINE
 from vllm_omni.model_executor.models.minimax_music3.pipeline import MINIMAX_MUSIC3_PIPELINE
 from vllm_omni.model_executor.models.moss_tts.pipeline import (
@@ -207,6 +210,7 @@ OMNI_PIPELINES: dict[str, PipelineConfig | PipelineResolverFunc] = {
     "moss_tts_realtime": MOSS_TTS_REALTIME_PIPELINE,
     "moss_tts_local": MOSS_TTS_LOCAL_PIPELINE,
     "minicpmo_4_5": MINICPMO_4_5_PIPELINE,
+    "minicpmo_4_5_gguf_whole": MINICPMO_4_5_GGUF_WHOLE_PIPELINE,
     "minimax_music3": MINIMAX_MUSIC3_PIPELINE,
     "higgs_audio_v2": HIGGS_AUDIO_V2_PIPELINE,
     "higgs_multimodal_qwen3": HIGGS_AUDIO_V3_PIPELINE,
