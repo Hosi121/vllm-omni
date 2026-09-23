@@ -1,0 +1,418 @@
+{
+  "scope": "Standalone llama.cpp full-model text path; no Omni stage binding",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "model_path": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+  "server": {
+    "endpoint": "http://127.0.0.1:18173",
+    "build_info": "b11124-1a679828f",
+    "model_alias": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+    "model_ftype": "Q4_K - Medium",
+    "total_slots": 1
+  },
+  "quality_checks": [
+    {
+      "case": "short",
+      "wall_s": 0.4887153999879956,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "wall_s": 0.7786927999695763,
+      "content": "1511",
+      "expected": "1511",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 2463,
+        "total_tokens": 2468,
+        "prompt_tokens_details": {
+          "cached_tokens": 1948
+        }
+      }
+    }
+  ],
+  "warmups": [
+    {
+      "case": "short",
+      "wall_s": 0.48504260007757694,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    }
+  ],
+  "samples": [
+    {
+      "case": "short",
+      "wall_s": 0.09932070004288107,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.0984904000069946,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09055399999488145,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09084180009085685,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.07738210004754364,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.10014190000947565,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09278060006909072,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09588450007140636,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.10041170008480549,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.07804280007258058,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09451030008494854,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09293620008975267,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.07760550000239164,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09585659997537732,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09953960007987916,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.08980209997389466,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09244449995458126,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09291470004245639,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.09785889997147024,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    },
+    {
+      "case": "short",
+      "wall_s": 0.08484689996112138,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 23
+        }
+      }
+    }
+  ],
+  "profile": {
+    "repeats": 20,
+    "concurrency": 1,
+    "p50_wall_s": 0.09291470004245639,
+    "p95_wall_s": 0.10014190000947565,
+    "min_wall_s": 0.07738210004754364,
+    "max_wall_s": 0.10041170008480549,
+    "cached_prompt_tokens": [
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23
+    ]
+  },
+  "status": "passed"
+}

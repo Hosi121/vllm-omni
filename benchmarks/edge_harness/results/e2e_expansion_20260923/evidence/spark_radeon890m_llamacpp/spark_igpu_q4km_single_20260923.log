@@ -1,0 +1,36 @@
+
+
+Loading model... 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b11124-1a679828f
+model      : C:\Users\zhout\w2\models\Spark-X2.5-1.7B-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> What is the capital of France? Answer in one word.
+
+[Start thinking]
+
+We are asked: "What is the capital of France? Answer in one word." So the answer should be a single word: "Paris". But we need to output just the word? The instruction says "Answer in one word." So we should output "Paris". But let's make sure: The capital of France
+
+[ Prompt: 13.5 t/s | Generation: 57.7 t/s ]
+
+
+Exiting...

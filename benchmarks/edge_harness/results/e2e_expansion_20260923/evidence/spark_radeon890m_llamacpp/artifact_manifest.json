@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "model": "XHToken/Spark-X2.5-1.7B-GGUF",
+  "model_revision": "1f7fa33b1245c14730da39e125714ad3a327901b",
+  "model_file": "Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "model_file_bytes": 1107457856,
+  "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+  "backend": "llama.cpp b11124-1a679828f Windows x64 Vulkan release",
+  "backend_release_zip_sha256": "ece009eff2a18884246b4aef785ce4efd9eb36f4fc38e3d6727af6fe53bd2c75",
+  "llama_server_exe_sha256": "9ffc5919acb4cb43c7be5f3053b59014cce70a87d3a801fcad49c4f459984f52",
+  "hardware": "AMD Ryzen AI 9 HX 370, Radeon 890M integrated GPU; RTX 5090 Laptop also installed but excluded from the Radeon run",
+  "os": "Windows 11 build 26200",
+  "radeon_vulkan_driver_info": "25.20.18.06 (LLPC)",
+  "radeon_device": "Vulkan1",
+  "context_tokens": 4096,
+  "parallel_slots": 1,
+  "precision": "Q4_K_M weights, default f16 KV cache",
+  "sampling": "temperature 0; llama-server --reasoning off; maximum 96 completion tokens",
+  "profile": "one warmup, 20 measured serial HTTP chat completions of 2463 prompt tokens and 5 completion tokens, cache_prompt=false",
+  "evidence_depth": "scoped complete standalone text route; not an Omni StageRuntime binding"
+}

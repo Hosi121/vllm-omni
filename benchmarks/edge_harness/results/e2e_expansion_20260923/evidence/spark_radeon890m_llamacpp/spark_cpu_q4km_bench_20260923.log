@@ -1,0 +1,6 @@
+load_backend: loaded RPC backend from C:\Users\zhout\w2\llama-vulkan-b11124\bin\ggml-rpc.dll
+ggml_vulkan: Found 2 Vulkan devices:
+ggml_vulkan: 0 = NVIDIA GeForce RTX 5090 Laptop GPU (NVIDIA) | uma: 0 | fp16: 1 | bf16: 1 | fp4: 0 | warp size: 32 | shared memory: 49152 | int dot: 1 | matrix cores: NV_coopmat2
+ggml_vulkan: 1 = AMD Radeon(TM) 890M Graphics (AMD proprietary driver) | uma: 1 | fp16: 1 | bf16: 1 | fp4: 0 | warp size: 64 | shared memory: 32768 | int dot: 1 | matrix cores: KHR_coopmat
+load_backend: loaded Vulkan backend from C:\Users\zhout\w2\llama-vulkan-b11124\bin\ggml-vulkan.dll
+load_backend: loaded CPU backend from C:\Users\zhout\w2\llama-vulkan-b11124\bin\ggml-cpu-zen4.dll

@@ -1,0 +1,16 @@
+{
+  "scope": "One Get-Process snapshot after each 20-request profile, before stopping that server; not a peak or GPU allocation measurement",
+  "radeon_server": {
+    "pid": 49832,
+    "device_argument": "Vulkan1",
+    "working_set_bytes": 1841168384,
+    "private_memory_bytes": 1844895744
+  },
+  "cpu_server": {
+    "pid": 53356,
+    "device_argument": "none",
+    "working_set_bytes": 2141794304,
+    "private_memory_bytes": 1061339136
+  },
+  "note": "Radeon 890M shares host RAM. Windows process working set cannot attribute all integrated-GPU allocations. No load peak, thermal or power measurement was captured."
+}

@@ -1,0 +1,36 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1511"
+      }
+    }
+  ],
+  "created": 1790160209,
+  "model": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "system_fingerprint": "b11124-1a679828f",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 5,
+    "prompt_tokens": 2465,
+    "total_tokens": 2470,
+    "prompt_tokens_details": {
+      "cached_tokens": 9
+    }
+  },
+  "id": "chatcmpl-mCtMsGHw7erZQESvX4Fmh29LVtKo261I",
+  "timings": {
+    "cache_n": 9,
+    "prompt_n": 2456,
+    "prompt_ms": 4845.128,
+    "prompt_per_token_ms": 1.972771986970684,
+    "prompt_per_second": 506.9009528747228,
+    "predicted_n": 5,
+    "predicted_ms": 77.149,
+    "predicted_per_token_ms": 19.28725,
+    "predicted_per_second": 51.84772323685336
+  }
+}

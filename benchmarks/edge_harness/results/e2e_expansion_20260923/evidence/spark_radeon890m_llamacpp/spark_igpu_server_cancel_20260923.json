@@ -1,0 +1,101 @@
+{
+  "scope": "Standalone llama.cpp full-model text path; no Omni stage binding",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "model_path": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+  "server": {
+    "endpoint": "http://127.0.0.1:18173",
+    "build_info": "b11124-1a679828f",
+    "model_alias": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+    "model_ftype": "Q4_K - Medium",
+    "total_slots": 1
+  },
+  "quality_checks": [
+    {
+      "case": "short",
+      "wall_s": 0.5372719999868423,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "wall_s": 2.166346100042574,
+      "content": "1511",
+      "expected": "1511",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 2463,
+        "total_tokens": 2468,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  ],
+  "warmups": [],
+  "samples": [
+    {
+      "case": "inventory_120",
+      "wall_s": 2.2086611000122502,
+      "content": "1511",
+      "expected": "1511",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 2463,
+        "total_tokens": 2468,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  ],
+  "cancellation": {
+    "first_delta": "1",
+    "stream_closed_after_first_content": true,
+    "first_delta_wall_s": 0.5234057001071051,
+    "recovery": {
+      "case": "short",
+      "wall_s": 0.16786349995527416,
+      "content": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 28,
+        "total_tokens": 30,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      }
+    }
+  },
+  "profile": {
+    "case": "inventory_120",
+    "cache_prompt": false,
+    "repeats": 1,
+    "concurrency": 1,
+    "p50_wall_s": 2.2086611000122502,
+    "p95_wall_s": 2.2086611000122502,
+    "min_wall_s": 2.2086611000122502,
+    "max_wall_s": 2.2086611000122502,
+    "cached_prompt_tokens": [
+      0
+    ]
+  },
+  "status": "passed"
+}

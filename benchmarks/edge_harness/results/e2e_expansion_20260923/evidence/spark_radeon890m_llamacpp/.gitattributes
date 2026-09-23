@@ -1,0 +1,4 @@
+# Keep measured and failed native-Windows outputs byte-for-byte.
+*.json -text -eol
+*.log -text -eol
+*.txt -text -eol
