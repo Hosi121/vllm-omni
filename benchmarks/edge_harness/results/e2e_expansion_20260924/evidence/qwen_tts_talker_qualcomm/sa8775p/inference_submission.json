@@ -1,0 +1,15 @@
+{
+  "timestamp_utc": "2026-09-23T22:56:16.513285+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "j5743w9l5",
+  "source_model_id": "mq3xre4rq",
+  "target_model_id": "mqe0krw7n",
+  "input_dataset_id": "d7dw6pgy2",
+  "device": "SA8775P ADP",
+  "options": "--compute_unit npu",
+  "kind": "inference",
+  "status": "SUBMITTED",
+  "job_id": "jgk249evg",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jgk249evg/"
+}

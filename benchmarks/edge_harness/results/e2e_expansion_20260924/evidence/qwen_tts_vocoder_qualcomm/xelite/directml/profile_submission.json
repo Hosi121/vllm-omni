@@ -1,0 +1,15 @@
+{
+  "timestamp_utc": "2026-09-23T22:53:22.805694+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "j5qlyz8op",
+  "target_model_id": "mnz079ezm",
+  "input_dataset_id": null,
+  "device": "Snapdragon X Elite CRD",
+  "options": "--onnx_execution_providers directml",
+  "kind": "profile",
+  "status": "SUBMITTED",
+  "job_id": "jpyox7305",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jpyox7305/",
+  "reason": "retry without conflicting compute_unit option"
+}

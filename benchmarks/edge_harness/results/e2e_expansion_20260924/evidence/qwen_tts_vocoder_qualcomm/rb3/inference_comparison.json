@@ -1,0 +1,30 @@
+{
+  "scope": "one Qwen3-TTS Code2Wav output on retained fixture; no complete TTS or profile",
+  "status": "component_executed_quality_unqualified",
+  "inference_job_id": "jg9zmkv8p",
+  "model_id": "mn0wyzd3q",
+  "input_dataset_id": "d7m80jl32",
+  "output_sha256": "476cae29892fbd6d93b8b4f3790e26bc6907cc2c8987bab3c141e1a585aea23a",
+  "cpu_source_vs_rb3": {
+    "relative_l2": 0.15731895608191257,
+    "snr_db": 16.06437888182974,
+    "max_abs": 0.11359542608261108,
+    "cosine": 0.988868865169743,
+    "reference_rms": 0.08373439205485074,
+    "output_rms": 0.07852377091606144,
+    "output_saturated_fraction_abs_ge_0_999": 0.0
+  },
+  "s25_gpu_vs_rb3": {
+    "relative_l2": 0.1529833843922324,
+    "snr_db": 16.307114711572623,
+    "max_abs": 0.11407470703125,
+    "cosine": 0.9896069628698109,
+    "reference_rms": 0.08376787228276501,
+    "output_rms": 0.07852377091606144,
+    "output_saturated_fraction_abs_ge_0_999": 0.0
+  },
+  "limits": [
+    "No listening or task-level waveform tolerance.",
+    "Profile job was pending at this evidence snapshot."
+  ]
+}
