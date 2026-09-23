@@ -1,0 +1,15 @@
+{
+  "scope": "native Windows RTX 5090 Laptop, real MiniCPM-o checkpoint, one synthetic 448x448 image to text+speech request",
+  "text": "The image shows a solid red square centered on a white background. There are no other elements, text, or details visible.",
+  "token_count": 27,
+  "text_match_wsl": true,
+  "token_ids_match_wsl": true,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 124800,
+    "duration_s": 5.2,
+    "nonzero_samples": 124412,
+    "rms_float": 0.08686131048217999,
+    "sha256": "9a819ed5d32331c59ee7e9f85c76ac1a3e52187f262ef252e34f05a38a3d4a9d"
+  }
+}

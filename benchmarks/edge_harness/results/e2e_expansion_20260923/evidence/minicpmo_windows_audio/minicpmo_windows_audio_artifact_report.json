@@ -1,0 +1,15 @@
+{
+  "scope": "native Windows RTX 5090 Laptop, real MiniCPM-o checkpoint, one synthetic 440 Hz 2 s audio input to text+speech request",
+  "text": "A loud whistling sound.",
+  "token_count": 9,
+  "text_match_wsl": true,
+  "token_ids_match_wsl": true,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 51840,
+    "duration_s": 2.16,
+    "nonzero_samples": 51205,
+    "rms_float": 0.03491710952527342,
+    "sha256": "f558287642dbd6da52449ea51c5b1029a6ed375847b48b275d8b5284f77d04cc"
+  }
+}
