@@ -25,4 +25,8 @@ def create_graph_client(metadata, config, ledger, reservation):
         from .minicpmo_cpp import MiniCPMOCppStageClient
 
         return MiniCPMOCppStageClient(metadata, backend, ledger, reservation)
+    if name == "external.internvla.policy.v1":
+        from .internvla import InternVLAStageClient
+
+        return InternVLAStageClient(metadata, backend, ledger, reservation)
     raise ValueError(f"unsupported complete-request stage backend: {name!r}")

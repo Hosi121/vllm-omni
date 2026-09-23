@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Check a bounded InternVLA action request through public AsyncOmni."""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import hashlib
+import json
+import tempfile
+import time
+from pathlib import Path
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(8 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+async def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ("model-dir", "cosmos-dir", "processor-dir", "python-bin", "log-file", "output-report"):
+        parser.add_argument(f"--{name}", type=Path, required=True)
+    parser.add_argument("--graph-file", type=Path)
+    parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    args = parser.parse_args()
+    if args.placement == "radeon-cosmos" and args.graph_file is None:
+        parser.error("Radeon placement requires graph-file")
+
+    import numpy as np
+    import torch
+    import yaml
+
+    from vllm_omni.diffusion.models.internvla_a1_whole_pipeline import INTERNVLA_A1_WHOLE_POLICY_PIPELINE
+    from vllm_omni.entrypoints.async_omni import AsyncOmni
+
+    model = args.model_dir.resolve(strict=True)
+    cosmos = args.cosmos_dir.resolve(strict=True)
+    processor = args.processor_dir.resolve(strict=True)
+    python = args.python_bin.absolute()
+    graph = args.graph_file.resolve(strict=True) if args.graph_file else None
+    files = {
+        "python": python, "model": model / "model.safetensors",
+        "model_config": model / "config.json", "train_config": model / "train_config.json",
+        "stats": model / "stats.json", "cosmos_encoder": cosmos / "encoder.safetensors",
+        "cosmos_decoder": cosmos / "decoder.safetensors",
+        "processor_tokenizer": processor / "tokenizer.json",
+        "processor_config": processor / "preprocessor_config.json",
+    }
+    if graph is not None:
+        files["graph"] = graph
+    backend = {
+        "name": "external.internvla.policy.v1", "placement": args.placement,
+        "python_bin": str(python), "expected_torch": str(torch.__version__),
+        "model_dir": str(model), "cosmos_dir": str(cosmos), "processor_dir": str(processor),
+        "graph_file": str(graph) if graph else None,
+        "artifact_sha256": {name: sha256(path) for name, path in files.items()},
+        "log_file": str(args.log_file), "memory_overhead_bytes": 8 << 30,
+        "max_input_bytes": 8 << 20, "max_action_bytes": 1 << 20,
+        "start_timeout_s": 180, "request_timeout_s": 60,
+    }
+    report = {"entrypoint": "AsyncOmni.generate", "placement": args.placement,
+              "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type}
+    engine = None
+    try:
+        with tempfile.TemporaryDirectory(prefix="omni-internvla-") as directory:
+            deployment = Path(directory) / "deploy.yaml"
+            deployment.write_text(yaml.safe_dump({
+                "pipeline": INTERNVLA_A1_WHOLE_POLICY_PIPELINE.model_type,
+                "async_chunk": False,
+                "stages": [{"stage_id": 0, "backend": backend,
+                            "resource_budget": {"capacities": {"host_ram": 30 << 30},
+                                                "demands": {"host_ram": 16 << 30}}}],
+            }), encoding="utf-8")
+            started = time.perf_counter()
+            engine = AsyncOmni(
+                model=str(model), deploy_config=str(deployment),
+                stage_init_timeout=180, init_timeout=240,
+            )
+            report["startup_s"] = time.perf_counter() - started
+            images = [np.zeros((1, 2, 3, 224, 224), dtype=np.float32) for _ in range(3)]
+            images[0][:, :, 0, 56:168, 56:168] = 1
+            images[1][:, :, 1, 56:168, 56:168] = .5
+            prompt = {
+                **{f"image{i}": images[i] for i in range(3)},
+                **{f"mask{i}": np.ones((1,), dtype=np.bool_) for i in range(3)},
+                "state": np.zeros((1, 32), dtype=np.float32),
+                "noise": np.zeros((1, 50, 32), dtype=np.float32),
+                "task": "Place the marker pen in its holder.",
+                "observation_timestamp_ns": time.time_ns(),
+            }
+            outputs = []
+            started = time.perf_counter()
+            async for output in engine.generate(prompt, request_id="public-internvla-1"):
+                if output.error:
+                    raise RuntimeError(output.error)
+                actions = np.asarray(output.custom_output["actions"])
+                outputs.append({
+                    "request_id": output.request_id,
+                    "action_shape": list(actions.shape),
+                    "action_sha256": hashlib.sha256(actions.tobytes()).hexdigest(),
+                    "finite": bool(np.isfinite(actions).all()),
+                    "metadata": output.custom_output.get("action_metadata"),
+                    "stage_event": output.custom_output.get("stage_event"),
+                })
+            report["request_wall_s"] = time.perf_counter() - started
+            report["outputs"] = outputs
+            assert len(outputs) == 1 and outputs[0]["request_id"] == "public-internvla-1"
+            assert outputs[0]["action_shape"] == [1, 50, 32] and outputs[0]["finite"]
+            assert outputs[0]["metadata"]["control_ready"] is False
+            report["status"] = "passed"
+    except BaseException as exc:
+        report["status"] = "failed"
+        report["error"] = f"{type(exc).__name__}: {exc}"
+        raise
+    finally:
+        if engine is not None:
+            engine.shutdown()
+        args.output_report.parent.mkdir(parents=True, exist_ok=True)
+        args.output_report.write_text(json.dumps(report, indent=2, default=str) + "\n", encoding="utf-8")
+        print(json.dumps(report, indent=2, default=str))
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

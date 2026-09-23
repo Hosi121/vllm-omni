@@ -1,0 +1,62 @@
+{
+  "entrypoint": "AsyncOmni.generate",
+  "placement": "radeon-cosmos",
+  "pipeline": "internvla_a1_external_whole",
+  "startup_s": 44.733305923989974,
+  "request_wall_s": 3.6735486449906603,
+  "outputs": [
+    {
+      "request_id": "public-internvla-1",
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "action_sha256": "fdeab4bace64e2b58811d9681f10249e26deb998ac55e3144634af68d6bb6b8d",
+      "finite": true,
+      "metadata": {
+        "observation_timestamp_ns": 1790185259451807823,
+        "generation_timestamp_ns": 1790185263120673060,
+        "observation_age_s": 3.668865237,
+        "action_mode": "delta",
+        "action_shape": [
+          1,
+          50,
+          32
+        ],
+        "action_units": "unverified",
+        "joint_order": "unverified",
+        "action_step_s": null,
+        "control_ready": false
+      },
+      "stage_event": {
+        "request_id": "public-internvla-1-a030bccd",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "action",
+        "worker_generation": "c7d891edb1274d1882d326b822f00128",
+        "buffers": [
+          {
+            "object_id": "actions",
+            "owner": "0",
+            "generation": "c7d891edb1274d1882d326b822f00128",
+            "dtype": "float32",
+            "shape": [
+              1,
+              50,
+              32
+            ],
+            "nbytes": 6400,
+            "memory_domain": "host-copy",
+            "layout": "C",
+            "ready": true
+          }
+        ],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

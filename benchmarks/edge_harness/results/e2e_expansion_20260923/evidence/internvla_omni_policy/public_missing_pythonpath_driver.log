@@ -1,0 +1,24 @@
+W0924 01:41:36.991000 3707835 torch/utils/_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0924 01:41:37.014000 3707835 torch/utils/_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+INFO 09-24 01:41:38 [importing.py:53] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+WARNING 09-24 01:41:38 [importing.py:65] Triton is installed, but doesn't include CPU backend. Disabling Triton.
+INFO 09-24 01:41:38 [importing.py:88] Triton not installed or not compatible; certain GPU-related functions will not be available.
+INFO 09-24 01:41:39 [patch.py:252] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 01:41:39 [patch.py:503] inductor factorable-divisibility patch: installed.
+INFO 09-24 01:41:39 [patch.py:633] CPU AOT compile-cache load shim installed: compiled models are reused across engine starts instead of being recompiled.
+INFO 09-24 01:41:39 [patch.py:743] CPU weight-load memory release installed (set VLLM_OMNI_CPU_RELEASE_MEMORY=0 to disable).
+Traceback (most recent call last):
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/experiments/probe_omni_internvla_entrypoint.py", line 128, in <module>
+    asyncio.run(main())
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/experiments/probe_omni_internvla_entrypoint.py", line 37, in main
+    from vllm_omni.diffusion.models.internvla_a1_whole_pipeline import INTERNVLA_A1_WHOLE_POLICY_PIPELINE
+ModuleNotFoundError: No module named 'vllm_omni.diffusion.models.internvla_a1_whole_pipeline'

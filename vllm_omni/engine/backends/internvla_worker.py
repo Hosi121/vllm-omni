@@ -1,0 +1,246 @@
+# SPDX-License-Identifier: Apache-2.0
+"""CPU InternVLA action worker with an optional Radeon Cosmos encoder.
+
+The policy remains the existing Omni diffusion implementation. Requests carry
+explicit normalized camera histories and state; the worker owns policy state
+and, for the hybrid route, Omni's existing external DirectML graph worker.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import io
+import json
+import os
+import time
+import traceback
+import zipfile
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(8 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--model-dir", type=Path, required=True)
+    parser.add_argument("--processor-dir", type=Path, required=True)
+    parser.add_argument("--cosmos-dir", type=Path, required=True)
+    parser.add_argument("--placement", choices=("cpu", "radeon-cosmos"), required=True)
+    parser.add_argument("--graph", type=Path)
+    parser.add_argument("--graph-sha256")
+    parser.add_argument("--port", type=int, required=True)
+    parser.add_argument("--threads", type=int, default=8)
+    parser.add_argument("--max-input-bytes", type=int, default=8 << 20)
+    args = parser.parse_args()
+    if not 0 < args.port < 65536 or not 0 < args.threads <= 24 or args.max_input_bytes <= 0:
+        parser.error("invalid port, threads or input bound")
+    if args.placement == "radeon-cosmos" and (args.graph is None or not args.graph_sha256):
+        parser.error("Radeon route requires a graph and hash")
+    if os.environ.get("CUDA_VISIBLE_DEVICES") != "":
+        raise RuntimeError("InternVLA CPU worker requires CUDA_VISIBLE_DEVICES empty")
+    if os.environ.get("HF_HUB_OFFLINE") != "1":
+        raise RuntimeError("InternVLA worker requires offline checkpoint loading")
+
+    model_dir = args.model_dir.resolve(strict=True)
+    processor_dir = args.processor_dir.resolve(strict=True)
+    cosmos_dir = args.cosmos_dir.resolve(strict=True)
+    os.environ["INTERNVLA_A1_COSMOS_DIR"] = str(cosmos_dir)
+    os.environ["INTERNVLA_A1_PROCESSOR_DIR"] = str(processor_dir)
+
+    import numpy as np
+    import torch
+
+    from vllm_omni.diffusion.data import OmniDiffusionConfig
+    from vllm_omni.diffusion.registry import initialize_model
+    from vllm_omni.diffusion.request import OmniDiffusionRequest
+    from vllm_omni.diffusion.worker.request_batch import DiffusionRequestBatch
+    from vllm_omni.inputs.data import OmniDiffusionSamplingParams
+
+    torch.set_num_threads(args.threads)
+    config = OmniDiffusionConfig(
+        model=str(model_dir), model_class_name="InternVLAA1Pipeline", dtype=torch.bfloat16,
+        custom_pipeline_args={
+            "device": "cpu", "dtype": "bfloat16", "compile_model": False,
+            "enable_regional_compile": False, "enable_warmup": False,
+            "strict_load": True, "processor_model_name": str(processor_dir),
+        },
+    )
+    started = time.perf_counter()
+    pipeline = initialize_model(config)
+    policy_load_s = time.perf_counter() - started
+    if pipeline.runtime_mode() != "real_checkpoint_loaded":
+        raise RuntimeError("InternVLA real checkpoint did not load")
+    if {parameter.device.type for parameter in pipeline.policy.parameters()} != {"cpu"}:
+        raise RuntimeError("InternVLA policy parameters did not remain on CPU")
+
+    external = None
+    external_report = None
+    if args.placement == "radeon-cosmos":
+        from vllm_omni.edge.local.external.client import ExternalWorker
+        from vllm_omni.edge.local.external.launch import ROUTE_TORCH_DML, resolve
+
+        graph = args.graph.resolve(strict=True)
+        if _sha256(graph) != args.graph_sha256.lower():
+            raise RuntimeError("Radeon Cosmos graph hash differs from plan")
+        route = resolve(ROUTE_TORCH_DML)
+        if not route.available:
+            raise RuntimeError(f"DirectML worker route unavailable: {route.reason}")
+        external = ExternalWorker(route, max_payload_bytes=args.max_input_bytes)
+        try:
+            external.start()
+            external_report = external.load(
+                graph, example_inputs={"pixels": np.zeros((6, 3, 256, 256), dtype=np.float32)}
+            )
+            if (
+                external_report.device_name != "AMD Radeon(TM) 890M Graphics"
+                or external_report.placement_granularity != "output_device"
+                or external_report.fraction_on_target != 1.0
+                or tuple(external_report.outputs[0]["shape"]) != (6, 16, 32, 32)
+            ):
+                raise RuntimeError("Radeon Cosmos output placement/shape differs from plan")
+
+            class RemoteEncoder(torch.nn.Module):
+                def forward(self, pixels: torch.Tensor) -> torch.Tensor:
+                    if pixels.device.type != "cpu" or tuple(pixels.shape) != (6, 3, 256, 256):
+                        raise ValueError("Cosmos input differs from fixed six-frame CPU contract")
+                    output, _ = external.run({"pixels": pixels.detach().float().contiguous().numpy()})
+                    latent = output["out_0"]
+                    if latent.shape != (6, 16, 32, 32) or not np.isfinite(latent).all():
+                        raise RuntimeError("Radeon Cosmos returned invalid latent")
+                    return torch.from_numpy(latent).to(pixels.dtype)
+
+            pipeline.policy.model.cosmos._enc_model = RemoteEncoder()
+        except BaseException:
+            external.close()
+            raise
+
+    props = {
+        "model_dir": str(model_dir), "processor_dir": str(processor_dir),
+        "cosmos_dir": str(cosmos_dir), "placement": args.placement,
+        "torch": torch.__version__, "policy_dtype": "bfloat16",
+        "cosmos_dtype": "float32" if external is not None else "bfloat16",
+        "policy_device": "cpu", "runtime_mode": pipeline.runtime_mode(),
+        "policy_load_s": policy_load_s, "action_shape": [1, 50, 32],
+        "image_shape": [1, 2, 3, 224, 224], "state_shape": [1, 32],
+        "action_mode": "delta", "action_units": "unverified",
+        "action_joint_order": "unverified", "action_step_s": None,
+        "control_ready": False,
+        "external_load": external_report.to_dict() if external_report else None,
+    }
+
+    class Handler(BaseHTTPRequestHandler):
+        def _json(self, code: int, value: dict) -> None:
+            body = json.dumps(value).encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_GET(self) -> None:
+            if self.path == "/health":
+                self._json(200, {"status": "ok"})
+            elif self.path == "/props":
+                self._json(200, props)
+            else:
+                self._json(404, {"error": "unknown endpoint"})
+
+        def do_POST(self) -> None:
+            if self.path != "/v1/actions":
+                self._json(404, {"error": "unknown endpoint"})
+                return
+            size = int(self.headers.get("Content-Length", "0"))
+            if not 0 < size <= args.max_input_bytes:
+                self._json(413, {"error": "observation exceeds admitted input bound"})
+                return
+            try:
+                raw = self.rfile.read(size)
+                with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                    if (len(archive.infolist()) != 11 or
+                        any(info.compress_type != zipfile.ZIP_STORED for info in archive.infolist()) or
+                        sum(info.file_size for info in archive.infolist()) > args.max_input_bytes):
+                        raise ValueError("observation archive exceeds uncompressed bound")
+                with np.load(io.BytesIO(raw), allow_pickle=False) as data:
+                    expected = {
+                        "image0", "image1", "image2", "mask0", "mask1", "mask2",
+                        "state", "task", "noise", "observation_timestamp_ns", "request_id",
+                    }
+                    if set(data.files) != expected:
+                        raise ValueError("observation fields differ from the declared contract")
+                    images = [np.asarray(data[f"image{i}"]) for i in range(3)]
+                    masks = [np.asarray(data[f"mask{i}"]) for i in range(3)]
+                    state = np.asarray(data["state"])
+                    noise = np.asarray(data["noise"])
+                    task = str(data["task"].item())
+                    request_id = str(data["request_id"].item())
+                    observation_ns = int(data["observation_timestamp_ns"].item())
+                if len(task.encode("utf-8")) > 4096 or not request_id or observation_ns <= 0:
+                    raise ValueError("invalid task, request identity or observation time")
+                for image in images:
+                    if (image.dtype != np.float32 or image.shape != (1, 2, 3, 224, 224)
+                        or not np.isfinite(image).all() or image.min() < 0 or image.max() > 1):
+                        raise ValueError("camera history must be finite normalized float32 [1,2,3,224,224]")
+                for mask in masks:
+                    if mask.dtype != np.bool_ or mask.shape != (1,):
+                        raise ValueError("camera mask must be bool [1]")
+                if state.dtype != np.float32 or state.shape != (1, 32) or not np.isfinite(state).all():
+                    raise ValueError("state must be finite float32 [1,32]")
+                if noise.dtype != np.float32 or noise.shape != (1, 50, 32) or not np.isfinite(noise).all():
+                    raise ValueError("noise must be finite float32 [1,50,32]")
+                batch = {"observation.state": torch.from_numpy(state.copy()).to(torch.bfloat16),
+                         "observation.task": [task]}
+                for i in range(3):
+                    batch[f"observation.images.image{i}"] = torch.from_numpy(images[i].copy()).to(torch.bfloat16)
+                    batch[f"observation.images.image{i}_mask"] = torch.from_numpy(masks[i].copy())
+                started = time.perf_counter()
+                result = pipeline.forward(DiffusionRequestBatch(requests=[
+                    OmniDiffusionRequest(
+                        prompt="",
+                        sampling_params=OmniDiffusionSamplingParams(extra_args={
+                            "batch_inputs": batch, "noise": torch.from_numpy(noise.copy()),
+                            "decode_image": False,
+                        }),
+                        request_id=request_id,
+                    )
+                ]))
+                if result.error:
+                    raise RuntimeError(result.error)
+                actions = result.output["payload"]["actions"]
+                if actions.device.type != "cpu" or tuple(actions.shape) != (1, 50, 32):
+                    raise RuntimeError("policy action device or shape differs from plan")
+                values = actions.detach().float().cpu().contiguous().numpy()
+                if not np.isfinite(values).all():
+                    raise RuntimeError("policy returned nonfinite actions")
+                with io.BytesIO() as out:
+                    np.savez(out, actions=values, observation_timestamp_ns=np.int64(observation_ns),
+                             generation_timestamp_ns=np.int64(time.time_ns()), request_id=np.array(request_id),
+                             worker_wall_s=np.float64(time.perf_counter() - started))
+                    body = out.getvalue()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/octet-stream")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+            except Exception as exc:
+                traceback.print_exc()
+                self._json(500, {"error": f"{type(exc).__name__}: {exc}"})
+
+    try:
+        with HTTPServer(("127.0.0.1", args.port), Handler) as server:
+            print(f"internvla-worker ready port={args.port} props={json.dumps(props)}", flush=True)
+            server.serve_forever(poll_interval=0.1)
+    finally:
+        if external is not None:
+            external.close()
+
+
+if __name__ == "__main__":
+    main()
