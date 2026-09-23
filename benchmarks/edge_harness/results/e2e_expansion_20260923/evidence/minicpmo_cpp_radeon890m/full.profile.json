@@ -1,0 +1,29 @@
+{
+  "command": [
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\llama-omni-cli.exe",
+    "-m",
+    "C:\\Users\\zhout\\w2\\models\\MiniCPM-o-4_5-gguf\\MiniCPM-o-4_5-Q4_K_M.gguf",
+    "-ngl",
+    "99",
+    "-c",
+    "2048",
+    "--omni",
+    "--t2w-device",
+    "cpu",
+    "--t2w-wait-seconds",
+    "900",
+    "--ref-audio",
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\default_ref_audio.wav",
+    "--test",
+    "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\fixture_",
+    "2"
+  ],
+  "cwd": "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon",
+  "exit_code": 0,
+  "wall_s": 113.42734129994642,
+  "memory_sample_interval_ms": 100,
+  "memory_samples": 1128,
+  "peak_sampled_rss_bytes": 15568060416,
+  "peak_sampled_private_bytes": 15451271168,
+  "measurement_note": "sampled process values, not guaranteed loading peaks"
+}

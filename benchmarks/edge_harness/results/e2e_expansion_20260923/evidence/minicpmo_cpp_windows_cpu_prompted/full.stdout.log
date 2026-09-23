@@ -1,0 +1,139 @@
+=== Model Paths ===
+  Base dir:   C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf
+  LLM:        C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf\MiniCPM-o-4_5-Q4_K_M.gguf [OK]
+  Vision:     C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/vision/MiniCPM-o-4_5-vision-F16.gguf [OK]
+  Audio:      C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/audio/MiniCPM-o-4_5-audio-F16.gguf [OK]
+  TTS:        C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/tts/MiniCPM-o-4_5-tts-F16.gguf [OK]
+  Projector:  C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/tts/MiniCPM-o-4_5-projector-F16.gguf [OK]
+===================
+=== Initializing Omni Context ===
+  Media type: 2 (omni: audio+vision)
+  TTS enabled: yes
+  Context size: 2048
+  GPU layers: 0
+  Token2Wav device: cpu
+  Vision backend: metal
+  TTS bin dir: C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/tts
+  Ref audio: C:\Users\zhout\w2\minicpmo_cpp_cpu_prompt\default_ref_audio.wav
+22:34:45.743 === omni_init start
+22:34:45.743 media_type = 2, duplex_mode = 0, base_output_dir = ./tools/omni/output
+22:34:45.743 === omni_init: loading new LLM model
+22:34:47.963 === omni_init: loading TTS model
+22:34:47.963 TTS model: loading with n_gpu_layers=0
+22:34:48.244 TTS sampler: temp=0.80, top_p=0.85, top_k=25, rep_penalty=1.05
+22:34:48.244 TTS: loading weights from GGUF (emb_code, emb_text, projector_semantic, head_code)...
+22:34:48.600 TTS: head_code shape: dim0=6562, dim1=768, will transpose to [6562, 768]
+22:34:48.606 TTS: head_code loaded, verifying first few values:
+22:34:48.606   head_code_weight[0] = 0.01361084 (expect ~0.01385498)
+22:34:48.606   head_code_weight[1] = -0.01660156 (expect ~-0.01647949)
+22:34:48.606   head_code_weight[768] = 0.04101562 (this is weight[1, 0], expect ~0.04150391)
+22:34:48.635 TTS: weights loaded successfully
+22:34:48.635 Projector: loading from C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/tts/MiniCPM-o-4_5-projector-F16.gguf
+22:34:48.641 Projector: loaded successfully
+22:34:48.641 === omni_init: loading APM model
+22:34:48.837 APM: init from C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/audio/MiniCPM-o-4_5-audio-F16.gguf
+22:34:49.186 Token2Wav: found models in C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/token2wav-gguf
+22:34:49.186 Token2Wav: all model files found, initializing session...
+22:34:49.186 Token2Wav: non-CUDA backend, vocoder using CPU for better performance
+22:34:49.186 Token2Wav: using prompt_cache from C:\Users\zhout\w2\models\MiniCPM-o-4_5-gguf/token2wav-gguf/prompt_cache.gguf
+22:34:49.505 Token2Wav: initialized successfully
+22:34:49.505 Python T2W: script_dir=./tools/omni/pyt2w, model_dir=./tools/omni/pyt2w/token2wav
+22:34:49.506 Token2Wav: 使用 C++ 实现
+22:34:49.506 === omni_init success: ctx_llama = 000001c37e89ec40
+=== Running test case ===
+  Audio prefix: C:\Users\zhout\w2\minicpmo_cpp_cpu_prompt\fixture_
+  Count: 2
+22:34:49.506 stream_prefill: n_past = 0
+ voice_clone_prompt = <|im_start|>system
+模仿音频样本的音色并生成新的内容。
+<|audio_start|>
+ assistant_prompt = <|audio_end|>你的任务是用这种声音模式来当一个助手。请认真、高质量地回复用户的问题。请用高自然度的方式和用户聊天。<|im_end|>
+<|im_start|>user
+
+22:34:49.506 system prompt ref_audio: C:\Users\zhout\w2\minicpmo_cpp_cpu_prompt\fixture_0000.wav
+22:34:50.534 system prompt ref_audio embedding: n_pos=20
+22:34:52.926 🔒 n_keep 设置为 72 (system prompt tokens)，这部分永远不会被滑动窗口删除
+22:34:52.926 stream_prefill(index=0): system prompt 初始化完成，ref_audio 已在其中 prefill
+22:34:52.926 [SW] system_prompt registered: preserve_length=72 (will be protected from sliding)
+22:34:52.926 n_past = 72
+22:34:52.926 
+
+c++ finish stream_prefill(index=0). n_past=72, n_keep=72, n_ctx=2048
+
+prefill 0 (audio) : 3.4203 s
+22:34:58.976 stream_prefill(index=1): processing user audio: C:\Users\zhout\w2\minicpmo_cpp_cpu_prompt\fixture_0001.wav
+22:34:59.268 stream_prefill(index=1): user audio embedding: n_pos=31
+22:35:00.901 
+
+c++ finish stream_prefill(index=1). n_past=172, n_keep=72, n_ctx=2048
+
+prefill 1 (audio+vision) : 7.97498 s
+22:35:00.901 📍 stream_decode 开始: n_past=172, n_keep=72, n_ctx=2048, duplex_mode=0
+22:35:00.902 stream_decode: create tts thread (simplex mode)
+22:35:00.902 stream_decode: create t2w thread
+22:35:00.902 wait prefill done
+22:35:00.902 📍 [单工TTS] 添加 assistant prompt: "<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<|tts_bos|>", n_past=172
+22:35:00.902 T2W thread (C++) started
+22:35:00.906 TTS: 创建单工模式输出目录: ./tools/omni/output/round_000
+22:35:00.906 TTS thread started
+22:35:01.422 📍 [单工TTS] assistant prompt 完成, n_past=182
+22:35:01.422 LLM decode: max_tgt_len = 2048, n_predict = -1, n_ctx = 2048
+22:35:02.229 LLM: detected end token, set llm_generation_done=true
+22:35:02.229 LLM->TTS: text='The square in the image is red.', n_tokens=8, hidden_size=32768, n_embd=4096, token_ids=[785 9334 304 279 2168 374 2518 13]
+22:35:02.229 📍 Decode 结束: n_past=191, 剩余空间=1857, 无需滑窗
+22:35:02.229 📍 轮次 1 结束，记录边界于 n_past=191
+22:35:02.229 TTS<-LLM: chunk_idx=0, text='The square in the image is red.', n_tokens=8, hidden_size=32768, token_ids=[785 9334 304 279 2168 374 2518 13]
+22:35:02.229 TTS: after queue pop - speek_done=0, llm_finish=1, llm_text.empty=0, token_ids.size=8
+22:35:02.229 TTS: before empty check - response.empty=0, response='The square in the image is red.', llm_finish=1
+22:35:02.229 TTS: DEBUG before has_llm_data - token_ids.size=8, hidden_states.size=32768, n_embd=4096
+22:35:02.229 TTS: has_llm_data=1, token_ids=8, hidden_states=32768, n_embd=4096, llm_finish=1
+22:35:02.230 TTS: n_tokens_orig=8, n_tokens_filtered=8 (filtered 0 special tokens)
+22:35:02.278 TTS: saved merged embeddings (text) to ./tools/omni/output/round_000/llm_debug/chunk_0/merged_embeddings.txt
+22:35:02.278 TTS Simplex: generating audio tokens for chunk 0 (n_tokens=8, tts_n_embd=768)
+22:35:02.278 TTS Simplex: 在 prefill 前添加 audio_bos (chunk_idx=0, new_size=9)
+22:35:02.278 TTS Simplex: first chunk - cleared KV cache
+22:35:02.278 TTS Simplex: first chunk - cleared tts_all_generated_tokens and tts_token_buffer
+22:35:02.380 TTS Simplex: prefill completed, n_past_tts=9
+22:35:02.380 TTS Simplex: sampler created
+22:35:02.380 TTS simplex: is_audio_bos=true (first audio token)
+22:35:02.410 TTS Simplex Phase1: token 1/500: rel_id=1487
+22:35:02.423 TTS Simplex Phase1: token 2/500: rel_id=4218
+22:35:02.436 TTS Simplex Phase1: token 3/500: rel_id=4137
+22:35:02.448 TTS Simplex Phase1: token 4/500: rel_id=4137
+22:35:02.460 TTS Simplex Phase1: token 5/500: rel_id=4218
+22:35:02.570 📍 为下一轮准备: eval <|im_end|>\n<|im_start|>user\n, n_past=196
+22:35:02.695 TTS Simplex Phase1: yield 25 tokens 到 T2W (step 25, buffer=25)
+22:35:22:35:02.695 T2W线程(C++): 轮次切换 (-1 -> 0)，更新输出目录
+02.695 TTS Simplex Phase1: token 25/500: rel_id=2753
+22:35:02.695 T2W线程(C++): 新输出目录 ./tools/omni/output/round_000/tts_wav
+22:35:02.826 TTS Simplex Phase1: EOS token at step 38
+22:35:02.826 TTS Simplex: is_final_text_chunk=true, will enter Phase 2 for text_eos_embed
+22:35:02.826 TTS Simplex Phase2: injecting text_eos_embed + audio_bos at n_past=46
+22:35:02.834 TTS Simplex Phase2: text_eos_embed injected, n_past=47
+22:35:02.842 TTS Simplex Phase2: audio_bos injected, n_past=48, starting final generation
+22:35:02.979 TTS Simplex Phase2: yield 25 tokens 到 T2W
+22:35:03.042 TTS Simplex Phase2: EOS at step 19 (final end)
+22:35:03.042 TTS Simplex: chunk 结束，tts_token_buffer 剩余 5 tokens (保留等下一个 chunk)
+22:35:03.042 TTS Simplex: is_final_text_chunk=true, flush 剩余 5 tokens 从 tts_token_buffer
+22:35:03.042 TTS Simplex: generated 55 audio tokens for chunk 0
+22:35:03.042 TTS Simplex: chunk 0 first tokens: [1487 4218 4137 4137 4218 ], last tokens: [1707 4218 4218 4218 4137 ]
+22:35:03.042 TTS Simplex: updated tts_n_past_accumulated=67, total_generated_tokens=55
+22:35:03.044 TTS: finished processing all chunks
+22:35:03.044 TTS: 单工模式轮次结束，下一轮 round_idx=1
+22:35:03.044 TTS: sent is_final=true to T2W queue (turn end)
+22:35:05.068 🎉 首响时间 (First Audio Response): 4166ms
+22:35:05.068 T2W线程: wav_0.wav | 0.84s audio | 2362.3ms inference | RTF=2.81 | t=4166ms
+22:35:07.264 T2W线程: wav_1.wav | 1.00s audio | 2195.4ms inference | RTF=2.20 | t=6362ms
+22:35:09.294 T2W线程: wav_2.wav | 0.48s audio | 2029.6ms inference | RTF=4.23 | t=8392ms
+22:35:09.295 T2W线程: 写入结束标记 ./tools/omni/output/round_000/tts_wav/generation_done.flag (last_wav=2)
+22:35:09.295 T2W线程: 轮次结束后更新输出目录为 ./tools/omni/output/round_001/tts_wav
+22:22:35:35:09.09390 .T2W(C++) 线程: 停止
+390 omni_stop_threads: stop signals sent
+tts thread end
+t2w thread end

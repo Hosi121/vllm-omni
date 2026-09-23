@@ -58,6 +58,20 @@ than input descriptions; the fixture supplied no explicit description task,
 so quality remains unqualified. These runs do not close the Omni stage,
 admission, cancellation, streaming or M4 video/real-observation gates.
 
+The same GGUF set now also completes [native Windows Radeon 890M+CPU combined
+input](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_radeon890m/README.md).
+The runtime logged all 37 language layers and vision on the Radeon Vulkan
+device, TTS weights with zero GPU layers, and CPU Token2Wav. A separate
+[spoken visual question](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_radeon890m_prompted/README.md)
+about the red square returned the correct sentence and 2.56 s speech in one
+18.63 s cold process; input and output ASR word error rates were both zero.
+The [same prompted CPU run](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_cpp_windows_cpu_prompted/README.md)
+returned identical text and eight language token IDs in 24.66 s, though speech
+PCM differed. This advances the M4 desktop feasibility evidence for a
+CPU+iGPU hybrid; neither the one-case quality check nor the standalone C++
+control path closes Omni integration, admission, streaming, real-input quality,
+mobile artifacts or sustained profiling.
+
 Native Windows HX370 CPU now also completes two Qwen3-TTS CustomVoice
 text-to-WAV requests through Qwen's standalone PyTorch wrapper using the pinned
 0.6B checkpoint. A separate 1-warmup/20-measured serial profile of one short

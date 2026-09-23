@@ -1,0 +1,302 @@
+{
+  "scope": "standalone MiniCPM-o 4.5 GGUF audio+image input to text+speech on native-Windows-11-HX370-Radeon-890M-plus-CPU",
+  "status": "scoped_complete_path_pass",
+  "expected_placement": "radeon-hybrid",
+  "quality": "synthetic red-square/tone response not established as semantically correct",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "artifacts": {
+    "MiniCPM-o-4_5-Q4_K_M.gguf": {
+      "bytes": 5026714400,
+      "sha256": "1237a97ee081b8abebc47aa7dad565701e8f5f904cdc92f6723ac4281bbc0932"
+    },
+    "audio/MiniCPM-o-4_5-audio-F16.gguf": {
+      "bytes": 660167904,
+      "sha256": "d5b188ac7feaf98e17175c3f9bd14bf269301bfd187439fdaa3e3a494fc32ef7"
+    },
+    "vision/MiniCPM-o-4_5-vision-F16.gguf": {
+      "bytes": 1095113184,
+      "sha256": "1453678cc4e4fe18de241952962e234f265cb8dda780773526103ab8ba82f421"
+    },
+    "tts/MiniCPM-o-4_5-tts-F16.gguf": {
+      "bytes": 1157244416,
+      "sha256": "c7be3748a863dd6966ae7eed42600b7f41ca67affb03729ff245247f0e5ea088"
+    },
+    "tts/MiniCPM-o-4_5-projector-F16.gguf": {
+      "bytes": 14948640,
+      "sha256": "4b1b5b377358a5e594a304ff6ea5d52df606a9ba7d886c4299d232f0c67dd1fd"
+    },
+    "token2wav-gguf/encoder.gguf": {
+      "bytes": 151339008,
+      "sha256": "7f8d265da594eaf5e1de2db8f5f1867dbcb0bb75ef5878fadf2952347116f4d0"
+    },
+    "token2wav-gguf/flow_matching.gguf": {
+      "bytes": 458250240,
+      "sha256": "eda6069f3edeb5dd3a87fbf2aedb2ddd1b46f3273926c4fcf09b24476a39cab8"
+    },
+    "token2wav-gguf/flow_extra.gguf": {
+      "bytes": 13663328,
+      "sha256": "c67611aa7d02500fe395a7798bf0bfdfb55c74d37ba93934ca74d82b4e63f78d"
+    },
+    "token2wav-gguf/hifigan2.gguf": {
+      "bytes": 83242816,
+      "sha256": "1b8b3bf5d8d3066aeee4324fdcdd41aefce170d0ee907645858de408d82835c2"
+    },
+    "token2wav-gguf/prompt_cache.gguf": {
+      "bytes": 211613152,
+      "sha256": "81fe6f541ebe0b67db06a1e395df928da47991dc9637c2cf47d6c59d5b979f2c"
+    }
+  },
+  "runtime_binary_sha256": "39e089894e010c4a85092f866d9eee79942b9fcab0bca090353dcad24a6dafee",
+  "input_image_sha256": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d",
+  "input_audio_sha256": "cf4bb5cd9acbfbf67596d4a53310652b61ef4b7ede1d54eb03ef4882ca40223a",
+  "response_text": "你知道吗，有时候啊，我也会想啊，生活真的挺有意思的。每天早上醒来，太阳照在脸上，就觉得这一天充满了可能。不管前一天发生啥事，只要新的一天来了，就有机会重新开始。你有没有觉得，就算遇到再难的事，只要咬咬牙挺过去，回头看的时候，反而觉得挺酷的？其实啊，每个人心里都藏着一个小宇宙，里面装着勇气、梦想和一点点小期待。别怕犯错，谁还没摔过跟头呢？重要的是，你有没有勇气爬起来继续往前走。所以说啊，活着本身就是一种奇迹，对吧？",
+  "audio_chunks": [
+    {
+      "name": "wav_0.wav",
+      "frames": 20160,
+      "sha256": "556547d795d425a4cb0f12f1742227c11495a738de28193b4c38a09ad0e6e3f1"
+    },
+    {
+      "name": "wav_1.wav",
+      "frames": 24000,
+      "sha256": "01697d341ccd566cec7193dc54fecea717cf61d7c91e190c58d0cdc599bef6b4"
+    },
+    {
+      "name": "wav_2.wav",
+      "frames": 24000,
+      "sha256": "d0d97225e3fda8705bf513aab9417c78363c806c99e90568e804efa9df1c1db0"
+    },
+    {
+      "name": "wav_3.wav",
+      "frames": 24000,
+      "sha256": "c68da18455456c014bb80b2ac5f41b10142e3c5faea625e83fadd629e44bb6cd"
+    },
+    {
+      "name": "wav_4.wav",
+      "frames": 24000,
+      "sha256": "94ea00a24616d0bd4a077d894aa1c3840b6b2cef8fe364c5646e408b7390eef6"
+    },
+    {
+      "name": "wav_5.wav",
+      "frames": 24000,
+      "sha256": "1159f21d9adef11a164916882ae5fac6219879cc4e7446ac6a418caf9f79d45b"
+    },
+    {
+      "name": "wav_6.wav",
+      "frames": 24000,
+      "sha256": "e397bb95a5f63f91bf5b8a8661c1c6bb4e620f3faf12733a053e86b0be97f2ec"
+    },
+    {
+      "name": "wav_7.wav",
+      "frames": 24000,
+      "sha256": "682badaac2419eb1d974ce3c6fbf61df813f55d8e55b96ef9f71cc6a6e9e26c4"
+    },
+    {
+      "name": "wav_8.wav",
+      "frames": 24000,
+      "sha256": "46eda74ce637a760bae5dd9e6d15f49fc33faf7830dd55741f2a22c17731e264"
+    },
+    {
+      "name": "wav_9.wav",
+      "frames": 24000,
+      "sha256": "f75776adf08b79fae17364e5c3c6905590f7630b44977ea40a2a7bcb3c55f359"
+    },
+    {
+      "name": "wav_10.wav",
+      "frames": 24000,
+      "sha256": "fd7e9689b7d6b2b2d2ec0ead752696dae01d395aec20b7a1610065fbd60283f0"
+    },
+    {
+      "name": "wav_11.wav",
+      "frames": 24000,
+      "sha256": "36020b18a2fc52a095cd0ea3cc8bc0810e4540ab678441f89c557a187f973d25"
+    },
+    {
+      "name": "wav_12.wav",
+      "frames": 24000,
+      "sha256": "e6205992ec251b6135669f7be1a1d423a32b84ad0f1c100b3cc586b6ea562e2b"
+    },
+    {
+      "name": "wav_13.wav",
+      "frames": 24000,
+      "sha256": "68f99f0cd6cf51a96c5e87b8d4abb4a618cbb31443ec01535198a77ad4a30920"
+    },
+    {
+      "name": "wav_14.wav",
+      "frames": 24000,
+      "sha256": "20fdfe45b52153080237550c807b508297e43981843675f94ef711fbec52e4b4"
+    },
+    {
+      "name": "wav_15.wav",
+      "frames": 24000,
+      "sha256": "e87ac891d93e36cce4b7aa1bea36c254046f28a6267a5118f97837f0692767bb"
+    },
+    {
+      "name": "wav_16.wav",
+      "frames": 24000,
+      "sha256": "905409d3418b0dbcacd996ecb622ac99a729f7815620ce3dd773bf3f86b38454"
+    },
+    {
+      "name": "wav_17.wav",
+      "frames": 24000,
+      "sha256": "79740317f3fab281cf4f6cacb7fa7815fa80ab7bdad747a484c5d94fbba0becc"
+    },
+    {
+      "name": "wav_18.wav",
+      "frames": 24000,
+      "sha256": "1999800a699dc406f35f97fd5829d77e87db72b8053e4f06dedaa09089071770"
+    },
+    {
+      "name": "wav_19.wav",
+      "frames": 24000,
+      "sha256": "757799836b6486f4448b1c063ae45c8df7fe0d545fdb863a3a20f5e8f7f8073f"
+    },
+    {
+      "name": "wav_20.wav",
+      "frames": 24000,
+      "sha256": "b69778822c64f054f08d492c8227aad22445512c337f612ae7dd4d4f72c00def"
+    },
+    {
+      "name": "wav_21.wav",
+      "frames": 24000,
+      "sha256": "ec23d36f1f3fec8c462a927db90255a83c0aa88ec4a2bf947acef0fde20c2a84"
+    },
+    {
+      "name": "wav_22.wav",
+      "frames": 24000,
+      "sha256": "3367cc81ad3b0c870501d9aa8c0dfc220d3a2370ebcf4171b6ece0f452caf4e3"
+    },
+    {
+      "name": "wav_23.wav",
+      "frames": 24000,
+      "sha256": "ea32e435f1f1963fe9d4376a315a0ed6701719b015bc2211b24c153dbca7f692"
+    },
+    {
+      "name": "wav_24.wav",
+      "frames": 24000,
+      "sha256": "c36bc807a09d7148ea9153ee8381b8de808aa4854233398429b02db9d754687a"
+    },
+    {
+      "name": "wav_25.wav",
+      "frames": 24000,
+      "sha256": "b94986bf4a9cd048dc23e5eba2acda35f5fbb517bbd2accabd7cd7a47df099fd"
+    },
+    {
+      "name": "wav_26.wav",
+      "frames": 24000,
+      "sha256": "5cf467959e82bef3235920095f8f49b1315d21204cdad86a278a9f7266084182"
+    },
+    {
+      "name": "wav_27.wav",
+      "frames": 24000,
+      "sha256": "1f8617102824bc15c95cd4336e222fef3cff8415695e30170c22a33d371d8fee"
+    },
+    {
+      "name": "wav_28.wav",
+      "frames": 24000,
+      "sha256": "222e29369c511b3c6338fe1d853c84137739a8a6b23a614bf3060a1405375e7a"
+    },
+    {
+      "name": "wav_29.wav",
+      "frames": 24000,
+      "sha256": "bd79a447f44b58d1c81cba8327002b7f8db3f5f0db21a8619090f6d02b1dcfb8"
+    },
+    {
+      "name": "wav_30.wav",
+      "frames": 24000,
+      "sha256": "02965e59f2ba3fbd0c5c83170d555bb7d7488072963d34f35cfa1001031c41d1"
+    },
+    {
+      "name": "wav_31.wav",
+      "frames": 24000,
+      "sha256": "c417317cc3c6b8e005e8c362c76019a4fcd5f017a5c90e82dac0a4d1bd86aa44"
+    },
+    {
+      "name": "wav_32.wav",
+      "frames": 24000,
+      "sha256": "6771fd6e2d934219857e076d830a9ab9358d80a8bbd0cbdf3c384cb6dd5a4d60"
+    },
+    {
+      "name": "wav_33.wav",
+      "frames": 24000,
+      "sha256": "5810d38e314d51517642d1e1484fa1edf2c0eba72fd4e79ef93903246675c236"
+    },
+    {
+      "name": "wav_34.wav",
+      "frames": 24000,
+      "sha256": "56dbc8ac154e401b32c10f8379152c6a1af9501be5bb0e2105e04b73033672ee"
+    },
+    {
+      "name": "wav_35.wav",
+      "frames": 24000,
+      "sha256": "85fba9d1da8f65b80ef0c2a7d67be65f8dee94a275ab984dd0c6ce816b9da29a"
+    },
+    {
+      "name": "wav_36.wav",
+      "frames": 24000,
+      "sha256": "ebda8dd357107b31e90a67824ce47d9983c0dd00aefaebb0d4098e9a67782ffa"
+    },
+    {
+      "name": "wav_37.wav",
+      "frames": 24000,
+      "sha256": "c9e9fe238f8cd98b4af583314ef7cf4877e98470d6471c7c218fa0d760b23de8"
+    },
+    {
+      "name": "wav_38.wav",
+      "frames": 24000,
+      "sha256": "33c3ba34178e49520c9d5f8c48895bbfb8d7475505e1b53fa763bb37e79a9c15"
+    },
+    {
+      "name": "wav_39.wav",
+      "frames": 24000,
+      "sha256": "0f9ab5b3ec79a5464d9c818239f4da19cf1cf649db25a742b11189afbb20451f"
+    },
+    {
+      "name": "wav_40.wav",
+      "frames": 24000,
+      "sha256": "39a5e184c96d2fec5bbe492adba5980d67c2c235bbeed2af9b994816159f65a5"
+    },
+    {
+      "name": "wav_41.wav",
+      "frames": 26880,
+      "sha256": "bb775223b13183f8c2dd75fdc1c8e43aa213dffc19d93abe81eb39c36a85bbbc"
+    }
+  ],
+  "audio_frames": 1007040,
+  "audio_duration_s": 41.96,
+  "audio_rms_pcm16": 2399.4583535294237,
+  "pcm_sha256": "ee8de0dc5a574a8168a23c4a0e70f911d7b981ecd6cb921a5fbf9698f7d45636",
+  "merged_wav_sha256": "bf1d7c665eec4e7da09d03f89bac110ff07a7f4335fde7add212c0363fadaa80",
+  "peak_rss_kib_from_time": null,
+  "wall_clock_from_time": null,
+  "sampled_process_profile": {
+    "command": [
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\llama-omni-cli.exe",
+      "-m",
+      "C:\\Users\\zhout\\w2\\models\\MiniCPM-o-4_5-gguf\\MiniCPM-o-4_5-Q4_K_M.gguf",
+      "-ngl",
+      "99",
+      "-c",
+      "2048",
+      "--omni",
+      "--t2w-device",
+      "cpu",
+      "--t2w-wait-seconds",
+      "900",
+      "--ref-audio",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\default_ref_audio.wav",
+      "--test",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon\\fixture_",
+      "2"
+    ],
+    "cwd": "C:\\Users\\zhout\\w2\\minicpmo_cpp_radeon",
+    "exit_code": 0,
+    "wall_s": 113.42734129994642,
+    "memory_sample_interval_ms": 100,
+    "memory_samples": 1128,
+    "peak_sampled_rss_bytes": 15568060416,
+    "peak_sampled_private_bytes": 15451271168,
+    "measurement_note": "sampled process values, not guaranteed loading peaks"
+  },
+  "upstream_merge_name_mismatch": true
+}

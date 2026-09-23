@@ -1,0 +1,33 @@
+{
+  "scope": "one synthetic spoken visual question; standalone CPU vs Radeon hybrid",
+  "status": "scoped_prompted_path_pass",
+  "checkpoint_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "same_artifact_set": true,
+  "same_input_image_audio": true,
+  "spoken_input": "What color is the square in the image?",
+  "input_asr_wer": 0.0,
+  "response_text": "The square in the image is red.",
+  "language_token_ids": [
+    785,
+    9334,
+    304,
+    279,
+    2168,
+    374,
+    2518,
+    13
+  ],
+  "cpu": {
+    "cold_wall_s": 24.658903300063685,
+    "audio_duration_s": 2.32,
+    "pcm_sha256": "8de1b8306907577948b85131e5af2296bd276da4427c5f7559d91790eb8fb837",
+    "output_asr_wer": 0.0
+  },
+  "radeon_hybrid": {
+    "cold_wall_s": 18.634632700006478,
+    "audio_duration_s": 2.56,
+    "pcm_sha256": "de9c909bb698da33f0f79f6a5b1761c1739492a2cdcfeafb2716f821645d3251",
+    "output_asr_wer": 0.0
+  },
+  "quality_limit": "one synthetic red square and one spoken question"
+}

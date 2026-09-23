@@ -1,0 +1,930 @@
+[0/2] Re-checking globbed directories...
+[1/174] Performing build step for 'vulkan-shaders-gen'
+ninja: no work to do.
+[2/174] Performing install step for 'vulkan-shaders-gen'
+-- Up-to-date: /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/Release/./vulkan-shaders-gen
+[3/174] Completed 'vulkan-shaders-gen'
+[4/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj
+[5/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj
+[6/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj
+[7/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj
+[8/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj
+[9/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj
+[10/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/conv_transpose_1d.comp.cpp.obj
+[11/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/contig_copy.comp.cpp.obj
+[12/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/conv2d_dw.comp.cpp.obj
+[13/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/copy.comp.cpp.obj
+[14/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/cos.comp.cpp.obj
+[15/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_f32.comp.cpp.obj
+[16/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/count_equal.comp.cpp.obj
+[17/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/copy_from_quant.comp.cpp.obj
+[18/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq1_m.comp.cpp.obj
+[19/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq1_s.comp.cpp.obj
+[20/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq2_xs.comp.cpp.obj
+[21/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq2_s.comp.cpp.obj
+[22/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj
+[23/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/conv2d_mm.comp.cpp.obj
+[24/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq2_xxs.comp.cpp.obj
+[25/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq3_xxs.comp.cpp.obj
+[26/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq3_s.comp.cpp.obj
+[27/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq4_nl.comp.cpp.obj
+[28/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_iq4_xs.comp.cpp.obj
+[29/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_mxfp4.comp.cpp.obj
+[30/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q4_0.comp.cpp.obj
+[31/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q2_k.comp.cpp.obj
+[32/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q3_k.comp.cpp.obj
+[33/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q4_1.comp.cpp.obj
+[34/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q4_k.comp.cpp.obj
+[35/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q5_0.comp.cpp.obj
+[36/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q6_k.comp.cpp.obj
+[37/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q5_1.comp.cpp.obj
+[38/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q5_k.comp.cpp.obj
+[39/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/dequant_q8_0.comp.cpp.obj
+[40/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/diag_mask_inf.comp.cpp.obj
+[41/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/exp.comp.cpp.obj
+[42/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/flash_attn_split_k_reduce.comp.cpp.obj
+[43/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/geglu.comp.cpp.obj
+[44/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/geglu_erf.comp.cpp.obj
+[45/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/div.comp.cpp.obj
+[46/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/geglu_quick.comp.cpp.obj
+[47/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/gelu.comp.cpp.obj
+[48/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/gelu_erf.comp.cpp.obj
+[49/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/gelu_quick.comp.cpp.obj
+[50/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/flash_attn.comp.cpp.obj
+[51/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/group_norm.comp.cpp.obj
+[52/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/get_rows.comp.cpp.obj
+[53/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/hardsigmoid.comp.cpp.obj
+[54/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/flash_attn_cm1.comp.cpp.obj
+[55/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/hardswish.comp.cpp.obj
+[56/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/im2col.comp.cpp.obj
+[57/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/l2_norm.comp.cpp.obj
+[58/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/leaky_relu.comp.cpp.obj
+[59/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/im2col_3d.comp.cpp.obj
+[60/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_split_k_reduce.comp.cpp.obj
+[61/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul.comp.cpp.obj
+[62/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/copy_to_quant.comp.cpp.obj
+[63/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq1_m.comp.cpp.obj
+[64/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq1_s.comp.cpp.obj
+[65/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/get_rows_quant.comp.cpp.obj
+[66/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq2_xs.comp.cpp.obj
+[67/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_nc.comp.cpp.obj
+[68/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq2_s.comp.cpp.obj
+[69/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq2_xxs.comp.cpp.obj
+[70/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_p021.comp.cpp.obj
+[71/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq3_xxs.comp.cpp.obj
+[72/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_iq3_s.comp.cpp.obj
+[73/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_q4_k.comp.cpp.obj
+[74/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_q5_k.comp.cpp.obj
+[75/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_q2_k.comp.cpp.obj
+[76/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_q6_k.comp.cpp.obj
+[77/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec_q3_k.comp.cpp.obj
+[78/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/multi_add.comp.cpp.obj
+[79/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/norm.comp.cpp.obj
+[80/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/opt_step_adamw.comp.cpp.obj
+[81/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/opt_step_sgd.comp.cpp.obj
+[82/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/flash_attn_cm2.comp.cpp.obj
+[83/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/pad.comp.cpp.obj
+[84/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vecq.comp.cpp.obj
+[85/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/pool2d.comp.cpp.obj
+[86/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mmq.comp.cpp.obj
+[87/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/quantize_q8_1.comp.cpp.obj
+[88/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/reglu.comp.cpp.obj
+[89/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/relu.comp.cpp.obj
+[90/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/repeat.comp.cpp.obj
+[91/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/repeat_back.comp.cpp.obj
+[92/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rms_norm_back.comp.cpp.obj
+[93/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rms_norm_partials.comp.cpp.obj
+[94/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/roll.comp.cpp.obj
+[95/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rms_norm.comp.cpp.obj
+[96/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rope_multi.comp.cpp.obj
+[97/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rope_neox.comp.cpp.obj
+[98/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rope_norm.comp.cpp.obj
+[99/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/rope_vision.comp.cpp.obj
+[100/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/scale.comp.cpp.obj
+[101/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/sigmoid.comp.cpp.obj
+[102/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/sin.comp.cpp.obj
+[103/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/silu_back.comp.cpp.obj
+[104/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/silu.comp.cpp.obj
+[105/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/sqrt.comp.cpp.obj
+[106/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/soft_max_back.comp.cpp.obj
+[107/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/square.comp.cpp.obj
+[108/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/sum_rows.comp.cpp.obj
+[109/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/swiglu.comp.cpp.obj
+[110/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/swiglu_oai.comp.cpp.obj
+[111/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/tanh.comp.cpp.obj
+[112/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/soft_max.comp.cpp.obj
+[113/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/sub.comp.cpp.obj
+[114/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/timestep_embedding.comp.cpp.obj
+[115/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/upscale.comp.cpp.obj
+[116/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/wkv7.comp.cpp.obj
+[117/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/wkv6.comp.cpp.obj
+[118/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mat_vec.comp.cpp.obj
+[119/174] Building CXX object src/CMakeFiles/llama.dir/llama.cpp.obj
+[120/174] Building CXX object src/CMakeFiles/llama.dir/llama-adapter.cpp.obj
+[121/174] Building CXX object src/CMakeFiles/llama.dir/llama-arch.cpp.obj
+[122/174] Building CXX object src/CMakeFiles/llama.dir/llama-cparams.cpp.obj
+[123/174] Building CXX object ggml/src/CMakeFiles/ggml.dir/ggml-backend-reg.cpp.obj
+[124/174] Building CXX object src/CMakeFiles/llama.dir/llama-batch.cpp.obj
+[125/174] Building CXX object src/CMakeFiles/llama.dir/llama-hparams.cpp.obj
+[126/174] Building CXX object src/CMakeFiles/llama.dir/llama-chat.cpp.obj
+[127/174] Building CXX object src/CMakeFiles/llama.dir/llama-io.cpp.obj
+[128/174] Building CXX object src/CMakeFiles/llama.dir/llama-impl.cpp.obj
+[129/174] Building CXX object src/CMakeFiles/llama.dir/llama-graph.cpp.obj
+[130/174] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-iswa.cpp.obj
+[131/174] Building CXX object src/CMakeFiles/llama.dir/llama-memory.cpp.obj
+[132/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mm_cm2.comp.cpp.obj
+[133/174] Building CXX object src/CMakeFiles/llama.dir/llama-context.cpp.obj
+[134/174] Building CXX object src/CMakeFiles/llama.dir/llama-memory-hybrid.cpp.obj
+[135/174] Building CXX object src/CMakeFiles/llama.dir/llama-mmap.cpp.obj
+[136/174] Building CXX object src/CMakeFiles/llama.dir/llama-memory-recurrent.cpp.obj
+[137/174] Building CXX object src/CMakeFiles/llama.dir/llama-model-saver.cpp.obj
+[138/174] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache.cpp.obj
+[139/174] Building CXX object src/CMakeFiles/llama.dir/llama-grammar.cpp.obj
+[140/174] Building CXX object src/CMakeFiles/llama.dir/unicode-data.cpp.obj
+[141/174] Building CXX object src/CMakeFiles/llama.dir/llama-model-loader.cpp.obj
+[142/174] Building CXX object src/CMakeFiles/llama.dir/llama-quant.cpp.obj
+[143/174] Building CXX object src/CMakeFiles/llama.dir/llama-vocab.cpp.obj
+[144/174] Building CXX object src/CMakeFiles/llama.dir/llama-sampling.cpp.obj
+[145/174] Building CXX object common/CMakeFiles/common.dir/chat-parser.cpp.obj
+[146/174] Building CXX object src/CMakeFiles/llama.dir/unicode.cpp.obj
+[147/174] Building CXX object common/CMakeFiles/common.dir/console.cpp.obj
+[148/174] Building CXX object common/CMakeFiles/common.dir/common.cpp.obj
+[149/174] Building CXX object common/CMakeFiles/common.dir/llguidance.cpp.obj
+[150/174] Building CXX object common/CMakeFiles/common.dir/log.cpp.obj
+[151/174] Building CXX object common/CMakeFiles/common.dir/ngram-cache.cpp.obj
+[152/174] Building CXX object common/CMakeFiles/common.dir/json-partial.cpp.obj
+[153/174] Building CXX object src/CMakeFiles/llama.dir/llama-model.cpp.obj
+[154/174] Building CXX object common/CMakeFiles/common.dir/speculative.cpp.obj
+[155/174] Building CXX object common/CMakeFiles/common.dir/sampling.cpp.obj
+[156/174] Building CXX object common/CMakeFiles/common.dir/json-schema-to-grammar.cpp.obj
+[157/174] Building CXX object common/CMakeFiles/common.dir/regex-partial.cpp.obj
+[158/174] Building CXX object tools/omni/CMakeFiles/omni.dir/vision.cpp.obj
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/vision.cpp: In function ‘bool vision_image_batch_encode(vision_ctx*, int, const vision_image_f32_batch*, float*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/vision.cpp:1882:15: warning: unused variable ‘n_pos’ [-Wunused-variable]
+ 1882 |     const int n_pos = num_patches;
+      |               ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/vision.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/vision.cpp:2056:6: warning: no previous declaration for ‘void vision_set_max_slice_nums(vision_ctx*, int)’ [-Wmissing-declarations]
+ 2056 | void vision_set_max_slice_nums(struct vision_ctx * ctx, int max_slice_nums) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+[159/174] Building CXX object tools/omni/CMakeFiles/omni.dir/token2wav/token2wav.cpp.obj
+[160/174] Building CXX object tools/omni/CMakeFiles/llama-omni-cli.dir/omni-cli.cpp.obj
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-cli.cpp:5:
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:89: warning: "LOG_TMPL" redefined
+   89 | #define LOG_TMPL(level, verbosity, ...) \
+      | 
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-cli.cpp:1:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:174: note: this is the location of the previous definition
+  174 | #define LOG_TMPL(level, ...) \
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:99: warning: "LOG_INF" redefined
+   99 | #define LOG_INF(...) LOG_TMPL(GGML_LOG_LEVEL_INFO,  0,                 __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:180: note: this is the location of the previous definition
+  180 | #define LOG_INF(...) LOG_TMPL(GGML_LOG_LEVEL_INFO,  __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:100: warning: "LOG_WRN" redefined
+  100 | #define LOG_WRN(...) LOG_TMPL(GGML_LOG_LEVEL_WARN,  0,                 __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:181: note: this is the location of the previous definition
+  181 | #define LOG_WRN(...) LOG_TMPL(GGML_LOG_LEVEL_WARN,  __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:101: warning: "LOG_ERR" redefined
+  101 | #define LOG_ERR(...) LOG_TMPL(GGML_LOG_LEVEL_ERROR, 0,                 __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:182: note: this is the location of the previous definition
+  182 | #define LOG_ERR(...) LOG_TMPL(GGML_LOG_LEVEL_ERROR, __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:102: warning: "LOG_DBG" redefined
+  102 | #define LOG_DBG(...) LOG_TMPL(GGML_LOG_LEVEL_DEBUG, LOG_DEFAULT_DEBUG, __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:183: note: this is the location of the previous definition
+  183 | #define LOG_DBG(...) LOG_TMPL(GGML_LOG_LEVEL_DEBUG, __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/common/./log.h:103: warning: "LOG_CNT" redefined
+  103 | #define LOG_CNT(...) LOG_TMPL(GGML_LOG_LEVEL_CONT,  0,                 __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:184: note: this is the location of the previous definition
+  184 | #define LOG_CNT(...) LOG_TMPL(GGML_LOG_LEVEL_CONT,  __VA_ARGS__)
+      | 
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-cli.cpp:161:6: warning: no previous declaration for ‘void test_case(omni_context*, common_params&, std::string, int)’ [-Wmissing-declarations]
+  161 | void test_case(struct omni_context *ctx_omni, common_params& params, std::string data_path_prefix, int cnt){
+      |      ^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-cli.cpp: In function ‘void test_case(omni_context*, common_params&, std::string, int)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-cli.cpp:161:62: warning: unused parameter ‘params’ [-Wunused-parameter]
+  161 | void test_case(struct omni_context *ctx_omni, common_params& params, std::string data_path_prefix, int cnt){
+      |                                               ~~~~~~~~~~~~~~~^~~~~~
+[161/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/mul_mm.comp.cpp.obj
+[162/174] Building CXX object tools/omni/CMakeFiles/omni.dir/token2wav/token2wav-impl.cpp.obj
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::flow::{anonymous}::flow_build_l2_normalize_cb(ggml_context*, ggml_tensor*, float)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:76:19: warning: unused variable ‘C’ [-Wunused-variable]
+   76 |     const int64_t C = x_cb->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:77:19: warning: unused variable ‘B’ [-Wunused-variable]
+   77 |     const int64_t B = x_cb->ne[1];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::flow_matching::{anonymous}::fm_attn_mul_mat_checked(ggml_context*, ggml_tensor*, ggml_tensor*, const char*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:349:106: warning: unused parameter ‘label’ [-Wunused-parameter]
+  349 | ggml_tensor * fm_attn_mul_mat_checked(ggml_context * ctx, ggml_tensor * a, ggml_tensor * b, const char * label) {
+      |                                                                                             ~~~~~~~~~~~~~^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmAttention::build_forward_graph(ggml_context*, ggml_tensor*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:410:19: warning: unused variable ‘C’ [-Wunused-variable]
+  410 |     const int64_t C = x->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmAttention::build_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:451:19: warning: unused variable ‘C’ [-Wunused-variable]
+  451 |     const int64_t C  = x->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In static member function ‘static ggml_tensor* omni::flow_matching::fmCausalConditionalCFM::deterministic_noise(ggml_context*, int64_t, int64_t, int64_t, float, int64_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:573:74: warning: unused parameter ‘offset_ct’ [-Wunused-parameter]
+  573 |                                                           int64_t        offset_ct) {
+      |                                                           ~~~~~~~~~~~~~~~^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmCausalConditionalCFM::build_forward_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, int, float) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:636:27: warning: unused variable ‘B_spk’ [-Wunused-variable]
+  636 |             const int64_t B_spk = spks->ne[1];
+      |                           ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:640:27: warning: unused variable ‘one’ [-Wunused-variable]
+  640 |             const int64_t one   = spks->ne[1];
+      |                           ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:641:27: warning: unused variable ‘B_spk’ [-Wunused-variable]
+  641 |             const int64_t B_spk = spks->ne[2];
+      |                           ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmCausalConditionalCFM::build_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, int, float, const omni::flow_matching::fmCFMCache*, omni::flow_matching::fmCFMCache*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:716:23: warning: unused variable ‘n_time_in’ [-Wunused-variable]
+  716 |         const int64_t n_time_in = att_cache_packed->ne[2] / (int64_t) (H * depth);
+      |                       ^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:720:23: warning: unused variable ‘n_time_in’ [-Wunused-variable]
+  720 |         const int64_t n_time_in = cnn_cache_packed->ne[2] / (int64_t) depth;
+      |                       ^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:739:27: warning: unused variable ‘B_spk’ [-Wunused-variable]
+  739 |             const int64_t B_spk = spks->ne[1];
+      |                           ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:743:27: warning: unused variable ‘one’ [-Wunused-variable]
+  743 |             const int64_t one   = spks->ne[1];
+      |                           ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:744:27: warning: unused variable ‘B_spk’ [-Wunused-variable]
+  744 |             const int64_t B_spk = spks->ne[2];
+      |                           ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmCausalConv1d::build_forward_graph(ggml_context*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:898:19: warning: unused variable ‘Cin’ [-Wunused-variable]
+  898 |     const int64_t Cin = x->ne[0];
+      |                   ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:901:19: warning: unused variable ‘Cin_w’ [-Wunused-variable]
+  901 |     const int64_t Cin_w = weight_->ne[1];
+      |                   ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmCausalConv1d::build_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:938:19: warning: unused variable ‘K’ [-Wunused-variable]
+  938 |     const int64_t K     = weight_->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:939:19: warning: unused variable ‘Cin_w’ [-Wunused-variable]
+  939 |     const int64_t Cin_w = weight_->ne[1];
+      |                   ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmDiT::build_blocks_forward_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:1247:19: warning: unused variable ‘T’ [-Wunused-variable]
+ 1247 |     const int64_t T = x->ne[1];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::flow_matching::fmDiT::build_blocks_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, const std::vector<ggml_tensor*>&, const std::vector<ggml_tensor*>&, std::vector<ggml_tensor*>&, std::vector<ggml_tensor*>&) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:1296:19: warning: unused variable ‘T’ [-Wunused-variable]
+ 1296 |     const int64_t T = x->ne[1];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘bool omni::flow_matching::fmFlowMatchingModelLoaderGGUF::load_from_file(const std::string&, ggml_backend_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:1699:23: warning: the address of ‘ggml_tensor::name’ will never be NULL [-Waddress]
+ 1699 |         if (!t || !t->name) {
+      |                    ~~~^~~~
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.h:5,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3:
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include/ggml.h:653:14: note: ‘ggml_tensor::name’ declared here
+  653 |         char name[GGML_MAX_NAME];
+      |              ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_backend* omni::flow_matching::{anonymous}::fm_loader_init_backend_gpu_idx(int, std::string&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:1903:51: warning: unused parameter ‘gpu_idx’ [-Wunused-parameter]
+ 1903 | ggml_backend_t fm_loader_init_backend_gpu_idx(int gpu_idx, std::string & backend_name_out) {
+      |                                               ~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In static member function ‘static void omni::flow_matching::fmFlowMatchingGGUFModelLoader::fill_noise_ctb(std::vector<float>&, int64_t, int64_t, int64_t, float, int64_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:2029:73: warning: unused parameter ‘offset_ct’ [-Wunused-parameter]
+ 2029 |                                                    int64_t              offset_ct) {
+      |                                                    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_backend* omni::upsample_encoder_v2::{anonymous}::ue_loader_init_backend_gpu_idx(int, std::string&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:2882:51: warning: unused parameter ‘gpu_idx’ [-Wunused-parameter]
+ 2882 | ggml_backend_t ue_loader_init_backend_gpu_idx(int gpu_idx, std::string & backend_name_out) {
+      |                                               ~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::upsample_encoder_v2::{anonymous}::ue_mha_mul_mat_checked(ggml_context*, ggml_tensor*, ggml_tensor*, const char*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3318:105: warning: unused parameter ‘label’ [-Wunused-parameter]
+ 3318 | ggml_tensor * ue_mha_mul_mat_checked(ggml_context * ctx, ggml_tensor * a, ggml_tensor * b, const char * label) {
+      |                                                                                            ~~~~~~~~~~~~~^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘void omni::upsample_encoder_v2::ueMultiHeadedAttention::build_forward_qkv(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor**, ggml_tensor**, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3418:19: warning: unused variable ‘Cq’ [-Wunused-variable]
+ 3418 |     const int64_t Cq = query_ctb->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3419:19: warning: unused variable ‘Bk’ [-Wunused-variable]
+ 3419 |     const int64_t Bk = key_ctb->ne[2];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3421:19: warning: unused variable ‘Ck’ [-Wunused-variable]
+ 3421 |     const int64_t Ck = key_ctb->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3422:19: warning: unused variable ‘Bv’ [-Wunused-variable]
+ 3422 |     const int64_t Bv = value_ctb->ne[2];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3423:19: warning: unused variable ‘Tv’ [-Wunused-variable]
+ 3423 |     const int64_t Tv = value_ctb->ne[1];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3424:19: warning: unused variable ‘Cv’ [-Wunused-variable]
+ 3424 |     const int64_t Cv = value_ctb->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::ueMultiHeadedAttention::build_forward_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3494:19: warning: unused variable ‘C’ [-Wunused-variable]
+ 3494 |     const int64_t C  = query_ctb->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3501:19: warning: variable ‘t_cache’ set but not used [-Wunused-but-set-variable]
+ 3501 |     int64_t       t_cache = 0;
+      |                   ^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::uePositionwiseFeedForward::build_forward_graph(ggml_context*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3553:19: warning: unused variable ‘C’ [-Wunused-variable]
+ 3553 |     const int64_t C = xs_ctb->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::upsample_encoder_v2::{anonymous}::ue_prelook_build_conv1d_f32_ctb(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3602:19: warning: unused variable ‘Cin’ [-Wunused-variable]
+ 3602 |     const int64_t Cin  = x_ctb->ne[0];
+      |                   ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3604:19: warning: unused variable ‘K’ [-Wunused-variable]
+ 3604 |     const int64_t K    = w_kic_oc->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3605:19: warning: unused variable ‘Cinw’ [-Wunused-variable]
+ 3605 |     const int64_t Cinw = w_kic_oc->ne[1];
+      |                   ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::uePreLookaheadLayer::build_forward_graph(ggml_context*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3653:19: warning: unused variable ‘T’ [-Wunused-variable]
+ 3653 |     const int64_t T = inputs_ctb->ne[1];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3655:19: warning: unused variable ‘K1’ [-Wunused-variable]
+ 3655 |     const int64_t K1 = conv1_weight_->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3662:19: warning: unused variable ‘K2’ [-Wunused-variable]
+ 3662 |     const int64_t K2 = conv2_weight_->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::uePreLookaheadLayer::build_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3682:19: warning: unused variable ‘dt’ [-Wunused-variable]
+ 3682 |     const int64_t dt = inputs_ctb->ne[1];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3684:19: warning: unused variable ‘K1’ [-Wunused-variable]
+ 3684 |     const int64_t K1 = conv1_weight_->ne[0];
+      |                   ^~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::upsample_encoder_v2::{anonymous}::ue_rel_mha_mul_mat_checked(ggml_context*, ggml_tensor*, ggml_tensor*, const char*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3791:109: warning: unused parameter ‘label’ [-Wunused-parameter]
+ 3791 | ggml_tensor * ue_rel_mha_mul_mat_checked(ggml_context * ctx, ggml_tensor * a, ggml_tensor * b, const char * label) {
+      |                                                                                                ~~~~~~~~~~~~~^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::ueRelPositionMultiHeadedAttention::build_forward_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:3859:19: warning: variable ‘t_cache’ set but not used [-Wunused-but-set-variable]
+ 3859 |     int64_t       t_cache = 0;
+      |                   ^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::upsample_encoder_v2::{anonymous}::ue_up1d_build_conv1d_f32_ctb(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4015:19: warning: unused variable ‘Cin’ [-Wunused-variable]
+ 4015 |     const int64_t Cin  = x_ctb->ne[0];
+      |                   ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4017:19: warning: unused variable ‘K’ [-Wunused-variable]
+ 4017 |     const int64_t K    = w_kic_oc->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4018:19: warning: unused variable ‘Cinw’ [-Wunused-variable]
+ 4018 |     const int64_t Cinw = w_kic_oc->ne[1];
+      |                   ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::ueUpsample1D::build_forward_graph(ggml_context*, ggml_tensor*) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4062:19: warning: unused variable ‘K’ [-Wunused-variable]
+ 4062 |     const int64_t K        = conv_weight_->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::ueUpsample1D::build_forward_chunk_graph(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4083:19: warning: unused variable ‘K’ [-Wunused-variable]
+ 4083 |     const int64_t K       = conv_weight_->ne[0];
+      |                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘ggml_tensor* omni::upsample_encoder_v2::ueUpsampleConformerEncoderV2::build_forward_chunk_graph(ggml_context*, ggml_tensor*, bool, ggml_tensor*, ggml_tensor*, ggml_tensor**, ggml_tensor**) const’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4362:19: warning: variable ‘Tk1’ set but not used [-Wunused-but-set-variable]
+ 4362 |     int64_t       Tk1                   = 0;
+      |                   ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4400:19: warning: variable ‘Tk2’ set but not used [-Wunused-but-set-variable]
+ 4400 |     int64_t       Tk2                   = 0;
+      |                   ^~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘bool omni::vocoder::hifigan2::hg2_gguf_model_loader::hg_gguf_model_loader_load_from_file(const std::string&, ggml_backend_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:4851:23: warning: the address of ‘ggml_tensor::name’ will never be NULL [-Waddress]
+ 4851 |         if (!t || !t->name) {
+      |                    ~~~^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include/ggml.h:653:14: note: ‘ggml_tensor::name’ declared here
+  653 |         char name[GGML_MAX_NAME];
+      |              ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘ggml_tensor* omni::vocoder::hifigan2::hg_istft16_repeat_checked(ggml_context*, ggml_tensor*, ggml_tensor*, const char*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:5292:64: warning: unused parameter ‘what’ [-Wunused-parameter]
+ 5292 |                                                 const char *   what) {
+      |                                                 ~~~~~~~~~~~~~~~^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In member function ‘bool omni::flow::flowExtraModelLoaderGGUF::load_from_file(const std::string&, ggml_backend_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:6806:23: warning: the address of ‘ggml_tensor::name’ will never be NULL [-Waddress]
+ 6806 |         if (!t || !t->name) {
+      |                    ~~~^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include/ggml.h:653:14: note: ‘ggml_tensor::name’ declared here
+  653 |         char name[GGML_MAX_NAME];
+      |              ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In function ‘void omni::flow::{anonymous}::runner_fill_noise_ctb(std::vector<float>&, int64_t, int64_t, int64_t, float, int64_t)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:7083:42: warning: unused parameter ‘offset_ct’ [-Wunused-parameter]
+ 7083 |                     int64_t              offset_ct) {
+      |                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp: In static member function ‘static ggml_tensor* omni::flow_matching::fmModulateUtils::build_modulate(ggml_context*, ggml_tensor*, ggml_tensor*, ggml_tensor*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:2421:15: warning: infinite recursion detected [-Winfinite-recursion]
+ 2421 | ggml_tensor * fmModulateUtils::build_modulate(ggml_context * ctx,
+      |               ^~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:2425:26: note: recursive call
+ 2425 |     return build_modulate(ctx, x, shift, scale);
+      |            ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/token2wav/token2wav-impl.cpp:2421:15: warning: function might be candidate for attribute ‘noreturn’ [-Wsuggest-attribute=noreturn]
+ 2421 | ggml_tensor * fmModulateUtils::build_modulate(ggml_context * ctx,
+      |               ^~~~~~~~~~~~~~~
+[163/174] Building CXX object common/CMakeFiles/common.dir/arg.cpp.obj
+[164/174] Building CXX object tools/omni/CMakeFiles/omni.dir/omni.cpp.obj
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool omni_eval_embed(llama_context*, const omni_embed*, int, int*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:291:31: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+  291 |     int n_embd  = llama_n_embd(llama_get_model(ctx_llama));
+      |                   ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.h:2,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4:
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool prefill_with_emb(omni_context*, common_params*, float*, int, int, int*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:319:31: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+  319 |     int n_embd  = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                   ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool prefill_emb_with_hidden(omni_context*, common_params*, float*, int, int, int*, float*&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:353:30: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+  353 |     int n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                  ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:518:6: warning: no previous declaration for ‘bool vision_image_load_from_bytes(const unsigned char*, size_t, vision_image_u8*)’ [-Wmissing-declarations]
+  518 | bool vision_image_load_from_bytes(const unsigned char * bytes, size_t bytes_length, struct vision_image_u8 * img) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:579:6: warning: no previous declaration for ‘bool omni_image_embed_make_chunks_with_filename(vision_ctx*, int, std::string, std::vector<std::vector<float> >&)’ [-Wmissing-declarations]
+  579 | bool omni_image_embed_make_chunks_with_filename(struct vision_ctx * ctx_vision, int n_threads,
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:608:6: warning: no previous declaration for ‘bool audition_read_binary_file(const char*, std::vector<unsigned char>*)’ [-Wmissing-declarations]
+  608 | bool audition_read_binary_file(const char * fname, std::vector<uint8_t> * buf_res) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:629:21: warning: no previous declaration for ‘omni_embed* omni_audio_embed_make_with_bytes(audition_ctx*, int, audition_audio_u8*)’ [-Wmissing-declarations]
+  629 | struct omni_embed * omni_audio_embed_make_with_bytes(audition_ctx * ctx_audio, int n_threads, audition_audio_u8 * audio) {
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool eval_tokens_with_hidden(omni_context*, common_params*, std::vector<int>, int, int*, float*&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:930:36: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+  930 |     const int n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                        ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool load_tts_weights_from_gguf(omni_context*, const char*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:1761:18: warning: variable ‘need_transpose’ set but not used [-Wunused-but-set-variable]
+ 1761 |             bool need_transpose = false;
+      |                  ^~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:1810:21: warning: unused variable ‘total_elements’ [-Wunused-variable]
+ 1810 |             int64_t total_elements = expected_hidden_size * expected_num_audio_tokens;
+      |                     ^~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool eval_tokens_tts(omni_context*, common_params*, std::vector<int>, int, int*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2087:75: warning: unused parameter ‘params’ [-Wunused-parameter]
+ 2087 | static bool eval_tokens_tts(struct omni_context* ctx_omni, common_params* params, std::vector<llama_token> tokens, int n_batch, int * n_past_tts) {
+      |                                                            ~~~~~~~~~~~~~~~^~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool prefill_with_emb_tts(omni_context*, common_params*, float*, int, int, int*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2167:30: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 2167 |     int n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_tts_llama));
+      |                  ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2152:73: warning: unused parameter ‘params’ [-Wunused-parameter]
+ 2152 | bool prefill_with_emb_tts(struct omni_context* ctx_omni, common_params* params, float* embed, int n_pos, int n_batch, int* n_past_tts) {
+      |                                                          ~~~~~~~~~~~~~~~^~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘llama_token sample_tts_token_simplex(common_sampler*, omni_context*, common_params*, int*, const std::vector<int>*, int, bool, bool)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2561:17: warning: unused variable ‘logits_debug_dir’ [-Wunused-variable]
+ 2561 |     const char* logits_debug_dir = getenv("TTS_LOGITS_DEBUG_DIR");
+      |                 ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2762:13: warning: no previous declaration for ‘llama_token sample_tts_token(common_sampler*, omni_context*, common_params*, int*, const std::vector<int>*, const std::vector<int>*, int, bool, bool)’ [-Wmissing-declarations]
+ 2762 | llama_token sample_tts_token(struct common_sampler * smpl, struct omni_context * ctx_omni, common_params* params, int * n_past_tts, const std::vector<llama_token> * all_generated_tokens, const std::vector<llama_token> * chunk_generated_tokens, int token_index_in_chunk, bool force_no_eos, bool is_final_text_chunk = false) {
+      |             ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘llama_token sample_tts_token(common_sampler*, omni_context*, common_params*, int*, const std::vector<int>*, const std::vector<int>*, int, bool, bool)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2860:39: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 2860 |         int hidden_size = llama_n_embd(llama_get_model(ctx_omni->ctx_tts_llama));
+      |                           ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2894:9: warning: unused variable ‘eos_relative_idx’ [-Wunused-variable]
+ 2894 |     int eos_relative_idx = num_audio_tokens - 1;  // EOS token relative index: 6561
+      |         ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:2972:11: warning: unused variable ‘tau_r’ [-Wunused-variable]
+ 2972 |     float tau_r = 0.1f;             // TTSSamplingParams.tau_r = 0.1
+      |           ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘llama_model* llama_init(common_params*, std::string)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3525:53: warning: ‘llama_model* llama_load_model_from_file(const char*, llama_model_params)’ is deprecated: use llama_model_load_from_file instead [-Wdeprecated-declarations]
+ 3525 |     llama_model * model = llama_load_model_from_file(model_path.c_str(), model_params);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:413:47: note: declared here
+  413 |     DEPRECATED(LLAMA_API struct llama_model * llama_load_model_from_file(
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘llama_model* llama_init_tts(common_params*, std::string, int)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3546:53: warning: ‘llama_model* llama_load_model_from_file(const char*, llama_model_params)’ is deprecated: use llama_model_load_from_file instead [-Wdeprecated-declarations]
+ 3546 |     llama_model * model = llama_load_model_from_file(model_path.c_str(), model_params);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:413:47: note: declared here
+  413 |     DEPRECATED(LLAMA_API struct llama_model * llama_load_model_from_file(
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘omni_context* omni_init(common_params*, int, bool, std::string, int, const std::string&, bool, llama_model*, llama_context*, const std::string&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3649:49: warning: ‘llama_context* llama_new_context_with_model(llama_model*, llama_context_params)’ is deprecated: use llama_init_from_model instead [-Wdeprecated-declarations]
+ 3649 |         ctx_llama = llama_new_context_with_model(model, ctx_params);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:445:49: note: declared here
+  445 |     DEPRECATED(LLAMA_API struct llama_context * llama_new_context_with_model(
+      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3671:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3671 |             llama_free_model(model);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3684:69: warning: ‘llama_context* llama_new_context_with_model(llama_model*, llama_context_params)’ is deprecated: use llama_init_from_model instead [-Wdeprecated-declarations]
+ 3684 |         llama_context * ctx_tts_llama = llama_new_context_with_model(tts_model, tts_ctx_params);
+      |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:445:49: note: declared here
+  445 |     DEPRECATED(LLAMA_API struct llama_context * llama_new_context_with_model(
+      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3687:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3687 |             llama_free_model(tts_model);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3690:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3690 |             llama_free_model(model);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3720:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3720 |             llama_free_model(tts_model);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3723:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3723 |             llama_free_model(model);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3748:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3748 |             llama_free_model(ctx_omni->model_tts);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3752:25: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3752 |         llama_free_model(model);
+      |         ~~~~~~~~~~~~~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3764:29: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3764 |             llama_free_model(ctx_omni->model_tts);
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:3768:25: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 3768 |         llama_free_model(model);
+      |         ~~~~~~~~~~~~~~~~^~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void omni_free(omni_context*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4165:5: warning: possible problem detected in invocation of ‘operator delete’ [-Wdelete-incomplete]
+ 4165 |     delete ctx_omni->ctx_vision;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4165:22: warning: invalid use of incomplete type ‘struct vision_ctx’
+ 4165 |     delete ctx_omni->ctx_vision;
+      |            ~~~~~~~~~~^~~~~~~~~~
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni-impl.h:5,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:1:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/vision.h:10:8: note: forward declaration of ‘struct vision_ctx’
+   10 | struct vision_ctx;
+      |        ^~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4165:5: note: neither the destructor nor the class-specific ‘operator delete’ will be called, even if they are declared when the class is defined
+ 4165 |     delete ctx_omni->ctx_vision;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4170:25: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 4170 |         llama_free_model(ctx_omni->model_tts);
+      |         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4225:25: warning: ‘void llama_free_model(llama_model*)’ is deprecated: use llama_model_free instead [-Wdeprecated-declarations]
+ 4225 |         llama_free_model(ctx_omni->model);
+      |         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:436:31: note: declared here
+  436 |     DEPRECATED(LLAMA_API void llama_free_model(struct llama_model * model),
+      |                               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4230:5: warning: possible problem detected in invocation of ‘operator delete’ [-Wdelete-incomplete]
+ 4230 |     delete ctx_omni->audio_input_manager;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4230:22: warning: invalid use of incomplete type ‘class AudioInputManager’
+ 4230 |     delete ctx_omni->audio_input_manager;
+      |            ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.h:267:11: note: forward declaration of ‘class AudioInputManager’
+  267 |     class AudioInputManager * audio_input_manager = NULL;
+      |           ^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4230:5: note: neither the destructor nor the class-specific ‘operator delete’ will be called, even if they are declared when the class is defined
+ 4230 |     delete ctx_omni->audio_input_manager;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4255:6: warning: no previous declaration for ‘void omni_set_language(omni_context*, const std::string&)’ [-Wmissing-declarations]
+ 4255 | void omni_set_language(struct omni_context * ctx_omni, const std::string & lang) {
+      |      ^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void process_audio(omni_context*, omni_embed*, common_params*, bool)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4295:116: warning: unused parameter ‘save_spk_emb’ [-Wunused-parameter]
+ 4295 | static void process_audio(struct omni_context * ctx_omni, struct omni_embed * embeds, common_params * params, bool save_spk_emb=false) {
+      |                                                                                                               ~~~~~^~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4301:6: warning: no previous declaration for ‘void eval_prefix(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 4301 | void eval_prefix(struct omni_context* ctx_omni, common_params* params){
+      |      ^~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4307:6: warning: no previous declaration for ‘void eval_prefix_with_hidden(omni_context*, common_params*, float*&)’ [-Wmissing-declarations]
+ 4307 | void eval_prefix_with_hidden(struct omni_context* ctx_omni, common_params* params, float *& hidden_states){
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4329:6: warning: no previous declaration for ‘void llm_thread_func(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 4329 | void llm_thread_func(omni_context* ctx_omni, common_params* params){
+      |      ^~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void llm_thread_func(omni_context*, common_params*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:4332:41: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 4332 |     const int hidden_size = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                             ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void play_wav_file(const std::string&)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5361:46: warning: unused parameter ‘wav_file_path’ [-Wunused-parameter]
+ 5361 | static void play_wav_file(const std::string& wav_file_path) {
+      |                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5606:6: warning: no previous declaration for ‘void tts_thread_func_duplex(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 5606 | void tts_thread_func_duplex(struct omni_context * ctx_omni, common_params *params) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void tts_thread_func_duplex(omni_context*, common_params*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5942:48: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 5942 |             const int tts_n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_tts_llama));
+      |                                    ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5931:17: warning: unused variable ‘n_tokens_orig’ [-Wunused-variable]
+ 5931 |             int n_tokens_orig = (int)(current_chunk_hidden_states.size() / current_chunk_n_embd);
+      |                 ^~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6163:52: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 6163 |                 const int tts_n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_tts_llama));
+      |                                        ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5608:9: warning: variable ‘tts_n_past’ set but not used [-Wunused-but-set-variable]
+ 5608 |     int tts_n_past = 0;
+      |         ^~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5612:10: warning: variable ‘tts_finish’ set but not used [-Wunused-but-set-variable]
+ 5612 |     bool tts_finish = false;
+      |          ^~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5640:15: warning: unused variable ‘audio_eos_token_id’ [-Wunused-variable]
+ 5640 |     const int audio_eos_token_id = audio_bos_token_id + 6561;
+      |               ^~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5641:15: warning: unused variable ‘text_eos_token_id’ [-Wunused-variable]
+ 5641 |     const int text_eos_token_id = 151692;
+      |               ^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:5642:15: warning: unused variable ‘num_audio_tokens’ [-Wunused-variable]
+ 5642 |     const int num_audio_tokens = 6562;
+      |               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6224:6: warning: no previous declaration for ‘void tts_thread_func(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 6224 | void tts_thread_func(struct omni_context * ctx_omni, common_params *params) {
+      |      ^~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void tts_thread_func(omni_context*, common_params*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6694:48: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 6694 |             const int tts_n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_tts_llama));
+      |                                    ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6881:37: warning: unused variable ‘llm_emb_check’ [-Wunused-variable]
+ 6881 |                             float * llm_emb_check = llm_embeds.data() + 0 * tts_n_embd;
+      |                                     ^~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6882:37: warning: unused variable ‘proj_hidden_check’ [-Wunused-variable]
+ 6882 |                             float * proj_hidden_check = projected_hidden.data() + 0 * tts_n_embd;
+      |                                     ^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6883:37: warning: unused variable ‘merged_check’ [-Wunused-variable]
+ 6883 |                             float * merged_check = merged_embeddings.data() + 0 * tts_n_embd;
+      |                                     ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6986:18: warning: unused variable ‘is_final_chunk’ [-Wunused-variable]
+ 6986 |             bool is_final_chunk = llm_finish;
+      |                  ^~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6987:18: warning: variable ‘tts_success’ set but not used [-Wunused-but-set-variable]
+ 6987 |             bool tts_success = false;
+      |                  ^~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6226:9: warning: variable ‘tts_n_past’ set but not used [-Wunused-but-set-variable]
+ 6226 |     int tts_n_past = 0;  // TTS model's n_past counter
+      |         ^~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6230:10: warning: variable ‘tts_finish’ set but not used [-Wunused-but-set-variable]
+ 6230 |     bool tts_finish = false;
+      |          ^~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6239:17: warning: unused variable ‘info’ [-Wunused-variable]
+ 6239 |     struct stat info;
+      |                 ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6305:15: warning: unused variable ‘audio_eos_token_id’ [-Wunused-variable]
+ 6305 |     const int audio_eos_token_id = audio_bos_token_id + 6561;  // 158248
+      |               ^~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6306:15: warning: unused variable ‘text_eos_token_id’ [-Wunused-variable]
+ 6306 |     const int text_eos_token_id = 151692;  // 用于文本结束检测
+      |               ^~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6307:15: warning: unused variable ‘spk_emb_token_id’ [-Wunused-variable]
+ 6307 |     const int spk_emb_token_id = 21143;
+      |               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6308:15: warning: unused variable ‘num_audio_tokens’ [-Wunused-variable]
+ 6308 |     const int num_audio_tokens = 6562;
+      |               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:6309:15: warning: unused variable ‘max_audio_tokens’ [-Wunused-variable]
+ 6309 |     const int max_audio_tokens = 1000;  // Maximum audio tokens to generate per text chunk
+      |               ^~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8144:6: warning: no previous declaration for ‘void t2w_thread_func_python(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 8144 | void t2w_thread_func_python(struct omni_context * ctx_omni, common_params *params) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void t2w_thread_func_python(omni_context*, common_params*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8178:15: warning: unused variable ‘sample_rate’ [-Wunused-variable]
+ 8178 |     const int sample_rate = 24000;  // Python Token2Wav 输出采样率
+      |               ^~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8144:76: warning: unused parameter ‘params’ [-Wunused-parameter]
+ 8144 | void t2w_thread_func_python(struct omni_context * ctx_omni, common_params *params) {
+      |                                                             ~~~~~~~~~~~~~~~^~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8415:6: warning: no previous declaration for ‘void t2w_thread_func_cpp(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 8415 | void t2w_thread_func_cpp(struct omni_context * ctx_omni, common_params *params) {
+      |      ^~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘void t2w_thread_func_cpp(omni_context*, common_params*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8673:20: warning: unused variable ‘buffer_before_slide’ [-Wunused-variable]
+ 8673 |             size_t buffer_before_slide = token_buffer.size();
+      |                    ^~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8558:16: warning: unused variable ‘buffer_before’ [-Wunused-variable]
+ 8558 |         size_t buffer_before = token_buffer.size();
+      |                ^~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8415:73: warning: unused parameter ‘params’ [-Wunused-parameter]
+ 8415 | void t2w_thread_func_cpp(struct omni_context * ctx_omni, common_params *params) {
+      |                                                          ~~~~~~~~~~~~~~~^~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: At global scope:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8763:6: warning: no previous declaration for ‘void t2w_thread_func(omni_context*, common_params*)’ [-Wmissing-declarations]
+ 8763 | void t2w_thread_func(struct omni_context * ctx_omni, common_params *params) {
+      |      ^~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool stream_prefill(omni_context*, std::string, std::string, int, int, std::string)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:8823:41: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 8823 |     const int hidden_size = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                             ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9037:49: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 9037 |             const int hidden_size = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                                     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In lambda function:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9085:107: warning: comparison of integer expressions of different signedness: ‘std::queue<omni_embeds*>::size_type’ {aka ‘long long unsigned int’} and ‘int’ [-Wsign-compare]
+ 9085 |             ctx_omni->llm_thread_info->cv.wait(lock, [&] { return ctx_omni->llm_thread_info->queue.size() < ctx_omni->llm_thread_info->MAX_QUEUE_SIZE; });
+      |                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool stream_decode(omni_context*, std::string, int)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9355:38: warning: ‘int32_t llama_n_embd(const llama_model*)’ is deprecated: use llama_model_n_embd instead [-Wdeprecated-declarations]
+ 9355 |         int llm_n_embd = llama_n_embd(llama_get_model(ctx_omni->ctx_llama));
+      |                          ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:469:34: note: declared here
+  469 |     DEPRECATED(LLAMA_API int32_t llama_n_embd     (const struct llama_model * model), "use llama_model_n_embd instead");
+      |                                  ^~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/src/../include/llama.h:29:36: note: in definition of macro ‘DEPRECATED’
+   29 | #    define DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
+      |                                    ^~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In lambda function:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9650:111: warning: comparison of integer expressions of different signedness: ‘std::queue<LLMOut*>::size_type’ {aka ‘long long unsigned int’} and ‘const int’ [-Wsign-compare]
+ 9650 |                 ctx_omni->tts_thread_info->cv.wait(lock, [&] { return ctx_omni->tts_thread_info->queue.size() < ctx_omni->tts_thread_info->MAX_QUEUE_SIZE; });
+      |                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp: In function ‘bool stream_decode(omni_context*, std::string, int)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9613:22: warning: unused variable ‘llm_elapsed_ms’ [-Wunused-variable]
+ 9613 |                 auto llm_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+      |                      ^~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/omni.cpp:9321:9: warning: unused variable ‘chunk_idx’ [-Wunused-variable]
+ 9321 |     int chunk_idx = 0;
+      |         ^~~~~~~~~
+[165/174] Building CXX object common/CMakeFiles/common.dir/chat.cpp.obj
+[166/174] Building CXX object tools/omni/CMakeFiles/omni.dir/audition.cpp.obj
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp: In function ‘bool audition_audio_batch_encode(audition_ctx*, int, const audition_audio_f32_batch*, float*)’:
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp:1438:15: warning: unused variable ‘n_pos’ [-Wunused-variable]
+ 1438 |     const int n_pos = num_patches + (model.class_embedding ? 1 : 0);
+      |               ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp:1439:15: warning: unused variable ‘pos_w’ [-Wunused-variable]
+ 1439 |     const int pos_w = image_size_width  / patch_size;
+      |               ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp:1440:15: warning: unused variable ‘pos_h’ [-Wunused-variable]
+ 1440 |     const int pos_h = image_size_height / patch_size;
+      |               ^~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp:1442:16: warning: unused variable ‘use_window_attn’ [-Wunused-variable]
+ 1442 |     const bool use_window_attn = hparams.n_wa_pattern > 0; // for qwen2.5vl
+      |                ^~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/tools/omni/audition.cpp:1462:10: warning: variable ‘set_input_i32’ set but not used [-Wunused-but-set-variable]
+ 1462 |     auto set_input_i32 = [&get_inp_tensor](const char * name, std::vector<int32_t> & values) {
+      |          ^~~~~~~~~~~~~
+[167/174] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj
+[168/174] Linking CXX static library ggml/src/ggml-vulkan/ggml-vulkan.a
+[169/174] Linking CXX static library ggml/src/ggml.a
+[170/174] Linking CXX static library src/libllama.a
+[171/174] Linking CXX static library common/libcommon.a
+[172/174] Linking CXX static library tools/omni/libomni.a
+[173/174] Linking CXX executable bin/llama-omni-cli.exe

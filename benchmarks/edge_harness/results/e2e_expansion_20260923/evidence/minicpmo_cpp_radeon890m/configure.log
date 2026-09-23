@@ -1,0 +1,22 @@
+CMAKE_BUILD_TYPE=Release
+-- Setting GGML_NATIVE_DEFAULT to OFF
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu:  
+-- Found Vulkan: /mnt/c/Windows/System32/vulkan-1.dll (found version "1.4.341") found components: glslc missing components: glslangValidator
+-- Vulkan found
+-- GL_KHR_cooperative_matrix supported by glslc
+-- GL_NV_cooperative_matrix2 supported by glslc
+-- GL_EXT_integer_dot_product supported by glslc
+-- GL_EXT_bfloat16 supported by glslc
+-- Host compiler: /usr/bin/gcc /usr/bin/g++
+-- vulkan-shaders-gen toolchain file: /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/host-toolchain.cmake
+-- Including Vulkan backend
+-- ggml version: 0.9.4
+-- ggml commit:  5202b7b
+-- Configuring done (1.3s)
+-- Generating done (0.3s)
+-- Build files have been written to: /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan

@@ -1,0 +1,16 @@
+{
+  "scope": "local Whisper tiny.en ASR proxy for generated speech; no perceptual quality claim",
+  "asr_model": "openai/whisper-tiny.en",
+  "asr_revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+  "asr_weights_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "14ee147cbf2ce9afd9e32c8c8228d7cfe11985cd7e63456b2ad33871492aefcc",
+  "input_sample_rate": 16000,
+  "input_duration_s": 3.0836875,
+  "reference_text": "What color is the square in the image?",
+  "transcript": "What color is the square in the image?",
+  "word_error_rate": 0.0,
+  "asr_load_s": 0.7945198999950662,
+  "asr_inference_s": 1.010420500067994
+}

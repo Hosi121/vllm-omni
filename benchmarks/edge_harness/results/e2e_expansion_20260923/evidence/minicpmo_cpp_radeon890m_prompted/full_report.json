@@ -1,0 +1,107 @@
+{
+  "scope": "standalone MiniCPM-o 4.5 GGUF audio+image input to text+speech on native-Windows-11-HX370-Radeon-890M-plus-CPU",
+  "status": "scoped_complete_path_pass",
+  "expected_placement": "radeon-hybrid",
+  "quality": "synthetic red-square/tone response not established as semantically correct",
+  "model_revision": "db25077c33951fe163b42986fba0132e279872a2",
+  "artifacts": {
+    "MiniCPM-o-4_5-Q4_K_M.gguf": {
+      "bytes": 5026714400,
+      "sha256": "1237a97ee081b8abebc47aa7dad565701e8f5f904cdc92f6723ac4281bbc0932"
+    },
+    "audio/MiniCPM-o-4_5-audio-F16.gguf": {
+      "bytes": 660167904,
+      "sha256": "d5b188ac7feaf98e17175c3f9bd14bf269301bfd187439fdaa3e3a494fc32ef7"
+    },
+    "vision/MiniCPM-o-4_5-vision-F16.gguf": {
+      "bytes": 1095113184,
+      "sha256": "1453678cc4e4fe18de241952962e234f265cb8dda780773526103ab8ba82f421"
+    },
+    "tts/MiniCPM-o-4_5-tts-F16.gguf": {
+      "bytes": 1157244416,
+      "sha256": "c7be3748a863dd6966ae7eed42600b7f41ca67affb03729ff245247f0e5ea088"
+    },
+    "tts/MiniCPM-o-4_5-projector-F16.gguf": {
+      "bytes": 14948640,
+      "sha256": "4b1b5b377358a5e594a304ff6ea5d52df606a9ba7d886c4299d232f0c67dd1fd"
+    },
+    "token2wav-gguf/encoder.gguf": {
+      "bytes": 151339008,
+      "sha256": "7f8d265da594eaf5e1de2db8f5f1867dbcb0bb75ef5878fadf2952347116f4d0"
+    },
+    "token2wav-gguf/flow_matching.gguf": {
+      "bytes": 458250240,
+      "sha256": "eda6069f3edeb5dd3a87fbf2aedb2ddd1b46f3273926c4fcf09b24476a39cab8"
+    },
+    "token2wav-gguf/flow_extra.gguf": {
+      "bytes": 13663328,
+      "sha256": "c67611aa7d02500fe395a7798bf0bfdfb55c74d37ba93934ca74d82b4e63f78d"
+    },
+    "token2wav-gguf/hifigan2.gguf": {
+      "bytes": 83242816,
+      "sha256": "1b8b3bf5d8d3066aeee4324fdcdd41aefce170d0ee907645858de408d82835c2"
+    },
+    "token2wav-gguf/prompt_cache.gguf": {
+      "bytes": 211613152,
+      "sha256": "81fe6f541ebe0b67db06a1e395df928da47991dc9637c2cf47d6c59d5b979f2c"
+    }
+  },
+  "runtime_binary_sha256": "39e089894e010c4a85092f866d9eee79942b9fcab0bca090353dcad24a6dafee",
+  "input_image_sha256": "22c7ccea466a3f551c512045e6316c7597408d4e0a20205502f55784d977aa8d",
+  "input_audio_sha256": "14ee147cbf2ce9afd9e32c8c8228d7cfe11985cd7e63456b2ad33871492aefcc",
+  "response_text": "The square in the image is red.",
+  "audio_chunks": [
+    {
+      "name": "wav_0.wav",
+      "frames": 20160,
+      "sha256": "e038ca472e08fbc84404c2a268fa59cd4894e726db3ab140347142f038d286e6"
+    },
+    {
+      "name": "wav_1.wav",
+      "frames": 24000,
+      "sha256": "4c87362fc2c8aebbd684a6082595ad07ffed186f72e1522b7d32524b327b5e96"
+    },
+    {
+      "name": "wav_2.wav",
+      "frames": 17280,
+      "sha256": "5ecaf1e49a46a52c0c6cea0cfc25abe94e7364963e16f436a2161f59b66a2bdc"
+    }
+  ],
+  "audio_frames": 61440,
+  "audio_duration_s": 2.56,
+  "audio_rms_pcm16": 2316.0898388169994,
+  "pcm_sha256": "de9c909bb698da33f0f79f6a5b1761c1739492a2cdcfeafb2716f821645d3251",
+  "merged_wav_sha256": "41f411907116e6a000a3fcdadcc52ae15277abd7f71803f36b78ea79232a6f3d",
+  "peak_rss_kib_from_time": null,
+  "wall_clock_from_time": null,
+  "sampled_process_profile": {
+    "command": [
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_prompt\\llama-omni-cli.exe",
+      "-m",
+      "C:\\Users\\zhout\\w2\\models\\MiniCPM-o-4_5-gguf\\MiniCPM-o-4_5-Q4_K_M.gguf",
+      "-ngl",
+      "99",
+      "-c",
+      "2048",
+      "--omni",
+      "--t2w-device",
+      "cpu",
+      "--t2w-wait-seconds",
+      "900",
+      "--ref-audio",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_prompt\\default_ref_audio.wav",
+      "--test",
+      "C:\\Users\\zhout\\w2\\minicpmo_cpp_prompt\\fixture_",
+      "2"
+    ],
+    "cwd": "C:\\Users\\zhout\\w2\\minicpmo_cpp_prompt",
+    "exit_code": 0,
+    "wall_s": 18.634632700006478,
+    "memory_sample_interval_ms": 100,
+    "memory_samples": 185,
+    "peak_sampled_rss_bytes": 15565971456,
+    "peak_sampled_private_bytes": 15439056896,
+    "measurement_note": "sampled process values, not guaranteed loading peaks"
+  },
+  "upstream_merge_name_mismatch": true
+}

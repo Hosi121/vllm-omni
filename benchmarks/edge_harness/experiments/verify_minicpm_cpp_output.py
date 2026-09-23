@@ -52,6 +52,9 @@ def main() -> None:
     parser.add_argument("--merged-wav", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--platform-label", default="WSL CPU")
+    parser.add_argument(
+        "--expected-placement", choices=("cpu", "radeon-hybrid"), default="cpu"
+    )
     parser.add_argument("--process-profile", type=Path)
     args = parser.parse_args()
 
@@ -59,15 +62,27 @@ def main() -> None:
     log = args.run_log.read_text(encoding="utf-8", errors="replace")
     required_log = (
         "Media type: 2 (omni: audio+vision)",
-        "GPU layers: 0",
         "Token2Wav device: cpu",
-        "vision_ctx: vision using CPU backend",
         "Token2Wav: initialized successfully",
         "stream_prefill(index=1): processing user audio:",
         "stream_prefill(index=1): user audio embedding:",
         "stream_prefill: prefilled 1 vision chunks",
     )
-    missing_log = [item for item in required_log if item not in log]
+    placement_log = {
+        "cpu": (
+            "GPU layers: 0",
+            "vision_ctx: vision using CPU backend",
+        ),
+        "radeon-hybrid": (
+            "GPU layers: 99",
+            "using device Vulkan0 (AMD Radeon(TM) 890M Graphics)",
+            "offloaded 37/37 layers to GPU",
+            "vision_ctx: vision using Vulkan0 backend",
+            "TTS model: loading with n_gpu_layers=0",
+            "Token2Wav: non-CUDA backend, vocoder using CPU",
+        ),
+    }[args.expected_placement]
+    missing_log = [item for item in required_log + placement_log if item not in log]
     if missing_log:
         raise RuntimeError(f"missing complete-path/placement evidence: {missing_log}")
     process_profile = None
@@ -138,6 +153,7 @@ def main() -> None:
     report = {
         "scope": f"standalone MiniCPM-o 4.5 GGUF audio+image input to text+speech on {args.platform_label}",
         "status": "scoped_complete_path_pass",
+        "expected_placement": args.expected_placement,
         "quality": "synthetic red-square/tone response not established as semantically correct",
         "model_revision": args.model_revision,
         "artifacts": artifacts,

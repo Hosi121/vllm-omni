@@ -1,0 +1,18 @@
+{
+  "scope": "Whisper Mandarin ASR proxy for generated speech; no input-task or perceptual-quality claim",
+  "asr_model": "openai/whisper-tiny",
+  "asr_revision": "169d4a4341b33bc18d8881c4b69c2e104e1cc0af",
+  "asr_weights_sha256": "7ebd0e69e78190ffe1438491fa05cc1f5c1aa3a4c4db3bc1723adbb551ea2395",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "bf1d7c665eec4e7da09d03f89bac110ff07a7f4335fde7add212c0363fadaa80",
+  "wav_duration_s": 41.96,
+  "reference_text": "你知道吗，有时候啊，我也会想啊，生活真的挺有意思的。每天早上醒来，太阳照在脸上，就觉得这一天充满了可能。不管前一天发生啥事，只要新的一天来了，就有机会重新开始。你有没有觉得，就算遇到再难的事，只要咬咬牙挺过去，回头看的时候，反而觉得挺酷的？其实啊，每个人心里都藏着一个小宇宙，里面装着勇气、梦想和一点点小期待。别怕犯错，谁还没摔过跟头呢？重要的是，你有没有勇气爬起来继续往前走。所以说啊，活着本身就是一种奇迹，对吧？",
+  "transcript": "你知道嗎?有時候我也會想啊,生活真的挺有意思的。每天早上醒來,太陽照在臉上,就覺得這天充滿了可能。不管前一天發生啥事,只要新的一天來了,就有機會重新開始。你有沒有覺得,就算遇到在南的事,只要要壓停過去。回頭看的時候,反而覺得停哭的。其實啊,每個人人心裡都藏著一個小宇宙裡面裝著勇氣,夢想和一點點小期待別怕犯錯,誰還沒睡過跟透呢?重要的是,你有沒有勇氣爬起來繼續往前走所以說啊,活著本身就是一種奇跡,對吧?",
+  "asr_segments_25_s": 2,
+  "character_error_rate_raw": 0.33516483516483514,
+  "character_error_rate_t2s_normalized": 0.08791208791208792,
+  "normalization": "OpenCC 0.1.7 t2s; punctuation ignored",
+  "load_s": 0.7860921999672428,
+  "inference_s": 2.9756397999590263
+}

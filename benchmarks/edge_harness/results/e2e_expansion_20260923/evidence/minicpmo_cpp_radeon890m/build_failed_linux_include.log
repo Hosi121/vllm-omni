@@ -1,0 +1,320 @@
+[0/2] Re-checking globbed directories...
+[1/323] Creating directories for 'vulkan-shaders-gen'
+[2/323] No download step for 'vulkan-shaders-gen'
+[3/323] No update step for 'vulkan-shaders-gen'
+[4/323] No patch step for 'vulkan-shaders-gen'
+[5/323] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.obj
+[6/323] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.obj
+[7/323] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.obj
+[8/323] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.obj
+[9/323] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.obj
+[10/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.obj
+[11/323] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.obj
+[12/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.obj
+[13/323] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.obj
+[14/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.obj
+[15/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.obj
+[16/323] Performing configure step for 'vulkan-shaders-gen'
+-- The C compiler identification is GNU 15.2.0
+-- The CXX compiler identification is GNU 15.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Enabling coopmat glslc support
+-- Enabling coopmat2 glslc support
+-- Enabling dot glslc support
+-- Enabling bfloat16 glslc support
+-- Configuring done (2.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build
+[17/323] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.obj
+[18/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.obj
+[19/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.obj
+[20/323] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.obj
+[21/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.obj
+[22/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.obj
+[23/323] Building CXX object common/CMakeFiles/build_info.dir/build-info.cpp.obj
+[24/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.obj
+[25/323] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/quants.c.obj
+[26/323] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.obj
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c: In function ‘validate_float’:
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5004:76: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5004 |         fprintf(stderr, "ggml_validate_row_data: found inf value at block %zu\n", i);
+      |                                                                            ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5004:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5004 |         fprintf(stderr, "ggml_validate_row_data: found inf value at block %zu\n", i);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5009:76: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5009 |         fprintf(stderr, "ggml_validate_row_data: found nan value at block %zu\n", i);
+      |                                                                            ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5009:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5009 |         fprintf(stderr, "ggml_validate_row_data: found nan value at block %zu\n", i);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c: In function ‘validate_fp16’:
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5026:76: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5026 |         fprintf(stderr, "ggml_validate_row_data: found inf value at block %zu\n", i);
+      |                                                                            ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5026:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5026 |         fprintf(stderr, "ggml_validate_row_data: found inf value at block %zu\n", i);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5031:76: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5031 |         fprintf(stderr, "ggml_validate_row_data: found nan value at block %zu\n", i);
+      |                                                                            ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5031:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5031 |         fprintf(stderr, "ggml_validate_row_data: found nan value at block %zu\n", i);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c: In function ‘validate_e_e8m0’:
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5040:85: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5040 |         fprintf(stderr, "ggml_validate_row_data: found invalid e value %d at block %zu\n", e, i);
+      |                                                                                     ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5040:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5040 |         fprintf(stderr, "ggml_validate_row_data: found invalid e value %d at block %zu\n", e, i);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c: In function ‘ggml_validate_row_data’:
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5088:44: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5088 |         fprintf(stderr, "%s: invalid size %zu for type %s (type size = %zu)\n", __func__, nbytes, ggml_type_name(type), ggml_type_size(type));
+      |                                            ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5088:57: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘size_t’ {aka ‘long long unsigned int’} [-Wformat=]
+ 5088 |         fprintf(stderr, "%s: invalid size %zu for type %s (type size = %zu)\n", __func__, nbytes, ggml_type_name(type), ggml_type_size(type));
+      |                                                        ~^                                 ~~~~~~
+      |                                                         |                                 |
+      |                                                         char *                            size_t {aka long long unsigned int}
+      |                                                        %lld
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5088:73: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5088 |         fprintf(stderr, "%s: invalid size %zu for type %s (type size = %zu)\n", __func__, nbytes, ggml_type_name(type), ggml_type_size(type));
+      |                                                                         ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5088:25: warning: too many arguments for format [-Wformat-extra-args]
+ 5088 |         fprintf(stderr, "%s: invalid size %zu for type %s (type size = %zu)\n", __func__, nbytes, ggml_type_name(type), ggml_type_size(type));
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5105:67: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5105 |                     fprintf(stderr, "%s: found %d NaNs in row of %zu BF16 values\n", __func__, nans, nb);
+      |                                                                   ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5105:37: warning: too many arguments for format [-Wformat-extra-args]
+ 5105 |                     fprintf(stderr, "%s: found %d NaNs in row of %zu BF16 values\n", __func__, nans, nb);
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5109:73: warning: unknown conversion type character ‘z’ in format [-Wformat=]
+ 5109 |                     fprintf(stderr, "%s: found %d infinities in row of %zu BF16 values\n", __func__, infs, nb);
+      |                                                                         ^
+/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-quants.c:5109:37: warning: too many arguments for format [-Wformat-extra-args]
+ 5109 |                     fprintf(stderr, "%s: found %d infinities in row of %zu BF16 values\n", __func__, infs, nb);
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[27/323] Linking CXX static library ggml/src/ggml-base.a
+[28/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/repack.cpp.obj
+[29/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.obj
+[30/323] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.obj
+[31/323] Linking CXX static library ggml/src/ggml-cpu.a
+[32/323] Performing build step for 'vulkan-shaders-gen'
+[1/2] Building CXX object CMakeFiles/vulkan-shaders-gen.dir/vulkan-shaders-gen.cpp.o
+[2/2] Linking CXX executable /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/bin/vulkan-shaders-gen
+[33/323] Performing install step for 'vulkan-shaders-gen'
+-- Installing: /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/Release/./vulkan-shaders-gen
+[34/323] Completed 'vulkan-shaders-gen'
+[35/323] Generate vulkan shaders header
+[36/323] Generate vulkan shaders for argmax.comp
+[37/323] Generate vulkan shaders for concat.comp
+[38/323] Generate vulkan shaders for argsort.comp
+[39/323] Generate vulkan shaders for acc.comp
+[40/323] Generate vulkan shaders for add_id.comp
+[41/323] Generate vulkan shaders for clamp.comp
+[42/323] Generate vulkan shaders for contig_copy.comp
+[43/323] Generate vulkan shaders for conv2d_dw.comp
+[44/323] Generate vulkan shaders for cos.comp
+[45/323] Generate vulkan shaders for conv_transpose_1d.comp
+[46/323] Generate vulkan shaders for add.comp
+[47/323] Generate vulkan shaders for copy.comp
+[48/323] Generate vulkan shaders for conv2d_mm.comp
+[49/323] Generate vulkan shaders for copy_from_quant.comp
+[50/323] Generate vulkan shaders for count_equal.comp
+[51/323] Generate vulkan shaders for dequant_f32.comp
+[52/323] Generate vulkan shaders for dequant_iq1_m.comp
+[53/323] Generate vulkan shaders for dequant_iq1_s.comp
+[54/323] Generate vulkan shaders for dequant_iq2_s.comp
+[55/323] Generate vulkan shaders for dequant_iq2_xs.comp
+[56/323] Generate vulkan shaders for dequant_iq2_xxs.comp
+[57/323] Generate vulkan shaders for dequant_iq3_xxs.comp
+[58/323] Generate vulkan shaders for dequant_iq3_s.comp
+[59/323] Generate vulkan shaders for dequant_mxfp4.comp
+[60/323] Generate vulkan shaders for dequant_iq4_nl.comp
+[61/323] Generate vulkan shaders for dequant_q2_k.comp
+[62/323] Generate vulkan shaders for dequant_iq4_xs.comp
+[63/323] Generate vulkan shaders for copy_to_quant.comp
+[64/323] Generate vulkan shaders for dequant_q3_k.comp
+[65/323] Generate vulkan shaders for dequant_q4_0.comp
+[66/323] Generate vulkan shaders for dequant_q4_1.comp
+[67/323] Generate vulkan shaders for dequant_q4_k.comp
+[68/323] Generate vulkan shaders for dequant_q5_0.comp
+[69/323] Generate vulkan shaders for dequant_q8_0.comp
+[70/323] Generate vulkan shaders for dequant_q5_1.comp
+[71/323] Generate vulkan shaders for dequant_q5_k.comp
+[72/323] Generate vulkan shaders for dequant_q6_k.comp
+[73/323] Generate vulkan shaders for diag_mask_inf.comp
+[74/323] Generate vulkan shaders for exp.comp
+[75/323] Generate vulkan shaders for div.comp
+[76/323] Generate vulkan shaders for geglu.comp
+[77/323] Generate vulkan shaders for flash_attn_split_k_reduce.comp
+[78/323] Generate vulkan shaders for flash_attn_cm1.comp
+[79/323] Generate vulkan shaders for geglu_erf.comp
+[80/323] Generate vulkan shaders for geglu_quick.comp
+[81/323] Generate vulkan shaders for flash_attn.comp
+[82/323] Generate vulkan shaders for gelu.comp
+[83/323] Generate vulkan shaders for gelu_erf.comp
+[84/323] Generate vulkan shaders for gelu_quick.comp
+[85/323] Generate vulkan shaders for group_norm.comp
+[86/323] Generate vulkan shaders for get_rows.comp
+[87/323] Generate vulkan shaders for hardsigmoid.comp
+[88/323] Generate vulkan shaders for hardswish.comp
+[89/323] Generate vulkan shaders for l2_norm.comp
+[90/323] Generate vulkan shaders for im2col.comp
+[91/323] Generate vulkan shaders for im2col_3d.comp
+[92/323] Generate vulkan shaders for leaky_relu.comp
+[93/323] Generate vulkan shaders for mul_mat_split_k_reduce.comp
+[94/323] Generate vulkan shaders for flash_attn_cm2.comp
+[95/323] Generate vulkan shaders for get_rows_quant.comp
+[96/323] Generate vulkan shaders for mul.comp
+[97/323] Generate vulkan shaders for mul_mat_vec_iq1_m.comp
+[98/323] Generate vulkan shaders for mul_mat_vec_nc.comp
+[99/323] Generate vulkan shaders for mul_mat_vec_iq1_s.comp
+[100/323] Generate vulkan shaders for mul_mat_vec_iq2_xxs.comp
+[101/323] Generate vulkan shaders for mul_mat_vec_iq2_s.comp
+[102/323] Generate vulkan shaders for mul_mat_vec_iq2_xs.comp
+[103/323] Generate vulkan shaders for mul_mat_vec_iq3_xxs.comp
+[104/323] Generate vulkan shaders for mul_mat_vec_iq3_s.comp
+[105/323] Generate vulkan shaders for mul_mat_vec_p021.comp
+[106/323] Generate vulkan shaders for mul_mat_vec_q4_k.comp
+[107/323] Generate vulkan shaders for mul_mat_vec_q5_k.comp
+[108/323] Generate vulkan shaders for mul_mat_vec_q2_k.comp
+[109/323] Generate vulkan shaders for mul_mat_vec_q3_k.comp
+[110/323] Generate vulkan shaders for mul_mat_vec_q6_k.comp
+[111/323] Generate vulkan shaders for mul_mat_vecq.comp
+[112/323] Generate vulkan shaders for opt_step_adamw.comp
+[113/323] Generate vulkan shaders for multi_add.comp
+[114/323] Generate vulkan shaders for opt_step_sgd.comp
+[115/323] Generate vulkan shaders for norm.comp
+[116/323] Generate vulkan shaders for mul_mmq.comp
+[117/323] Generate vulkan shaders for pad.comp
+[118/323] Generate vulkan shaders for pool2d.comp
+[119/323] Generate vulkan shaders for reglu.comp
+[120/323] Generate vulkan shaders for relu.comp
+[121/323] Generate vulkan shaders for repeat.comp
+[122/323] Generate vulkan shaders for quantize_q8_1.comp
+[123/323] Generate vulkan shaders for mul_mat_vec.comp
+[124/323] Generate vulkan shaders for repeat_back.comp
+[125/323] Generate vulkan shaders for rms_norm_back.comp
+[126/323] Generate vulkan shaders for rms_norm_partials.comp
+[127/323] Generate vulkan shaders for roll.comp
+[128/323] Generate vulkan shaders for rope_multi.comp
+[129/323] Generate vulkan shaders for rope_neox.comp
+[130/323] Generate vulkan shaders for rope_norm.comp
+[131/323] Generate vulkan shaders for rms_norm.comp
+[132/323] Generate vulkan shaders for rope_vision.comp
+[133/323] Generate vulkan shaders for scale.comp
+[134/323] Generate vulkan shaders for silu.comp
+[135/323] Generate vulkan shaders for silu_back.comp
+[136/323] Generate vulkan shaders for sigmoid.comp
+[137/323] Generate vulkan shaders for sin.comp
+[138/323] Generate vulkan shaders for soft_max_back.comp
+[139/323] Generate vulkan shaders for sqrt.comp
+[140/323] Generate vulkan shaders for square.comp
+[141/323] Generate vulkan shaders for sum_rows.comp
+[142/323] Generate vulkan shaders for sub.comp
+[143/323] Generate vulkan shaders for tanh.comp
+[144/323] Generate vulkan shaders for swiglu_oai.comp
+[145/323] Generate vulkan shaders for swiglu.comp
+[146/323] Generate vulkan shaders for timestep_embedding.comp
+[147/323] Generate vulkan shaders for upscale.comp
+[148/323] Generate vulkan shaders for soft_max.comp
+[149/323] Generate vulkan shaders for wkv6.comp
+[150/323] Generate vulkan shaders for wkv7.comp
+[151/323] Generate vulkan shaders for mul_mm_cm2.comp
+[152/323] Generate vulkan shaders for mul_mm.comp
+[153/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/clamp.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/clamp.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/clamp.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[154/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argsort.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/argsort.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/argsort.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[155/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/acc.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/acc.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/acc.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[156/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/add.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/add.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[157/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/add_id.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/add_id.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/add_id.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[158/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/argmax.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/argmax.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/argmax.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[159/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/ggml-vulkan.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/ggml-vulkan.cpp
+In file included from /home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include/ggml.h:209,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include/ggml-vulkan.h:3,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/ggml-vulkan.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+[160/323] Building CXX object ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj
+FAILED: [code=1] ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj 
+/usr/bin/x86_64-w64-mingw32-g++-posix -DGGML_SCHED_MAX_COPIES=4 -DGGML_VULKAN_BFLOAT16_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT2_GLSLC_SUPPORT -DGGML_VULKAN_COOPMAT_GLSLC_SUPPORT -DGGML_VULKAN_INTEGER_DOT_GLSLC_SUPPORT -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0xA00 -D_XOPEN_SOURCE=600 -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/ggml-vulkan/.. -I/home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan -I/home/zhout/project/edge_infer/llama.cpp-omni/ggml/src/../include -isystem /usr/include -march=x86-64-v3 -O3 -DNDEBUG -std=gnu++17 -Wmissing-declarations -Wmissing-noreturn -Wall -Wextra -Wpedantic -Wcast-qual -Wno-unused-function -Wno-array-bounds -Wextra-semi -MD -MT ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj -MF ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj.d -o ggml/src/ggml-vulkan/CMakeFiles/ggml-vulkan.dir/concat.comp.cpp.obj -c /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/concat.comp.cpp
+In file included from /usr/lib/gcc/x86_64-w64-mingw32/13-posix/include/c++/cstdint:45,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/ggml-vulkan-shaders.hpp:1,
+                 from /home/zhout/project/edge_infer/llama.cpp-omni/build-win64-vulkan/ggml/src/ggml-vulkan/concat.comp.cpp:1:
+/usr/include/stdint.h:26:10: fatal error: bits/libc-header-start.h: No such file or directory
+   26 | #include <bits/libc-header-start.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+ninja: build stopped: subcommand failed.
