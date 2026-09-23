@@ -1,0 +1,1436 @@
+{
+  "scope": "complete resident local CPU Qwen3-TTS text-to-WAV through Omni",
+  "host_os": "Windows-11-10.0.26200-SP0",
+  "allow_platform_variation": false,
+  "warmup_count": 0,
+  "measured_count": 1,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 10737418240
+    }
+  },
+  "startup_s": 29.529544900055043,
+  "execution_plan": {
+    "backend": "external.qwen_tts.cpu.v1",
+    "stage_id": 0,
+    "worker_generation": "bc92544dfe41467d9260e88cacc3ea6d",
+    "worker_pid": 5976,
+    "worker_script_sha256": "862177bec7221114ec93f496602434dbefd36ca903d009ea35ffdca37b529205",
+    "artifact_sha256": {
+      "python_sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+      "talker_sha256": "bc3c7e785eb961179c25450d1acff03f839e0002f2f3a5aeb67b5735c0fa2adb",
+      "tokenizer_sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+    },
+    "overlay_marker_sha256": null,
+    "model_dir": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+    "placement": "CPU BF16 SDPA, 8 threads; isolated Transformers 4.57.3",
+    "worker_props": {
+      "model_dir": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+      "placement": "cpu",
+      "torch": "2.13.0+cu130",
+      "transformers": "4.57.3",
+      "qwen_tts": "0.1.1",
+      "dtype": "bfloat16",
+      "attention": "sdpa",
+      "threads": 8,
+      "sample_rate": 24000,
+      "speaker": "Ryan",
+      "max_new_tokens": 64,
+      "load_s": 1.6466022999957204
+    },
+    "loaded_rss_bytes": 1855377408,
+    "loaded_private_bytes": 4670558208,
+    "loaded_process_tree": [
+      {
+        "pid": 5976,
+        "rss_bytes": 4415488,
+        "private_bytes": 843776
+      },
+      {
+        "pid": 2328,
+        "rss_bytes": 7487488,
+        "private_bytes": 1265664
+      },
+      {
+        "pid": 20260,
+        "rss_bytes": 1843474432,
+        "private_bytes": 4668448768
+      }
+    ],
+    "reserved_bytes": {
+      "host_ram": 10737418240
+    },
+    "memory_overhead_bytes": 6442450944,
+    "max_text_bytes": 4096,
+    "max_wav_bytes": 4194304,
+    "max_audio_s": 10.0,
+    "voice": "Ryan",
+    "seed": 42,
+    "request_capacity": 1,
+    "stateful_session": "Qwen PyTorch worker-owned; complete WAV per request",
+    "evidence": "B"
+  },
+  "checks": [
+    {
+      "text": "Hello from the local computer.",
+      "wall_s": 15.461053600069135,
+      "frames": 109440,
+      "duration_s": 4.56,
+      "pcm_sha256": "c8a49b5c73efd642a1eb04be973d6aefdc8ed9cfd18b34ff67690b8464906bed",
+      "stage_event": {
+        "request_id": "cpu-tts-636261109000000",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "bc92544dfe41467d9260e88cacc3ea6d",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    },
+    {
+      "text": "The blue car is parked beside the library.",
+      "wall_s": 11.414938299916685,
+      "frames": 82560,
+      "duration_s": 3.44,
+      "pcm_sha256": "4edc7a62f749b1fde5ea39bedbc15a35f291ab1db8d24d7b7eb3df7270885e16",
+      "stage_event": {
+        "request_id": "cpu-tts-636276578000000",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "bc92544dfe41467d9260e88cacc3ea6d",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "standalone_pcm_parity": [
+    true,
+    true
+  ],
+  "warmups": [],
+  "measured": [
+    {
+      "text": "Hello from the local computer.",
+      "wall_s": 15.217046999954619,
+      "frames": 109440,
+      "duration_s": 4.56,
+      "pcm_sha256": "c8a49b5c73efd642a1eb04be973d6aefdc8ed9cfd18b34ff67690b8464906bed",
+      "stage_event": {
+        "request_id": "cpu-tts-636288000000000",
+        "stage_id": 0,
+        "epoch": 3,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "bc92544dfe41467d9260e88cacc3ea6d",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "nearest_rank_p50_wall_s": 15.217046999954619,
+  "nearest_rank_p95_wall_s": 15.217046999954619,
+  "all_same_pcm_sha256": true,
+  "memory_samples": [
+    {
+      "unix": 1790181526.8496056,
+      "rss_bytes": 1855377408,
+      "private_bytes": 4670558208,
+      "host_available_bytes": 14873137152,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181527.2196078,
+      "rss_bytes": 2491293696,
+      "private_bytes": 4691202048,
+      "host_available_bytes": 13958889472,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181527.5572631,
+      "rss_bytes": 3004231680,
+      "private_bytes": 4737507328,
+      "host_available_bytes": 13725376512,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181527.9194021,
+      "rss_bytes": 3005116416,
+      "private_bytes": 4737703936,
+      "host_available_bytes": 13725081600,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181528.3020756,
+      "rss_bytes": 3005616128,
+      "private_bytes": 4738293760,
+      "host_available_bytes": 13728866304,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181528.6617134,
+      "rss_bytes": 3009142784,
+      "private_bytes": 4738424832,
+      "host_available_bytes": 13718552576,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181529.0264046,
+      "rss_bytes": 3009273856,
+      "private_bytes": 4737900544,
+      "host_available_bytes": 13726650368,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181529.4050226,
+      "rss_bytes": 3010555904,
+      "private_bytes": 4738686976,
+      "host_available_bytes": 13728677888,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181529.7856538,
+      "rss_bytes": 3010699264,
+      "private_bytes": 4738699264,
+      "host_available_bytes": 13723541504,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181530.1464117,
+      "rss_bytes": 3011649536,
+      "private_bytes": 4738965504,
+      "host_available_bytes": 13726195712,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181530.4929922,
+      "rss_bytes": 3012411392,
+      "private_bytes": 4738408448,
+      "host_available_bytes": 13727129600,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181530.863468,
+      "rss_bytes": 3012784128,
+      "private_bytes": 4738605056,
+      "host_available_bytes": 13720256512,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181531.2075522,
+      "rss_bytes": 3012878336,
+      "private_bytes": 4738539520,
+      "host_available_bytes": 13720125440,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181531.5726762,
+      "rss_bytes": 3017326592,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13716992000,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181531.9575093,
+      "rss_bytes": 3017453568,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13717438464,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181532.3197236,
+      "rss_bytes": 3017871360,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13719269376,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181532.699344,
+      "rss_bytes": 3018055680,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13717032960,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181533.077429,
+      "rss_bytes": 3018158080,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13718908928,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181533.446067,
+      "rss_bytes": 3018305536,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13719773184,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181533.8210135,
+      "rss_bytes": 3018440704,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13716131840,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181534.1983924,
+      "rss_bytes": 3018612736,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13718536192,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181534.573278,
+      "rss_bytes": 3019112448,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13712527360,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181534.9558911,
+      "rss_bytes": 3019276288,
+      "private_bytes": 4738932736,
+      "host_available_bytes": 13714976768,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181535.3164845,
+      "rss_bytes": 3019350016,
+      "private_bytes": 4738867200,
+      "host_available_bytes": 13715607552,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181535.6571305,
+      "rss_bytes": 3019669504,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13714657280,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181536.0214767,
+      "rss_bytes": 3019902976,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13721436160,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181536.3785355,
+      "rss_bytes": 3020050432,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13721071616,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181536.7562096,
+      "rss_bytes": 3020804096,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13708906496,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181537.108753,
+      "rss_bytes": 3020787712,
+      "private_bytes": 4738936832,
+      "host_available_bytes": 13712904192,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181537.4839199,
+      "rss_bytes": 3021017088,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13712617472,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181537.8635495,
+      "rss_bytes": 3021209600,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13710966784,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181538.2232797,
+      "rss_bytes": 3021393920,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13713428480,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181538.5576031,
+      "rss_bytes": 3021643776,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13703962624,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181538.9232879,
+      "rss_bytes": 3021787136,
+      "private_bytes": 4739067904,
+      "host_available_bytes": 13707485184,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181539.285919,
+      "rss_bytes": 3026337792,
+      "private_bytes": 4738936832,
+      "host_available_bytes": 13710077952,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181539.6500468,
+      "rss_bytes": 3026644992,
+      "private_bytes": 4739080192,
+      "host_available_bytes": 13703811072,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181540.0215192,
+      "rss_bytes": 3027181568,
+      "private_bytes": 4739211264,
+      "host_available_bytes": 13698711552,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181540.3778396,
+      "rss_bytes": 3027369984,
+      "private_bytes": 4739211264,
+      "host_available_bytes": 13694951424,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181540.7511437,
+      "rss_bytes": 3027480576,
+      "private_bytes": 4739211264,
+      "host_available_bytes": 13689827328,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181541.1232128,
+      "rss_bytes": 3027619840,
+      "private_bytes": 4739211264,
+      "host_available_bytes": 13698199552,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181541.4802296,
+      "rss_bytes": 3028021248,
+      "private_bytes": 4739485696,
+      "host_available_bytes": 13701238784,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181541.863434,
+      "rss_bytes": 3059552256,
+      "private_bytes": 4910788608,
+      "host_available_bytes": 13628993536,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181542.2349637,
+      "rss_bytes": 3174305792,
+      "private_bytes": 5291876352,
+      "host_available_bytes": 13552689152,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181542.6020408,
+      "rss_bytes": 3036774400,
+      "private_bytes": 4770353152,
+      "host_available_bytes": 13667635200,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181542.982973,
+      "rss_bytes": 3035090944,
+      "private_bytes": 4768120832,
+      "host_available_bytes": 13676662784,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181543.3615112,
+      "rss_bytes": 3035742208,
+      "private_bytes": 4769234944,
+      "host_available_bytes": 13682728960,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181543.7252595,
+      "rss_bytes": 3036348416,
+      "private_bytes": 4769300480,
+      "host_available_bytes": 13675425792,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181544.0705676,
+      "rss_bytes": 3036114944,
+      "private_bytes": 4769366016,
+      "host_available_bytes": 13678571520,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181544.437781,
+      "rss_bytes": 3036205056,
+      "private_bytes": 4769038336,
+      "host_available_bytes": 13680173056,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181544.7914226,
+      "rss_bytes": 3035860992,
+      "private_bytes": 4768776192,
+      "host_available_bytes": 13675401216,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181545.1728692,
+      "rss_bytes": 3035873280,
+      "private_bytes": 4768186368,
+      "host_available_bytes": 13676621824,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181545.5492787,
+      "rss_bytes": 3036663808,
+      "private_bytes": 4769497088,
+      "host_available_bytes": 13666004992,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181545.9069326,
+      "rss_bytes": 3039817728,
+      "private_bytes": 4772712448,
+      "host_available_bytes": 13673857024,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181546.2729845,
+      "rss_bytes": 3040722944,
+      "private_bytes": 4773498880,
+      "host_available_bytes": 13689266176,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181546.6598635,
+      "rss_bytes": 3040800768,
+      "private_bytes": 4773040128,
+      "host_available_bytes": 13688483840,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181547.0267098,
+      "rss_bytes": 3041181696,
+      "private_bytes": 4773695488,
+      "host_available_bytes": 13696679936,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181547.3963292,
+      "rss_bytes": 3041255424,
+      "private_bytes": 4773629952,
+      "host_available_bytes": 13686398976,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181547.7673564,
+      "rss_bytes": 3041452032,
+      "private_bytes": 4773302272,
+      "host_available_bytes": 13686312960,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181548.1220284,
+      "rss_bytes": 3042017280,
+      "private_bytes": 4773761024,
+      "host_available_bytes": 13691551744,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181548.4966786,
+      "rss_bytes": 3042226176,
+      "private_bytes": 4773826560,
+      "host_available_bytes": 13696819200,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181548.880054,
+      "rss_bytes": 3042435072,
+      "private_bytes": 4773957632,
+      "host_available_bytes": 13690093568,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181549.2356825,
+      "rss_bytes": 3042611200,
+      "private_bytes": 4773957632,
+      "host_available_bytes": 13693665280,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181549.6078925,
+      "rss_bytes": 3042811904,
+      "private_bytes": 4774088704,
+      "host_available_bytes": 13687832576,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181549.987523,
+      "rss_bytes": 3042910208,
+      "private_bytes": 4774023168,
+      "host_available_bytes": 13688176640,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181550.3428433,
+      "rss_bytes": 3043192832,
+      "private_bytes": 4774154240,
+      "host_available_bytes": 13683019776,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181550.6964939,
+      "rss_bytes": 3043352576,
+      "private_bytes": 4774219776,
+      "host_available_bytes": 13688229888,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181551.0596297,
+      "rss_bytes": 3044143104,
+      "private_bytes": 4774879232,
+      "host_available_bytes": 13689749504,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181551.4122763,
+      "rss_bytes": 3044376576,
+      "private_bytes": 4775010304,
+      "host_available_bytes": 13694091264,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181551.7924638,
+      "rss_bytes": 3044421632,
+      "private_bytes": 4774879232,
+      "host_available_bytes": 13697167360,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181552.1708465,
+      "rss_bytes": 3044741120,
+      "private_bytes": 4775010304,
+      "host_available_bytes": 13716238336,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181552.5474968,
+      "rss_bytes": 3044794368,
+      "private_bytes": 4775010304,
+      "host_available_bytes": 13707427840,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181552.9261622,
+      "rss_bytes": 3045150720,
+      "private_bytes": 4775272448,
+      "host_available_bytes": 13709324288,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181553.2736838,
+      "rss_bytes": 3096395776,
+      "private_bytes": 4875595776,
+      "host_available_bytes": 13688414208,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181553.659935,
+      "rss_bytes": 3133603840,
+      "private_bytes": 4951322624,
+      "host_available_bytes": 13599285248,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181554.0190117,
+      "rss_bytes": 3045654528,
+      "private_bytes": 4841570304,
+      "host_available_bytes": 13719388160,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181554.3767736,
+      "rss_bytes": 3046150144,
+      "private_bytes": 4841111552,
+      "host_available_bytes": 13712748544,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181554.7426739,
+      "rss_bytes": 3046703104,
+      "private_bytes": 4841766912,
+      "host_available_bytes": 13715255296,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181555.119303,
+      "rss_bytes": 3048464384,
+      "private_bytes": 4841701376,
+      "host_available_bytes": 13705940992,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181555.4968443,
+      "rss_bytes": 3049230336,
+      "private_bytes": 4842029056,
+      "host_available_bytes": 13702275072,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181555.876491,
+      "rss_bytes": 3049521152,
+      "private_bytes": 4842029056,
+      "host_available_bytes": 13709889536,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181556.2399302,
+      "rss_bytes": 3050405888,
+      "private_bytes": 4842225664,
+      "host_available_bytes": 13711925248,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181556.602844,
+      "rss_bytes": 3050835968,
+      "private_bytes": 4842094592,
+      "host_available_bytes": 13702041600,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181556.9808254,
+      "rss_bytes": 3051024384,
+      "private_bytes": 4841766912,
+      "host_available_bytes": 13703589888,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181557.357625,
+      "rss_bytes": 3051139072,
+      "private_bytes": 4841832448,
+      "host_available_bytes": 13699846144,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181557.7314892,
+      "rss_bytes": 3051302912,
+      "private_bytes": 4842029056,
+      "host_available_bytes": 13692592128,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181558.106092,
+      "rss_bytes": 3054964736,
+      "private_bytes": 4841701376,
+      "host_available_bytes": 13699440640,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181558.4873466,
+      "rss_bytes": 3055431680,
+      "private_bytes": 4842225664,
+      "host_available_bytes": 13687091200,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181558.862831,
+      "rss_bytes": 3055542272,
+      "private_bytes": 4842160128,
+      "host_available_bytes": 13687308288,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181559.2207437,
+      "rss_bytes": 3055525888,
+      "private_bytes": 4842029056,
+      "host_available_bytes": 13683093504,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181559.567336,
+      "rss_bytes": 3055796224,
+      "private_bytes": 4842160128,
+      "host_available_bytes": 13695524864,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181559.9159632,
+      "rss_bytes": 3055726592,
+      "private_bytes": 4842225664,
+      "host_available_bytes": 13701005312,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181560.2948198,
+      "rss_bytes": 3055759360,
+      "private_bytes": 4842049536,
+      "host_available_bytes": 13703188480,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181560.662608,
+      "rss_bytes": 3055742976,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13697462272,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181561.026704,
+      "rss_bytes": 3056078848,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13699461120,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181561.4094734,
+      "rss_bytes": 3056144384,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13708673024,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181561.7731087,
+      "rss_bytes": 3056140288,
+      "private_bytes": 4842049536,
+      "host_available_bytes": 13701337088,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181562.1529827,
+      "rss_bytes": 3056214016,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13704736768,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181562.5326111,
+      "rss_bytes": 3056279552,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13702569984,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181562.9106503,
+      "rss_bytes": 3056279552,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13706248192,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181563.276903,
+      "rss_bytes": 3056599040,
+      "private_bytes": 4841984000,
+      "host_available_bytes": 13713522688,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181563.6605568,
+      "rss_bytes": 3056721920,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13706182656,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181564.0217714,
+      "rss_bytes": 3056680960,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13727883264,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181564.4075599,
+      "rss_bytes": 3056611328,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13712891904,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181564.7641957,
+      "rss_bytes": 3056918528,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13713444864,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181565.1187818,
+      "rss_bytes": 3056975872,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13714075648,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181565.5023675,
+      "rss_bytes": 3057254400,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13713313792,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181565.8757794,
+      "rss_bytes": 3061448704,
+      "private_bytes": 4841656320,
+      "host_available_bytes": 13666607104,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181566.2529867,
+      "rss_bytes": 3062431744,
+      "private_bytes": 4841984000,
+      "host_available_bytes": 13669957632,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181566.6165688,
+      "rss_bytes": 3062439936,
+      "private_bytes": 4842049536,
+      "host_available_bytes": 13664292864,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181566.9937243,
+      "rss_bytes": 3062497280,
+      "private_bytes": 4842049536,
+      "host_available_bytes": 13685153792,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181567.3806732,
+      "rss_bytes": 3062562816,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13683896320,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181567.7481797,
+      "rss_bytes": 3062505472,
+      "private_bytes": 4842115072,
+      "host_available_bytes": 13675339776,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181568.1172254,
+      "rss_bytes": 3062681600,
+      "private_bytes": 4842389504,
+      "host_available_bytes": 13685362688,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181568.5034442,
+      "rss_bytes": 3081359360,
+      "private_bytes": 4980047872,
+      "host_available_bytes": 13645627392,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    },
+    {
+      "unix": 1790181568.8763988,
+      "rss_bytes": 3205791744,
+      "private_bytes": 5358202880,
+      "host_available_bytes": 13531566080,
+      "pids": [
+        5976,
+        2328,
+        20260
+      ]
+    }
+  ],
+  "sampled_max_rss_bytes": 3205791744,
+  "sampled_max_private_bytes": 5358202880,
+  "abort_check": {
+    "stale_output": false,
+    "worker_exited": true,
+    "ledger_after_abort": {
+      "capacities": {
+        "host_ram": 17179869184
+      },
+      "reserved": {
+        "host_ram": 0
+      },
+      "owners": [],
+      "quarantined": []
+    }
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

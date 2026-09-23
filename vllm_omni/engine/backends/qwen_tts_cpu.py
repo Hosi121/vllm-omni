@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Native Windows CPU Qwen3-TTS whole-session stage with isolated dependencies.
+"""Local CPU Qwen3-TTS whole-session stage with isolated dependencies.
 
 The worker alone imports Qwen's PyTorch wrapper and Transformers 4.57.3.
 This adapter reuses the bounded complete-WAV request, fencing and ownership
@@ -57,7 +57,12 @@ class QwenTTSCPUStageClient(CrispTTSStageClient):
             demand = reservation.demands[self._memory_pool]
             if self._max_wav_bytes > demand:
                 raise ResourceUnavailable("CPU TTS output bound exceeds stage reservation")
-            self._python = Path(config["python_bin"]).resolve(strict=True)
+            # On POSIX, a virtualenv's python is often a symlink to the base
+            # interpreter. Launch via the declared path so Python discovers
+            # the virtualenv; _sha256 still follows the link for verification.
+            self._python = Path(config["python_bin"]).absolute()
+            if not self._python.is_file():
+                raise FileNotFoundError(f"CPU TTS interpreter absent: {self._python}")
             self._model_dir = Path(config["model_dir"]).resolve(strict=True)
             self._overlay = Path(config["overlay_dir"]).resolve(strict=True)
             self._talker = self._model_dir / "model.safetensors"
@@ -70,6 +75,11 @@ class QwenTTSCPUStageClient(CrispTTSStageClient):
             }
             if not (self._overlay / "transformers" / "__init__.py").is_file():
                 raise FileNotFoundError("pinned Transformers overlay is absent")
+            overlay_marker_hash = config.get("overlay_marker_sha256")
+            if overlay_marker_hash is not None:
+                marker = self._overlay / "kernels" / "__init__.py"
+                if not marker.is_file() or _sha256(marker) != str(overlay_marker_hash).lower():
+                    raise ValueError("CPU TTS optional-kernels overlay differs from declared hash")
             for label, (path, digest) in expected.items():
                 if _sha256(path) != digest:
                     raise ValueError(f"CPU TTS {label} differs from the declared artifact hash")
@@ -152,6 +162,7 @@ class QwenTTSCPUStageClient(CrispTTSStageClient):
                 "worker_pid": self._proc.pid,
                 "worker_script_sha256": _sha256(self._worker),
                 "artifact_sha256": {label: digest for label, (_, digest) in expected.items()},
+                "overlay_marker_sha256": overlay_marker_hash,
                 "model_dir": str(self._model_dir),
                 "placement": "CPU BF16 SDPA, 8 threads; isolated Transformers 4.57.3",
                 "worker_props": props,

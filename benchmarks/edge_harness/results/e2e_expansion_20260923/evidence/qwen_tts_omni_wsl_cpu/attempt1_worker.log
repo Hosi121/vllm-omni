@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/qwen_tts_cpu_worker.py", line 138, in <module>
+    main()
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/qwen_tts_cpu_worker.py", line 36, in main
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'

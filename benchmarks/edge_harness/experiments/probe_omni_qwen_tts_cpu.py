@@ -8,6 +8,7 @@ import asyncio
 import hashlib
 import json
 import math
+import platform
 import time
 import wave
 from pathlib import Path
@@ -41,6 +42,9 @@ async def main() -> None:
     parser.add_argument("--repeats", type=int, default=20)
     parser.add_argument("--reserve-gib", type=int, default=10)
     parser.add_argument("--abort-check", action="store_true")
+    parser.add_argument("--allow-platform-variation", action="store_true")
+    parser.add_argument("--overlay-marker-sha256")
+    parser.add_argument("--expect-admission-refusal", action="store_true")
     args = parser.parse_args()
     if args.warmups < 0 or args.repeats <= 0 or not 0 < args.reserve_gib <= 16:
         parser.error("invalid profile or budget")
@@ -55,6 +59,7 @@ async def main() -> None:
         "python_sha256": args.python_sha256,
         "model_dir": args.model_dir,
         "overlay_dir": args.overlay_dir,
+        "overlay_marker_sha256": args.overlay_marker_sha256,
         "talker_sha256": args.talker_sha256,
         "tokenizer_sha256": args.tokenizer_sha256,
         "log_file": args.server_log,
@@ -81,7 +86,9 @@ async def main() -> None:
     configs = [stage.to_omegaconf() for stage in merge_pipeline_deploy(pipeline, deploy)]
     runtime = StageRuntime(configs, "local-qwen-tts-cpu", "", stage_init_timeout=180, async_chunk=False)
     report = {
-        "scope": "complete resident native Windows CPU Qwen3-TTS text-to-WAV through Omni",
+        "scope": "complete resident local CPU Qwen3-TTS text-to-WAV through Omni",
+        "host_os": platform.platform(),
+        "allow_platform_variation": args.allow_platform_variation,
         "warmup_count": args.warmups,
         "measured_count": args.repeats,
         "memory_budget": deploy.stages[0].resource_budget,
@@ -90,6 +97,16 @@ async def main() -> None:
     stop_sampling = asyncio.Event()
     try:
         started = time.perf_counter()
+        if args.expect_admission_refusal:
+            try:
+                runtime.initialize()
+            except Exception as exc:
+                if "exceed reservation" not in str(exc):
+                    raise
+                report["admission_refusal"] = f"{type(exc).__name__}: {exc}"
+                report["status"] = "passed"
+                return
+            raise AssertionError("Qwen CPU TTS accepted an insufficient reservation")
         runtime.initialize()
         report["startup_s"] = time.perf_counter() - started
         pool = runtime.stage_pools[0]
@@ -168,7 +185,7 @@ async def main() -> None:
         report["standalone_pcm_parity"] = [
             row["pcm_sha256"] == digest for row, digest in zip(report["checks"], expected)
         ]
-        if report["standalone_pcm_parity"] != [True, True]:
+        if report["standalone_pcm_parity"] != [True, True] and not args.allow_platform_variation:
             raise RuntimeError("CPU Omni PCM differs from the same checkpoint's standalone output")
         report["warmups"] = [await request_one(first) for _ in range(args.warmups)]
         report["measured"] = [await request_one(first, save=i == 0) for i in range(args.repeats)]

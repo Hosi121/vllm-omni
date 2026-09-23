@@ -1,0 +1,27 @@
+{
+  "scope": "complete resident local CPU Qwen3-TTS text-to-WAV through Omni",
+  "host_os": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "allow_platform_variation": true,
+  "warmup_count": 1,
+  "measured_count": 20,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "admission_refusal": "ResourceUnavailable: CPU TTS weights plus state/workspace/headroom exceed reservation",
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

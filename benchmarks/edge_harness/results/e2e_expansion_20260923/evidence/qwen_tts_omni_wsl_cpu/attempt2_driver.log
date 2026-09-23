@@ -1,0 +1,137 @@
+INFO 09-24 00:27:04 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 00:27:04 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 00:27:04 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 00:27:05 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 00:27:05 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 21] Is a directory: '/home/zhout/project/edge_infer/vllm-omni-edge'
+{
+  "scope": "complete resident native Windows CPU Qwen3-TTS text-to-WAV through Omni",
+  "warmup_count": 0,
+  "measured_count": 1,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 10737418240
+    }
+  },
+  "startup_s": 20.292010181990918,
+  "execution_plan": {
+    "backend": "external.qwen_tts.cpu.v1",
+    "stage_id": 0,
+    "worker_generation": "11b36820eb34430f80bebc322a38ab74",
+    "worker_pid": 3642346,
+    "worker_script_sha256": "862177bec7221114ec93f496602434dbefd36ca903d009ea35ffdca37b529205",
+    "artifact_sha256": {
+      "python_sha256": "021044895e95be79dc2f110367607e684119afbc8ce75f6f0eec94844e0acec7",
+      "talker_sha256": "bc3c7e785eb961179c25450d1acff03f839e0002f2f3a5aeb67b5735c0fa2adb",
+      "tokenizer_sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+    },
+    "model_dir": "/mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c",
+    "placement": "CPU BF16 SDPA, 8 threads; isolated Transformers 4.57.3",
+    "worker_props": {
+      "model_dir": "/mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c",
+      "placement": "cpu",
+      "torch": "2.13.0+cu130",
+      "transformers": "4.57.3",
+      "qwen_tts": "0.1.1",
+      "dtype": "bfloat16",
+      "attention": "sdpa",
+      "threads": 8,
+      "sample_rate": 24000,
+      "speaker": "Ryan",
+      "max_new_tokens": 64,
+      "load_s": 3.402708667970728
+    },
+    "loaded_rss_bytes": 2125488128,
+    "loaded_private_bytes": 2125488128,
+    "loaded_process_tree": [
+      {
+        "pid": 3642346,
+        "rss_bytes": 2125488128,
+        "private_bytes": 2125488128
+      }
+    ],
+    "reserved_bytes": {
+      "host_ram": 10737418240
+    },
+    "memory_overhead_bytes": 6442450944,
+    "max_text_bytes": 4096,
+    "max_wav_bytes": 4194304,
+    "max_audio_s": 10.0,
+    "voice": "Ryan",
+    "seed": 42,
+    "request_capacity": 1,
+    "stateful_session": "Qwen PyTorch worker-owned; complete WAV per request",
+    "evidence": "B"
+  },
+  "checks": [
+    {
+      "text": "Hello from the local computer.",
+      "wall_s": 12.656105556990951,
+      "frames": 82560,
+      "duration_s": 3.44,
+      "pcm_sha256": "66ca76a468807381c208b21ba458e5005510c752efa89323ee909749047ab1db",
+      "stage_event": {
+        "request_id": "cpu-tts-434866642434220",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "11b36820eb34430f80bebc322a38ab74",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    },
+    {
+      "text": "The blue car is parked beside the library.",
+      "wall_s": 8.73547542700544,
+      "frames": 80640,
+      "duration_s": 3.36,
+      "pcm_sha256": "c661953310ee1b6b39806156f4180a0793d4372425d13f58bc1440b1d027eeb0",
+      "stage_event": {
+        "request_id": "cpu-tts-434879299154073",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "11b36820eb34430f80bebc322a38ab74",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "standalone_pcm_parity": [
+    false,
+    false
+  ],
+  "status": "failed",
+  "error": "RuntimeError: CPU Omni PCM differs from the same checkpoint's standalone output",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}
+Traceback (most recent call last):
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/experiments/probe_omni_qwen_tts_cpu.py", line 216, in <module>
+    asyncio.run(main())
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhout/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/experiments/probe_omni_qwen_tts_cpu.py", line 172, in main
+    raise RuntimeError("CPU Omni PCM differs from the same checkpoint's standalone output")
+RuntimeError: CPU Omni PCM differs from the same checkpoint's standalone output

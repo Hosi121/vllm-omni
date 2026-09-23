@@ -1,0 +1,20 @@
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+/bin/sh: 1: sox: not found
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+qwen-tts-cpu-worker ready port=48689 props={"model_dir": "/mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c", "placement": "cpu", "torch": "2.13.0+cu130", "transformers": "4.57.3", "qwen_tts": "0.1.1", "dtype": "bfloat16", "attention": "sdpa", "threads": 8, "sample_rate": 24000, "speaker": "Ryan", "max_new_tokens": 64, "load_s": 3.1872041929746047}
+127.0.0.1 - - [24/Sep/2026 00:35:13] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 00:35:13] "GET /props HTTP/1.1" 200 -
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [24/Sep/2026 00:35:25] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=3.440 wall_s=12.089

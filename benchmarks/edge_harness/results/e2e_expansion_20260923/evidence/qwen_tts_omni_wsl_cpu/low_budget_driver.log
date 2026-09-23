@@ -1,0 +1,51 @@
+INFO 09-24 00:33:52 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 00:33:52 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 00:33:52 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 00:33:53 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 00:33:53 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 21] Is a directory: '/home/zhout/project/edge_infer/vllm-omni-edge'
+ERROR 09-24 00:34:06 [stage_runtime.py:265] [StageRuntime] Stage initialization failed; shutting down 0 initialized client(s)
+ERROR 09-24 00:34:06 [stage_runtime.py:265] Traceback (most recent call last):
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 252, in initialize
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     initialized_clients = self._initialize_stage_replicas(stage_plans, self._stage_init_timeout)
+ERROR 09-24 00:34:06 [stage_runtime.py:265]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 589, in _initialize_stage_replicas
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     raise primary_exc
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 550, in _init_group
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     client = self._initialize_replica(
+ERROR 09-24 00:34:06 [stage_runtime.py:265]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/stage_runtime.py", line 817, in _initialize_replica
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     return create_graph_client(
+ERROR 09-24 00:34:06 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/__init__.py", line 23, in create_graph_client
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     return QwenTTSCPUStageClient(metadata, backend, ledger, reservation)
+ERROR 09-24 00:34:06 [stage_runtime.py:265]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ERROR 09-24 00:34:06 [stage_runtime.py:265]   File "/home/zhout/project/edge_infer/vllm-omni-edge/vllm_omni/engine/backends/qwen_tts_cpu.py", line 89, in __init__
+ERROR 09-24 00:34:06 [stage_runtime.py:265]     raise ResourceUnavailable("CPU TTS weights plus state/workspace/headroom exceed reservation")
+ERROR 09-24 00:34:06 [stage_runtime.py:265] vllm_omni.engine.resource_ledger.ResourceUnavailable: CPU TTS weights plus state/workspace/headroom exceed reservation
+{
+  "scope": "complete resident local CPU Qwen3-TTS text-to-WAV through Omni",
+  "host_os": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "allow_platform_variation": true,
+  "warmup_count": 1,
+  "measured_count": 20,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "admission_refusal": "ResourceUnavailable: CPU TTS weights plus state/workspace/headroom exceed reservation",
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

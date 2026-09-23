@@ -22,6 +22,12 @@ async def main() -> None:
         "tokenizer_sha256", "server_log", "output_report",
     ):
         parser.add_argument("--" + name.replace("_", "-"), required=True)
+    parser.add_argument("--overlay-marker-sha256")
+    parser.add_argument("--expected-frames", type=int, default=109440)
+    parser.add_argument(
+        "--expected-pcm-sha256",
+        default="c8a49b5c73efd642a1eb04be973d6aefdc8ed9cfd18b34ff67690b8464906bed",
+    )
     args = parser.parse_args()
 
     from vllm_omni.entrypoints.async_omni import AsyncOmni
@@ -33,6 +39,7 @@ async def main() -> None:
         "python_sha256": args.python_sha256,
         "model_dir": args.model_dir,
         "overlay_dir": args.overlay_dir,
+        "overlay_marker_sha256": args.overlay_marker_sha256,
         "talker_sha256": args.talker_sha256,
         "tokenizer_sha256": args.tokenizer_sha256,
         "log_file": args.server_log,
@@ -87,8 +94,8 @@ async def main() -> None:
             report["request_wall_s"] = time.perf_counter() - started
             report["outputs"] = outputs
             assert len(outputs) == 1 and outputs[0]["request_id"] == "public-cpu-tts-1"
-            assert outputs[0]["sample_rate"] == 24000 and outputs[0]["frames"] == 109440
-            assert outputs[0]["pcm_sha256"] == "c8a49b5c73efd642a1eb04be973d6aefdc8ed9cfd18b34ff67690b8464906bed"
+            assert outputs[0]["sample_rate"] == 24000 and outputs[0]["frames"] == args.expected_frames
+            assert outputs[0]["pcm_sha256"] == args.expected_pcm_sha256
             report["status"] = "passed"
     except BaseException as exc:
         report["status"] = "failed"

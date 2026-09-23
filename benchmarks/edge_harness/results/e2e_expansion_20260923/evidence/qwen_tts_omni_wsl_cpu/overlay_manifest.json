@@ -1,0 +1,40 @@
+{
+  "scope": "WSL CPU Qwen worker-only Python overlay; base Omni interpreter is separate",
+  "packages": {
+    "qwen-tts": {
+      "version": "0.1.1",
+      "path": "qwen_tts/__init__.py",
+      "sha256": "ea52de59d070fde366467a6902d0edcfc1b0575b8c570a0c71020c41d6a593ed"
+    },
+    "transformers": {
+      "version": "4.57.3",
+      "path": "transformers/__init__.py",
+      "sha256": "7eb0743ed843f24c1d4e8b8daf4b18249cb81403b4571a70c00be0a4c0a67bd4"
+    },
+    "huggingface-hub": {
+      "version": "0.36.2",
+      "path": "huggingface_hub/__init__.py",
+      "sha256": "e586b64612482128fd24119364bc4dc6dca938407134e454a5e876341b364e35"
+    },
+    "sox": {
+      "version": "1.5.0",
+      "path": "sox/__init__.py",
+      "sha256": "0c3e15258ce1f95ca050e045af634d1b16956af2b47ff7670f78b08567d19d47"
+    },
+    "optional-kernels-stub": {
+      "version": "local",
+      "path": "kernels/__init__.py",
+      "sha256": "e155388b1045b573082534132778828a71203522f95a22680f8245362f1e06ee"
+    }
+  },
+  "base_interpreter_packages": {
+    "torch": "2.13.0",
+    "torchaudio": "2.11.0",
+    "numpy": "2.3.5",
+    "tokenizers": "0.22.2",
+    "accelerate": "1.12.0",
+    "safetensors": "0.8.0",
+    "librosa": "1.0.0",
+    "soundfile": "0.14.0"
+  }
+}

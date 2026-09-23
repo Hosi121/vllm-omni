@@ -1,0 +1,26 @@
+{
+  "entrypoint": "AsyncOmni.generate",
+  "pipeline": "qwen3_tts_cpu_whole",
+  "startup_s": 20.290129358007107,
+  "request_wall_s": 12.097587361990009,
+  "outputs": [
+    {
+      "request_id": "public-cpu-tts-1",
+      "sample_rate": 24000,
+      "frames": 82560,
+      "pcm_sha256": "66ca76a468807381c208b21ba458e5005510c752efa89323ee909749047ab1db",
+      "stage_event": {
+        "request_id": "public-cpu-tts-1-843808ee",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "bc022f43fee646f18572e4d6cef602a6",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

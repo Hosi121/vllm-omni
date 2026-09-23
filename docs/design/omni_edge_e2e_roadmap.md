@@ -193,6 +193,17 @@ The 2026-09-23 [Spark GGUF Omni follow-up](../../benchmarks/edge_harness/results
 
 The [Qwen3-TTS Omni hybrid follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_hybrid/README.md) adds one complete-request stage for the native Windows HX370 CPU+Radeon 890M route. A pinned Q8_0 talker and F16 codec produced two named PCM outputs exactly matching the prior standalone backend; one warmup plus 20 serial requests measured 3.298/3.336 s p50/p95 for 2.56 s of audio. Public `AsyncOmni` audio, cancellation drain and explicit 8 GiB host admission passed. This is progress toward M2 integration, not M2 acceptance: RTF remains above 1, and playable chunk streaming, post-cancel restart, loading/iGPU peaks, broader voice quality and 30-minute thermal behavior remain open. No NPU participated.
 
+The [WSL CPU Qwen3-TTS Omni follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_wsl_cpu/README.md)
+adds the same bounded whole-session CPU stage on Ubuntu/WSL with a pinned
+worker-only dependency overlay. One warmup plus 20 serial complete requests
+produced identical 3.44 s WAVs at nearest-rank wall p50/p95 8.27/8.47 s,
+excluding worker startup. The public audio path, one-output Whisper proxy
+(WER 0), 10 GiB admission, 4 GiB refusal and cancellation drain passed. WSL
+PCM differs from the same-checkpoint native Windows result; its numerical
+cause remains open. The existing vLLM 0.28 short-stream path still has playback
+underruns. These complete-WAV findings advance M2 desktop coverage but do not
+establish playable streaming, RTF below one, broad quality or sustained use.
+
 VLA qualification here ends at action data. Physical robot control, collision
 avoidance and actuator safety belong to the external controller.
 

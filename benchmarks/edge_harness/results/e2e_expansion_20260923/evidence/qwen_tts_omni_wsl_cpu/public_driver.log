@@ -1,0 +1,49 @@
+INFO 09-24 00:34:52 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 00:34:52 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 00:34:52 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 00:34:53 [omni_base.py:216] [AsyncOmni] Initializing with model /mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c
+INFO 09-24 00:34:53 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model /mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c
+ERROR 09-24 00:34:53 [repo_utils.py:119] Error parsing config for /mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-24 00:34:53 [repo_utils.py:119] 
+ERROR 09-24 00:34:53 [repo_utils.py:119] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`, retrying 1 of 2
+ERROR 09-24 00:34:55 [repo_utils.py:117] Error parsing config for /mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c: The checkpoint you are trying to load has model type `qwen3_tts` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+ERROR 09-24 00:34:55 [repo_utils.py:117] 
+ERROR 09-24 00:34:55 [repo_utils.py:117] You can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`
+INFO 09-24 00:34:55 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-24 00:34:55 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-24 00:34:55 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-24 00:35:13 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-24 00:35:13 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-24 00:35:13 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 20.28 seconds
+INFO 09-24 00:35:13 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model /mnt/c/Users/zhout/w2/models/Qwen3-TTS-0.6B-85e237c
+INFO 09-24 00:35:25 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-24 00:35:25 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-24 00:35:25 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-24 00:35:25 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-24 00:35:25 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+{
+  "entrypoint": "AsyncOmni.generate",
+  "pipeline": "qwen3_tts_cpu_whole",
+  "startup_s": 20.290129358007107,
+  "request_wall_s": 12.097587361990009,
+  "outputs": [
+    {
+      "request_id": "public-cpu-tts-1",
+      "sample_rate": 24000,
+      "frames": 82560,
+      "pcm_sha256": "66ca76a468807381c208b21ba458e5005510c752efa89323ee909749047ab1db",
+      "stage_event": {
+        "request_id": "public-cpu-tts-1-843808ee",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "audio",
+        "worker_generation": "bc022f43fee646f18572e4d6cef602a6",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

@@ -1,0 +1,25 @@
+{
+  "scope": "complete resident native Windows CPU Qwen3-TTS text-to-WAV through Omni",
+  "warmup_count": 0,
+  "measured_count": 1,
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 10737418240
+    }
+  },
+  "status": "failed",
+  "error": "RuntimeError: CPU TTS worker exited during load; see /home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_wsl_cpu/worker.log",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}
