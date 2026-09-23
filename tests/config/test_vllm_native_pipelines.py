@@ -10,11 +10,9 @@ opaquely. Spark-X2.5 hit exactly that; these tests pin the general case.
 
 from __future__ import annotations
 
-import pytest
-
 from vllm_omni.config.pipeline_registry import OMNI_PIPELINES
 from vllm_omni.config.stage_config import StageExecutionType
-from vllm_omni.config.vllm_native_pipelines import LLAMA_PIPELINE
+from vllm_omni.config.vllm_native_pipelines import LLAMA_PIPELINE, QWEN3_5_PIPELINE
 
 
 def test_llama_resolves_from_the_registry():
@@ -48,3 +46,10 @@ def test_registering_llama_is_keyed_on_architecture_not_checkpoint():
     particular weights."""
     assert LLAMA_PIPELINE.model_type == "llama"
     assert LLAMA_PIPELINE.hf_architectures == ("LlamaForCausalLM",)
+
+
+def test_qwen3_5_conditional_generation_resolves():
+    assert OMNI_PIPELINES["qwen3_5"] is QWEN3_5_PIPELINE
+    assert QWEN3_5_PIPELINE.get_validation_errors() == []
+    assert QWEN3_5_PIPELINE.hf_architectures == ("Qwen3_5ForConditionalGeneration",)
+    assert QWEN3_5_PIPELINE.stages[0].execution_type is StageExecutionType.LLM_AR

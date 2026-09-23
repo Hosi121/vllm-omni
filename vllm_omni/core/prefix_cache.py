@@ -279,6 +279,18 @@ class OmniTensorPrefixCache:
         slots = entry.slots_cpu
         if slots.dtype != torch.int64:
             slots = slots.to(torch.int64)
+        # vLLM uses -1 for tokens without a KV slot (for example, a
+        # non-attention position in a hybrid model). Such tokens have no
+        # prefix-cache address either. Preserve row alignment while skipping
+        # them; index_copy_ rejects the sentinel.
+        if torch.any(slots < -1):
+            raise ValueError("prefix-cache slot mapping contains an invalid negative index")
+        valid = slots >= 0
+        has_unmapped_slots = not bool(torch.all(valid))
+        if has_unmapped_slots:
+            slots = slots[valid]
+        if slots.numel() == 0:
+            return
 
         # NOTE: ``index_copy_(0, idx, src)`` is the row-scatter primitive in
         # PyTorch. It's semantically identical to ``flat[idx] = src`` but
@@ -288,13 +300,13 @@ class OmniTensorPrefixCache:
         # ``aten::index_put_`` path used by advanced-indexing assignment.
         if entry.hidden_cpu is not None:
             flat = self.hidden_states_cache.view(-1, self.hidden_states_cache.shape[-1])
-            flat.index_copy_(0, slots, entry.hidden_cpu)
+            flat.index_copy_(0, slots, entry.hidden_cpu[valid] if has_unmapped_slots else entry.hidden_cpu)
         for k, src_cpu in entry.mm_cpu.items():
             mm_cache = self.mm_outputs_cache.get(k)
             if mm_cache is None:
                 continue
             flat = mm_cache.view(-1, mm_cache.shape[-1])
-            flat.index_copy_(0, slots, src_cpu)
+            flat.index_copy_(0, slots, src_cpu[valid] if has_unmapped_slots else src_cpu)
 
     def add_prefix_cached_new_req_id(self, req_id: str):
         """Adds a new request ID to the set of prefix cache hits on the batch."""
@@ -366,6 +378,12 @@ class OmniTensorPrefixCache:
                 feature shape of hidden_states, and cover num_tokens_unpadded.
         """
         unpadded_slot_mapping = slot_mapping[:num_tokens_unpadded]
+        if torch.any(unpadded_slot_mapping < -1):
+            raise ValueError("prefix-cache slot mapping contains an invalid negative index")
+        valid_slots = unpadded_slot_mapping >= 0
+        has_unmapped_slots = not bool(torch.all(valid_slots))
+        if has_unmapped_slots:
+            unpadded_slot_mapping = unpadded_slot_mapping[valid_slots]
         if num_tokens_padded is None:
             num_tokens_padded = num_tokens_unpadded
         skip_mm_cache_keys = skip_mm_cache_keys or set()
@@ -387,7 +405,7 @@ class OmniTensorPrefixCache:
             slot_idx = unpadded_slot_mapping
             if slot_idx.dtype != torch.int64:
                 slot_idx = slot_idx.to(torch.int64)
-            flat_cache.index_copy_(0, slot_idx, hidden_states)
+            flat_cache.index_copy_(0, slot_idx, hidden_states[valid_slots] if has_unmapped_slots else hidden_states)
             logger.debug("Writing to hidden states for %s tokens", num_tokens_unpadded)
 
         # Do the same for the stage's cached multimodal outputs
@@ -410,7 +428,7 @@ class OmniTensorPrefixCache:
                     slot_idx = unpadded_slot_mapping
                     if slot_idx.dtype != torch.int64:
                         slot_idx = slot_idx.to(torch.int64)
-                    flat_cache.index_copy_(0, slot_idx, mm_state)
+                    flat_cache.index_copy_(0, slot_idx, mm_state[valid_slots] if has_unmapped_slots else mm_state)
             logger.debug("Writing to mm output cache for %s tokens", num_tokens_unpadded)
 
     def stage_deferred_mm_outputs(

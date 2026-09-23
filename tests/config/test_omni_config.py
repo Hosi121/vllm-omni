@@ -632,6 +632,8 @@ def test_vllm_omni_stage_config_public_fields_use_typed_stage_realizations():
 def test_runtime_config_fields_match_structured_runtime_scope():
     assert {f.name for f in fields(OmniStageRuntimeConfig)} == {
         "additional_config",
+        "backend",
+        "resource_budget",
         "distributed_executor_backend",
         "worker_cls",
         "devices",
@@ -711,6 +713,8 @@ def test_sub_config_fields_match_structured_scopes():
         "task_type",
         "codec_frame_rate_hz",
         "enforce_eager",
+        "language_model_only",
+        "cpu_offload_gb",
         "max_cudagraph_capture_size",
         "enable_flashinfer_autotune",
         "enable_multithread_weight_load",
@@ -1271,6 +1275,19 @@ def test_from_pipeline_config_derives_has_sampling_extra_args_from_stage_default
 
     assert (stage.model_config.default_sampling_params or {}).get("extra_args")
     assert stage.model_config.has_sampling_extra_args is True
+
+
+def test_qwen3_5_large_model_execution_overrides_have_a_stage_owner():
+    from vllm_omni.engine.stage_init_utils import _project_omni_stage_engine_args
+
+    stage = _from_pipeline_key(
+        "qwen3_5",
+        cli_overrides={"language_model_only": True, "cpu_offload_gb": 2.0},
+    ).stage_by_id(0)
+
+    args = _project_omni_stage_engine_args(stage)
+    assert args["language_model_only"] is True
+    assert args["cpu_offload_gb"] == 2.0
 
 
 def test_diffusion_config_preserves_existing_coercion_hooks():

@@ -15,8 +15,8 @@ the orchestrator resolves a pipeline by ``model_type`` first, and a
 hit exactly this in M0 -- its model definition had been registered for a while
 and ``Omni(model=<checkpoint>)`` still could not resolve it.
 
-**One stage, and the model_type is the key.** These are autoregressive causal
-language models with a single stage that owns the tokenizer and emits text.
+**One stage, and the model_type is the key.** These are autoregressive vLLM
+models with a single stage that owns the tokenizer and emits text.
 Because the registry is keyed on ``model_type`` rather than on a checkpoint,
 registering ``llama`` covers every checkpoint whose config says ``llama`` -- not
 only the one this was added for. That is the correct granularity (the pipeline
@@ -70,4 +70,17 @@ and ``architectures: ["LlamaForCausalLM"]`` -- it is a Llama-shaped 2B model
 5e6), not a new architecture, so the support it needed was this entry plus the
 runner no longer forcing omni-only kwargs on a forward that cannot take them
 (see ``OmniGPUModelRunner._accepted_forward_kwargs``).
+"""
+
+
+QWEN3_5_PIPELINE = _single_stage_text(
+    model_type="qwen3_5",
+    model_arch="Qwen3_5ForConditionalGeneration",
+    hf_architectures=("Qwen3_5ForConditionalGeneration",),
+)
+"""Single-stage Qwen3.5 generation using vLLM's model executor.
+
+Qwen3.8-27B declares ``model_type: qwen3_5`` and this architecture. Pipeline
+registration makes the checkpoint reachable through Omni; it does not imply
+that its image path or any particular checkpoint has passed an E2E test.
 """

@@ -48,7 +48,10 @@ def sanitize_min_tokens_stop_ids(logitsprocs: LogitsProcessors, logits_vocab: in
         if not min_toks:
             continue
         needs_rebuild = False
-        for _, _, stop_tok_ids, _ in min_toks.values():
+        # vLLM 0.28 stores three fields; 0.29 adds the structured-output
+        # flag. The stop-id set is the third field in both versions.
+        for state in min_toks.values():
+            stop_tok_ids = state[2]
             oob = [tok for tok in stop_tok_ids if tok >= logits_vocab]
             if not oob:
                 continue
@@ -65,17 +68,19 @@ def sanitize_min_tokens_stop_ids(logitsprocs: LogitsProcessors, logits_vocab: in
             tok_ids: list[int] = []
             restore_reqs: list[int] = []
             restore_tok_ids: list[int] = []
-            for index, (_, _, stop_tok_ids, uses_structured_output) in min_toks.items():
+            for index, state in min_toks.items():
+                stop_tok_ids = state[2]
                 reqs.extend([index] * len(stop_tok_ids))
                 tok_ids.extend(stop_tok_ids)
-                if uses_structured_output:
+                if len(state) == 4 and state[3]:
                     restore_reqs.extend([index] * len(stop_tok_ids))
                     restore_tok_ids.extend(stop_tok_ids)
             proc.logits_slice = (
                 proc._device_tensor(reqs, torch.int32),
                 proc._device_tensor(tok_ids, torch.int32),
             )
-            proc.restore_logits_slice = (
-                proc._device_tensor(restore_reqs, torch.int32),
-                proc._device_tensor(restore_tok_ids, torch.int32),
-            )
+            if hasattr(proc, "restore_logits_slice"):
+                proc.restore_logits_slice = (
+                    proc._device_tensor(restore_reqs, torch.int32),
+                    proc._device_tensor(restore_tok_ids, torch.int32),
+                )

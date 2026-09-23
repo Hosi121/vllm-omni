@@ -1,0 +1,22 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "config": {
+    "model": "/home/zhout/project/edge_infer/models/Qwen3.8-27B-NVFP4",
+    "language_model_only": true,
+    "max_model_len": 512,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 128,
+    "enforce_eager": true,
+    "gpu_memory_utilization": 0.8,
+    "cpu_offload_gb": 2,
+    "dtype": "bfloat16",
+    "stage_init_timeout": 120
+  },
+  "status": "completed",
+  "scope": "public Omni, short text only; explicit 2 GiB native offload",
+  "start": 1790127902.7650325,
+  "outputs": [
+    "OmniRequestOutput(request_id='0_bbb9dc3f-5f14-4eb2-bdde-63131edd4deb', finished=True, stage_id=0, final_output_type='text', prompt_token_ids=[814, 20139, 2136, 42903, 303, 799, 11316, 13], outputs=[CompletionOutput(index=0, text='\\n\\nLocal inference is the process of drawing conclusions or making predictions based solely on information', token_ids=[271, 7090, 42903, 369, 279, 1817, 314, 12945, 29256, 466, 3154, 19292, 3018, 20417, 383, 1928], routed_experts=None, sampling_mask=None, cumulative_logprob=None, logprobs=None, finish_reason=length, stop_reason=None)], images=[], prompt=None, latents=None, metrics={'stage_metrics': {'0': {'stage_id': 0, 'final_output_type': 'text', 'finish_reason': 'length', 'num_tokens_in': 8, 'num_tokens_out': 16, 'stage_gen_time_ms': 4732.486009597778, 'postprocess_time_ms': 0.0, 'audio_frames': 0, 'audio_sample_rate': 0, 'audio_duration_s': 0.0, 'image_pixels': 0, 'denoise_step_latency_ms': 0.0, 'output_unit_type': 'text', 'output_unit_count': 16, 'serving_time_to_first_output_ms': 4751.192092895508, 'image_time_to_first_output_ms': 0.0, 'time_per_output_unit_ms': 0.002590815226236979, 'inter_output_latency_ms': 0.0, 'inter_output_latencies_ms': [], 'vllm_ttft_ms': 0.0, 'vllm_tpot_ms': 0.0, 'vllm_itl_ms': 0.0, 'vllm_itls_ms': [], 'stage_name': 'qwen3_5'}}, 'stage_id': 0, 'final_output_type': 'text', 'num_tokens_in': 8, 'num_tokens_out': 16}, multimodal_output={}, custom_output={}, stage_durations={'queue_wait_ms': 1.3761789887212217, 'preprocess_ms': 17.312199983280152, 'stage_0_gen_ms': 4732.486009597778}, peak_memory_mb=0.0)"
+  ],
+  "end": 1790127965.7770884
+}

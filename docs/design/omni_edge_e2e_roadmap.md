@@ -6,6 +6,11 @@ feasibility/implementation blocker. It does not promise that every model fits
 every device. The [current profiling review](../../benchmarks/edge_harness/results/e2e_profiling_20260922/README.md)
 records measured execution separately from release qualification.
 
+The [2026-09-23 recovery run](../../benchmarks/edge_harness/results/e2e_recovery_20260923/README.md)
+adds a functional CPU TTS stream with playback underruns and a scoped RTX
+Qwen3.8 text/image pass. Its missing-checkpoint transfers and remaining device
+gates are tracked there; the 2026-09-22 audit remains the historical baseline.
+
 ## Architecture and prerequisites
 
 Keep Omni's PipelineConfig, StageRuntime, StageClient, orchestration and admission

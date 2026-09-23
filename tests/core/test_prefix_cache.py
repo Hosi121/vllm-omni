@@ -4,7 +4,7 @@ from typing import NamedTuple
 import pytest
 import torch
 
-from vllm_omni.core.prefix_cache import OmniTensorPrefixCache
+from vllm_omni.core.prefix_cache import OmniTensorPrefixCache, _PendingAsyncWrite
 
 pytestmark = [pytest.mark.core_model, pytest.mark.cpu]
 
@@ -161,6 +161,40 @@ def test_update_no_multimodal():
     for slot_idx, new_states in zip(slot_mapping, new_hidden_states):
         slot_states = hs_rows[slot_idx]
         assert torch.all(slot_states == new_states)
+
+
+def test_pending_write_skips_vllm_unmapped_slot_sentinel():
+    class CompletedEvent:
+        def synchronize(self):
+            pass
+
+    cache = get_omni_pcache_with_mm_tensors({"vision": HIDDEN_SIZE}, seq_len=3)
+    cache._pending_write = _PendingAsyncWrite(
+        event=CompletedEvent(),
+        num_tokens=3,
+        slots_cpu=torch.tensor([8, -1, 9], dtype=torch.int32),
+        hidden_cpu=torch.tensor([[1.0, 1.0], [99.0, 99.0], [2.0, 2.0]]),
+        mm_cpu={"vision": torch.tensor([[3.0, 3.0], [99.0, 99.0], [4.0, 4.0]])},
+    )
+
+    cache._consume_pending_write()
+
+    assert cache._pending_write is None
+    assert cache.hidden_states_cache.view(-1, HIDDEN_SIZE)[8:10].tolist() == [[1.0, 1.0], [2.0, 2.0]]
+    assert cache.mm_outputs_cache["vision"].view(-1, HIDDEN_SIZE)[8:10].tolist() == [[3.0, 3.0], [4.0, 4.0]]
+
+
+def test_synchronous_write_skips_vllm_unmapped_slot_sentinel():
+    cache = get_omni_pcache_with_mm_tensors({"vision": HIDDEN_SIZE}, seq_len=3)
+    cache.update_omni_tensor_prefix_cache(
+        hidden_states=torch.tensor([[1.0, 1.0], [99.0, 99.0], [2.0, 2.0]]),
+        multimodal_outputs={"vision": torch.tensor([[3.0, 3.0], [99.0, 99.0], [4.0, 4.0]])},
+        num_tokens_unpadded=3,
+        slot_mapping=torch.tensor([8, -1, 9], dtype=torch.int32),
+    )
+
+    assert cache.hidden_states_cache.view(-1, HIDDEN_SIZE)[8:10].tolist() == [[1.0, 1.0], [2.0, 2.0]]
+    assert cache.mm_outputs_cache["vision"].view(-1, HIDDEN_SIZE)[8:10].tolist() == [[3.0, 3.0], [4.0, 4.0]]
 
 
 def test_update_uses_precomputed_hidden_states_cpu():

@@ -32,6 +32,7 @@ from vllm.logger import init_logger
 from vllm_omni.config.stage_config import (
     PipelineConfig,
 )
+from vllm_omni.config.vllm_native_pipelines import LLAMA_PIPELINE, QWEN3_5_PIPELINE
 from vllm_omni.diffusion.models.pi0_pipeline_config import PI0_PIPELINE
 from vllm_omni.model_executor.models.audex.pipeline import (
     AUDEX_S2S_PIPELINE,
@@ -111,7 +112,6 @@ from vllm_omni.model_executor.models.qwen3_omni.pipeline import (
     resolve_qwen3_omni_pipeline,
 )
 from vllm_omni.model_executor.models.qwen3_tts.pipeline import QWEN3_TTS_PIPELINE, QWEN3_TTS_TALKER_ONLY_PIPELINE
-from vllm_omni.config.vllm_native_pipelines import LLAMA_PIPELINE
 from vllm_omni.model_executor.models.spark2_5.pipeline import SPARK2_5_PIPELINE
 from vllm_omni.model_executor.models.step_audio2.pipeline import (
     STEP_AUDIO2_ASR_PIPELINE,
@@ -145,6 +145,7 @@ OMNI_PIPELINES: dict[str, PipelineConfig | PipelineResolverFunc] = {
     # the same registry as the multi-stage pipelines so that one code path
     # resolves every model (see the M0 local text mode).
     "llama": LLAMA_PIPELINE,
+    "qwen3_5": QWEN3_5_PIPELINE,
     "spark2_5": SPARK2_5_PIPELINE,
     "step_audio_2": STEP_AUDIO2_PIPELINE,
     "step_audio_2_asr": STEP_AUDIO2_ASR_PIPELINE,

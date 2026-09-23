@@ -1,0 +1,22 @@
+{
+  "model": "/home/zhout/project/edge_infer/models/Qwen3.8-27B-NVFP4",
+  "scope": "one synthetic-image Omni image-to-text request",
+  "start": 1790128489.9985843,
+  "config": {
+    "model": "/home/zhout/project/edge_infer/models/Qwen3.8-27B-NVFP4",
+    "language_model_only": false,
+    "max_model_len": 512,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 512,
+    "enforce_eager": true,
+    "gpu_memory_utilization": 0.85,
+    "cpu_offload_gb": 2,
+    "dtype": "bfloat16",
+    "stage_init_timeout": 180
+  },
+  "outputs": [
+    " Red"
+  ],
+  "status": "completed",
+  "end": 1790128582.8916564
+}
