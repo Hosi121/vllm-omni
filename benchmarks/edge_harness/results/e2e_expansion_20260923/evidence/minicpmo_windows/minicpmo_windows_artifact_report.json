@@ -1,0 +1,17 @@
+{
+  "scope": "native Windows RTX 5090 Laptop, real checkpoint, one text-to-text+speech request; no speech quality claim",
+  "text": "Hello, I am vLLM-Omni, a large multimodal model capable of understanding and generating text, images, audio, and video.",
+  "token_count": 32,
+  "token_ids_match_wsl_cuda": true,
+  "text_match_wsl_cuda": true,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 124800,
+    "channels": 1,
+    "duration_s": 5.2,
+    "nonzero_samples": 124560,
+    "peak_abs_float": 0.577606201171875,
+    "rms_float": 0.10467266091641916,
+    "sha256": "279d1ca9bb637b4da7d38872b10d5425bca22e2ab09f8091cf1f2539e220657f"
+  }
+}

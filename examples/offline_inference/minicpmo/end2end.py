@@ -402,8 +402,8 @@ def parse_args():
     parser.add_argument(
         "--init-timeout",
         type=int,
-        default=300,
-        help="Timeout for initializing stages in seconds (default: 300)",
+        default=600,
+        help="Timeout for initializing stages in seconds (default: 600)",
     )
     parser.add_argument(
         "--shm-threshold-bytes",

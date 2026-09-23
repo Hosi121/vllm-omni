@@ -25,6 +25,7 @@ from vllm_omni.entrypoints.omni import Omni
 class MemorySampler:
     def __init__(self, interval_s: float = 0.5):
         self.interval_s = interval_s
+        self.scope = "wsl_guest" if "microsoft" in platform.release().lower() else "native_os"
         self.stop = threading.Event()
         self.samples: list[dict[str, int | float]] = []
         self.thread = threading.Thread(target=self._run, name="memory-sampler", daemon=True)
@@ -43,8 +44,8 @@ class MemorySampler:
             self.samples.append(
                 {
                     "monotonic_s": time.perf_counter(),
-                    "wsl_used_bytes": memory.used,
-                    "wsl_available_bytes": memory.available,
+                    "system_used_bytes": memory.used,
+                    "system_available_bytes": memory.available,
                     "swap_used_bytes": swap.used,
                     "process_tree_rss_sum_bytes": rss_sum,
                 }
@@ -101,6 +102,18 @@ def _run_request(omni: Omni, prompt: dict, memory_sampler: MemorySampler) -> dic
     if not text or not token_ids or not audio_samples or audio_rms == 0:
         raise RuntimeError("MiniCPM-o did not produce both nonempty text and nonzero audio")
     samples = [sample for sample in memory_sampler.samples if started <= sample["monotonic_s"] <= completed]
+    sampled_memory = {
+        "scope": memory_sampler.scope,
+        "n": len(samples),
+        "max_system_used_bytes": max((s["system_used_bytes"] for s in samples), default=None),
+        "min_system_available_bytes": min((s["system_available_bytes"] for s in samples), default=None),
+        "max_swap_used_bytes": max((s["swap_used_bytes"] for s in samples), default=None),
+        # Sum of RSS can double-count shared pages; it is not unique RAM.
+        "max_process_tree_rss_sum_bytes": max((s["process_tree_rss_sum_bytes"] for s in samples), default=None),
+    }
+    if memory_sampler.scope == "wsl_guest":
+        sampled_memory["max_wsl_used_bytes"] = sampled_memory["max_system_used_bytes"]
+        sampled_memory["min_wsl_available_bytes"] = sampled_memory["min_system_available_bytes"]
     return {
         "request_ids": sorted(request_ids),
         "wall_s": completed - started,
@@ -111,14 +124,7 @@ def _run_request(omni: Omni, prompt: dict, memory_sampler: MemorySampler) -> dic
         "audio_samples": audio_samples,
         "audio_duration_s_at_24khz": audio_samples / 24000,
         "audio_rms_float": audio_rms,
-        "sampled_memory": {
-            "n": len(samples),
-            "max_wsl_used_bytes": max((s["wsl_used_bytes"] for s in samples), default=None),
-            "min_wsl_available_bytes": min((s["wsl_available_bytes"] for s in samples), default=None),
-            "max_swap_used_bytes": max((s["swap_used_bytes"] for s in samples), default=None),
-            # Sum of RSS can double-count shared pages; it is not unique RAM.
-            "max_process_tree_rss_sum_bytes": max((s["process_tree_rss_sum_bytes"] for s in samples), default=None),
-        },
+        "sampled_memory": sampled_memory,
     }
 
 
@@ -129,6 +135,8 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--repeats", type=int, default=20)
+    parser.add_argument("--init-timeout", type=int, default=600)
+    parser.add_argument("--stage-init-timeout", type=int, default=300)
     args = parser.parse_args()
     if args.warmups < 0 or args.repeats < 1:
         parser.error("warmups must be nonnegative and repeats must be positive")
@@ -141,6 +149,8 @@ def main() -> None:
             model=str(args.model.resolve()),
             deploy_config=str(args.deploy_config.resolve()),
             trust_remote_code=True,
+            init_timeout=args.init_timeout,
+            stage_init_timeout=args.stage_init_timeout,
         )
         startup_s = time.perf_counter() - started
         try:
@@ -168,10 +178,21 @@ def main() -> None:
         "torch": torch.__version__,
         "vllm": vllm.__version__,
         "torch_cuda_available": torch.cuda.is_available(),
+        "memory_scope": sampler.scope,
         "environment": {
             name: os.environ.get(name)
-            for name in ("VLLM_TARGET_DEVICE", "VLLM_CPU_KVCACHE_SPACE", "OMP_NUM_THREADS", "CUDA_VISIBLE_DEVICES")
+            for name in (
+                "VLLM_TARGET_DEVICE",
+                "VLLM_CPU_KVCACHE_SPACE",
+                "OMP_NUM_THREADS",
+                "MKL_NUM_THREADS",
+                "CUDA_VISIBLE_DEVICES",
+                "VLLM_USE_FLASHINFER_SAMPLER",
+                "VLLM_ENABLE_V1_MULTIPROCESSING",
+            )
         },
+        "init_timeout_s": args.init_timeout,
+        "stage_init_timeout_s": args.stage_init_timeout,
         "startup_s": startup_s,
         "warmups": args.warmups,
         "repeats": args.repeats,

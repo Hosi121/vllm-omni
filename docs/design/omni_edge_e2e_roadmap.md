@@ -18,9 +18,14 @@ adds constrained three-stage MiniCPM-o text-to-speech requests and a CPU-only
 InternVLA synthetic policy forward. A subsequent 20-request serial MiniCPM-o
 profile measured p50 21.86 s/p95 22.97 s request wall time after one warmup, with
 swap use under the 30.91 GiB WSL limit. It does not qualify speech quality,
-concurrency, streaming, loading peak or sustained behavior. Native Windows
-InternVLA direct-policy runs separately passed on CPU and RTX 5090 Laptop with
-synthetic inputs; AMD and mobile cells do not inherit these passes.
+concurrency, streaming, loading peak or sustained behavior. A separate native
+Windows RTX 5090 Laptop MiniCPM-o three-stage text-to-speech request passed
+with explicit 900/600 s startup limits after the default 300 s overall timeout
+had expired. A later native Windows 20-request serial run measured p50 18.38 s
+and p95 18.73 s, but sampled host available RAM fell to 0.78 GB and pagefile
+use reached 11.17 GB. Native Windows InternVLA direct-policy runs separately
+passed on CPU and RTX 5090 Laptop with synthetic inputs; AMD and mobile cells
+do not inherit these passes.
 
 ## Architecture and prerequisites
 
@@ -77,7 +82,7 @@ capability and lifecycle implementation; a state-handle type alone is insufficie
 | M1 | S25 Spark | Device-local Omni-compatible controller; embedding, prefill, continuous decode, ring/full KV, head and sampler; resident state | Reference checks, at least 128 output tokens, 512-window/1024-bucket transitions, cancellation, resident memory and sustained profile |
 | M2 | Qwen3-TTS | Resolve desktop playback and shutdown findings and CPU compatibility; then mobile talker/predictor plus GPU vocoder | Complete PCM and tail, history/chunk correctness, interruption/recovery, quality checks, no post-startup underruns and RTF below 1 in the declared workload |
 | M3 | AMD stages | Connect compatible real encoders or other useful coarse stages through current Omni workers; start from the existing 890M vision evidence | Actual node/device placement, numerical and task quality, complete downstream output, shared-memory and handoff costs; reject unhelpful splits |
-| M4a | MiniCPM-o 4.5 | Three-stage desktop text+WAV produced coherent text and nonzero WAV on RTX 5090 Laptop and WSL CPU under separate constrained plans. The CPU plan needed vLLM 0.28/0.29 processor compatibility and used swap; 20 serial CPU requests measured p50 21.86 s/p95 22.97 s. Add encoder and persistent-state reference before mobile artifacts | Speech intelligibility/alignment, CPU loading-peak admission, concurrency, separate text, image and audio-understanding suites, then combined streaming and interruption |
+| M4a | MiniCPM-o 4.5 | Three-stage desktop text+WAV produced coherent text and nonzero WAV on RTX 5090 Laptop under WSL and native Windows, and WSL CPU, using separate constrained plans. The CPU plan needed vLLM 0.28/0.29 processor compatibility and used swap; 20 serial CPU requests measured p50 21.86 s/p95 22.97 s. Native Windows needed longer startup limits; 20 serial requests measured p50 18.38 s/p95 18.73 s with host RAM/pagefile pressure. Add encoder and persistent-state reference before mobile artifacts | Speech intelligibility/alignment, loading-peak admission, concurrency, separate text, image and audio-understanding suites, then combined streaming and interruption |
 | M4b | InternVLA-A1 | Real weights, observation preprocessing, shared prefix state, iterative action head and versioned action metadata; strict-load synthetic policy forwards now pass on WSL and native Windows, each on CPU and RTX 5090 Laptop | Reference action agreement on real observations, units/order/timestamps, observation age, stale-input handling and application-specific deadline reporting |
 | Independent | Qwen3.8-27B | Public Omni pipeline binding; text, then image/video and longer contexts; same-model CPU/iGPU artifact and explicit offload evaluation | Modality-specific quality, actual loading/runtime memory and measured performance; each precision/context receives its own qualification |
 
