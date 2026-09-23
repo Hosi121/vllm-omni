@@ -3,8 +3,14 @@
 
 
 def create_graph_client(metadata, config, ledger, reservation):
-    from .graph import GraphStageClient
+    backend = config.get("backend", {})
+    name = backend.get("name")
+    if name == "external.graph.v1":
+        from .graph import GraphStageClient
 
-    if config.get("backend", {}).get("name") != "external.graph.v1":
-        raise ValueError("graph stage requires backend.name=external.graph.v1")
-    return GraphStageClient(metadata, config["backend"], ledger, reservation)
+        return GraphStageClient(metadata, backend, ledger, reservation)
+    if name == "external.llamacpp.text.v1":
+        from .llamacpp import LlamaCppTextStageClient
+
+        return LlamaCppTextStageClient(metadata, backend, ledger, reservation)
+    raise ValueError(f"unsupported complete-request stage backend: {name!r}")

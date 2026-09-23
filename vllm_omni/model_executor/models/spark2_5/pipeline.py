@@ -41,3 +41,20 @@ SPARK2_5_PIPELINE = PipelineConfig(
         ),
     ),
 )
+
+
+# A separate whole-session adapter for a pinned GGUF artifact. The complete
+# request path reuses Omni's bounded graph-stage control plane, while llama.cpp
+# owns the model weights, KV and sampling within the single backend process.
+SPARK2_5_GGUF_TEXT_PIPELINE = PipelineConfig(
+    model_type="spark2_5_gguf_text",
+    stages=(
+        StagePipelineConfig(
+            stage_id=0,
+            model_stage="text",
+            execution_type=StageExecutionType.GRAPH,
+            final_output=True,
+            final_output_type="text",
+        ),
+    ),
+)

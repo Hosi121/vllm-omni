@@ -1,10 +1,14 @@
 # Local edge backends in Omni
 
 The first backend is `external.graph.v1`: one complete, stateless graph operation
-per request, with a fixed input bucket and copied host tensors. It uses the normal
-`Omni` / `AsyncOmni` APIs, `PipelineConfig`, `StageRuntime`, `StagePool` and
-orchestrator. Native vLLM stages retain their model execution, KV cache, sampling
-and batching. No accelerator is mandatory.
+per request, with a fixed input bucket and copied host tensors. A second backend,
+`external.llamacpp.text.v1`, owns one pinned GGUF whole-model server process and
+returns complete text requests. Both use the normal `Omni` / `AsyncOmni` APIs,
+`PipelineConfig`, `StageRuntime`, `StagePool` and orchestrator. Native vLLM stages
+retain their model execution, KV cache, sampling and batching. No accelerator is
+mandatory. The llama.cpp backend currently uses the complete-request graph
+control path for admission and acknowledgement; it is not an ONNX graph and does
+not yet support incremental token events or restart after active cancellation.
 
 ## Boundaries
 
@@ -51,7 +55,7 @@ memory-accounting and unavailable-device gaps remain documented repair items.
 
 ### Mobile and PC × model support matrix
 
-This section preserves the 2026-09-22 audit. For the latest per-cell disposition and 2026-09-23 follow-up evidence, use the [current 60-cell E2E matrix](../../benchmarks/edge_harness/results/e2e_profiling_20260922/evidence/summary/README.md). The HX370 AMD NPU now has a placement- and quality-verified **Spark 1.7B output-head component** through Omni, while complete Spark generation on that route remains unverified; see the [component record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_amd_npu_output_head/README.md). Native Windows CPU and Radeon 890M also completed [scoped whole-model Spark text requests](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_radeon890m_llamacpp/README.md) with the same Q4_K_M GGUF in standalone llama.cpp. An Omni stage binding, explicit admission and broader quality gates remain open. These results advance the M3 hardware/backend evidence without claiming a joint multi-accelerator plan.
+This section preserves the 2026-09-22 audit. For the latest per-cell disposition and 2026-09-23 follow-up evidence, use the [current 60-cell E2E matrix](../../benchmarks/edge_harness/results/e2e_profiling_20260922/evidence/summary/README.md). The HX370 AMD NPU now has a placement- and quality-verified **Spark 1.7B output-head component** through Omni, while complete Spark generation on that route remains unverified; see the [component record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_amd_npu_output_head/README.md). Native Windows CPU and Radeon 890M completed [scoped whole-model Spark text requests](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_radeon890m_llamacpp/README.md) with the same Q4_K_M GGUF in standalone llama.cpp, then [complete requests through a bounded Omni stage](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_omni_llamacpp/README.md). The Omni route verifies pinned artifacts, actual placement, one-slot memory admission, terminal events and cancellation drain. Incremental streaming, restart after cancellation, memory peaks and broader quality remain open. These results advance the M3 hardware/backend evidence without claiming a joint multi-accelerator plan.
 
 **All 60 named pairings were checked on 2026-09-22** through actual runs,
 raw-record review or artifact/runtime preflight. This is not 60 successful

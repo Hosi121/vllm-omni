@@ -1,0 +1,25 @@
+{
+  "device": "cpu",
+  "entrypoint": "AsyncOmni.generate",
+  "startup_s": 5.160100899985991,
+  "request_wall_s": 0.1595404000254348,
+  "outputs": [
+    {
+      "request_id": "public-spark-1",
+      "text": "Paris",
+      "error": null,
+      "stage_event": {
+        "request_id": "public-spark-1-92c33ebd",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "08dc9cc2aafc40f79c16fbb4902ffac6",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

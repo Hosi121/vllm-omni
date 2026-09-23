@@ -1,0 +1,745 @@
+{
+  "scope": "complete Spark GGUF text requests through Omni StageRuntime/StagePool and external llama.cpp backend",
+  "model_file": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "device": "cpu",
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "warmup_count": 1,
+  "measured_count": 20,
+  "startup_s": 2.5649227999383584,
+  "execution_plan": {
+    "backend": "external.llamacpp.text.v1",
+    "stage_id": 0,
+    "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+    "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+    "server_sha256": "9ffc5919acb4cb43c7be5f3053b59014cce70a87d3a801fcad49c4f459984f52",
+    "model_alias": "C:\\Users\\zhout\\w2\\models\\Spark-X2.5-1.7B-Q4_K_M.gguf",
+    "requested_device": "cpu",
+    "expected_device_name": null,
+    "layer_assignments": 0,
+    "offloaded_layers": [
+      "0",
+      "29"
+    ],
+    "model_buffer_devices": [],
+    "worker_pid": 42956,
+    "loaded_rss_bytes": 1966784512,
+    "reserved_bytes": {
+      "host_ram": 4294967296
+    },
+    "memory_pool": "host_ram",
+    "memory_overhead_bytes": 2147483648,
+    "context_tokens": 4096,
+    "max_new_tokens": 96,
+    "max_io_bytes": 1048576,
+    "request_capacity": 1,
+    "stateful_session": "llama.cpp-owned; reset for each complete request",
+    "evidence": "B"
+  },
+  "checks": [
+    {
+      "case": "short",
+      "answer": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "wall_s": 0.1545967001002282,
+      "stage_event": {
+        "request_id": "short-620550421000000",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 0.1347851000027731,
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 28,
+          "total_tokens": 30,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.69737090007402,
+      "stage_event": {
+        "request_id": "inventory_120-620550578000000",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.692776900017634,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "warmups": [
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.746441899915226,
+      "stage_event": {
+        "request_id": "inventory_120-620557265000000",
+        "stage_id": 0,
+        "epoch": 3,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.722935499972664,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "measured": [
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.839563499903306,
+      "stage_event": {
+        "request_id": "inventory_120-620564015000000",
+        "stage_id": 0,
+        "epoch": 4,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.81114050000906,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.762330499943346,
+      "stage_event": {
+        "request_id": "inventory_120-620570859000000",
+        "stage_id": 0,
+        "epoch": 5,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.736715800012462,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.8983566999668255,
+      "stage_event": {
+        "request_id": "inventory_120-620577625000000",
+        "stage_id": 0,
+        "epoch": 6,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.878025500103831,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.979827199946158,
+      "stage_event": {
+        "request_id": "inventory_120-620584515000000",
+        "stage_id": 0,
+        "epoch": 7,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.951156700029969,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.869989700033329,
+      "stage_event": {
+        "request_id": "inventory_120-620591500000000",
+        "stage_id": 0,
+        "epoch": 8,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.841536100022495,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.048734300071374,
+      "stage_event": {
+        "request_id": "inventory_120-620598359000000",
+        "stage_id": 0,
+        "epoch": 9,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.021418699994683,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.0649565000785515,
+      "stage_event": {
+        "request_id": "inventory_120-620605421000000",
+        "stage_id": 0,
+        "epoch": 10,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.037209199974313,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.928715100046247,
+      "stage_event": {
+        "request_id": "inventory_120-620612484000000",
+        "stage_id": 0,
+        "epoch": 11,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.9239478999515995,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.977977100061253,
+      "stage_event": {
+        "request_id": "inventory_120-620619406000000",
+        "stage_id": 0,
+        "epoch": 12,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.973210399970412,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.929418300045654,
+      "stage_event": {
+        "request_id": "inventory_120-620626390000000",
+        "stage_id": 0,
+        "epoch": 13,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.908103400026448,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.931300800060853,
+      "stage_event": {
+        "request_id": "inventory_120-620633312000000",
+        "stage_id": 0,
+        "epoch": 14,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.925414299941622,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.930485799908638,
+      "stage_event": {
+        "request_id": "inventory_120-620640250000000",
+        "stage_id": 0,
+        "epoch": 15,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.925165800028481,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.982897099922411,
+      "stage_event": {
+        "request_id": "inventory_120-620647171000000",
+        "stage_id": 0,
+        "epoch": 16,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.963909099926241,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.979878299986012,
+      "stage_event": {
+        "request_id": "inventory_120-620654156000000",
+        "stage_id": 0,
+        "epoch": 17,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.974149900022894,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.980959000065923,
+      "stage_event": {
+        "request_id": "inventory_120-620661140000000",
+        "stage_id": 0,
+        "epoch": 18,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.960319699952379,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.8712320000631735,
+      "stage_event": {
+        "request_id": "inventory_120-620668125000000",
+        "stage_id": 0,
+        "epoch": 19,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.864738499978557,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.847545700031333,
+      "stage_event": {
+        "request_id": "inventory_120-620675000000000",
+        "stage_id": 0,
+        "epoch": 20,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.828035900020041,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.814243200002238,
+      "stage_event": {
+        "request_id": "inventory_120-620681843000000",
+        "stage_id": 0,
+        "epoch": 21,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.7917949999682605,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.86982150003314,
+      "stage_event": {
+        "request_id": "inventory_120-620688656000000",
+        "stage_id": 0,
+        "epoch": 22,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.863579299999401,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 6.974790100008249,
+      "stage_event": {
+        "request_id": "inventory_120-620695531000000",
+        "stage_id": 0,
+        "epoch": 23,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "c55d45113e8540e6956f67f8a7ab9e6b",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 6.951468299957924,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "nearest_rank_p50_wall_s": 6.929418300045654,
+  "nearest_rank_p95_wall_s": 7.048734300071374,
+  "abort_check": {
+    "stale_output": false,
+    "worker_exited": true,
+    "ledger_after_abort": {
+      "capacities": {
+        "host_ram": 12884901888
+      },
+      "reserved": {
+        "host_ram": 0
+      },
+      "owners": [],
+      "quarantined": []
+    }
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

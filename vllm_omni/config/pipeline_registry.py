@@ -112,7 +112,10 @@ from vllm_omni.model_executor.models.qwen3_omni.pipeline import (
     resolve_qwen3_omni_pipeline,
 )
 from vllm_omni.model_executor.models.qwen3_tts.pipeline import QWEN3_TTS_PIPELINE, QWEN3_TTS_TALKER_ONLY_PIPELINE
-from vllm_omni.model_executor.models.spark2_5.pipeline import SPARK2_5_PIPELINE
+from vllm_omni.model_executor.models.spark2_5.pipeline import (
+    SPARK2_5_GGUF_TEXT_PIPELINE,
+    SPARK2_5_PIPELINE,
+)
 from vllm_omni.model_executor.models.step_audio2.pipeline import (
     STEP_AUDIO2_ASR_PIPELINE,
     STEP_AUDIO2_PIPELINE,
@@ -147,6 +150,7 @@ OMNI_PIPELINES: dict[str, PipelineConfig | PipelineResolverFunc] = {
     "llama": LLAMA_PIPELINE,
     "qwen3_5": QWEN3_5_PIPELINE,
     "spark2_5": SPARK2_5_PIPELINE,
+    "spark2_5_gguf_text": SPARK2_5_GGUF_TEXT_PIPELINE,
     "step_audio_2": STEP_AUDIO2_PIPELINE,
     "step_audio_2_asr": STEP_AUDIO2_ASR_PIPELINE,
     "covo_audio": COVO_AUDIO_PIPELINE,

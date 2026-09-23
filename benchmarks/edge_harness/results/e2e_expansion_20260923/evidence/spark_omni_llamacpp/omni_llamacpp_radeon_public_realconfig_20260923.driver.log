@@ -1,0 +1,51 @@
+INFO 09-23 20:21:41 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-23 20:21:41 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-23 20:21:45 [omni_base.py:216] [AsyncOmni] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16
+INFO 09-23 20:21:45 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16
+ERROR 09-23 20:21:45 [repo_utils.py:119] Error parsing config for \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16: The repository \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16 contains custom code which must be executed to correctly load the model. You can inspect the repository content at \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16 .
+
+ERROR 09-23 20:21:45 [repo_utils.py:119]  You can inspect the repository content at https://hf.co/\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16.
+
+ERROR 09-23 20:21:45 [repo_utils.py:119] Please pass the argument `trust_remote_code=True` to allow custom code to be run., retrying 1 of 2
+ERROR 09-23 20:21:47 [repo_utils.py:117] Error parsing config for \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16: The repository \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16 contains custom code which must be executed to correctly load the model. You can inspect the repository content at \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16 .
+
+ERROR 09-23 20:21:47 [repo_utils.py:117]  You can inspect the repository content at https://hf.co/\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16.
+
+ERROR 09-23 20:21:47 [repo_utils.py:117] Please pass the argument `trust_remote_code=True` to allow custom code to be run.
+INFO 09-23 20:21:47 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-23 20:21:48 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-23 20:21:48 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-23 20:21:51 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-23 20:21:51 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-23 20:21:51 [omni_base.py:235] [AsyncOmni] AsyncOmniEngine initialized in 5.90 seconds
+INFO 09-23 20:21:51 [omni_base.py:255] [AsyncOmni] Initialized with 1 stages for model \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\Spark-X2.5-1.7B-BF16
+INFO 09-23 20:21:51 [omni_base.py:781] [AsyncOmni] Shutting down
+INFO 09-23 20:21:51 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-23 20:21:51 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-23 20:21:51 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-23 20:21:51 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down
+{
+  "device": "Vulkan1",
+  "entrypoint": "AsyncOmni.generate",
+  "startup_s": 5.907832600059919,
+  "request_wall_s": 0.13778969994746149,
+  "outputs": [
+    {
+      "request_id": "public-spark-1",
+      "text": "Paris",
+      "error": null,
+      "stage_event": {
+        "request_id": "public-spark-1-a676a073",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "851b8a6a700945dfbed8debbc14363e1",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      }
+    }
+  ],
+  "status": "passed"
+}

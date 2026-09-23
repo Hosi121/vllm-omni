@@ -131,6 +131,8 @@ precision and workload. New concurrency, state-boundary or quality evidence is
 required before broadening that acceptance. Current batch-dependent greedy
 outputs need reference analysis; timing alone cannot identify their cause.
 
+The 2026-09-23 [Spark GGUF Omni follow-up](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_omni_llamacpp/README.md) adds a separate native Windows CPU/Radeon 890M whole-session option. Its pinned 1.7B Q4_K_M artifact passed two named complete text requests and 20 serial inventory requests per device through `StageRuntime`/`StagePool`; public `AsyncOmni` short requests passed on both devices. It verifies CPU or Vulkan1 placement, explicit 4 GiB host reservation, terminal event/acknowledgement and cancellation drain. This does not change the vLLM M0 acceptance or establish M1 mobile generation. Its next gates are incremental output, post-cancel restart, broader token/quality parity, loading/device-memory peaks, concurrency and sustained power/thermal behavior.
+
 VLA qualification here ends at action data. Physical robot control, collision
 avoidance and actuator safety belong to the external controller.
 
