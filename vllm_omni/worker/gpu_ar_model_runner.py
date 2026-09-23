@@ -1439,19 +1439,22 @@ class GPUARModelRunner(OmniGPUModelRunner, OmniConnectorModelRunnerMixin, Duplex
             with _stats.timed("model.sample_async_ids_ms"):
                 self.input_batch.update_async_output_token_ids()
             if logits is not None and callable(model_sample) and getattr(self.model, "prefer_model_sampler", False):
+                # Custom samplers may decline a row. Keep the default sampler's
+                # logits intact: it applies its own bias and penalties below.
+                model_logits = logits.clone()
                 # Apply logit bias (min_tokens, allowed_token_ids) before
                 # the custom model sampler — the standard GPU sampler does
                 # this internally, but prefer_model_sampler bypasses it.
                 if hasattr(self.sampler, "logit_bias_state"):
                     self.sampler.logit_bias_state.apply_logit_bias(
-                        logits,
+                        model_logits,
                         self.input_batch.expanded_idx_mapping,
                         self.input_batch.idx_mapping_np,
                         self.input_batch.positions[self.input_batch.logits_indices],
                     )
                 prepared_sampling_metadata = self._sampling_metadata_for_model_sampler(sampling_metadata)
-                self._apply_duplex_sampling(logits, prepared_sampling_metadata)
-                sampler_output = model_sample(logits, prepared_sampling_metadata)
+                self._apply_duplex_sampling(model_logits, prepared_sampling_metadata)
+                sampler_output = model_sample(model_logits, prepared_sampling_metadata)
                 if sampler_output is not None:
                     return sampler_output
                 # Contract: None => fall back to the default sampler (see

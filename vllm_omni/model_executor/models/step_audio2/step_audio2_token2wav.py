@@ -174,7 +174,13 @@ class StepAudio2Token2WavCore(nn.Module):
         )
 
         with open(f"{self.model_path}/flow.yaml") as f:
-            configs = load_hyperpyyaml(f)
+            flow_yaml = f.read()
+        # MiniCPM-o's flow.yaml names the standalone ``cosyvoice2`` package,
+        # while the shared in-tree vocoder uses its implementation shipped in
+        # ``stepaudio2-minicpmo``. Resolve those YAML tags locally instead of
+        # relying on the external Token2wav constructor's sys.modules aliases.
+        flow_yaml = flow_yaml.replace("!new:cosyvoice2.", "!new:stepaudio2.cosyvoice2.")
+        configs = load_hyperpyyaml(io.StringIO(flow_yaml))
         self._flow = configs["flow"]
         if self.float16:
             self._flow.half()

@@ -301,12 +301,20 @@ class MiniCPMO45OmniForConditionalGeneration(nn.Module, SupportsMultiModal, Supp
         if self.model_stage == "tts":
             return self.talker.preprocess(input_ids=input_ids, input_embeds=input_embeds, **kwargs)
         if self.model_stage != "llm":
-            embeds = input_embeds if input_embeds is not None else self.get_input_embeddings(input_ids)
+            embeds = (
+                input_embeds
+                if kwargs.get("_omni_input_embeds_precomputed") and input_embeds is not None
+                else self.get_input_embeddings(input_ids)
+            )
             return input_ids, embeds, {}
 
         duplex = kwargs.get("duplex")
         if not isinstance(duplex, dict) or duplex.get("data_plane") is not True:
-            embeds = input_embeds if input_embeds is not None else self.get_input_embeddings(input_ids)
+            embeds = (
+                input_embeds
+                if kwargs.get("_omni_input_embeds_precomputed") and input_embeds is not None
+                else self.get_input_embeddings(input_ids)
+            )
             return input_ids, embeds, {}
 
         prompt_len_meta = kwargs.get("duplex_prompt_len")

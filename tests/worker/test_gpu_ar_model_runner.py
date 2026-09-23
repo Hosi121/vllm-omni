@@ -1756,6 +1756,7 @@ class TestPreferModelSamplerNoneFallback:
         runner._sampling_metadata_for_model_sampler = lambda smd: smd
         runner._resolve_duplex_sampling_hook = lambda: None
         runner.sampler = lambda logits, sampling_metadata: default_result
+        runner.device = torch.device("cpu")
         return runner
 
     def test_none_falls_back_to_default_sampler_and_warns_once(self):
@@ -1801,6 +1802,27 @@ class TestPreferModelSamplerNoneFallback:
 
         assert out is model_out
 
+    def test_declining_model_cannot_mutate_default_sampler_logits(self):
+        runner = self._runner(model_sample_result=None, default_result=None)
+        original = torch.tensor([[0.1, 0.2, 0.3]])
+        seen = []
+
+        def decline_after_mutation(logits, _metadata):
+            logits[:, :] = float("-inf")
+            logits[:, 0] = 0.0
+            return None
+
+        def default_sampler(*, logits, sampling_metadata):
+            seen.append(logits.clone())
+            return torch.argmax(logits, dim=-1).item()
+
+        runner.model.sample = decline_after_mutation
+        runner.sampler = default_sampler
+        runner.device = torch.device("cpu")
+
+        assert GPUARModelRunner._sample(runner, original, None) == 2
+        torch.testing.assert_close(seen[0], original)
+
     def test_declaration_matcher_ignores_mentions_and_opt_outs(self):
         # Guards the guard: the inventory below is only meaningful if
         # "declares" means an actual opt-in assignment.
@@ -1838,6 +1860,7 @@ class TestPreferModelSamplerNoneFallback:
             "minicpmo_4_5",
             "minimax_music3",
             "nemotron_voicechat",
+            "qwen3_tts",
         }
         assert declarers == expected, (
             "The set of models declaring `prefer_model_sampler` changed:\n"

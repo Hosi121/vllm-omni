@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from inspect import signature
+
 import torch
 import torch.nn as nn
 from transformers.models.qwen3_vl.modeling_qwen3_vl import (
@@ -15,7 +17,6 @@ from transformers.models.qwen3_vl.modeling_qwen3_vl import (
     Qwen3VLVisionModel,
     Unpack,
     apply_rotary_pos_emb,
-    check_model_inputs,
     create_causal_mask,
     deprecate_kwarg,
     eager_attention_forward,
@@ -38,6 +39,13 @@ from transformers.models.qwen3_vl.modeling_qwen3_vl import (
 from transformers.models.qwen3_vl.modeling_qwen3_vl import (
     Qwen3VLTextRMSNorm as HFQwen3VLTextRMSNorm,
 )
+
+try:
+    from transformers.models.qwen3_vl.modeling_qwen3_vl import check_model_inputs
+except ImportError:
+    # Transformers 5 moved this decorator out of the model module. The
+    # compatibility alias keeps the custom decoder's config-default behavior.
+    from transformers.utils.generic import merge_with_config_defaults as check_model_inputs
 
 
 class Qwen3VLTextRMSNorm(HFQwen3VLTextRMSNorm):
@@ -83,8 +91,13 @@ class Qwen3VLTextAttention(HFQwen3VLTextAttention):
                     key_states, value_states, self.layer_idx, cache_kwargs
                 )
             else:
-                key_states = torch.cat([past_key_values[self.layer_idx][0], key_states], dim=2)
-                value_states = torch.cat([past_key_values[self.layer_idx][1], value_states], dim=2)
+                if hasattr(past_key_values, "layers"):
+                    layer_cache = past_key_values.layers[self.layer_idx]
+                    cached_keys, cached_values = layer_cache.keys, layer_cache.values
+                else:
+                    cached_keys, cached_values = past_key_values[self.layer_idx]
+                key_states = torch.cat([cached_keys, key_states], dim=2)
+                value_states = torch.cat([cached_values, value_states], dim=2)
 
         attention_interface = eager_attention_forward
         if self.config._attn_implementation != "eager":
@@ -174,14 +187,17 @@ class Qwen3VLTextModel(HFQwen3VLTextModel):
         else:
             text_position_ids = position_ids[0]
 
-        attention_mask = create_causal_mask(
+        mask_kwargs = dict(
             config=self.config,
-            input_embeds=inputs_embeds,
             attention_mask=attention_mask,
-            cache_position=cache_position,
             past_key_values=past_key_values,
             position_ids=text_position_ids,
         )
+        mask_params = signature(create_causal_mask).parameters
+        mask_kwargs["inputs_embeds" if "inputs_embeds" in mask_params else "input_embeds"] = inputs_embeds
+        if "cache_position" in mask_params:
+            mask_kwargs["cache_position"] = cache_position
+        attention_mask = create_causal_mask(**mask_kwargs)
 
         hidden_states = inputs_embeds
         position_embeddings = self.rotary_emb(hidden_states, position_ids)
@@ -230,7 +246,7 @@ class Qwen3VLModel(HFQwen3VLModel):
 
 class Qwen3VLForConditionalGeneration(HFQwen3VLForConditionalGeneration):
     _checkpoint_conversion_mapping = {}
-    _tied_weights_keys = ["lm_head.weight"]
+    _tied_weights_keys = {"lm_head.weight": "model.language_model.embed_tokens.weight"}
     accepts_loss_kwargs = False
     config: Qwen3VLConfig
 

@@ -1,0 +1,13 @@
+Prompt:
+<|im_start|>system
+You are MiniCPM-o, a helpful multimodal assistant that can understand images, audio and video, and respond in text and speech.<|im_end|>
+<|im_start|>user
+Say hello, then introduce vLLM-Omni in one sentence.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+
+vllm_text_output:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

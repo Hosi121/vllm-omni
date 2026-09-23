@@ -1,0 +1,31 @@
+INFO 09-23 14:32:07 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-23 14:32:07 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-23 14:32:07 [patch.py:583] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-23 14:32:08 [pipeline_internvla_a1.py:164] Loading InternVLA-A1 weights from /home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen
+{
+  "scope": "real checkpoint, synthetic zero observations and noise; no task-quality claim",
+  "model_dir": "/home/zhout/project/edge_infer/models/InternVLA-A1-3B-FT-Place_Markpen",
+  "runtime_mode": "real_checkpoint_loaded",
+  "device": "cuda",
+  "dtype": "torch.float32",
+  "action_shape": [
+    1,
+    50,
+    32
+  ],
+  "finite": true,
+  "action_sha256_float32": "71ddd577e166f417639dd09f8cdaeef5a1bc91a6152c53672542504328675dd6",
+  "first_action_prefix": [
+    0.02230919525027275,
+    -0.033485047519207,
+    0.005473435390740633,
+    0.02993217296898365,
+    -0.00445316918194294,
+    -0.01604151912033558,
+    0.018104737624526024,
+    -0.09112925827503204
+  ],
+  "startup_s": 36.394273725978564,
+  "forward_s": 1.222088642010931,
+  "cuda_peak_allocated_bytes": 6683068416
+}

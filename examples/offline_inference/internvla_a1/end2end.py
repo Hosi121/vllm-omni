@@ -35,6 +35,7 @@ from vllm_omni.diffusion.models.internvla_a1 import (  # noqa: E402
 from vllm_omni.diffusion.models.internvla_a1.config import OBS_STATE  # noqa: E402
 from vllm_omni.diffusion.registry import initialize_model  # noqa: E402
 from vllm_omni.diffusion.request import OmniDiffusionRequest  # noqa: E402
+from vllm_omni.diffusion.worker.request_batch import DiffusionRequestBatch  # noqa: E402
 from vllm_omni.inputs.data import OmniDiffusionSamplingParams  # noqa: E402
 
 
@@ -158,23 +159,29 @@ def run_pipeline_forward(
     request_id: str,
 ) -> torch.Tensor:
     output = pipeline.forward(
-        OmniDiffusionRequest(
-            prompts=[""],
-            sampling_params=OmniDiffusionSamplingParams(
-                extra_args={
-                    "batch_inputs": batch_inputs,
-                    "noise": noise,
-                    "decode_image": False,
-                }
-            ),
-            request_id=request_id,
+        DiffusionRequestBatch(
+            requests=[
+                OmniDiffusionRequest(
+                    prompt="",
+                    sampling_params=OmniDiffusionSamplingParams(
+                        extra_args={
+                            "batch_inputs": batch_inputs,
+                            "noise": noise,
+                            "decode_image": False,
+                        }
+                    ),
+                    request_id=request_id,
+                )
+            ]
         )
     )
     if output.error:
         raise RuntimeError(output.error)
-    if output.output is None:
-        raise RuntimeError("InternVLAA1Pipeline.forward returned no output tensor.")
-    return output.output
+    payload = output.output
+    actions = payload.get("payload", {}).get("actions") if isinstance(payload, dict) else None
+    if not isinstance(actions, torch.Tensor):
+        raise RuntimeError("InternVLAA1Pipeline.forward returned no action tensor in output.payload.actions.")
+    return actions
 
 
 def _synchronize(device: str) -> None:

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 """
-Offline end-to-end inference for MiniCPM-o 4.5 (thinker + talker/Token2Wav).
+Offline end-to-end inference for MiniCPM-o 4.5 (thinker + talker + Code2Wav).
 
 MiniCPM-o uses placeholders ``(<image>./</image>)``, ``(<audio>./</audio>)``,
 and ``(<video>./</video>)``. Speech output requires a ``<|tts_bos|>`` suffix on
@@ -16,7 +16,6 @@ import numpy as np
 import soundfile as sf
 import vllm
 from PIL import Image
-from vllm import SamplingParams
 from vllm.assets.audio import AudioAsset
 from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset, video_to_ndarrays
@@ -25,8 +24,6 @@ from vllm.multimodal.media.audio import load_audio
 
 from vllm_omni.entrypoints.omni import Omni
 from vllm_omni.utils.tracking_parser import TrackingArgumentParser
-
-SEED = 42
 
 default_system = (
     "You are MiniCPM-o, a helpful multimodal assistant that can "
@@ -40,8 +37,8 @@ class QueryResult(NamedTuple):
 
 
 def _assistant_prefix(use_tts: bool) -> str:
-    # Matches HF chat_template: assistant header, optional empty <think>, then TTS bos.
-    prefix = "<|im_start|>assistant\n"
+    # Match the checkpoint chat template with enable_thinking=False.
+    prefix = "<|im_start|>assistant\n<think>\n\n</think>\n\n"
     if use_tts:
         prefix += "<|tts_bos|>"
     return prefix
@@ -285,27 +282,10 @@ def main(args):
     omni_kwargs["trust_remote_code"] = True
     omni = Omni(**omni_kwargs)
 
-    # Stage 0 (thinker): multimodal understanding → text (+ TTS span when enabled).
-    thinker_sampling_params = SamplingParams(
-        temperature=0.0,
-        top_p=1.0,
-        top_k=-1,
-        max_tokens=2048,
-        seed=SEED,
-        detokenize=True,
-        repetition_penalty=1.1,
-    )
-    # Stage 1 (talker + Token2Wav): max_tokens=1 satisfies the scheduler;
-    # waveform is produced in-process by Token2Wav.
-    talker_sampling_params = SamplingParams(
-        temperature=0.0,
-        top_p=1.0,
-        top_k=-1,
-        max_tokens=1,
-        seed=SEED,
-        detokenize=False,
-    )
-    sampling_params_list = [thinker_sampling_params, talker_sampling_params][: omni.num_stages]
+    # The deploy config owns all three stages' sampling parameters. In
+    # particular, the Talker requires min_tokens and the Code2Wav stage has
+    # its own output limit; a two-entry list cannot describe this pipeline.
+    sampling_params_list = None
 
     if args.txt_prompts is None:
         prompts = [query_result.inputs for _ in range(args.num_prompts)]
@@ -345,6 +325,8 @@ def main(args):
                 str(output.prompt) + "\n",
                 "vllm_text_output:\n",
                 str(text_output).strip() + "\n",
+                "vllm_token_ids:\n",
+                str(output.outputs[0].token_ids) + "\n",
             ]
             try:
                 with open(out_txt, "w", encoding="utf-8") as f:

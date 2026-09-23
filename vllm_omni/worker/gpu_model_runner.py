@@ -1790,6 +1790,16 @@ class OmniGPUModelRunner(GPUModelRunner):
                 req_infos["_omni_prompt_len"] = prompt_len
                 req_infos["_omni_num_computed_tokens"] = num_computed_tokens
                 req_infos["_omni_is_prefill"] = is_prefill
+                # The has_preprocess branch offers a reusable embedding buffer
+                # that is not initialized for ordinary text requests. Models
+                # may reuse its contents only when this runner filled them.
+                req_infos["_omni_input_embeds_precomputed"] = bool(
+                    is_first_rank
+                    and (
+                        (self.supports_mm_inputs and not is_encoder_decoder)
+                        or self.enable_prompt_embeds
+                    )
+                )
                 # Output-token cap, so a model that must ship a payload on the
                 # request's final step can tell which step that is. A finished
                 # request drops out of req_ids_output_copy, and downstream

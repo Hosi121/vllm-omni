@@ -1,0 +1,27 @@
+{
+  "files": [
+    {
+      "bytes": 5273477136,
+      "file": "model-00001-of-00004.safetensors",
+      "sha256": "30c40b9a10386c1bc404568d8829e5aada2e3501d9de6fb46ff80451aff7e077"
+    },
+    {
+      "bytes": 5301855080,
+      "file": "model-00002-of-00004.safetensors",
+      "sha256": "fe0faef420aca8f771bec1f9fcfaae01206c56b8e64e4429a1ff500c962fbf96"
+    },
+    {
+      "bytes": 5301855048,
+      "file": "model-00003-of-00004.safetensors",
+      "sha256": "5d0b20153f9bfa88ebcd1cb6bbd5b7cac4c217b3cafb137a291a1b380d8b7821"
+    },
+    {
+      "bytes": 2866549964,
+      "file": "model-00004-of-00004.safetensors",
+      "sha256": "f61addf4747c94fedcaee059e5d9918ed15543beec494404139a99f2f86c9b31"
+    }
+  ],
+  "repo": "openbmb/MiniCPM-o-4_5",
+  "revision": "503e754207c94da6bb26850b4469f367c9ea3582",
+  "status": "verified"
+}

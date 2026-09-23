@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "bytes": 6721209208,
+      "file": "model.safetensors",
+      "sha256": "41b0fc1e6772257ab5c47f46338e8438cb8c05ef0a6f2c83123b1a614c397f59"
+    }
+  ],
+  "repo": "InternRobotics/InternVLA-A1-3B",
+  "revision": "08cf716d413aa8208a34f346cd8824e6ff901205",
+  "status": "verified"
+}

@@ -7,9 +7,11 @@ every device. The [current profiling review](../../benchmarks/edge_harness/resul
 records measured execution separately from release qualification.
 
 The [2026-09-23 recovery run](../../benchmarks/edge_harness/results/e2e_recovery_20260923/README.md)
-adds a functional CPU TTS stream with playback underruns and a scoped RTX
-Qwen3.8 text/image pass. Its missing-checkpoint transfers and remaining device
-gates are tracked there; the 2026-09-22 audit remains the historical baseline.
+adds a functional CPU TTS stream with playback underruns, a scoped RTX
+Qwen3.8 text/image pass, verified MiniCPM-o and InternVLA weights, a MiniCPM-o
+three-stage text-to-speech functional pass after correcting request embeddings,
+and an InternVLA real-weight synthetic action forward. Model-quality and device gates
+remain open; the 2026-09-22 audit remains the historical baseline.
 
 ## Architecture and prerequisites
 
@@ -33,9 +35,9 @@ Before advancing individual cells:
 
 1. Pin installed runtime builds and checkpoint revisions. Repair the CPU
    vLLM/Omni mismatch and native Windows CPU attention-operator gap independently.
-2. Obtain complete MiniCPM-o 4.5 and InternVLA-A1 artifacts; another model with a
-   similar name is not a substitute. Record export, quantization, calibration,
-   compiler, shape buckets, state layout and quality evidence.
+2. The complete MiniCPM-o 4.5 and InternVLA-A1 source checkpoints are now
+   SHA-256 verified. Record export, quantization, calibration, compiler, shape
+   buckets, state layout and quality evidence before target-specific claims.
 3. Integrate native and external stages into the shared admission ledger.
    CPU/iGPU/NPU share physical RAM; Windows availability and WSL quota are
    separate constraints on that RAM. Budget loading peaks, weights, state,
@@ -66,8 +68,8 @@ capability and lifecycle implementation; a state-handle type alone is insufficie
 | M1 | S25 Spark | Device-local Omni-compatible controller; embedding, prefill, continuous decode, ring/full KV, head and sampler; resident state | Reference checks, at least 128 output tokens, 512-window/1024-bucket transitions, cancellation, resident memory and sustained profile |
 | M2 | Qwen3-TTS | Resolve desktop playback and shutdown findings and CPU compatibility; then mobile talker/predictor plus GPU vocoder | Complete PCM and tail, history/chunk correctness, interruption/recovery, quality checks, no post-startup underruns and RTF below 1 in the declared workload |
 | M3 | AMD stages | Connect compatible real encoders or other useful coarse stages through current Omni workers; start from the existing 890M vision evidence | Actual node/device placement, numerical and task quality, complete downstream output, shared-memory and handoff costs; reject unhelpful splits |
-| M4a | MiniCPM-o 4.5 | Desktop reference for encoders, thinker, speech head, flow/HiFT and persistent state; then target-specific mobile artifacts | Separate text, image, audio-understanding and speech-generation suites, then combined streaming and interruption |
-| M4b | InternVLA-A1 | Real weights, observation preprocessing, shared prefix state, iterative action head and versioned action metadata | Reference action agreement, units/order/timestamps, observation age, stale-input handling and application-specific deadline reporting |
+| M4a | MiniCPM-o 4.5 | Three-stage desktop text+WAV path produced coherent text and nonzero WAV under a constrained 24 GiB profile after fixing uninitialized request embeddings; add encoder and persistent-state reference before mobile artifacts | Speech intelligibility/alignment, separate text, image and audio-understanding suites, then combined streaming and interruption |
+| M4b | InternVLA-A1 | Real weights, observation preprocessing, shared prefix state, iterative action head and versioned action metadata; one strict-load synthetic action forward now passes on RTX 5090 Laptop | Reference action agreement on real observations, units/order/timestamps, observation age, stale-input handling and application-specific deadline reporting |
 | Independent | Qwen3.8-27B | Public Omni pipeline binding; text, then image/video and longer contexts; same-model CPU/iGPU artifact and explicit offload evaluation | Modality-specific quality, actual loading/runtime memory and measured performance; each precision/context receives its own qualification |
 
 The initial M0 desktop text acceptance remains scoped to its tested checkpoint,

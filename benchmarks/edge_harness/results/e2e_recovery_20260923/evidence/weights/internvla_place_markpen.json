@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "bytes": 6721209208,
+      "file": "model.safetensors",
+      "sha256": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313"
+    }
+  ],
+  "repo": "Jia-Zeng/InternVLA-A1-3B-FineTuned-Place_Markpen",
+  "revision": "0a557c6a503e6545b369bff2f34c76a410bbd190",
+  "status": "verified"
+}

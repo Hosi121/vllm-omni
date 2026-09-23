@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import os
 from dataclasses import dataclass
+from inspect import signature
 from pathlib import Path
 from typing import Any, Literal
 
@@ -163,7 +164,7 @@ def compute_layer_complete(
     gen_expert: nn.Module,
     act_expert: nn.Module,
 ) -> list[torch.Tensor]:
-    models = [und_expert.language_model, gen_expert, act_expert]
+    models = [und_expert.model.language_model, gen_expert, act_expert]
     query_states = []
     key_states = []
     value_states = []
@@ -199,9 +200,9 @@ def compute_layer_complete(
         sin,
         unsqueeze_dim=1,
     )
-    scaling = und_expert.language_model.layers[layer_idx].self_attn.scaling
+    scaling = und_expert.model.language_model.layers[layer_idx].self_attn.scaling
     att_output, _ = eager_attention_forward(
-        und_expert.language_model.layers[layer_idx].self_attn,
+        und_expert.model.language_model.layers[layer_idx].self_attn,
         query_states,
         key_states,
         value_states,
@@ -209,8 +210,8 @@ def compute_layer_complete(
         scaling,
     )
 
-    head_dim = und_expert.language_model.layers[layer_idx].self_attn.head_dim
-    num_attention_heads = und_expert.language_model.layers[layer_idx].self_attn.config.num_attention_heads
+    head_dim = und_expert.model.language_model.layers[layer_idx].self_attn.head_dim
+    num_attention_heads = und_expert.model.language_model.layers[layer_idx].self_attn.config.num_attention_heads
     batch_size = query_states.shape[0]
     att_output = att_output.reshape(batch_size, -1, num_attention_heads * head_dim)
 
@@ -313,7 +314,8 @@ class Qwen3VLWithExpertModel(nn.Module):
         vlm_config_hf.text_config.num_hidden_layers = vlm_config.num_hidden_layers
         vlm_config_hf.text_config.num_key_value_heads = vlm_config.num_key_value_heads
         vlm_config_hf.text_config.max_position_embeddings = 262144
-        vlm_config_hf.text_config.rope_scaling = {
+        vlm_config_hf.text_config.rope_parameters = {
+            **vlm_config_hf.text_config.rope_parameters,
             "mrope_interleaved": True,
             "mrope_section": [24, 20, 20],
             "rope_type": "default",
@@ -336,7 +338,7 @@ class Qwen3VLWithExpertModel(nn.Module):
         gen_expert_config_hf.num_hidden_layers = action_expert_config.num_hidden_layers
         gen_expert_config_hf.num_key_value_heads = action_expert_config.num_key_value_heads
         gen_expert_config_hf.max_position_embeddings = self.und_expert.config.text_config.max_position_embeddings
-        gen_expert_config_hf.rope_scaling = self.und_expert.config.text_config.rope_scaling
+        gen_expert_config_hf.rope_parameters = self.und_expert.config.text_config.rope_parameters.copy()
         self.gen_expert = Qwen3VLTextModel(config=gen_expert_config_hf)
         self.gen_expert.embed_tokens = None
         self.gen_expert.lm_head = None
@@ -349,7 +351,7 @@ class Qwen3VLWithExpertModel(nn.Module):
         act_expert_config_hf.num_hidden_layers = action_expert_config.num_hidden_layers
         act_expert_config_hf.num_key_value_heads = action_expert_config.num_key_value_heads
         act_expert_config_hf.max_position_embeddings = self.und_expert.config.text_config.max_position_embeddings
-        act_expert_config_hf.rope_scaling = self.und_expert.config.text_config.rope_scaling
+        act_expert_config_hf.rope_parameters = self.und_expert.config.text_config.rope_parameters.copy()
         self.act_expert = Qwen3VLTextModel(config=act_expert_config_hf)
         self.act_expert.embed_tokens = None
         self.act_expert.lm_head = None
@@ -383,7 +385,7 @@ class Qwen3VLWithExpertModel(nn.Module):
         use_cache: bool,
     ) -> tuple[list[torch.Tensor | None], Any]:
         if inputs_embeds[1] is None and inputs_embeds[2] is None:
-            prefix_output = self.und_expert.language_model.forward(
+            prefix_output = self.und_expert.model.language_model.forward(
                 inputs_embeds=inputs_embeds[0],
                 attention_mask=attention_mask,
                 position_ids=position_ids,
@@ -412,7 +414,7 @@ class Qwen3VLWithExpertModel(nn.Module):
             )
             return [None, None, suffix_output.last_hidden_state], None
 
-        models = [self.und_expert.language_model, self.gen_expert, self.act_expert]
+        models = [self.und_expert.model.language_model, self.gen_expert, self.act_expert]
         stacked_inputs = [inputs_embeds[0], inputs_embeds[1], inputs_embeds[2]]
         for layer_idx in range(self.und_expert.config.text_config.num_hidden_layers):
             stacked_inputs = compute_layer_complete(
@@ -481,7 +483,7 @@ class InternVLAA1(nn.Module):
     def set_attention_implementation(self, attn_implementation: str) -> None:
         self.config.attn_implementation = attn_implementation
         self.qwen3_vl_with_expert.und_expert.config.text_config._attn_implementation = attn_implementation
-        self.qwen3_vl_with_expert.und_expert.language_model.config._attn_implementation = attn_implementation
+        self.qwen3_vl_with_expert.und_expert.model.language_model.config._attn_implementation = attn_implementation
         self.qwen3_vl_with_expert.gen_expert.config._attn_implementation = attn_implementation
         self.qwen3_vl_with_expert.act_expert.config._attn_implementation = attn_implementation
 
@@ -515,7 +517,12 @@ class InternVLAA1(nn.Module):
         image_token_id = self.qwen3_vl_with_expert.und_expert.config.image_token_id
         pixel_values = pixel_values.view(-1, pixel_values.shape[-1])
         image_grid_thw = image_grid_thw.view(-1, 3)
-        image_embs, _ = self.qwen3_vl_with_expert.und_expert.visual(pixel_values, image_grid_thw)
+        vision_output = self.qwen3_vl_with_expert.und_expert.model.visual(pixel_values, image_grid_thw)
+        image_embs = (
+            vision_output.pooler_output
+            if hasattr(vision_output, "pooler_output")
+            else vision_output[0]
+        )
 
         embs = self.qwen3_vl_with_expert.und_expert.get_input_embeddings()(lang_tokens)
         batch_size, seq_len, hidden_dim = embs.shape
@@ -642,11 +649,16 @@ class InternVLAA1(nn.Module):
         attention_mask = pad_masks.to(lang_tokens)
         if image_grid_thw is not None:
             image_grid_thw = image_grid_thw.view(-1, 3)
-        return self.qwen3_vl_with_expert.und_expert.model.get_rope_index(
-            padded_lang_tokens,
-            image_grid_thw,
-            attention_mask=attention_mask,
-        )
+        get_rope_index = self.qwen3_vl_with_expert.und_expert.model.get_rope_index
+        if "mm_token_type_ids" in signature(get_rope_index).parameters:
+            token_types = (padded_lang_tokens == self.qwen3_vl_with_expert.und_expert.config.image_token_id).int()
+            return get_rope_index(
+                padded_lang_tokens,
+                mm_token_type_ids=token_types,
+                image_grid_thw=image_grid_thw,
+                attention_mask=attention_mask,
+            )
+        return get_rope_index(padded_lang_tokens, image_grid_thw, attention_mask=attention_mask)
 
     @torch.no_grad()
     def sample_actions(
@@ -860,12 +872,24 @@ class InternVLAA1Policy(nn.Module):
             loaded = loader.load_weights((name, f.get_tensor(name)) for name in file_keys)
 
         if strict:
+            state = instance.state_dict()
             expected = {
                 name
-                for name, _ in instance.state_dict().items()
+                for name in state
                 if not any(name.startswith(prefix) for prefix in cls._AUTO_WEIGHTS_IGNORE_PREFIXES)
             }
-            missing = sorted(expected - loaded)
+            # The checkpoint stores lm_head only; tied embed_tokens shares its
+            # storage after post_init. Loading either name initializes both.
+            loaded_storage = {
+                (state[name].data_ptr(), state[name].storage_offset())
+                for name in loaded
+                if name in state
+            }
+            missing = sorted(
+                name
+                for name in expected - loaded
+                if (state[name].data_ptr(), state[name].storage_offset()) not in loaded_storage
+            )
             if missing:
                 preview = ", ".join(missing[:10])
                 suffix = " ..." if len(missing) > 10 else ""
