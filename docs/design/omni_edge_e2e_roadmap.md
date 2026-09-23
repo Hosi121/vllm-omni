@@ -46,6 +46,16 @@ from GPU, swap is heavily used, and stage 0 requires forced shutdown with
 shared-memory cleanup warnings. These single requests do not inherit the
 20-request text latency profile or establish real image/audio quality.
 
+Native Windows HX370 CPU now also completes two Qwen3-TTS CustomVoice
+text-to-WAV requests through Qwen's standalone PyTorch wrapper using the pinned
+0.6B checkpoint. A separate 1-warmup/20-measured serial profile of one short
+prompt took p50/p95 13.94/14.68 s to generate 4.56 s of audio. Whisper tiny.en
+ASR gave word error rates 0.20 and 0.00 for the two WAVs, an intelligibility
+proxy rather than a quality pass. The [raw record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_native_cpu/README.md)
+documents the isolated Transformers 4.57.3 dependency and short process-memory
+trace. Omni CPU stage binding, playable streaming, loading-peak admission and
+sustained power/thermal tests remain M2 work.
+
 ## Architecture and prerequisites
 
 Keep Omni's PipelineConfig, StageRuntime, StageClient, orchestration and admission

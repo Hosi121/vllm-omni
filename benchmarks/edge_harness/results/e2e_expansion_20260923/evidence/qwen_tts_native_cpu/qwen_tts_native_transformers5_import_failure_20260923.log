@@ -1,0 +1,29 @@
+'sox' is not recognized as an internal or external command,
+operable program or batch file.
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\qwen_tts\__init__.py", line 21, in <module>
+    from .inference.qwen3_tts_model import Qwen3TTSModel, VoiceClonePromptItem
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\qwen_tts\inference\qwen3_tts_model.py", line 29, in <module>
+    from ..core.models import Qwen3TTSConfig, Qwen3TTSForConditionalGeneration, Qwen3TTSProcessor
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\qwen_tts\core\__init__.py", line 19, in <module>
+    from .tokenizer_12hz.modeling_qwen3_tts_tokenizer_v2 import Qwen3TTSTokenizerV2Model
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\qwen_tts\core\tokenizer_12hz\modeling_qwen3_tts_tokenizer_v2.py", line 476, in <module>
+    class Qwen3TTSTokenizerV2DecoderTransformerModel(Qwen3TTSTokenizerV2DecoderPreTrainedModel):
+  File "C:\Users\zhout\w2\omni029venv\Lib\site-packages\qwen_tts\core\tokenizer_12hz\modeling_qwen3_tts_tokenizer_v2.py", line 499, in Qwen3TTSTokenizerV2DecoderTransformerModel
+    @check_model_inputs()
+     ^^^^^^^^^^^^^^^^^^^^
+TypeError: check_model_inputs() missing 1 required positional argument: 'func'
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 

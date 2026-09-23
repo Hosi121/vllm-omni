@@ -1,0 +1,4 @@
+# Preserve native Windows evidence bytes, including CRLF logs and JSON.
+*.json -text -eol
+*.log -text -eol
+*.wav binary
