@@ -1,0 +1,780 @@
+{
+  "scope": "complete Spark GGUF text requests through Omni StageRuntime/StagePool and external llama.cpp backend",
+  "model_file": "/home/zhout/project/edge_infer/models/Spark-X2.5-1.7B-GGUF/Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "device": "cpu",
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "warmup_count": 1,
+  "measured_count": 20,
+  "startup_s": 1.6053575539845042,
+  "execution_plan": {
+    "backend": "external.llamacpp.text.v1",
+    "stage_id": 0,
+    "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+    "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+    "server_sha256": "0d6bb6ade8da8f3231917ce23261da5331333df0007dc4bda74c00e0774e092c",
+    "model_alias": "/home/zhout/project/edge_infer/models/Spark-X2.5-1.7B-GGUF/Spark-X2.5-1.7B-Q4_K_M.gguf",
+    "requested_device": "cpu",
+    "expected_device_name": null,
+    "layer_assignments": 0,
+    "offloaded_layers": null,
+    "model_buffer_devices": [],
+    "all_model_buffers": [
+      "CPU_Mapped",
+      "CPU_REPACK"
+    ],
+    "cpu_only_layout": true,
+    "worker_pid": 2121780,
+    "loaded_rss_bytes": 1914826752,
+    "reserved_bytes": {
+      "host_ram": 4294967296
+    },
+    "memory_pool": "host_ram",
+    "memory_overhead_bytes": 2147483648,
+    "context_tokens": 4096,
+    "max_new_tokens": 96,
+    "max_io_bytes": 1048576,
+    "request_capacity": 1,
+    "stateful_session": "llama.cpp-owned; reset for each complete request",
+    "evidence": "B"
+  },
+  "checks": [
+    {
+      "case": "short",
+      "answer": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "wall_s": 0.14942718797829002,
+      "stage_event": {
+        "request_id": "short-451018974904008",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 0.1457545809680596,
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 28,
+          "total_tokens": 30,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.643903894000687,
+      "stage_event": {
+        "request_id": "inventory_120-451019124457275",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.639271399995778,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "warmups": [
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.71934891102137,
+      "stage_event": {
+        "request_id": "inventory_120-451026768408600",
+        "stage_id": 0,
+        "epoch": 3,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.711946224968415,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "measured": [
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.74671556497924,
+      "stage_event": {
+        "request_id": "inventory_120-451034487807135",
+        "stage_id": 0,
+        "epoch": 4,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.739578359003644,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.707643722009379,
+      "stage_event": {
+        "request_id": "inventory_120-451042234586250",
+        "stage_id": 0,
+        "epoch": 5,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.70190589199774,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.7380492180236615,
+      "stage_event": {
+        "request_id": "inventory_120-451049942277453",
+        "stage_id": 0,
+        "epoch": 6,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.7311933530145325,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.774297729018144,
+      "stage_event": {
+        "request_id": "inventory_120-451057680401342",
+        "stage_id": 0,
+        "epoch": 7,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.768605509016197,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.7508464099955745,
+      "stage_event": {
+        "request_id": "inventory_120-451065454740650",
+        "stage_id": 0,
+        "epoch": 8,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.745904560026247,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.887554449029267,
+      "stage_event": {
+        "request_id": "inventory_120-451073205636945",
+        "stage_id": 0,
+        "epoch": 9,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.8811626880196854,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.887620234978385,
+      "stage_event": {
+        "request_id": "inventory_120-451081093238043",
+        "stage_id": 0,
+        "epoch": 10,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.880689698038623,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.795277512981556,
+      "stage_event": {
+        "request_id": "inventory_120-451088980916479",
+        "stage_id": 0,
+        "epoch": 11,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.7886199240456335,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.820265209011268,
+      "stage_event": {
+        "request_id": "inventory_120-451096776286098",
+        "stage_id": 0,
+        "epoch": 12,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.814440910995472,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.905293180025183,
+      "stage_event": {
+        "request_id": "inventory_120-451104596603887",
+        "stage_id": 0,
+        "epoch": 13,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.899314830021467,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.922793950943742,
+      "stage_event": {
+        "request_id": "inventory_120-451112501939908",
+        "stage_id": 0,
+        "epoch": 14,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.918431612022687,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.972199406009167,
+      "stage_event": {
+        "request_id": "inventory_120-451120424781239",
+        "stage_id": 0,
+        "epoch": 15,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.967701479967218,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.970679979014676,
+      "stage_event": {
+        "request_id": "inventory_120-451128397018036",
+        "stage_id": 0,
+        "epoch": 16,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.965425668982789,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 8.014964771980885,
+      "stage_event": {
+        "request_id": "inventory_120-451136367749893",
+        "stage_id": 0,
+        "epoch": 17,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 8.0075953300111,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.900069575989619,
+      "stage_event": {
+        "request_id": "inventory_120-451144382775611",
+        "stage_id": 0,
+        "epoch": 18,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.895157499995548,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.82481507101329,
+      "stage_event": {
+        "request_id": "inventory_120-451152282893469",
+        "stage_id": 0,
+        "epoch": 19,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.819121725042351,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.775801228999626,
+      "stage_event": {
+        "request_id": "inventory_120-451160107752354",
+        "stage_id": 0,
+        "epoch": 20,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.7705729030421935,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.782076460018288,
+      "stage_event": {
+        "request_id": "inventory_120-451167883594700",
+        "stage_id": 0,
+        "epoch": 21,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.775419605022762,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.839946982974652,
+      "stage_event": {
+        "request_id": "inventory_120-451175665748026",
+        "stage_id": 0,
+        "epoch": 22,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.835599619022105,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.722867636010051,
+      "stage_event": {
+        "request_id": "inventory_120-451183505730155",
+        "stage_id": 0,
+        "epoch": 23,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.717733217985369,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "nearest_rank_p50_wall_s": 7.820265209011268,
+  "nearest_rank_p95_wall_s": 7.972199406009167,
+  "context_check": {
+    "rejected": true,
+    "error": "ResourceUnavailable: Spark prompt plus generation bound exceeds context; refusing truncation",
+    "recovery": {
+      "case": "short",
+      "answer": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "wall_s": 0.14603868400445208,
+      "stage_event": {
+        "request_id": "short-451191246405564",
+        "stage_id": 0,
+        "epoch": 24,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 0.14326041197637096,
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 28,
+          "total_tokens": 30,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  },
+  "abort_check": {
+    "stale_output": false,
+    "worker_exited": true,
+    "ledger_after_abort": {
+      "capacities": {
+        "host_ram": 12884901888
+      },
+      "reserved": {
+        "host_ram": 0
+      },
+      "owners": [],
+      "quarantined": []
+    }
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

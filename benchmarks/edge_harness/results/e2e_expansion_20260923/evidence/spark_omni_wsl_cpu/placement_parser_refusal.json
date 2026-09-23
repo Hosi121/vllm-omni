@@ -1,0 +1,27 @@
+{
+  "scope": "complete Spark GGUF text requests through Omni StageRuntime/StagePool and external llama.cpp backend",
+  "model_file": "/home/zhout/project/edge_infer/models/Spark-X2.5-1.7B-GGUF/Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "device": "cpu",
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "warmup_count": 0,
+  "measured_count": 1,
+  "status": "failed",
+  "error": "RuntimeError: CPU stage assigned model layers to an accelerator",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

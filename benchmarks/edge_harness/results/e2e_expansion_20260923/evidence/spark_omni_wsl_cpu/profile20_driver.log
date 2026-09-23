@@ -1,0 +1,172 @@
+INFO 09-24 04:56:35 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 04:56:35 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 04:56:35 [patch.py:589] [cumem-cuda] CuMemAllocator._python_free_callback patched: asleep guard extended to all platforms.
+INFO 09-24 04:56:36 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 04:56:36 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 21] Is a directory: '/home/zhout/project/edge_infer/vllm-omni-edge'
+{
+  "scope": "complete Spark GGUF text requests through Omni StageRuntime/StagePool and external llama.cpp backend",
+  "model_file": "/home/zhout/project/edge_infer/models/Spark-X2.5-1.7B-GGUF/Spark-X2.5-1.7B-Q4_K_M.gguf",
+  "device": "cpu",
+  "memory_budget": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "demands": {
+      "host_ram": 4294967296
+    }
+  },
+  "warmup_count": 1,
+  "measured_count": 20,
+  "startup_s": 1.6053575539845042,
+  "execution_plan": {
+    "backend": "external.llamacpp.text.v1",
+    "stage_id": 0,
+    "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+    "model_sha256": "902bde2522394954ac17821b3e5fd0df02defbc6944f122253f2580acf0503f4",
+    "server_sha256": "0d6bb6ade8da8f3231917ce23261da5331333df0007dc4bda74c00e0774e092c",
+    "model_alias": "/home/zhout/project/edge_infer/models/Spark-X2.5-1.7B-GGUF/Spark-X2.5-1.7B-Q4_K_M.gguf",
+    "requested_device": "cpu",
+    "expected_device_name": null,
+    "layer_assignments": 0,
+    "offloaded_layers": null,
+    "model_buffer_devices": [],
+    "all_model_buffers": [
+      "CPU_Mapped",
+      "CPU_REPACK"
+    ],
+    "cpu_only_layout": true,
+    "worker_pid": 2121780,
+    "loaded_rss_bytes": 1914826752,
+    "reserved_bytes": {
+      "host_ram": 4294967296
+    },
+    "memory_pool": "host_ram",
+    "memory_overhead_bytes": 2147483648,
+    "context_tokens": 4096,
+    "max_new_tokens": 96,
+    "max_io_bytes": 1048576,
+    "request_capacity": 1,
+    "stateful_session": "llama.cpp-owned; reset for each complete request",
+    "evidence": "B"
+  },
+  "checks": [
+    {
+      "case": "short",
+      "answer": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "wall_s": 0.14942718797829002,
+      "stage_event": {
+        "request_id": "short-451018974904008",
+        "stage_id": 0,
+        "epoch": 1,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 0.1457545809680596,
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 28,
+          "total_tokens": 30,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    },
+    {
+      "case": "inventory_120",
+      "answer": "1511",
+      "expected": "1511",
+      "correct": true,
+      "wall_s": 7.643903894000687,
+      "stage_event": {
+        "request_id": "inventory_120-451019124457275",
+        "stage_id": 0,
+        "epoch": 2,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 7.639271399995778,
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 2463,
+          "total_tokens": 2468,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  ],
+  "nearest_rank_p50_wall_s": 7.820265209011268,
+  "nearest_rank_p95_wall_s": 7.972199406009167,
+  "context_check": {
+    "rejected": true,
+    "error": "ResourceUnavailable: Spark prompt plus generation bound exceeds context; refusing truncation",
+    "recovery": {
+      "case": "short",
+      "answer": "Paris",
+      "expected": "Paris",
+      "correct": true,
+      "wall_s": 0.14603868400445208,
+      "stage_event": {
+        "request_id": "short-451191246405564",
+        "stage_id": 0,
+        "epoch": 24,
+        "seq": 1,
+        "kind": "text",
+        "worker_generation": "be69859f6a6147efbdc38a2c99cecbea",
+        "buffers": [],
+        "terminal": true,
+        "error": null
+      },
+      "metrics": {
+        "llamacpp_wall_s": 0.14326041197637096,
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 28,
+          "total_tokens": 30,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      }
+    }
+  },
+  "abort_check": {
+    "stale_output": false,
+    "worker_exited": true,
+    "ledger_after_abort": {
+      "capacities": {
+        "host_ram": 12884901888
+      },
+      "reserved": {
+        "host_ram": 0
+      },
+      "owners": [],
+      "quarantined": []
+    }
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 12884901888
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

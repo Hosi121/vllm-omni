@@ -33,6 +33,7 @@ from vllm_omni.outputs import OmniRequestOutput
 _LAYER_ASSIGNMENT = re.compile(r"load_tensors: layer\s+\d+ assigned to device (\S+)")
 _OFFLOADED_LAYERS = re.compile(r"load_tensors: offloaded (\d+)/(\d+) layers to GPU")
 _MODEL_BUFFER = re.compile(r"load_tensors:\s+(Vulkan\d+) model buffer size")
+_ANY_MODEL_BUFFER = re.compile(r"load_tensors:\s+(\S+) model buffer size")
 
 
 def _digest(path: Path) -> str:
@@ -160,9 +161,21 @@ class LlamaCppTextStageClient(StageClientBase):
             assignments = _LAYER_ASSIGNMENT.findall(log_text)
             offloaded = _OFFLOADED_LAYERS.findall(log_text)
             device_buffers = _MODEL_BUFFER.findall(log_text)
+            all_model_buffers = _ANY_MODEL_BUFFER.findall(log_text)
             if self._placement == "cpu":
+                # CPU-only llama.cpp builds can omit the offload-count line.
+                # Require positive CPU tensor-buffer evidence in that layout;
+                # a missing GPU line alone must never imply CPU placement.
+                cpu_only_layout = (
+                    not offloaded
+                    and "warning: no usable GPU found" in log_text
+                    and bool(all_model_buffers)
+                    and all(name.startswith("CPU") for name in all_model_buffers)
+                )
                 if (
-                    not offloaded or offloaded[-1][0] != "0" or device_buffers
+                    (not cpu_only_layout and (not offloaded or offloaded[-1][0] != "0"))
+                    or device_buffers
+                    or (all_model_buffers and any(not name.startswith("CPU") for name in all_model_buffers))
                     or (assignments and any(name != "CPU" for name in assignments))
                 ):
                     raise RuntimeError("CPU stage assigned model layers to an accelerator")
@@ -188,8 +201,10 @@ class LlamaCppTextStageClient(StageClientBase):
                 "requested_device": self._placement,
                 "expected_device_name": expected_device_name,
                 "layer_assignments": len(assignments),
-                "offloaded_layers": offloaded[-1],
+                "offloaded_layers": offloaded[-1] if offloaded else None,
                 "model_buffer_devices": device_buffers,
+                "all_model_buffers": all_model_buffers,
+                "cpu_only_layout": cpu_only_layout if self._placement == "cpu" else False,
                 "worker_pid": self._proc.pid,
                 "loaded_rss_bytes": self._loaded_rss_bytes,
                 "reserved_bytes": dict(reservation.demands),
