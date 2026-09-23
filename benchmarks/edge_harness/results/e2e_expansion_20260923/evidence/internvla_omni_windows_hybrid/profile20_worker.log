@@ -1,0 +1,28 @@
+W0924 02:12:30.765000 64696 Lib\site-packages\torch\utils\cpp_extension.py:178] No CUDA runtime is found, using CUDA_HOME='C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.4'
+INFO 09-24 02:12:33 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 02:12:33 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 02:12:38 [pipeline_internvla_a1.py:164] Loading InternVLA-A1 weights from \\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\models\InternVLA-A1-3B-FT-Place_Markpen
+internvla-worker ready port=63927 props={"model_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-A1-3B-FT-Place_Markpen", "processor_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Qwen3-VL-2B-Instruct-processor", "cosmos_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Cosmos-Tokenizer-CI8x8", "placement": "radeon-cosmos", "torch": "2.13.0+cu130", "policy_dtype": "bfloat16", "cosmos_dtype": "float32", "policy_device": "cpu", "runtime_mode": "real_checkpoint_loaded", "policy_load_s": 74.39593969995622, "action_shape": [1, 50, 32], "image_shape": [1, 2, 3, 224, 224], "state_shape": [1, 32], "action_mode": "delta", "action_units": "unverified", "action_joint_order": "unverified", "action_step_s": null, "control_ready": false, "external_load": {"ep": "dml", "graph_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2", "device_name": "AMD Radeon(TM) 890M Graphics", "placement_granularity": "output_device", "session_providers": ["torch-directml"], "available_providers": ["torch-directml"], "node_counts": {"dml": 1, "cpu": 0}, "total_nodes": 1, "target_nodes": 1, "fraction_on_target": 1.0, "session_create_s": 2.0201094000367448, "warmup_s": 0.8657134999521077, "rss_bytes": 0, "inputs": [{"name": "pixels", "shape": [6, 3, 256, 256]}], "outputs": [{"name": "out_0", "shape": [6, 16, 32, 32]}], "profile_path": "", "ep_directory": "", "requested_provider_missing": "", "fallback_note": "", "onnxruntime": "", "note": ""}}
+127.0.0.1 - - [24/Sep/2026 02:13:59] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:13:59] "GET /props HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:04] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:08] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:13] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:18] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:22] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:27] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:31] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:36] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:40] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:45] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:49] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:54] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:14:59] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:03] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:08] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:12] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:16] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:21] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:25] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:30] "POST /v1/actions HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 02:15:35] "POST /v1/actions HTTP/1.1" 200 -

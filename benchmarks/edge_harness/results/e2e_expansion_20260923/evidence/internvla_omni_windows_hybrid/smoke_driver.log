@@ -1,0 +1,345 @@
+INFO 09-24 02:07:11 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-24 02:07:12 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-24 02:07:56 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+WARNING 09-24 02:07:56 [stage_init_utils.py:1887] [stage_init] Failed to load transfer config: [Errno 13] Permission denied: 'C:\\Users\\zhout'
+{
+  "scope": "real InternVLA Place_Markpen checkpoint via bounded Omni whole-policy graph stage; synthetic patterned observations/noise; no robot-task quality claim",
+  "placement": "radeon-cosmos",
+  "artifact_sha256": {
+    "python": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+    "model": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313",
+    "model_config": "1272ca8fb93cb42f48b039bb298688b2bd50a66f4faa0afcd9e538e9762f48aa",
+    "train_config": "e50ec42e40ba1925983e0e8db36558d3738bea64e1698045ff7cc08a130e1053",
+    "stats": "354710650bb91fc0e84a461987b3554b30bef9d5de47567480624484cdfbf3a2",
+    "cosmos_encoder": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+    "cosmos_decoder": "3b7791e6c8f6f92caacddf48ebb314f044bcb8302d0c7f47501d384a7a80f738",
+    "processor_tokenizer": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+    "processor_config": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "graph": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704"
+  },
+  "budget": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "demands": {
+      "host_ram": 17179869184
+    }
+  },
+  "host_available_bytes_before": 31030185984,
+  "warmups": 0,
+  "repeats": 1,
+  "startup_s": 140.35938389995135,
+  "execution_plan_start": {
+    "backend": "external.internvla.policy.v1",
+    "stage_id": 0,
+    "worker_generation": "d1563cd4f89b46dd955ea99b7a7cb6fd",
+    "worker_pid": 40992,
+    "worker_script_sha256": "55ffe4ce194eee7e330a4e5def8a2bfec0bfbb98b182885e094f71ea57e4ac9a",
+    "artifact_sha256": {
+      "python": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+      "model": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313",
+      "model_config": "1272ca8fb93cb42f48b039bb298688b2bd50a66f4faa0afcd9e538e9762f48aa",
+      "train_config": "e50ec42e40ba1925983e0e8db36558d3738bea64e1698045ff7cc08a130e1053",
+      "stats": "354710650bb91fc0e84a461987b3554b30bef9d5de47567480624484cdfbf3a2",
+      "cosmos_encoder": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+      "cosmos_decoder": "3b7791e6c8f6f92caacddf48ebb314f044bcb8302d0c7f47501d384a7a80f738",
+      "processor_tokenizer": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+      "processor_config": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "graph": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704"
+    },
+    "placement": "radeon-cosmos",
+    "worker_props": {
+      "model_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-A1-3B-FT-Place_Markpen",
+      "processor_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Qwen3-VL-2B-Instruct-processor",
+      "cosmos_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Cosmos-Tokenizer-CI8x8",
+      "placement": "radeon-cosmos",
+      "torch": "2.13.0+cu130",
+      "policy_dtype": "bfloat16",
+      "cosmos_dtype": "float32",
+      "policy_device": "cpu",
+      "runtime_mode": "real_checkpoint_loaded",
+      "policy_load_s": 73.86743370001204,
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "image_shape": [
+        1,
+        2,
+        3,
+        224,
+        224
+      ],
+      "state_shape": [
+        1,
+        32
+      ],
+      "action_mode": "delta",
+      "action_units": "unverified",
+      "action_joint_order": "unverified",
+      "action_step_s": null,
+      "control_ready": false,
+      "external_load": {
+        "ep": "dml",
+        "graph_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2",
+        "device_name": "AMD Radeon(TM) 890M Graphics",
+        "placement_granularity": "output_device",
+        "session_providers": [
+          "torch-directml"
+        ],
+        "available_providers": [
+          "torch-directml"
+        ],
+        "node_counts": {
+          "dml": 1,
+          "cpu": 0
+        },
+        "total_nodes": 1,
+        "target_nodes": 1,
+        "fraction_on_target": 1.0,
+        "session_create_s": 2.3821033999556676,
+        "warmup_s": 0.8999756999546662,
+        "rss_bytes": 0,
+        "inputs": [
+          {
+            "name": "pixels",
+            "shape": [
+              6,
+              3,
+              256,
+              256
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "name": "out_0",
+            "shape": [
+              6,
+              16,
+              32,
+              32
+            ]
+          }
+        ],
+        "profile_path": "",
+        "ep_directory": "",
+        "requested_provider_missing": "",
+        "fallback_note": "",
+        "onnxruntime": "",
+        "note": ""
+      }
+    },
+    "loaded_rss_bytes": 11674959872,
+    "loaded_process_tree": [
+      {
+        "pid": 40992,
+        "rss_bytes": 4386816,
+        "private_bytes": 782336
+      },
+      {
+        "pid": 57196,
+        "rss_bytes": 7471104,
+        "private_bytes": 1236992
+      },
+      {
+        "pid": 16412,
+        "rss_bytes": 8914538496,
+        "private_bytes": 11075821568
+      },
+      {
+        "pid": 48204,
+        "rss_bytes": 4407296,
+        "private_bytes": 839680
+      },
+      {
+        "pid": 39152,
+        "rss_bytes": 7487488,
+        "private_bytes": 1290240
+      },
+      {
+        "pid": 41736,
+        "rss_bytes": 2736668672,
+        "private_bytes": 3110862848
+      }
+    ],
+    "reserved_bytes": {
+      "host_ram": 17179869184
+    },
+    "memory_overhead_bytes": 8589934592,
+    "max_input_bytes": 8388608,
+    "max_action_bytes": 1048576,
+    "request_capacity": 1,
+    "stateful_session": "InternVLA policy worker-owned; complete action chunk per request",
+    "evidence": "B"
+  },
+  "warmup_results": [],
+  "nearest_rank_p50_wall_s": 4.266927799908444,
+  "nearest_rank_p95_wall_s": 4.266927799908444,
+  "unique_action_hashes": [
+    "c6ce59129939fdeecad9304882bddcc427834533df2aba102d69c05a72344637"
+  ],
+  "output_actions": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\results\\e2e_expansion_20260923\\evidence\\internvla_omni_windows_hybrid\\smoke_actions.npy",
+  "reference_comparison": {
+    "max_abs": 0.09171417355537415,
+    "relative_l2": 0.024391021579504013,
+    "cosine": 0.9997047185897827
+  },
+  "execution_plan_end": {
+    "backend": "external.internvla.policy.v1",
+    "stage_id": 0,
+    "worker_generation": "d1563cd4f89b46dd955ea99b7a7cb6fd",
+    "worker_pid": 40992,
+    "worker_script_sha256": "55ffe4ce194eee7e330a4e5def8a2bfec0bfbb98b182885e094f71ea57e4ac9a",
+    "artifact_sha256": {
+      "python": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14",
+      "model": "586799539888c69c35f84d083e559cc5f0ba887801d000e70e65f58d3f85c313",
+      "model_config": "1272ca8fb93cb42f48b039bb298688b2bd50a66f4faa0afcd9e538e9762f48aa",
+      "train_config": "e50ec42e40ba1925983e0e8db36558d3738bea64e1698045ff7cc08a130e1053",
+      "stats": "354710650bb91fc0e84a461987b3554b30bef9d5de47567480624484cdfbf3a2",
+      "cosmos_encoder": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+      "cosmos_decoder": "3b7791e6c8f6f92caacddf48ebb314f044bcb8302d0c7f47501d384a7a80f738",
+      "processor_tokenizer": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+      "processor_config": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "graph": "9111b3841893acaaa11cf45715d246da3ac9cdd03c7b33fb3c7c20fe38d74704"
+    },
+    "placement": "radeon-cosmos",
+    "worker_props": {
+      "model_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-A1-3B-FT-Place_Markpen",
+      "processor_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Qwen3-VL-2B-Instruct-processor",
+      "cosmos_dir": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\Cosmos-Tokenizer-CI8x8",
+      "placement": "radeon-cosmos",
+      "torch": "2.13.0+cu130",
+      "policy_dtype": "bfloat16",
+      "cosmos_dtype": "float32",
+      "policy_device": "cpu",
+      "runtime_mode": "real_checkpoint_loaded",
+      "policy_load_s": 73.86743370001204,
+      "action_shape": [
+        1,
+        50,
+        32
+      ],
+      "image_shape": [
+        1,
+        2,
+        3,
+        224,
+        224
+      ],
+      "state_shape": [
+        1,
+        32
+      ],
+      "action_mode": "delta",
+      "action_units": "unverified",
+      "action_joint_order": "unverified",
+      "action_step_s": null,
+      "control_ready": false,
+      "external_load": {
+        "ep": "dml",
+        "graph_path": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\models\\InternVLA-cosmos-encoder-batch6.pt2",
+        "device_name": "AMD Radeon(TM) 890M Graphics",
+        "placement_granularity": "output_device",
+        "session_providers": [
+          "torch-directml"
+        ],
+        "available_providers": [
+          "torch-directml"
+        ],
+        "node_counts": {
+          "dml": 1,
+          "cpu": 0
+        },
+        "total_nodes": 1,
+        "target_nodes": 1,
+        "fraction_on_target": 1.0,
+        "session_create_s": 2.3821033999556676,
+        "warmup_s": 0.8999756999546662,
+        "rss_bytes": 0,
+        "inputs": [
+          {
+            "name": "pixels",
+            "shape": [
+              6,
+              3,
+              256,
+              256
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "name": "out_0",
+            "shape": [
+              6,
+              16,
+              32,
+              32
+            ]
+          }
+        ],
+        "profile_path": "",
+        "ep_directory": "",
+        "requested_provider_missing": "",
+        "fallback_note": "",
+        "onnxruntime": "",
+        "note": ""
+      }
+    },
+    "loaded_rss_bytes": 11674959872,
+    "loaded_process_tree": [
+      {
+        "pid": 40992,
+        "rss_bytes": 4386816,
+        "private_bytes": 782336
+      },
+      {
+        "pid": 57196,
+        "rss_bytes": 7471104,
+        "private_bytes": 1236992
+      },
+      {
+        "pid": 16412,
+        "rss_bytes": 8914538496,
+        "private_bytes": 11075821568
+      },
+      {
+        "pid": 48204,
+        "rss_bytes": 4407296,
+        "private_bytes": 839680
+      },
+      {
+        "pid": 39152,
+        "rss_bytes": 7487488,
+        "private_bytes": 1290240
+      },
+      {
+        "pid": 41736,
+        "rss_bytes": 2736668672,
+        "private_bytes": 3110862848
+      }
+    ],
+    "reserved_bytes": {
+      "host_ram": 17179869184
+    },
+    "memory_overhead_bytes": 8589934592,
+    "max_input_bytes": 8388608,
+    "max_action_bytes": 1048576,
+    "request_capacity": 1,
+    "stateful_session": "InternVLA policy worker-owned; complete action chunk per request",
+    "evidence": "B"
+  },
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "host_ram": 17179869184
+    },
+    "reserved": {
+      "host_ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  }
+}

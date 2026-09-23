@@ -65,6 +65,17 @@ in-flight abort passed. Native-vs-WSL CPU action relative L2 difference on
 the same fixture was 2.1795%, without a task tolerance. This deepens the
 native Windows CPU cell, not any robot-task or mobile qualification.
 
+The [native Windows CPU+Radeon Omni stage](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/internvla_omni_windows_hybrid/README.md)
+then ran the same fixture with a pinned FP32 six-frame Cosmos graph in the
+native DirectML worker and the BF16 policy on CPU. Twenty of twenty requests
+returned identical finite actions; complete-request p50/p95 was
+4.575/4.725 s versus the separate native CPU run's 4.878/4.902 s. Its
+public action output, 8 GiB pre-load refusal and in-flight abort passed
+under a 16 GiB shared-RAM reservation. The selected graph output device was
+Radeon 890M, but per-operator placement was not measured. Action relative
+L2 difference was 2.4391% without a task tolerance; the hybrid startup was
+4.72 s longer. Real task quality and sustained benefit remain open.
+
 The WSL RTX MiniCPM-o image-to-text+speech path now passes for one 448×448
 synthetic red-square image under an explicit 0.61 thinker GPU budget. The
 previous 0.58 budget failed the 2,048-token KV admission gate; the successful
@@ -219,7 +230,7 @@ capability and lifecycle implementation; a state-handle type alone is insufficie
 | M2 | Qwen3-TTS | Resolve desktop playback and shutdown findings and CPU compatibility; then mobile talker/predictor plus GPU vocoder | Complete PCM and tail, history/chunk correctness, interruption/recovery, quality checks, no post-startup underruns and RTF below 1 in the declared workload |
 | M3 | AMD stages | Connect compatible real encoders or other useful coarse stages through current Omni workers; start from the existing 890M vision evidence | Actual node/device placement, numerical and task quality, complete downstream output, shared-memory and handoff costs; reject unhelpful splits |
 | M4a | MiniCPM-o 4.5 | Three-stage desktop text+WAV produced coherent text and nonzero WAV on RTX 5090 Laptop under WSL and native Windows, and WSL CPU, using separate constrained plans. One synthetic red-square image and one synthetic tone each passed through the three-stage WSL RTX, native Windows RTX and WSL CPU paths to text and nonzero WAV. RTX text/token IDs matched across OS environments; CPU wording/token IDs differed while remaining plausible. The WSL RTX image plan needed a thinker GPU budget increase from 0.58 to 0.61 for KV admission. WSL multimodal shutdown cleanup remains open, including forced stage-0 termination on CPU. The CPU plan needed vLLM 0.28/0.29 processor compatibility and used swap; 20 serial **text** CPU requests measured p50 21.86 s/p95 22.97 s. Native Windows needed longer startup limits; 20 serial text requests measured p50 18.38 s/p95 18.73 s with host RAM/pagefile pressure. Add video encoder and persistent-state reference before mobile artifacts | Speech intelligibility/alignment, loading-peak admission, concurrency, broad image/audio-understanding suites, video, shutdown lifecycle, then combined streaming and interruption |
-| M4b | InternVLA-A1 | Strict-load synthetic policy forwards pass on WSL and native Windows CPU/RTX. Bounded Omni whole-policy stages pass on WSL CPU, WSL CPU+Radeon Cosmos and native Windows CPU with explicit shared-RAM admission, terminal action metadata and in-flight cancellation; public hybrid and native CPU entrypoints pass. This is not robot-task qualification. | Reference action agreement on real observations, physical units/order/step time, observation age and deadlines; post-cancel restart, loading peak, concurrency, power and thermal behavior. |
+| M4b | InternVLA-A1 | Strict-load synthetic policy forwards pass on WSL and native Windows CPU/RTX. Bounded Omni whole-policy stages pass on WSL CPU, WSL CPU+Radeon Cosmos, native Windows CPU and native Windows CPU+Radeon Cosmos with explicit shared-RAM admission, terminal action metadata and in-flight cancellation; their public CPU/hybrid entrypoints pass where measured. This is not robot-task qualification. | Reference action agreement on real observations, physical units/order/step time, observation age and deadlines; post-cancel restart, loading peak, concurrency, power and thermal behavior. |
 | Independent | Qwen3.8-27B | Public Omni pipeline binding; text, then image/video and longer contexts; same-model CPU/iGPU artifact and explicit offload evaluation | Modality-specific quality, actual loading/runtime memory and measured performance; each precision/context receives its own qualification |
 
 The initial M0 desktop text acceptance remains scoped to its tested checkpoint,
