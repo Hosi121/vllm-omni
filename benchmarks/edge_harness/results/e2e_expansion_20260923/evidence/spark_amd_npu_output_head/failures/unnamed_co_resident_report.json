@@ -1,0 +1,322 @@
+{
+  "scope": "Spark-X2.5-1.7B complete 131072-logit output head only; CPU RMS normalization plus four NPU MatMul shards, no full generation",
+  "hardware": "AMD Ryzen AI 9 HX 370 NPU",
+  "os": "Windows-11-10.0.26200-SP0",
+  "onnx_version": "1.22.0",
+  "onnxruntime_version": "1.30.0",
+  "source_model_sha256": "f5f0c31eb438e9940ab242da8bf6f0f5dad6ebc9f6ef02d5475c21b744e595bc",
+  "activation_sha256": "cfa2ed8439f8fe01730319667bfd01abf2e39cf5851490346a0331304cf63194",
+  "source_shape": [
+    1,
+    1,
+    2048
+  ],
+  "output_shape": [
+    1,
+    131072
+  ],
+  "cpu_load_s": 6.092688599950634,
+  "shard_load_s": [
+    5.845066000008956,
+    5.538822600035928,
+    5.587077300064266,
+    4.569033499923535
+  ],
+  "shard_artifacts": [
+    {
+      "offset": 0,
+      "quantized_sha256": "a94f8087f99d29487186f43110250e0532ef0c87a48f52926f15e70ae5fbbbb7",
+      "providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ]
+    },
+    {
+      "offset": 32768,
+      "quantized_sha256": "7e9477e01e621281a62b6db4df50b6056743296ea62dee64f719365f18036049",
+      "providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ]
+    },
+    {
+      "offset": 65536,
+      "quantized_sha256": "3be7e9f4da57931de3bc09931871600330740fea4af3a28fcec727f95ffebb7d",
+      "providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ]
+    },
+    {
+      "offset": 98304,
+      "quantized_sha256": "896436f5798428f9c9cc85c44599cceda3699053c3d6b0e7ac31f1c3682dacef",
+      "providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ]
+    }
+  ],
+  "placement": [
+    {
+      "offset": 0,
+      "npu_node_events": 25,
+      "cpu_node_events": 50,
+      "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_full_head_e2e_component_20260923\\shard_0_profile_2026-09-23_18-05-33_448.json"
+    },
+    {
+      "offset": 32768,
+      "npu_node_events": 25,
+      "cpu_node_events": 50,
+      "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_full_head_e2e_component_20260923\\shard_32768_profile_2026-09-23_18-05-39_356.json"
+    },
+    {
+      "offset": 65536,
+      "npu_node_events": 25,
+      "cpu_node_events": 50,
+      "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_full_head_e2e_component_20260923\\shard_65536_profile_2026-09-23_18-05-44_970.json"
+    },
+    {
+      "offset": 98304,
+      "npu_node_events": 25,
+      "cpu_node_events": 50,
+      "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_full_head_e2e_component_20260923\\shard_98304_profile_2026-09-23_18-05-50_622.json"
+    }
+  ],
+  "cpu_reference_rows": [
+    {
+      "snr_db": 137.37257867357746,
+      "max_abs_diff": 1.9073486328125e-05,
+      "top1_match": true,
+      "finite": true,
+      "index": 0,
+      "wall_s": 0.023925699992105365
+    },
+    {
+      "snr_db": 134.38703441007158,
+      "max_abs_diff": 2.6702880859375e-05,
+      "top1_match": true,
+      "finite": true,
+      "index": 1,
+      "wall_s": 0.025182000012136996
+    },
+    {
+      "snr_db": 136.39026519822127,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true,
+      "index": 2,
+      "wall_s": 0.024960999959148467
+    },
+    {
+      "snr_db": 133.65524993196834,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true,
+      "index": 3,
+      "wall_s": 0.023461699951440096
+    }
+  ],
+  "npu_rows": [
+    {
+      "snr_db": 19.19100665099978,
+      "max_abs_diff": 40.453853607177734,
+      "top1_match": true,
+      "finite": true,
+      "index": 0,
+      "wall_s": 0.014368699979968369,
+      "shard_checks": [
+        {
+          "offset": 0,
+          "snr_db": 54.96589660909892,
+          "max_abs_diff": 0.3098640441894531,
+          "top1_match": true,
+          "finite": true
+        },
+        {
+          "offset": 32768,
+          "snr_db": 18.058890779885274,
+          "max_abs_diff": 40.453853607177734,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 65536,
+          "snr_db": 17.782966398251837,
+          "max_abs_diff": 39.37982940673828,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 98304,
+          "snr_db": 18.47831780707655,
+          "max_abs_diff": 37.27281188964844,
+          "top1_match": false,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "snr_db": 18.1744718427091,
+      "max_abs_diff": 38.428254187107086,
+      "top1_match": true,
+      "finite": true,
+      "index": 1,
+      "wall_s": 0.011472699930891395,
+      "shard_checks": [
+        {
+          "offset": 0,
+          "snr_db": 54.471154152973426,
+          "max_abs_diff": 0.2738380432128906,
+          "top1_match": true,
+          "finite": true
+        },
+        {
+          "offset": 32768,
+          "snr_db": 16.985554247618726,
+          "max_abs_diff": 38.428254187107086,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 65536,
+          "snr_db": 16.924653199297357,
+          "max_abs_diff": 33.646121084690094,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 98304,
+          "snr_db": 17.403759257050268,
+          "max_abs_diff": 34.47327363491058,
+          "top1_match": false,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "snr_db": 17.889983746377528,
+      "max_abs_diff": 38.15506283193827,
+      "top1_match": true,
+      "finite": true,
+      "index": 2,
+      "wall_s": 0.011089300038293004,
+      "shard_checks": [
+        {
+          "offset": 0,
+          "snr_db": 54.36750945439812,
+          "max_abs_diff": 0.2529621124267578,
+          "top1_match": true,
+          "finite": true
+        },
+        {
+          "offset": 32768,
+          "snr_db": 16.857931348007348,
+          "max_abs_diff": 36.52046014368534,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 65536,
+          "snr_db": 16.696824516949302,
+          "max_abs_diff": 36.865197494626045,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 98304,
+          "snr_db": 16.934209667098045,
+          "max_abs_diff": 38.15506283193827,
+          "top1_match": false,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "snr_db": 17.57066425565234,
+      "max_abs_diff": 25.254364013671875,
+      "top1_match": false,
+      "finite": true,
+      "index": 3,
+      "wall_s": 0.014615799998864532,
+      "shard_checks": [
+        {
+          "offset": 0,
+          "snr_db": 53.731174504422455,
+          "max_abs_diff": 0.2625865936279297,
+          "top1_match": true,
+          "finite": true
+        },
+        {
+          "offset": 32768,
+          "snr_db": 16.52858880898565,
+          "max_abs_diff": 24.52711272239685,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 65536,
+          "snr_db": 15.952905570881054,
+          "max_abs_diff": 23.339406967163086,
+          "top1_match": false,
+          "finite": true
+        },
+        {
+          "offset": 98304,
+          "snr_db": 16.878288211449945,
+          "max_abs_diff": 25.254364013671875,
+          "top1_match": false,
+          "finite": true
+        }
+      ]
+    }
+  ],
+  "timing_protocol": "one warmup then 20 serial repeats of captured activation 0, host wall time including normalization, NPU transfers, four sessions and concatenation",
+  "cpu_wall_s": [
+    0.01998219999950379,
+    0.019212199957109988,
+    0.019067600020207465,
+    0.018104100017808378,
+    0.01744879991747439,
+    0.017045399989001453,
+    0.017277600010856986,
+    0.016676499973982573,
+    0.017349099973216653,
+    0.018242700025439262,
+    0.01789639994967729,
+    0.017510600038804114,
+    0.017245299997739494,
+    0.016315200016833842,
+    0.017151699983514845,
+    0.0177776999771595,
+    0.016197400051169097,
+    0.017280600033700466,
+    0.016810699948109686,
+    0.016585599980317056
+  ],
+  "npu_wall_s": [
+    0.01046020002104342,
+    0.009619400021620095,
+    0.009472299949266016,
+    0.008331799996085465,
+    0.009359100018627942,
+    0.0096539999358356,
+    0.009230799973011017,
+    0.009198200074024498,
+    0.009146800031885505,
+    0.008186700055375695,
+    0.00888069998472929,
+    0.00815769995097071,
+    0.008661499945446849,
+    0.009340799995698035,
+    0.008638500003144145,
+    0.008047000039368868,
+    0.007870699977502227,
+    0.008220899966545403,
+    0.008486400009132922,
+    0.00924809998832643
+  ],
+  "cpu_wall_p50_s": 0.017280600033700466,
+  "cpu_wall_p95_s": 0.019212199957109988,
+  "npu_wall_p50_s": 0.00888069998472929,
+  "npu_wall_p95_s": 0.0096539999358356
+}

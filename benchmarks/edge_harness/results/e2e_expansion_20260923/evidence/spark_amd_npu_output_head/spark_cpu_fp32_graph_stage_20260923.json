@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "evidence": "B",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+  "workload": {
+    "repeats": 20,
+    "concurrency": 1
+  },
+  "artifact": "C:\\Users\\zhout\\w2\\spark_fp32_graph_bundle_20260923\\manifest.json",
+  "samples_s": [
+    0.02021650003734976,
+    0.017785399919375777,
+    0.01730339997448027,
+    0.01689029997214675,
+    0.017744599957950413,
+    0.018181300023570657,
+    0.017321799998171628,
+    0.01730349997524172,
+    0.017821699962951243,
+    0.017965200007893145,
+    0.01755089999642223,
+    0.017079100012779236,
+    0.01932439999654889,
+    0.02028769999742508,
+    0.02014519996009767,
+    0.01991740008816123,
+    0.019411200075410306,
+    0.019999300013296306,
+    0.01934400002937764,
+    0.020481200073845685
+  ],
+  "started_unix": 1790159004.5437026,
+  "startup_s": 4.4776260000653565,
+  "execution_plan": {
+    "backend": "external.graph.v1",
+    "stage_id": 0,
+    "worker_generation": "ff1f6cc7539540f1bddb0e28fee7b18e",
+    "artifact_sha256": "d047e8dd2f8faded839a0b5eba64eee154563bb82584a1c32f0a2abcaa7acd4a",
+    "component": "spark_x2_5_1_7b_output_head_fp32_reference",
+    "route": {
+      "name": "spark-cpu-fp32-head",
+      "interpreter": "C:\\Users\\zhout\\npu-ep\\Scripts\\python.exe",
+      "worker": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\edge\\local\\external\\worker_ort.py",
+      "ep": "cpu",
+      "is_windows": true,
+      "available": true,
+      "reason": "",
+      "extra": null
+    },
+    "reserved_bytes": {
+      "machine:ram": 4294967296
+    },
+    "max_io_bytes": 8388608,
+    "placement": {
+      "ep": "cpu",
+      "graph_path": "C:\\Users\\zhout\\w2\\spark_fp32_graph_bundle_20260923\\graph.onnx",
+      "session_providers": [
+        "CPUExecutionProvider"
+      ],
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "node_counts": {
+        "CPUExecutionProvider": 3
+      },
+      "total_nodes": 3,
+      "target_nodes": 3,
+      "fraction_on_target": 1.0,
+      "session_create_s": 1.0052321999100968,
+      "warmup_s": 0.01582650002092123,
+      "rss_bytes": 1144971264,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            1,
+            2048
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            131072
+          ]
+        }
+      ],
+      "profile_path": "C:\\Users\\zhout\\w2\\spark_cpu_fp32_graph_stage_20260923.placement_2026-09-23_18-23-27_990.json",
+      "ep_directory": "",
+      "requested_provider_missing": "",
+      "fallback_note": "",
+      "onnxruntime": "1.30.0",
+      "note": ""
+    },
+    "worker": {
+      "executable": "C:\\Users\\zhout\\npu-ep\\Scripts\\python.exe",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "win32",
+      "pid": 9660,
+      "onnxruntime": "1.30.0",
+      "numpy": "2.5.3",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "rss_bytes": 54865920,
+      "process_identity": {
+        "pid": 9660,
+        "created_filetime": 134346326062920451
+      }
+    },
+    "evidence": "B",
+    "stateful": false
+  },
+  "worker_stats": {
+    "runs": 20,
+    "total_run_s": 0.3144564996473491,
+    "rss_bytes": 1145524224,
+    "peak_rss_bytes": 2217127936,
+    "report": {
+      "ep": "cpu",
+      "onnxruntime": "1.30.0",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "session_create_s": 1.0052321999100968,
+      "session_providers": [
+        "CPUExecutionProvider"
+      ],
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            1,
+            2048
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            131072
+          ]
+        }
+      ],
+      "warmup_s": 0.01582650002092123,
+      "profile_path": "C:\\Users\\zhout\\w2\\spark_cpu_fp32_graph_stage_20260923.placement_2026-09-23_18-23-27_990.json",
+      "node_counts": {
+        "CPUExecutionProvider": 3
+      },
+      "total_nodes": 3,
+      "target_nodes": 3,
+      "fraction_on_target": 1.0,
+      "rss_bytes": 1144971264
+    }
+  },
+  "finite": true,
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "machine:ram": 34359738368
+    },
+    "reserved": {
+      "machine:ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  },
+  "ended_unix": 1790159009.4976017
+}

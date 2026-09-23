@@ -1,0 +1,16 @@
+INFO 09-23 18:22:10 [patch.py:259] NVFP4 W4A4 weight_scale NaN-clamp: installed.
+INFO 09-23 18:22:10 [patch.py:510] inductor factorable-divisibility patch: installed.
+INFO 09-23 18:22:14 [omni_base.py:216] [Omni] Initializing with model C:\Users\zhout\w2\spark_npu_graph_bundle_with_norm_20260923
+INFO 09-23 18:22:14 [async_omni_engine.py:172] [AsyncOmniEngine] Initializing with model C:\Users\zhout\w2\spark_npu_graph_bundle_with_norm_20260923
+INFO 09-23 18:22:14 [async_omni_engine.py:290] [AsyncOmniEngine] Launching Orchestrator thread with 1 stages
+INFO 09-23 18:22:15 [stage_init_utils.py:768] [stage_init] Set VLLM_WORKER_MULTIPROC_METHOD=spawn
+INFO 09-23 18:22:15 [initialization.py:356] Loaded OmniTransferConfig with 0 connector configurations
+INFO 09-23 18:22:16 [orchestrator.py:604] [Orchestrator] Starting event loop
+INFO 09-23 18:22:16 [async_omni_engine.py:323] [AsyncOmniEngine] Orchestrator ready with 1 stages
+INFO 09-23 18:22:16 [omni_base.py:235] [Omni] AsyncOmniEngine initialized in 2.04 seconds
+INFO 09-23 18:22:16 [omni_base.py:255] [Omni] Initialized with 1 stages for model C:\Users\zhout\w2\spark_npu_graph_bundle_with_norm_20260923
+INFO 09-23 18:22:18 [omni_base.py:781] [Omni] Shutting down
+INFO 09-23 18:22:18 [async_omni_engine.py:1807] [AsyncOmniEngine] Shutting down Orchestrator
+INFO 09-23 18:22:18 [orchestrator.py:705] [Orchestrator] Received shutdown signal
+INFO 09-23 18:22:18 [orchestrator.py:3092] [Orchestrator] Shutting down all 1 client(s)
+INFO 09-23 18:22:18 [stage_pool.py:1354] [StagePool] Stage 0 replica 0 shut down

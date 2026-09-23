@@ -1,0 +1,3 @@
+# Keep vendor profiles and hashed validation reports byte-for-byte.
+*.json -text -eol
+*.log -text -eol

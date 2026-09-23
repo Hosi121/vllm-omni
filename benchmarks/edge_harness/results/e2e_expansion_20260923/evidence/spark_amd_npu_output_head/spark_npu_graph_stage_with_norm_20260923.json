@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "evidence": "B",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "C:\\Users\\zhout\\w2\\omni029venv\\Scripts\\python.exe",
+  "workload": {
+    "repeats": 20,
+    "concurrency": 1
+  },
+  "artifact": "C:\\Users\\zhout\\w2\\spark_npu_graph_bundle_with_norm_20260923\\manifest.json",
+  "samples_s": [
+    0.012680900050327182,
+    0.01053269999101758,
+    0.01016219996381551,
+    0.011459299945272505,
+    0.009730199933983386,
+    0.009876800002530217,
+    0.00959360005799681,
+    0.009940600022673607,
+    0.012443799991160631,
+    0.010018699918873608,
+    0.010059899999760091,
+    0.011098999995738268,
+    0.01147810008842498,
+    0.0103192999958992,
+    0.01055510004516691,
+    0.009810600080527365,
+    0.00969119998626411,
+    0.010880200075916946,
+    0.010206000064499676,
+    0.010383800021372736
+  ],
+  "started_unix": 1790158883.7750835,
+  "startup_s": 18.206711999955587,
+  "execution_plan": {
+    "backend": "external.graph.v1",
+    "stage_id": 0,
+    "worker_generation": "0f7e1318a52e48919c83798f3c40a9ff",
+    "artifact_sha256": "b84d82fa1aa3c8b04c6c050af4521e9846c21babedbc9aa5d30f972a4c8a5cdf",
+    "component": "spark_x2_5_1_7b_output_head_amd_npu",
+    "route": {
+      "name": "spark-npu-head",
+      "interpreter": "C:\\Users\\zhout\\npu-ep\\Scripts\\python.exe",
+      "worker": "\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\edge\\local\\external\\worker_ort.py",
+      "ep": "vitisai",
+      "is_windows": true,
+      "available": true,
+      "reason": "",
+      "extra": null
+    },
+    "reserved_bytes": {
+      "machine:ram": 4294967296
+    },
+    "max_io_bytes": 8388608,
+    "placement": {
+      "ep": "vitisai",
+      "graph_path": "C:\\Users\\zhout\\w2\\spark_npu_graph_bundle_with_norm_20260923\\graph.onnx",
+      "session_providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ],
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider",
+        "vitisai"
+      ],
+      "node_counts": {
+        "CPUExecutionProvider": 7,
+        "vitisai": 1
+      },
+      "total_nodes": 8,
+      "target_nodes": 1,
+      "fraction_on_target": 0.125,
+      "session_create_s": 15.15212729992345,
+      "warmup_s": 0.010233499924652278,
+      "rss_bytes": 1394450432,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            1,
+            2048
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits_concatenated",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            131072
+          ]
+        }
+      ],
+      "profile_path": "C:\\Users\\zhout\\w2\\spark_npu_graph_stage_with_norm_20260923.placement_2026-09-23_18-21-26_808.json",
+      "ep_directory": "C:\\Program Files\\WindowsApps\\WindowsWorkload.EP.AMD.VitisAI.Framework.1.8_1.8.63.0_x64__8wekyb3d8bbwe\\ExecutionProvider",
+      "requested_provider_missing": "",
+      "fallback_note": "",
+      "onnxruntime": "1.30.0",
+      "note": ""
+    },
+    "worker": {
+      "executable": "C:\\Users\\zhout\\npu-ep\\Scripts\\python.exe",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "win32",
+      "pid": 24740,
+      "onnxruntime": "1.30.0",
+      "numpy": "2.5.3",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "rss_bytes": 54611968,
+      "process_identity": {
+        "pid": 24740,
+        "created_filetime": 134346324846482978
+      }
+    },
+    "evidence": "B",
+    "stateful": false
+  },
+  "worker_stats": {
+    "runs": 20,
+    "total_run_s": 0.15461209998466074,
+    "rss_bytes": 1394978816,
+    "peak_rss_bytes": 3778600960,
+    "report": {
+      "ep": "vitisai",
+      "onnxruntime": "1.30.0",
+      "ep_directory": "C:\\Program Files\\WindowsApps\\WindowsWorkload.EP.AMD.VitisAI.Framework.1.8_1.8.63.0_x64__8wekyb3d8bbwe\\ExecutionProvider",
+      "available_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider",
+        "vitisai"
+      ],
+      "session_create_s": 15.15212729992345,
+      "session_providers": [
+        "vitisai",
+        "CPUExecutionProvider"
+      ],
+      "inputs": [
+        {
+          "name": "x",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            1,
+            2048
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits_concatenated",
+          "type": "tensor(float)",
+          "shape": [
+            1,
+            131072
+          ]
+        }
+      ],
+      "warmup_s": 0.010233499924652278,
+      "profile_path": "C:\\Users\\zhout\\w2\\spark_npu_graph_stage_with_norm_20260923.placement_2026-09-23_18-21-26_808.json",
+      "node_counts": {
+        "CPUExecutionProvider": 7,
+        "vitisai": 1
+      },
+      "total_nodes": 8,
+      "target_nodes": 1,
+      "fraction_on_target": 0.125,
+      "rss_bytes": 1394450432
+    }
+  },
+  "finite": true,
+  "status": "passed",
+  "ledger_after_shutdown": {
+    "capacities": {
+      "machine:ram": 34359738368
+    },
+    "reserved": {
+      "machine:ram": 0
+    },
+    "owners": [],
+    "quarantined": []
+  },
+  "ended_unix": 1790158902.3293793
+}

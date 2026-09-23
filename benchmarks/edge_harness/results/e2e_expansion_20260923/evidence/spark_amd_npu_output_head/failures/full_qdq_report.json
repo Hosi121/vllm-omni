@@ -1,0 +1,90 @@
+{
+  "scope": "Spark-X2.5-1.7B output head only; no prefill/decode/KV/sampling or full generation",
+  "hardware": "AMD Ryzen AI 9 HX 370 NPU",
+  "os": "Windows-11-10.0.26200-SP0",
+  "onnx_version": "1.22.0",
+  "onnxruntime_version": "1.30.0",
+  "source_model_sha256": "f5f0c31eb438e9940ab242da8bf6f0f5dad6ebc9f6ef02d5475c21b744e595bc",
+  "calibration_sha256": "cfa2ed8439f8fe01730319667bfd01abf2e39cf5851490346a0331304cf63194",
+  "opset21_sha256": "738e06c7f5b0354bac9cd6251af6279fc5224a754695d182604e38f874563fbe",
+  "quantized_sha256": "0e9f2b151451b6fdd473032881dda5b6c6ab2a13908c533efea2689d0035bbca",
+  "quantization": "opset 21, MatMul only, QDQ, QUInt16 activations/QInt8 weights, MinMax on four real activations",
+  "input_shape": [
+    1,
+    1,
+    2048
+  ],
+  "output_shape": [
+    1,
+    131072
+  ],
+  "source_cpu_reference": [
+    {
+      "snr_db": 137.37257867357746,
+      "max_abs_diff": 1.9073486328125e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 134.38703441007158,
+      "max_abs_diff": 2.6702880859375e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 136.39026519822127,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 133.65524993196834,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true
+    }
+  ],
+  "npu_devices": 1,
+  "session_providers": [
+    "vitisai",
+    "CPUExecutionProvider"
+  ],
+  "npu_node_events": 0,
+  "cpu_node_events": 32,
+  "load_s": 7.350405399920419,
+  "npu_rows": [
+    {
+      "snr_db": 55.45826302981912,
+      "max_abs_diff": 0.3096885681152344,
+      "top1_match": true,
+      "finite": true,
+      "index": 0,
+      "wall_s": 0.16518759995233268
+    },
+    {
+      "snr_db": 55.028045929115706,
+      "max_abs_diff": 0.2736663818359375,
+      "top1_match": true,
+      "finite": true,
+      "index": 1,
+      "wall_s": 0.1734156000893563
+    },
+    {
+      "snr_db": 54.990218080171104,
+      "max_abs_diff": 0.2613334655761719,
+      "top1_match": true,
+      "finite": true,
+      "index": 2,
+      "wall_s": 0.0690851000836119
+    },
+    {
+      "snr_db": 54.07466164473506,
+      "max_abs_diff": 0.26749420166015625,
+      "top1_match": true,
+      "finite": true,
+      "index": 3,
+      "wall_s": 0.06944940006360412
+    }
+  ],
+  "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_lmhead_20260923\\spark_lm_head_npu_profile_2026-09-23_17-49-20_967.json"
+}

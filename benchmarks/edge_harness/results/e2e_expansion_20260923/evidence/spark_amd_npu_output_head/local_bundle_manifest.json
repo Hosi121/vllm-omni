@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "component": "spark_x2_5_1_7b_output_head_amd_npu",
+  "files": {
+    "graph.onnx": "e2ae9c3fd7071e8ff628f209e6140c8a023bfaad59814b80a936c6b263f33eaf",
+    "inputs.npz": "b249521cbb56f029d9243354e689e1d11a4dcdbc0f47a7742d4679b2a92dfef0",
+    "validation_report.json": "903bd26d67f7592c3ca5d8888c4586ce231633793554adf041a73d1b8906c3c0"
+  },
+  "metadata": {
+    "graph_file": "graph.onnx",
+    "example_inputs_file": "inputs.npz",
+    "checkpoint_revision": "448e61eb392c00f2c403185c5b56d5e0665bfaab",
+    "precision": "A16W8 QDQ, FP32 I/O",
+    "layout": "[1,1,2048] pre-final-norm input -> [1,131072] logits",
+    "exporter": "probe_spark_amd_npu_lm_head.py --composite-with-norm",
+    "calibration": "four captured real Spark pre-final-norm activations",
+    "validation": "validation_report.json; four top-1 matches, SNR >40 dB; component only"
+  }
+}

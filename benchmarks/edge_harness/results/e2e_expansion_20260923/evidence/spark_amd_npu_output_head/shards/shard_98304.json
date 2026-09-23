@@ -1,0 +1,95 @@
+{
+  "scope": "Spark-X2.5-1.7B output head only; no prefill/decode/KV/sampling or full generation",
+  "vocab_shard_size": 32768,
+  "vocab_shard_offset": 98304,
+  "flatten_input": true,
+  "batch_repeats": 1,
+  "matmul_only": true,
+  "hardware": "AMD Ryzen AI 9 HX 370 NPU",
+  "os": "Windows-11-10.0.26200-SP0",
+  "onnx_version": "1.22.0",
+  "onnxruntime_version": "1.30.0",
+  "source_model_sha256": "f5f0c31eb438e9940ab242da8bf6f0f5dad6ebc9f6ef02d5475c21b744e595bc",
+  "prepared_model_sha256": "f229fd37eb0dc4cab24ce26e6cabe95d4ab3a88b8403891e11b431a015eec4af",
+  "calibration_sha256": "cfa2ed8439f8fe01730319667bfd01abf2e39cf5851490346a0331304cf63194",
+  "opset21_sha256": "f229fd37eb0dc4cab24ce26e6cabe95d4ab3a88b8403891e11b431a015eec4af",
+  "quantized_sha256": "0ff8e1e6d513d5debda26fa7c7088db80085f637e4ae8ddda24a505ac80c64f7",
+  "quantization": "opset 21, MatMul only, QDQ, QUInt16 activations/QInt8 weights, MinMax on four real activations",
+  "input_shape": [
+    1,
+    2048
+  ],
+  "output_shape": [
+    1,
+    32768
+  ],
+  "source_cpu_reference": [
+    {
+      "snr_db": 137.32030186574386,
+      "max_abs_diff": 1.9073486328125e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 134.3119760585634,
+      "max_abs_diff": 2.6702880859375e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 137.71005859776187,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true
+    },
+    {
+      "snr_db": 136.40835150657765,
+      "max_abs_diff": 2.288818359375e-05,
+      "top1_match": true,
+      "finite": true
+    }
+  ],
+  "npu_devices": 1,
+  "session_providers": [
+    "vitisai",
+    "CPUExecutionProvider"
+  ],
+  "npu_node_events": 4,
+  "cpu_node_events": 8,
+  "load_s": 3.928793099941686,
+  "npu_rows": [
+    {
+      "snr_db": 56.98918166146055,
+      "max_abs_diff": 0.22197341918945312,
+      "top1_match": true,
+      "finite": true,
+      "index": 0,
+      "wall_s": 0.0038848000112921
+    },
+    {
+      "snr_db": 56.590884754816166,
+      "max_abs_diff": 0.21759796142578125,
+      "top1_match": true,
+      "finite": true,
+      "index": 1,
+      "wall_s": 0.0025273000355809927
+    },
+    {
+      "snr_db": 56.59743918512855,
+      "max_abs_diff": 0.25970458984375,
+      "top1_match": true,
+      "finite": true,
+      "index": 2,
+      "wall_s": 0.002280400018207729
+    },
+    {
+      "snr_db": 55.578637242475644,
+      "max_abs_diff": 0.2147674560546875,
+      "top1_match": true,
+      "finite": true,
+      "index": 3,
+      "wall_s": 0.002343800035305321
+    }
+  ],
+  "profile_file": "C:\\Users\\zhout\\w2\\spark_npu_full_shards_named_20260923\\shard_98304\\spark_lm_head_npu_profile_2026-09-23_18-08-24_412.json"
+}
