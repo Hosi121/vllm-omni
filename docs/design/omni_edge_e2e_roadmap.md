@@ -76,6 +76,17 @@ Radeon 890M, but per-operator placement was not measured. Action relative
 L2 difference was 2.4391% without a task tolerance; the hybrid startup was
 4.72 s longer. Real task quality and sustained benefit remain open.
 
+The [native Windows Radeon MiniCPM-o repeated profile](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/minicpmo_omni_radeon_profile20/README.md)
+passed 20 serial combined synthetic audio+image to text+speech requests after
+one warmup, but complete-request p50/p95 was 87.27/91.45 s and a separate
+cold rerun was 88.01 s. The earlier single cold Omni request was 18.27 s;
+all 21 successful new worker logs show Windows prefetch-memory warnings and
+roughly 25–27 s model loads rather than 6.07 s. The placement remains scoped
+functionally, while repeated latency and its cause remain unqualified. The
+next M4a performance experiment must capture matched CPU/Radeon host-memory,
+pagefile, shared-GPU-memory, file-I/O and power traces, not infer a speedup
+from the earlier single sample.
+
 The WSL RTX MiniCPM-o image-to-text+speech path now passes for one 448×448
 synthetic red-square image under an explicit 0.61 thinker GPU budget. The
 previous 0.58 budget failed the 2,048-token KV admission gate; the successful

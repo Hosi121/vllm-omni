@@ -34,6 +34,14 @@ async def main() -> None:
     args = parser.parse_args()
     if args.warmups < 0 or args.repeats < 1:
         parser.error("warmups must be nonnegative and repeats must be positive")
+    if args.reserve_gib < 1 or args.capacity_gib < args.reserve_gib:
+        parser.error("invalid explicit host-RAM budget")
+
+    import psutil
+
+    host_available_bytes = psutil.virtual_memory().available
+    if args.capacity_gib << 30 > host_available_bytes:
+        raise RuntimeError("declared host-RAM capacity exceeds OS available RAM before load")
 
     from vllm_omni.config.stage_config import DeployConfig, StageDeployConfig, merge_pipeline_deploy
     from vllm_omni.engine.stage_runtime import StageRuntime
@@ -76,7 +84,8 @@ async def main() -> None:
               "cli_sha256": args.cli_sha256, "reference_sha256": reference_hash,
               "input_sha256": {key: hashlib.sha256(value).hexdigest() for key, value in inputs.items()},
               "memory_budget": budget, "profile_count": args.repeats,
-              "warmup_count": args.warmups}
+              "warmup_count": args.warmups,
+              "host_available_bytes_before": host_available_bytes}
     try:
         started = time.perf_counter()
         if args.expect_admission_refusal:
