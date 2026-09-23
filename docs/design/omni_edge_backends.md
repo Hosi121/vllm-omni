@@ -5,7 +5,9 @@ per request, with a fixed input bucket and copied host tensors. A second backend
 `external.llamacpp.text.v1`, owns one pinned GGUF whole-model server process and
 returns complete text requests. `external.crisp.tts.v1` owns a pinned
 CustomVoice GGUF talker, codec and local hybrid CPU+Radeon process, returning
-complete PCM audio. All use the normal `Omni` / `AsyncOmni` APIs,
+complete PCM audio. `external.qwen_tts.cpu.v1` owns the original BF16 CustomVoice
+checkpoint in an isolated native Windows CPU process and also returns complete
+PCM audio. All use the normal `Omni` / `AsyncOmni` APIs,
 `PipelineConfig`, `StageRuntime`, `StagePool` and orchestrator. Native vLLM stages
 retain their model execution, KV cache, sampling and batching. No accelerator is
 mandatory. The llama.cpp backend currently uses the complete-request graph
@@ -13,7 +15,9 @@ control path for admission and acknowledgement; it is not an ONNX graph and does
 not yet support incremental token events or restart after active cancellation.
 The CrispASR route likewise lacks playable incremental PCM and post-cancel
 restart; its current placement gate is specific to the measured HX370 Radeon
-890M shared-RAM configuration.
+890M shared-RAM configuration. The Qwen CPU route likewise returns a terminal
+WAV only; its worker pins an isolated Transformers 4.57.3 overlay and verifies
+CPU placement and weight hashes before serving.
 
 ## Boundaries
 
@@ -63,6 +67,8 @@ memory-accounting and unavailable-device gaps remain documented repair items.
 This section preserves the 2026-09-22 audit. For the latest per-cell disposition and 2026-09-23 follow-up evidence, use the [current 60-cell E2E matrix](../../benchmarks/edge_harness/results/e2e_profiling_20260922/evidence/summary/README.md). The HX370 AMD NPU now has a placement- and quality-verified **Spark 1.7B output-head component** through Omni, while complete Spark generation on that route remains unverified; see the [component record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_amd_npu_output_head/README.md). Native Windows CPU and Radeon 890M completed [scoped whole-model Spark text requests](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_radeon890m_llamacpp/README.md) with the same Q4_K_M GGUF in standalone llama.cpp, then [complete requests through a bounded Omni stage](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_omni_llamacpp/README.md). The Omni route verifies pinned artifacts, actual placement, one-slot memory admission, terminal events and cancellation drain. Incremental streaming, restart after cancellation, memory peaks and broader quality remain open. These results advance the M3 hardware/backend evidence without claiming a joint multi-accelerator plan.
 
 The [Qwen3-TTS CPU+Radeon whole-session path](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_hybrid/README.md) also completed two named text-to-audio inputs and 20 serial Omni requests with exact PCM parity to its standalone record. It verifies pinned executable and weights, logged hybrid placement, one-slot shared-RAM admission, terminal audio and cancellation drain. Playable streaming, post-cancel restart, loading/iGPU peaks, sustained use and broader speech quality remain open; RTF still exceeds 1. No joint CPU+iGPU+NPU claim follows from this result.
+
+The [native Windows CPU Qwen3-TTS Omni path](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_cpu/README.md) completed two named text-to-WAV inputs and 20 serial Omni requests with exact PCM parity to the standalone PyTorch record. It verifies pinned weights, CPU-only placement, a 10 GiB host reservation, a 4 GiB pre-load refusal, terminal audio and cancellation drain. Request-wall p50/p95 were 15.32/15.60 s for 4.56 s of audio. Playable streaming, post-cancel restart, loading peak, broad voice quality and sustained use remain open. This CPU route does not qualify AMD or mobile execution.
 
 **All 60 named pairings were checked on 2026-09-22** through actual runs,
 raw-record review or artifact/runtime preflight. This is not 60 successful

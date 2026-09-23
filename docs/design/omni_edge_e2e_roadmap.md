@@ -53,8 +53,15 @@ prompt took p50/p95 13.94/14.68 s to generate 4.56 s of audio. Whisper tiny.en
 ASR gave word error rates 0.20 and 0.00 for the two WAVs, an intelligibility
 proxy rather than a quality pass. The [raw record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_native_cpu/README.md)
 documents the isolated Transformers 4.57.3 dependency and short process-memory
-trace. Omni CPU stage binding, playable streaming, loading-peak admission and
-sustained power/thermal tests remain M2 work.
+trace. The subsequent [Omni CPU whole-session stage](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_omni_cpu/README.md)
+matched both standalone PCM hashes exactly, returned a public `AsyncOmni`
+audio event, and completed one warmup plus 20 serial measured requests at
+p50/p95 15.32/15.60 s for 4.56 s of audio. It reserves 10 GiB host RAM,
+rejects an insufficient 4 GiB demand before worker launch, and drains an
+in-flight cancellation without stale output or remaining reservation. This
+closes the scoped CPU stage-binding task. Playable streaming, post-cancel
+restart, loading-peak admission, broad speech quality and sustained
+power/thermal tests remain M2 work.
 
 A separate native Windows CPU+Radeon 890M Qwen3-TTS route now completes two
 named text-to-WAV requests in standalone CrispASR using a Q8_0 talker, F16

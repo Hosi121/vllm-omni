@@ -100,6 +100,7 @@ class CrispTTSStageClient(StageClientBase):
         self._request_timeout_s = float(config.get("request_timeout_s", 180))
         self._voice = str(config.get("voice", "ryan"))
         self._seed = int(config.get("seed", 42))
+        self._metric_name = "crisp_tts_wall_s"
         self._port = int(config.get("port") or _local_port())
         try:
             if (
@@ -217,7 +218,7 @@ class CrispTTSStageClient(StageClientBase):
     async def add_request_async(self, request_id: str, prompt: Any, params: Any = None) -> None:
         self.check_health()
         if self._active is not None:
-            raise ResourceUnavailable("CrispASR stage has an unacknowledged request; capacity is one")
+            raise ResourceUnavailable("audio stage has an unacknowledged request; capacity is one")
         if not isinstance(prompt, dict) or not isinstance(prompt.get("text"), str) or not prompt["text"]:
             raise ValueError("TTS prompt must contain nonempty text")
         text = prompt["text"]
@@ -261,7 +262,7 @@ class CrispTTSStageClient(StageClientBase):
                         "pcm_sha256": hashlib.sha256(pcm).hexdigest(),
                     },
                 },
-                metrics={"crisp_tts_wall_s": wall_s},
+                metrics={self._metric_name: wall_s},
             )
         except asyncio.CancelledError:
             raise
@@ -336,7 +337,7 @@ class CrispTTSStageClient(StageClientBase):
             raise EngineDeadError()
 
     async def collective_rpc_async(self, method, timeout=None, args=(), kwargs=None):
-        raise NotImplementedError(f"CrispASR backend does not implement collective RPC {method}")
+        raise NotImplementedError(f"complete audio backend does not implement collective RPC {method}")
 
     def shutdown(self) -> None:
         self._closed = True

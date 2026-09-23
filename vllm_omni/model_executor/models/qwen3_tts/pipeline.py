@@ -100,3 +100,19 @@ QWEN3_TTS_CRISP_HYBRID_PIPELINE = PipelineConfig(
         ),
     ),
 )
+
+
+# Native Windows CPU reference path with the official PyTorch wrapper in an
+# isolated worker, preserving Omni's installed Transformers dependency.
+QWEN3_TTS_CPU_WHOLE_PIPELINE = PipelineConfig(
+    model_type="qwen3_tts_cpu_whole",
+    stages=(
+        StagePipelineConfig(
+            stage_id=0,
+            model_stage="audio",
+            execution_type=StageExecutionType.GRAPH,
+            final_output=True,
+            final_output_type="audio",
+        ),
+    ),
+)

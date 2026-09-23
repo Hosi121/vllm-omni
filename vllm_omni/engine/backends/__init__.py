@@ -17,4 +17,8 @@ def create_graph_client(metadata, config, ledger, reservation):
         from .crisp_tts import CrispTTSStageClient
 
         return CrispTTSStageClient(metadata, backend, ledger, reservation)
+    if name == "external.qwen_tts.cpu.v1":
+        from .qwen_tts_cpu import QwenTTSCPUStageClient
+
+        return QwenTTSCPUStageClient(metadata, backend, ledger, reservation)
     raise ValueError(f"unsupported complete-request stage backend: {name!r}")

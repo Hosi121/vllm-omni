@@ -1,0 +1,88 @@
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+'sox' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+qwen-tts-cpu-worker ready port=54108 props={"model_dir": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c", "placement": "cpu", "torch": "2.13.0+cu130", "transformers": "4.57.3", "qwen_tts": "0.1.1", "dtype": "bfloat16", "attention": "sdpa", "threads": 8, "sample_rate": 24000, "speaker": "Ryan", "max_new_tokens": 64, "load_s": 1.746043000021018}
+127.0.0.1 - - [23/Sep/2026 21:04:39] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:04:39] "GET /props HTTP/1.1" 200 -
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:04:55] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.639
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:05:07] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=3.440 wall_s=11.662
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:05:22] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.285
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:05:37] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.313
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:05:53] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.593
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:06:08] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.352
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:06:24] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.238
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:06:39] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.426
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:06:55] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.306
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:07:10] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.247
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:07:25] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.270
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:07:40] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.244
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:07:56] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.354
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:08:11] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.311
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:08:26] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.284
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:08:42] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.613
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:08:57] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.178
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:09:13] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.266
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:09:28] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.255
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:09:43] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.290
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:09:58] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.245
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:10:14] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.403
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+127.0.0.1 - - [23/Sep/2026 21:10:29] "POST /v1/audio/speech HTTP/1.1" 200 -
+tts request duration_s=4.560 wall_s=15.364
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
