@@ -1,0 +1,16 @@
+{
+  "scope": "local Whisper tiny.en ASR proxy for generated speech; no perceptual quality claim",
+  "asr_model": "openai/whisper-tiny.en",
+  "asr_revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+  "asr_weights_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "5cd8b4928841cd389d3d20daa6ac2d4ef05d305f77ce0121ffc055f02a3b2833",
+  "input_sample_rate": 24000,
+  "input_duration_s": 5.04,
+  "reference_text": "Hello from the local computer.",
+  "transcript": "you",
+  "word_error_rate": 1.0,
+  "asr_load_s": 0.8331252000061795,
+  "asr_inference_s": 0.8376452999655157
+}

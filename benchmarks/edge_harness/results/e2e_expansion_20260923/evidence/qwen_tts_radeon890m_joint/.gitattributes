@@ -1,0 +1,4 @@
+# Preserve native Windows raw records byte-for-byte.
+*.json -text -eol
+*.log -text -eol
+*.wav binary

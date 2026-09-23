@@ -1,0 +1,126 @@
+'\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer'
+CMD.EXE was started with the above path as the current directory.
+UNC paths are not supported.  Defaulting to Windows directory.
+'sox' is not recognized as an internal or external command,
+operable program or batch file.
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+EMPTY_INT64_CAT_IDENTITY
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+EMPTY_INT64_CAT_IDENTITY
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+{
+  "scope": "standalone real-weight Qwen3-TTS DirectML feasibility; no Omni, streaming, or all-operator placement claim",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "unknown",
+  "transformers": "4.57.3",
+  "adapters": [
+    "NVIDIA GeForce RTX 5090 Laptop GPU",
+    "AMD Radeon(TM) 890M Graphics"
+  ],
+  "requested_index": 1,
+  "target_device": "privateuseone:1",
+  "model_dir": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+  "talker_sha256": "bc3c7e785eb961179c25450d1acff03f839e0002f2f3a5aeb67b5735c0fa2adb",
+  "speech_tokenizer_sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258",
+  "dtype": "float16",
+  "attention": "sdpa",
+  "threads": 8,
+  "text": "Hello from the local computer.",
+  "speaker": "Ryan",
+  "max_new_tokens": 64,
+  "repetition_penalty_override": 1.0,
+  "workaround_empty_int64_cat": true,
+  "subtalker_greedy": true,
+  "seed": 42,
+  "status": "passed",
+  "cpu_load_s": 2.0600192999700084,
+  "phase": "complete",
+  "device_move_s": 0.9054825000930578,
+  "model_devices": [
+    "privateuseone:1"
+  ],
+  "request_s": 189.10949669999536,
+  "rms": 0.006188759764276907,
+  "peak_abs": 0.03369140625,
+  "nonzero_samples": 120959,
+  "sample_rate": 24000,
+  "samples": 120960,
+  "duration_s": 5.04,
+  "wav_sha256": "5cd8b4928841cd389d3d20daa6ac2d4ef05d305f77ce0121ffc055f02a3b2833"
+}

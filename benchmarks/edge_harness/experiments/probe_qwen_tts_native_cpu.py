@@ -32,6 +32,7 @@ def main() -> None:
     parser.add_argument("--output-report", type=Path, required=True)
     parser.add_argument("--text", default="Hello from the local computer.")
     parser.add_argument("--speaker", default="Ryan")
+    parser.add_argument("--dtype", choices=("float16", "bfloat16", "float32"), default="bfloat16")
     parser.add_argument("--max-new-tokens", type=int, default=64)
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--warmups", type=int, default=0)
@@ -57,7 +58,7 @@ def main() -> None:
     model = Qwen3TTSModel.from_pretrained(
         str(args.model_dir.resolve()),
         device_map="cpu",
-        dtype=torch.bfloat16,
+        dtype=getattr(torch, args.dtype),
         attn_implementation="sdpa",
         local_files_only=True,
     )
@@ -116,7 +117,7 @@ def main() -> None:
         "talker_sha256": _sha256(checkpoint),
         "speech_tokenizer_sha256": _sha256(tokenizer_weights),
         "model_devices": model_devices,
-        "dtype": "bfloat16",
+        "dtype": args.dtype,
         "attention": "sdpa",
         "threads": args.threads,
         "text": args.text,

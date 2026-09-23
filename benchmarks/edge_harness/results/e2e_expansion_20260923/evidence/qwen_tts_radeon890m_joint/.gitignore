@@ -1,0 +1,3 @@
+# GGUF weights and runtime binaries stay in local model storage.
+*.gguf
+*.exe

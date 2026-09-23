@@ -56,6 +56,17 @@ documents the isolated Transformers 4.57.3 dependency and short process-memory
 trace. Omni CPU stage binding, playable streaming, loading-peak admission and
 sustained power/thermal tests remain M2 work.
 
+A separate native Windows CPU+Radeon 890M Qwen3-TTS route now completes two
+named text-to-WAV requests in standalone CrispASR using a Q8_0 talker, F16
+codec, Vulkan talker/codec and CPU FP32 code predictor. Whisper tiny.en returned
+both reference sentences exactly; one warmup and 20 serial resident-server
+requests measured p50/p95 3.310/3.345 s for 2.56 s of audio. The
+[placement and failed-route record](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/qwen_tts_radeon890m_joint/README.md)
+shows that default Vulkan silently becomes CPU for this backend, all-Vulkan
+generation ran away, and DirectML did not pass quality. The explicit hybrid
+route remains outside Omni and slower than real time. Its CPU+iGPU evidence
+does not advance the NPU joint-execution row or mobile M2 gate.
+
 ## Architecture and prerequisites
 
 Keep Omni's PipelineConfig, StageRuntime, StageClient, orchestration and admission

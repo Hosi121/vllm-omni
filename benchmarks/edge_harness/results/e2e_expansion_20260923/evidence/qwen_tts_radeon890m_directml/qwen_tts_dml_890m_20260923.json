@@ -1,0 +1,34 @@
+{
+  "scope": "standalone real-weight Qwen3-TTS DirectML feasibility; no Omni, streaming, or all-operator placement claim",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "unknown",
+  "transformers": "4.57.3",
+  "adapters": [
+    "NVIDIA GeForce RTX 5090 Laptop GPU",
+    "AMD Radeon(TM) 890M Graphics"
+  ],
+  "requested_index": 1,
+  "target_device": "privateuseone:1",
+  "model_dir": "C:\\Users\\zhout\\w2\\models\\Qwen3-TTS-0.6B-85e237c",
+  "talker_sha256": "bc3c7e785eb961179c25450d1acff03f839e0002f2f3a5aeb67b5735c0fa2adb",
+  "speech_tokenizer_sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258",
+  "dtype": "float16",
+  "attention": "sdpa",
+  "threads": 8,
+  "text": "Hello from the local computer.",
+  "speaker": "Ryan",
+  "max_new_tokens": 64,
+  "seed": 42,
+  "status": "failed",
+  "cpu_load_s": 2.3304581999545917,
+  "phase": "generate",
+  "device_move_s": 1.2001519000623375,
+  "model_devices": [
+    "privateuseone:1"
+  ],
+  "error_type": "UnicodeDecodeError",
+  "error": "'utf-8' codec can't decode byte 0xb2 in position 0: invalid start byte",
+  "traceback": "Traceback (most recent call last):\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\experiments\\probe_qwen_tts_directml.py\", line 101, in main\n    wavs, sample_rate = model.generate_custom_voice(\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\utils\\_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\qwen_tts\\inference\\qwen3_tts_model.py\", line 829, in generate_custom_voice\n    talker_codes_list, _ = self.model.generate(\n                           ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\utils\\_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\qwen_tts\\core\\models\\modeling_qwen3_tts.py\", line 2272, in generate\n    talker_result = self.talker.generate(\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\utils\\_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\transformers\\generation\\utils.py\", line 2564, in generate\n    result = decoding_method(\n             ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\transformers\\generation\\utils.py\", line 2803, in _sample\n    next_token_scores = logits_processor(input_ids, next_token_logits)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\transformers\\generation\\logits_process.py\", line 93, in __call__\n    scores = processor(input_ids, scores)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\transformers\\generation\\logits_process.py\", line 402, in __call__\n    score = torch.gather(scores, 1, input_ids)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xb2 in position 0: invalid start byte\n"
+}

@@ -1,0 +1,214 @@
+crispasr 0.8.35 (git 00c9e752, Release) [backends: cpu,vulkan]
+ggml_vulkan: Found 1 Vulkan devices:
+ggml_vulkan: 0 = AMD Radeon(TM) 890M Graphics (AMD proprietary driver) | uma: 1 | fp16: 1 | bf16: 1 | fp4: 0 | warp size: 64 | shared memory: 32768 | int dot: 1 | matrix cores: KHR_coopmat
+cpu-isa: OK — built for AVX2/FMA/F16C/BMI2/AVX; host CPU supports the build's ISA baseline
+crispasr_init_gpu_backend: using preferred GPU backend: Vulkan0
+qwen3_tts: code_pred CPU-pinned (72 tensors, 432 MB, copy=f32)
+qwen3_tts: kv cache 448 MiB (head_dim=128 max_ctx=4096 n_kv=8 n_layers=28)
+qwen3_tts: loaded C:\Users\zhout\w2\models\crisp_qwen3tts_0.6b\qwen3-tts-12hz-0.6b-customvoice-q8_0.gguf  (talker 28L/1024  code_pred 5L  vocab 3072)
+qwen3_tts: codec: GPU default - loading weights onto Vulkan0
+qwen3_tts: codec loaded from 'C:\Users\zhout\w2\models\crisp_qwen3tts_0.6b\qwen3-tts-tokenizer-12hz.gguf'  (8L d=512/1024  rvq=16)
+qwen3_tts: codec encoder loaded (SEANet+xfmr+RVQ)
+crispasr[qwen3-tts]: codec loaded from 'C:\Users\zhout\w2\models\crisp_qwen3tts_0.6b\qwen3-tts-tokenizer-12hz.gguf'
+crispasr-server: warmup completed in 0 ms
+crispasr-server: backend 'qwen3-tts-customvoice' loaded, model 'C:\Users\zhout\w2\models\crisp_qwen3tts_0.6b\qwen3-tts-12hz-0.6b-customvoice-q8_0.gguf'
+crispasr-server: auto-enabling punctuation restoration for backend 'qwen3-tts'
+crispasr[punc]: downloading https://huggingface.co/cstr/fireredpunc-GGUF/resolve/main/fireredpunc-q4_k.gguf
+crispasr: downloading via WinHTTP...
+fireredpunc: 12L, d=768, ffn=3072, heads=12, vocab=21128, labels=5
+crispasr_init_gpu_backend: using preferred GPU backend: Vulkan0
+crispasr-server: loaded punctuation model 'C:\Users\zhout/.cache/crispasr/fireredpunc-q4_k.gguf'
+
+crispasr-server: listening on 127.0.0.1:18175
+  POST /inference                  — upload audio (native JSON)
+  POST /v1/audio/transcriptions    — OpenAI-compatible API
+  POST /v1/audio/speech            — TTS (OpenAI-compatible)
+  POST /load                       — hot-swap model
+  GET  /health                     — server status
+  GET  /backends                   — list backends
+  GET  /v1/models                  — model info
+  GET  /v1/voices                  — list voices in --voice-dir
+       /voices, /v1/audio/voices   — aliases (llama-swap compat)
+  POST /v1/voices                  — upload voice file (multipart)
+  DELETE /v1/voices/:name          — delete voice file
+crispasr-server: warning: --voice-dir not set; /v1/voices will return empty and /v1/audio/speech will reject requests with a 'voice' field
+
+crispasr: warning: 'qwen3-tts-customvoice' does not record whether its preset voice belongs to a real person, so no spoken AI
+  disclosure was added. If the voice is that of an identifiable individual, the output is a
+  deep fake under EU AI Act Art. 3(60) and you carry the Art. 50(4) duty to disclose it.
+  Pass --speaker-identity real_person to have CrispASR prepend the disclosure, or
+  --speaker-identity synthetic to silence this.
+qwen3_tts: selected CustomVoice speaker 'ryan' (spk_id=3061)
+crispasr[qwen3-tts]: CustomVoice speaker = 'ryan' (available: aiden, dylan, eric, ono_anna, ryan, serena, sohee, uncle_fu, vivian)
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3069 ms  codec=207 ms  total=3276 ms  audio=2.6 s  rtf=1.280
+crispasr-server: synthesized 2.6s audio in 3.55s (RTF=1.39) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3430 ms  codec=205 ms  total=3635 ms  audio=2.6 s  rtf=1.420
+crispasr-server: synthesized 2.6s audio in 3.64s (RTF=1.42) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3077 ms  codec=204 ms  total=3282 ms  audio=2.6 s  rtf=1.282
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3079 ms  codec=204 ms  total=3283 ms  audio=2.6 s  rtf=1.283
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3078 ms  codec=205 ms  total=3283 ms  audio=2.6 s  rtf=1.282
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3090 ms  codec=210 ms  total=3300 ms  audio=2.6 s  rtf=1.289
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3099 ms  codec=204 ms  total=3303 ms  audio=2.6 s  rtf=1.290
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3086 ms  codec=208 ms  total=3294 ms  audio=2.6 s  rtf=1.287
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3070 ms  codec=206 ms  total=3276 ms  audio=2.6 s  rtf=1.280
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3069 ms  codec=204 ms  total=3273 ms  audio=2.6 s  rtf=1.279
+crispasr-server: synthesized 2.6s audio in 3.27s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3100 ms  codec=205 ms  total=3305 ms  audio=2.6 s  rtf=1.291
+crispasr-server: synthesized 2.6s audio in 3.31s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3083 ms  codec=209 ms  total=3292 ms  audio=2.6 s  rtf=1.286
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3072 ms  codec=226 ms  total=3299 ms  audio=2.6 s  rtf=1.289
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3083 ms  codec=209 ms  total=3293 ms  audio=2.6 s  rtf=1.286
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3086 ms  codec=215 ms  total=3301 ms  audio=2.6 s  rtf=1.289
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=2997 ms  codec=211 ms  total=3209 ms  audio=2.6 s  rtf=1.253
+crispasr-server: synthesized 2.6s audio in 3.21s (RTF=1.25) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3086 ms  codec=209 ms  total=3294 ms  audio=2.6 s  rtf=1.287
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3089 ms  codec=209 ms  total=3298 ms  audio=2.6 s  rtf=1.288
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3105 ms  codec=212 ms  total=3317 ms  audio=2.6 s  rtf=1.296
+crispasr-server: synthesized 2.6s audio in 3.33s (RTF=1.30) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3088 ms  codec=203 ms  total=3291 ms  audio=2.6 s  rtf=1.285
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3079 ms  codec=207 ms  total=3286 ms  audio=2.6 s  rtf=1.284
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3092 ms  codec=205 ms  total=3297 ms  audio=2.6 s  rtf=1.288
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3209 ms  codec=203 ms  total=3412 ms  audio=2.6 s  rtf=1.333
+crispasr-server: synthesized 2.6s audio in 3.41s (RTF=1.33) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3061 ms  codec=206 ms  total=3267 ms  audio=2.6 s  rtf=1.276
+crispasr-server: synthesized 2.6s audio in 3.27s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3106 ms  codec=206 ms  total=3312 ms  audio=2.6 s  rtf=1.294
+crispasr-server: synthesized 2.6s audio in 3.31s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3075 ms  codec=207 ms  total=3282 ms  audio=2.6 s  rtf=1.282
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3093 ms  codec=205 ms  total=3298 ms  audio=2.6 s  rtf=1.288
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3097 ms  codec=203 ms  total=3300 ms  audio=2.6 s  rtf=1.289
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3079 ms  codec=204 ms  total=3283 ms  audio=2.6 s  rtf=1.282
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3079 ms  codec=209 ms  total=3288 ms  audio=2.6 s  rtf=1.284
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3073 ms  codec=207 ms  total=3279 ms  audio=2.6 s  rtf=1.281
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3091 ms  codec=205 ms  total=3296 ms  audio=2.6 s  rtf=1.287
+crispasr-server: synthesized 2.6s audio in 3.30s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3082 ms  codec=203 ms  total=3284 ms  audio=2.6 s  rtf=1.283
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3066 ms  codec=207 ms  total=3273 ms  audio=2.6 s  rtf=1.279
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3074 ms  codec=203 ms  total=3277 ms  audio=2.6 s  rtf=1.280
+crispasr-server: synthesized 2.6s audio in 3.28s (RTF=1.28) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3069 ms  codec=218 ms  total=3287 ms  audio=2.6 s  rtf=1.284
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3086 ms  codec=205 ms  total=3292 ms  audio=2.6 s  rtf=1.286
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3107 ms  codec=204 ms  total=3312 ms  audio=2.6 s  rtf=1.294
+crispasr-server: synthesized 2.6s audio in 3.31s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3113 ms  codec=211 ms  total=3324 ms  audio=2.6 s  rtf=1.299
+crispasr-server: synthesized 2.6s audio in 3.34s (RTF=1.30) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3075 ms  codec=213 ms  total=3289 ms  audio=2.6 s  rtf=1.285
+crispasr-server: synthesized 2.6s audio in 3.29s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3110 ms  codec=205 ms  total=3315 ms  audio=2.6 s  rtf=1.295
+crispasr-server: synthesized 2.6s audio in 3.32s (RTF=1.30) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3101 ms  codec=207 ms  total=3307 ms  audio=2.6 s  rtf=1.292
+crispasr-server: synthesized 2.6s audio in 3.31s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz
+qwen3_tts[customvoice]: prefill role=3 + bridge=5 + text=7 + final=1 = T=16 trailing=1
+qwen3_tts: produced 32 frames × 16 codebooks = 512 codes
+qwen3_tts: perf — codes=3087 ms  codec=216 ms  total=3303 ms  audio=2.6 s  rtf=1.290
+crispasr-server: synthesized 2.6s audio in 3.31s (RTF=1.29) voice='<startup>' speed=1.00 format=wav model='<unset>' chunks=1 sr=24000Hz

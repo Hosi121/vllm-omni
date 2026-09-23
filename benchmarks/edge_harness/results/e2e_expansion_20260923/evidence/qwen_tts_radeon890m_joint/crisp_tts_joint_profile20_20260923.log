@@ -1,0 +1,14 @@
+{
+  "scope": "complete serial HTTP text-to-WAV requests in one resident server; speech quality and placement assessed separately",
+  "endpoint": "http://127.0.0.1:18175/v1/audio/speech",
+  "text": "Hello from the local computer.",
+  "seed": 42,
+  "concurrency": 1,
+  "nearest_rank_p50_wall_s": 3.3100590999238193,
+  "nearest_rank_p95_wall_s": 3.3347201000433415,
+  "all_same_wav_sha256": false,
+  "server_pid": 59628,
+  "sampled_max_working_set_bytes": 3265462272,
+  "sampled_max_private_bytes": 4396638208,
+  "sampled_min_host_available_bytes": 26668068864
+}

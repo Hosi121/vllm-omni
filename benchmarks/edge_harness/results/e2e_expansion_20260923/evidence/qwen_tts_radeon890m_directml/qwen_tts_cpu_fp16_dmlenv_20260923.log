@@ -1,0 +1,71 @@
+'\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer'
+CMD.EXE was started with the above path as the current directory.
+UNC paths are not supported.  Defaulting to Windows directory.
+'sox' is not recognized as an internal or external command,
+operable program or batch file.
+SoX could not be found!
+
+    If you do not have SoX, proceed here:
+     - - - http://sox.sourceforge.net/ - - -
+
+    If you do (or think that you should) have SoX, double-check your
+    path variables.
+    
+Setting `pad_token_id` to `eos_token_id`:2150 for open-end generation.
+Traceback (most recent call last):
+
+********
+Warning: flash-attn is not installed. Will only run the manual PyTorch version. Please install flash-attn for faster inference.
+********
+ 
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\experiments\probe_qwen_tts_native_cpu.py", line 154, in <module>
+    main()
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\experiments\probe_qwen_tts_native_cpu.py", line 107, in main
+    measured = [generate_one(save_wav=index == 0) for index in range(args.repeats)]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\zhout\project\edge_infer\vllm-omni-edge\benchmarks\edge_harness\experiments\probe_qwen_tts_native_cpu.py", line 75, in generate_one
+    wavs, sample_rate = model.generate_custom_voice(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\utils\_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\qwen_tts\inference\qwen3_tts_model.py", line 829, in generate_custom_voice
+    talker_codes_list, _ = self.model.generate(
+                           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\utils\_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\qwen_tts\core\models\modeling_qwen3_tts.py", line 2272, in generate
+    talker_result = self.talker.generate(
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\utils\_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\transformers\generation\utils.py", line 2564, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\transformers\generation\utils.py", line 2787, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\transformers\utils\generic.py", line 918, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\qwen_tts\core\models\modeling_qwen3_tts.py", line 1671, in forward
+    predictor_result = self.code_predictor.generate(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\torch\utils\_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\transformers\generation\utils.py", line 2564, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\zhout\w2\qwen_dml_venv\Lib\site-packages\transformers\generation\utils.py", line 2829, in _sample
+    next_tokens = torch.multinomial(probs, num_samples=1).squeeze(1)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: probability tensor contains either `inf`, `nan` or element < 0

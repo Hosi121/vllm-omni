@@ -1,0 +1,16 @@
+{
+  "scope": "local Whisper tiny.en ASR proxy for generated speech; no perceptual quality claim",
+  "asr_model": "openai/whisper-tiny.en",
+  "asr_revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+  "asr_weights_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+  "transformers": "4.57.3",
+  "torch": "2.4.1+cpu",
+  "wav_sha256": "448552ea17e6afe9a97e3458e85cde942ec5cdfe4a028fd36ab10e79b3aab5e8",
+  "input_sample_rate": 24000,
+  "input_duration_s": 3.2,
+  "reference_text": "The blue car is parked beside the library.",
+  "transcript": "The blue car is parked beside the library.",
+  "word_error_rate": 0.0,
+  "asr_load_s": 1.034827800001949,
+  "asr_inference_s": 0.910699600004591
+}
