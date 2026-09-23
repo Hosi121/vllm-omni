@@ -1,0 +1,14 @@
+{
+  "timestamp_utc": "2026-09-23T22:21:03.431758+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "jp410o3vp",
+  "target_model_id": "mnze95don",
+  "input_dataset_id": null,
+  "device": "SA8775P ADP",
+  "options": "--compute_unit gpu",
+  "kind": "profile",
+  "status": "SUBMITTED",
+  "job_id": "j5wl78omp",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/j5wl78omp/"
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Preserve raw Workbench Spark-layer jobs submitted in an evidence directory.
+"""Preserve raw Workbench component jobs submitted in an evidence directory.
 
 Requires qai-hub authentication through the local client configuration. The
 submission JSON files identify existing jobs; this script never resubmits them.
@@ -70,10 +70,11 @@ def collect(evidence_dir: Path, kind: str, client: hub.Client) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("evidence_dirs", nargs="+", type=Path)
+    parser.add_argument("--kinds", nargs="+", choices=("inference", "profile"), default=("inference", "profile"))
     args = parser.parse_args()
     client = hub.Client()
     for directory in args.evidence_dirs:
-        for kind in ("inference", "profile"):
+        for kind in args.kinds:
             print(f"{directory.name}: {collect(directory, kind, client)}")
 
 

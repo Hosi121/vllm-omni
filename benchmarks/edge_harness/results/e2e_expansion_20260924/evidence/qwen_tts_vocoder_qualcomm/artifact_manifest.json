@@ -1,0 +1,79 @@
+{
+  "facility": "Qualcomm AI Hub Workbench",
+  "source_model_ids": {
+    "talker": "mq3xre4rq",
+    "vocoder": "mqyer339n"
+  },
+  "fixture_dataset_id": "d7m80jl32",
+  "reference_inference_job_id": "jpx428ojg",
+  "checkpoint_revision": "not attested by historical export; component provenance only",
+  "onnxruntime_cpu_version": "1.29.0",
+  "files": {
+    "talker_source_onnx": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_talker_step2_L256_20260924.onnx",
+      "bytes": 1776377476,
+      "sha256": "41feb08517678e94d9301e992d0df610fc60e7c9faba5600703298c86554fd22"
+    },
+    "vocoder_source_onnx": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_code2wav_c25_20260924.onnx",
+      "bytes": 423655047,
+      "sha256": "7c07666229c6d404894132e22f784525e3212a49efad55ddd532eda5286c2b2b"
+    },
+    "vocoder_fixture": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_vocoder_fixture_20260924.npz",
+      "bytes": 129721,
+      "sha256": "dfca9e8d2a724a568a31b6cd18ff6a52fdc205fd34e13cbf1cd75f0f7937e82d"
+    },
+    "vocoder_ort_cpu_output": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_vocoder_ort_cpu_output_20260924.npz",
+      "bytes": 179942,
+      "sha256": "8de78b94b59f01e49852f7706adbd2508a9976b8e2705cfd3b94d07bb3606cb1"
+    },
+    "s25_historical_gpu_output": {
+      "path": "/home/zhout/project/edge_infer/vllm-omni-edge/benchmarks/edge_harness/results/e2e_expansion_20260924/evidence/qwen_tts_vocoder_qualcomm/s25_reference_output.npz",
+      "bytes": 115235,
+      "sha256": "4a26486d5e84a6e22d16f9b26f995b8fe645c29bbd70b103615ec35a0fcb10a0"
+    },
+    "sa8775p_tflite": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_vocoder_sa8775p_20260924.tflite",
+      "bytes": 421658132,
+      "sha256": "29826da6ecc1ec2efc0e3589c3cebb42b20d7e20c0975a037d9f51625d6638cd",
+      "model_id": "mnze95don",
+      "compile_job_id": "jp410o3vp"
+    },
+    "rb3_tflite": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_vocoder_rb3_20260924.tflite",
+      "bytes": 421658132,
+      "sha256": "29826da6ecc1ec2efc0e3589c3cebb42b20d7e20c0975a037d9f51625d6638cd",
+      "model_id": "mn0wyzd3q",
+      "compile_job_id": "j5mmy28w5"
+    },
+    "xelite_onnx": {
+      "path": "/home/zhout/project/edge_infer/models/qwen3tts_vocoder_xelite_20260924.onnx.onnx.zip",
+      "bytes": 394632184,
+      "sha256": "e8f80a85d6f36248ad015edf63e553514011ae621d234a1e3d88ea71f93568f0",
+      "model_id": "mnz079ezm",
+      "compile_job_id": "j5qlyz8op"
+    }
+  },
+  "fixture": {
+    "shape": [
+      1,
+      512,
+      97
+    ],
+    "dtype": "float32",
+    "min": -90.89772033691406,
+    "max": 65.62191772460938,
+    "mean": 0.0705118179321289,
+    "std": 11.206748962402344
+  },
+  "cpu_reference": {
+    "shape": [
+      1,
+      48000
+    ],
+    "dtype": "float32",
+    "rms": 0.08373439311981201
+  }
+}

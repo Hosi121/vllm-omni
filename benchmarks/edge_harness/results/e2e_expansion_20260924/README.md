@@ -1,0 +1,3 @@
+# 2026-09-24 Qualcomm component expansion
+
+The [Qwen3-TTS vocoder study](evidence/qwen_tts_vocoder_qualcomm/README.md) reuses a retained fixed-shape Code2Wav export and historical Workbench input to test numerical behavior on SA8775P and other Qualcomm settings. The fresh SA8775P GPU inference produces a saturated waveform, so its historical profile must not be interpreted as a usable TTS path. Workbench jobs for RB3, X Elite and SA8775P controls were still pending when this snapshot was written; their submission IDs are retained for completion. No complete on-device TTS stream or model-quality qualification is claimed.

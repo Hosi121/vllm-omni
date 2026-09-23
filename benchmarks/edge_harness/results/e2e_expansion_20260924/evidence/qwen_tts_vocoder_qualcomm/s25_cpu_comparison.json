@@ -1,0 +1,16 @@
+{
+  "scope": "historical S25 TFLite GPU inference on same retained vocoder fixture; component comparison only",
+  "source_model_id": "mqyer339n",
+  "source_cpu_onnxruntime_version": "1.29.0",
+  "s25_inference_job_id": "jpx428ojg",
+  "input_dataset_id": "d7m80jl32",
+  "status": "component_waveform_quality_unqualified",
+  "cpu_source_vs_s25_gpu": {
+    "relative_l2": 0.04238531411741596,
+    "snr_db": 27.455691878796923,
+    "max_abs": 0.10591871291399002,
+    "cosine": 0.9991021814913129,
+    "reference_rms": 0.08373439205485074,
+    "output_rms": 0.08376787228276501
+  }
+}

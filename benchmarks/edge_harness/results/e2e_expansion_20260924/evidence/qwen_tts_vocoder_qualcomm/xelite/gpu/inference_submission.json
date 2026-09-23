@@ -1,0 +1,14 @@
+{
+  "timestamp_utc": "2026-09-23T22:27:34.392680+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "j5qlyz8op",
+  "target_model_id": "mnz079ezm",
+  "input_dataset_id": "d7m80jl32",
+  "device": "Snapdragon X Elite CRD",
+  "options": "--compute_unit gpu --onnx_execution_providers directml",
+  "kind": "inference",
+  "status": "SUBMITTED",
+  "job_id": "jpe7z83v5",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jpe7z83v5/"
+}

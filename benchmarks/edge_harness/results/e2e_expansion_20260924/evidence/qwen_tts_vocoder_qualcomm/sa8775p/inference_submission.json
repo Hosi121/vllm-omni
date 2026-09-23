@@ -1,0 +1,14 @@
+{
+  "timestamp_utc": "2026-09-23T22:21:01.692875+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "jp410o3vp",
+  "target_model_id": "mnze95don",
+  "input_dataset_id": "d7m80jl32",
+  "device": "SA8775P ADP",
+  "options": "--compute_unit gpu",
+  "kind": "inference",
+  "status": "SUBMITTED",
+  "job_id": "jgzlm8ex5",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jgzlm8ex5/"
+}

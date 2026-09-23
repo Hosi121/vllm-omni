@@ -1,0 +1,14 @@
+{
+  "timestamp_utc": "2026-09-23T22:27:36.042380+00:00",
+  "facility": "Qualcomm AI Hub Workbench",
+  "qai_hub_version": "0.55.0",
+  "source_compile_job_id": "j5qlyz8op",
+  "target_model_id": "mnz079ezm",
+  "input_dataset_id": null,
+  "device": "Snapdragon X Elite CRD",
+  "options": "--compute_unit gpu --onnx_execution_providers directml",
+  "kind": "profile",
+  "status": "SUBMITTED",
+  "job_id": "jgzlm8kx5",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jgzlm8kx5/"
+}
