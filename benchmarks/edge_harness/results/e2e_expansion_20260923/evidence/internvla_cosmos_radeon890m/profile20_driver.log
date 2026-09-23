@@ -1,0 +1,70 @@
+{
+  "scope": "InternVLA real Cosmos CI8x8 image encoder component; synthetic patterned 256x256 input; no full policy or robot-task claim",
+  "source_files_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "device_name": "AMD Radeon(TM) 890M Graphics",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "0.2.5.dev240914",
+  "input_shape": [
+    1,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "float32",
+  "warmups": 1,
+  "repeats": 20,
+  "cpu_load_s": 0.5784786000149325,
+  "checkpoint_tensor_count": 90,
+  "encoder_state_tensor_count": 88,
+  "checkpoint_missing_keys": [],
+  "checkpoint_unexpected_keys": [
+    "encoder.patcher._arange",
+    "encoder.patcher.wavelets"
+  ],
+  "nonpersistent_buffer_comparison": {
+    "encoder.patcher._arange": {
+      "checkpoint_shape": [
+        2
+      ],
+      "model_shape": [
+        2
+      ],
+      "checkpoint_dtype": "torch.int64",
+      "model_dtype": "torch.int64",
+      "max_abs_error": 0.0
+    },
+    "encoder.patcher.wavelets": {
+      "checkpoint_shape": [
+        2
+      ],
+      "model_shape": [
+        2
+      ],
+      "checkpoint_dtype": "torch.bfloat16",
+      "model_dtype": "torch.float32",
+      "max_abs_error": 7.551908493041992e-05
+    }
+  },
+  "dml_load_and_transfer_s": 0.6941631999798119,
+  "status": "passed",
+  "output_shape": [
+    1,
+    16,
+    32,
+    32
+  ],
+  "cpu_output_sha256_float32": "75b0c7cc33cc2a9845242030080cf901e4b05bdd5bdd8a65a0a3da253361dc28",
+  "dml_output_sha256_float32": "f80d2c94d6ccac5c4975b22f5731018be2ae94dbd603abfa37a4a783ec4e6196",
+  "max_abs_error": 1.1682510375976562e-05,
+  "relative_l2_error": 4.732218030767399e-07,
+  "cosine_similarity": 0.9999999403953552,
+  "cpu_nearest_rank_p50_wall_s": 0.15648690005764365,
+  "cpu_nearest_rank_p95_wall_s": 0.158714700024575,
+  "dml_nearest_rank_p50_wall_s": 0.02656210004352033,
+  "dml_nearest_rank_p95_wall_s": 0.027489100000821054,
+  "process_rss_bytes_after": 1406013440
+}

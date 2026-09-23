@@ -1,0 +1,25 @@
+{
+  "scope": "InternVLA real Cosmos CI8x8 image encoder component; synthetic patterned 256x256 input; no full policy or robot-task claim",
+  "source_files_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "device_name": "AMD Radeon(TM) 890M Graphics",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "0.2.5.dev240914",
+  "input_shape": [
+    1,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "float32",
+  "warmups": 0,
+  "repeats": 1,
+  "cpu_load_s": 0.5681545999832451,
+  "dml_load_and_transfer_s": 1.1489207999547943,
+  "status": "failed",
+  "error": "RuntimeError: Cannot set version_counter for inference tensor",
+  "traceback": "Traceback (most recent call last):\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\experiments\\probe_internvla_cosmos_directml.py\", line 124, in main\n    dml_output = execute(dml_model, image.to(dml))\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\benchmarks\\edge_harness\\experiments\\probe_internvla_cosmos_directml.py\", line 111, in execute\n    output = model(input_tensor)\n             ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1553, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1562, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\container.py\", line 219, in forward\n    input = module(input)\n            ^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1553, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1562, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"\\\\wsl.localhost\\Ubuntu\\home\\zhout\\project\\edge_infer\\vllm-omni-edge\\vllm_omni\\diffusion\\models\\internvla_a1\\cosmos_ci_torch.py\", line 270, in forward\n    hs = [self.conv_in(x)]\n          ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1553, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1562, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\conv.py\", line 458, in forward\n    return self._conv_forward(input, self.weight, self.bias)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\zhout\\w2\\qwen_dml_venv\\Lib\\site-packages\\torch\\nn\\modules\\conv.py\", line 454, in _conv_forward\n    return F.conv2d(input, weight, bias, self.stride,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Cannot set version_counter for inference tensor\n"
+}

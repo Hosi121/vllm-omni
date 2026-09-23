@@ -1,0 +1,39 @@
+{
+  "scope": "InternVLA real Cosmos CI8x8 image encoder component; synthetic patterned 256x256 input; no full policy or robot-task claim",
+  "source_files_sha256": {
+    "model_cosmos.py": "81f523767d356f16856fa35521bc637ac5df9fc8383ca11fc9a58875eb4c97c7",
+    "cosmos_ci_torch.py": "a88015b3854b8da730b89c6a35eb3b23721608797208847d9b4cb9a8b8d60f5e"
+  },
+  "encoder_sha256": "520a3b878e72ee872faccb1211b5d622d194c0fdd177f2f6df097586b8fa98e5",
+  "device_name": "AMD Radeon(TM) 890M Graphics",
+  "torch": "2.4.1+cpu",
+  "torch_directml": "0.2.5.dev240914",
+  "input_shape": [
+    1,
+    3,
+    256,
+    256
+  ],
+  "input_dtype": "float32",
+  "warmups": 0,
+  "repeats": 1,
+  "cpu_load_s": 0.558287899941206,
+  "dml_load_and_transfer_s": 1.2977324000094086,
+  "status": "passed",
+  "output_shape": [
+    1,
+    16,
+    32,
+    32
+  ],
+  "cpu_output_sha256_float32": "75b0c7cc33cc2a9845242030080cf901e4b05bdd5bdd8a65a0a3da253361dc28",
+  "dml_output_sha256_float32": "f80d2c94d6ccac5c4975b22f5731018be2ae94dbd603abfa37a4a783ec4e6196",
+  "max_abs_error": 1.1682510375976562e-05,
+  "relative_l2_error": 4.732218030767399e-07,
+  "cosine_similarity": 0.9999999403953552,
+  "cpu_nearest_rank_p50_wall_s": 0.17620460002217442,
+  "cpu_nearest_rank_p95_wall_s": 0.17620460002217442,
+  "dml_nearest_rank_p50_wall_s": 0.8288762000156567,
+  "dml_nearest_rank_p95_wall_s": 0.8288762000156567,
+  "process_rss_bytes_after": 1006407680
+}

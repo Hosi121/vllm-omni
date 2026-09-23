@@ -27,6 +27,16 @@ use reached 11.17 GB. Native Windows InternVLA direct-policy runs separately
 passed on CPU and RTX 5090 Laptop with synthetic inputs; AMD and mobile cells
 do not inherit these passes.
 
+A [native Windows Radeon 890M InternVLA Cosmos encoder probe](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/internvla_cosmos_radeon890m/README.md)
+now establishes only component depth C: the real CI8x8 image encoder weights
+and output were checked on DirectML, with one warmup and 20 measured patterned
+256×256 encodes at 26.56/27.49 ms p50/p95 including transfer and readback,
+versus 156.49/158.71 ms for the same CPU source. Relative L2 error was
+4.73e-07. The separate older DirectML runtime cannot host the current Omni
+policy directly. M4 remains open for complete actions, real observations,
+time/units, state/admission and a measured full-request handoff benefit; no
+joint CPU+iGPU InternVLA E2E status is inferred from this component timing.
+
 The WSL RTX MiniCPM-o image-to-text+speech path now passes for one 448×448
 synthetic red-square image under an explicit 0.61 thinker GPU budget. The
 previous 0.58 budget failed the 2,048-token KV admission gate; the successful
