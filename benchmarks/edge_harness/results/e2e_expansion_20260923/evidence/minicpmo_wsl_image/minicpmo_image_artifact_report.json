@@ -1,0 +1,15 @@
+{
+  "scope": "synthetic 448x448 RGB red-square image to text+speech, one request, WSL RTX 5090 Laptop",
+  "model_response": "The image shows a solid red square centered on a white background. There are no other elements, text, or details visible.",
+  "ground_truth_description": "solid red square centered on white background",
+  "token_count": 27,
+  "wav": {
+    "sample_rate_hz": 24000,
+    "frames": 124800,
+    "duration_s": 5.2,
+    "nonzero_samples": 124434,
+    "rms_float": 0.08685403380620296,
+    "sha256": "1f2a2763d072773f076afd621f5632d7883d880d61d5b0368c4933bd9596ccd5"
+  },
+  "shutdown_note": "stage 0 required force kill; Python resource_tracker reported one shared_memory object"
+}
