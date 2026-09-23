@@ -1,0 +1,143 @@
+{
+  "scope": "one real Spark-X2.5 full-attention decoder layer at one static 1024-token cache shape; no generation E2E",
+  "status": "component_executed_on_npu_quality_unqualified",
+  "device": {
+    "name": "Samsung Galaxy S24",
+    "os": "14",
+    "attributes": [
+      "os:android",
+      "framework:tflite",
+      "framework:onnx",
+      "abi:aarch64-android",
+      "vendor:samsung",
+      "format:phone",
+      "chipset:qualcomm-snapdragon-8gen3",
+      "chipset:sm8650",
+      "hexagon:v75",
+      "soc-model:57",
+      "htp-supports-fp16:true",
+      "htp-supports-weight-sharing:true",
+      "framework:qnn"
+    ]
+  },
+  "compile_job_id": "jpe7z8l15",
+  "inference_job_id": "j57e4k9lp",
+  "profile_job_id": "jp4y1m3vp",
+  "target_model_id": "mq9y70k0n",
+  "input_dataset_id": "d7m83gjy2",
+  "s25_prior_inference_job_id": "jp0mvkj6g",
+  "files": {
+    "source_onnx": {
+      "bytes": 205618089,
+      "sha256": "4e2b1c8d791b1ee0e9b75f3322a20a743c0bf8c40f9b98edd963f2944d6300bb"
+    },
+    "quantized_onnx_zip": {
+      "bytes": 186772390,
+      "sha256": "703821ca8ace5672228919ea2add4901def4887748c381b12ffc8b259665c553"
+    },
+    "fixture": {
+      "bytes": 3901238,
+      "sha256": "5a439e6c6d148f1720938770daa110039a39edde014f1c1592c823c7d7dfc8ed"
+    },
+    "source_cpu_output": {
+      "bytes": 12103,
+      "sha256": "6bbfb8e6ccb09475391ce1dbd2e855205720f4367c038a0d5be35e7dfeb2f768"
+    },
+    "quantized_cpu_output": {
+      "bytes": 11574,
+      "sha256": "061654773166d102a11228c4a2e4cd06de6c2482c7e4e7860315b7b9a95fa8a1"
+    },
+    "s25_output": {
+      "bytes": 13072,
+      "sha256": "2dea9f4b478cb02b9be74a8d3ea4ad42e562e4de72413967d22706a1b6c6b9c0"
+    },
+    "device_output": {
+      "bytes": 11576,
+      "sha256": "9381fccee14b303edc5b432edf92422f2948e111ea6848df22cba3cd289a7073"
+    }
+  },
+  "source_vs_quantized_cpu": {
+    "hidden": {
+      "relative_l2": 0.012364819167814612,
+      "max_abs": 0.0028282999992370605,
+      "cosine": 0.9999236499353131
+    },
+    "k_new_0": {
+      "relative_l2": 0.0037627070087598766,
+      "max_abs": 0.03641480207443237,
+      "cosine": 0.9999929226489408
+    },
+    "v_new_0": {
+      "relative_l2": 0.006507432119585315,
+      "max_abs": 0.011739224195480347,
+      "cosine": 0.9999789079393114
+    }
+  },
+  "quantized_cpu_vs_device_npu": {
+    "hidden": {
+      "relative_l2": 0.005550082388164841,
+      "max_abs": 0.002016603946685791,
+      "cosine": 0.9999847274053486
+    },
+    "k_new_0": {
+      "relative_l2": 6.533750243101402e-05,
+      "max_abs": 0.00033855438232421875,
+      "cosine": 0.9999999978819449
+    },
+    "v_new_0": {
+      "relative_l2": 0.0001257028618212242,
+      "max_abs": 0.0002911090850830078,
+      "cosine": 0.9999999921460195
+    }
+  },
+  "source_cpu_vs_device_npu": {
+    "hidden": {
+      "relative_l2": 0.01350919207884596,
+      "max_abs": 0.0048449039459228516,
+      "cosine": 0.9999091967737982
+    },
+    "k_new_0": {
+      "relative_l2": 0.003766040678719007,
+      "max_abs": 0.03641480207443237,
+      "cosine": 0.9999929097855774
+    },
+    "v_new_0": {
+      "relative_l2": 0.006504874746412689,
+      "max_abs": 0.011739224195480347,
+      "cosine": 0.9999789285134126
+    }
+  },
+  "s25_npu_vs_device_npu": {
+    "hidden": {
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "cosine": 0.9999999999999998
+    },
+    "k_new_0": {
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "cosine": 0.9999999999999998
+    },
+    "v_new_0": {
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "cosine": 1.0
+    }
+  },
+  "profile": {
+    "sample_count": 100,
+    "sample_min_us": 1098,
+    "nearest_rank_p50_us": 1109,
+    "nearest_rank_p95_us": 1205,
+    "reported_estimated_inference_time_us": 1098,
+    "reported_peak_memory_bytes": 210259968,
+    "compute_unit_row_counts": {
+      "NPU": 73
+    }
+  },
+  "limits": [
+    "No task-level numerical tolerance or next-token quality gate is established.",
+    "Hub component jobs do not prove device-local prefill, KV/ring update, sampling, continuous generation or Omni deployment.",
+    "Profile sample latency is one component, not complete-request or sustained thermal performance."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Pinned Spark attention-layer variants for RB3 remediation; binaries retained outside Git",
+  "artifacts": {
+    "s24_compiled_w8a16_dlc": {
+      "model_id": "mq9y70k0n",
+      "compile_job_id": "jpe7z8l15",
+      "downloaded_path": "/home/zhout/project/edge_infer/models/spark_s24_qnn_dlc_20260924.dlc",
+      "bytes": 52036972,
+      "sha256": "8f1518f1f392434306dba11fd7115fe7629657ab7bfc834c0f78ee6b684e5154"
+    },
+    "rb3_targeted_w8a16_dlc": {
+      "model_id": "mn0g3ye8m",
+      "compile_job_id": "jgnznozrg",
+      "downloaded_path": "/home/zhout/project/edge_infer/models/spark_rb3_qnn_dlc_20260924.dlc",
+      "bytes": 52036972,
+      "sha256": "614ea0b07d9119581c563d9479181390fb007efb39b538381b971ce12ef39161"
+    },
+    "rb3_w8a8_dlc": {
+      "model_id": "mqkp10ezm",
+      "compile_job_id": "jpyoxq885",
+      "downloaded_path": "/home/zhout/project/edge_infer/models/spark_rb3_w8a8_dlc_20260924.dlc",
+      "bytes": 51452356,
+      "sha256": "637f4dd52ddf86e53c46c1ae5c1ef3b030b822f866575835aa66e6b86ad3cfd2"
+    },
+    "rb3_fp32_onnx_cpu": {
+      "model_id": "mmxj02ljq",
+      "compile_job_id": "jglyxowj5",
+      "downloaded_path": "/home/zhout/project/edge_infer/models/spark_rb3_onnx_cpu_20260924.onnx.onnx.zip",
+      "bytes": 107095517,
+      "sha256": "a64c220f32f7a4a5652594014e39e8ead2f688b7dabf0ed878620b61d94d7ec2"
+    }
+  }
+}

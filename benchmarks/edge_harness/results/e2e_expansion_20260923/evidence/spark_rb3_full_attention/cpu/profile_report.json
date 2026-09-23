@@ -1,0 +1,632 @@
+{
+  "timestamp_utc": "2026-09-23T22:01:44.553558+00:00",
+  "qai_hub_version": "0.55.0",
+  "facility": "Qualcomm AI Hub Workbench",
+  "job_id": "jpvldemk5",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/jpvldemk5/",
+  "status": "SUCCESS",
+  "status_message": "",
+  "options": "--compute_unit cpu",
+  "hub_version": "aihub-2026.09.11.0",
+  "device": {
+    "name": "Dragonwing RB3 Gen 2 Vision Kit",
+    "os": "1.6",
+    "attributes": [
+      "os:qc_linux",
+      "framework:tflite",
+      "framework:onnx",
+      "vendor:qualcomm",
+      "abi:aarch64-oe-linux-gcc11",
+      "format:iot",
+      "chipset:qualcomm-qcs6490",
+      "chipset:qcs6490",
+      "chipset:qualcomm-dragonwing-qcs6490",
+      "hexagon:v68",
+      "soc-model:93",
+      "framework:qnn"
+    ]
+  },
+  "model_id": "mmxj02ljq",
+  "shapes": {
+    "x": [
+      [
+        1,
+        1,
+        2048
+      ],
+      "float32"
+    ],
+    "cos_full": [
+      [
+        1,
+        1,
+        1,
+        64
+      ],
+      "float32"
+    ],
+    "sin_full": [
+      [
+        1,
+        1,
+        1,
+        64
+      ],
+      "float32"
+    ],
+    "mask_full": [
+      [
+        1,
+        1,
+        1,
+        1025
+      ],
+      "float32"
+    ],
+    "k_cache_0": [
+      [
+        1,
+        2,
+        1024,
+        256
+      ],
+      "float32"
+    ],
+    "v_cache_0": [
+      [
+        1,
+        2,
+        1024,
+        256
+      ],
+      "float32"
+    ]
+  },
+  "profile": {
+    "execution_summary": {
+      "estimated_inference_time": 19104,
+      "estimated_inference_peak_memory": 227733504,
+      "first_load_time": 311945,
+      "first_load_peak_memory": 221429760,
+      "warm_load_time": 319951,
+      "warm_load_peak_memory": 217300992,
+      "compile_time": 0,
+      "compile_peak_memory": 0,
+      "compile_memory_increase_range": [
+        0,
+        0
+      ],
+      "compile_memory_peak_range": [
+        0,
+        0
+      ],
+      "first_load_memory_increase_range": [
+        10790272,
+        11590944
+      ],
+      "first_load_memory_peak_range": [
+        218533888,
+        219334560
+      ],
+      "warm_load_memory_increase_range": [
+        6655248,
+        7457200
+      ],
+      "warm_load_memory_peak_range": [
+        214401024,
+        215202976
+      ],
+      "inference_memory_increase_range": [
+        0,
+        0
+      ],
+      "inference_memory_peak_range": [
+        4120576,
+        216040736
+      ],
+      "all_compile_times": [],
+      "all_first_load_times": [
+        311945
+      ],
+      "all_warm_load_times": [
+        319951
+      ],
+      "all_inference_times": [
+        22116,
+        19121,
+        21897,
+        19651,
+        21601,
+        19307,
+        19264,
+        21113,
+        19333,
+        19307,
+        21370,
+        19104,
+        19275,
+        19320,
+        19207,
+        19300,
+        19644,
+        19384,
+        19192,
+        19301,
+        19300,
+        19221,
+        19480,
+        19284,
+        19332,
+        19419,
+        19308,
+        19228,
+        19176,
+        19409,
+        19309,
+        19287,
+        19256,
+        19221,
+        19337,
+        19359,
+        19250,
+        19694,
+        19316,
+        19240,
+        19270,
+        19262,
+        19271,
+        19198,
+        19311,
+        25366,
+        19323,
+        19277,
+        19319,
+        19415,
+        19243,
+        19588,
+        19252,
+        19318,
+        19292,
+        19307,
+        19237,
+        19352,
+        19246,
+        19242,
+        19322,
+        19395,
+        19347,
+        19456,
+        19315,
+        19256,
+        19286,
+        19329,
+        19337,
+        19336,
+        19898,
+        19727,
+        19401,
+        19254,
+        19255,
+        19526,
+        19328,
+        19306,
+        19268,
+        19209,
+        19263,
+        19177,
+        19336,
+        19241,
+        19235,
+        19256,
+        19428,
+        19248,
+        19398,
+        19584,
+        19191,
+        19304,
+        19218,
+        19296,
+        19222,
+        19225,
+        19245,
+        19332,
+        19245,
+        19292
+      ]
+    },
+    "execution_detail": [
+      {
+        "name": "node_Mul_0",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 51,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/ReduceMean",
+        "type": "ReduceMean",
+        "compute_unit": "CPU",
+        "execution_time": 22,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 12,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Sqrt",
+        "type": "Sqrt",
+        "compute_unit": "CPU",
+        "execution_time": 13,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Div",
+        "type": "Div",
+        "compute_unit": "CPU",
+        "execution_time": 10,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_1",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 18,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/q_k_v_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 2100,
+        "execution_cycles": 0
+      },
+      {
+        "name": "node_Split_20",
+        "type": "Split",
+        "compute_unit": "CPU",
+        "execution_time": 81,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 42,
+        "execution_cycles": 0
+      },
+      {
+        "name": "fused_/layers.0/Slice_3_/layers.0/Slice_6",
+        "type": "Slice",
+        "compute_unit": "CPU",
+        "execution_time": 68,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Neg",
+        "type": "Neg",
+        "compute_unit": "CPU",
+        "execution_time": 38,
+        "execution_cycles": 0
+      },
+      {
+        "name": "fused_/layers.0/Slice_3_/layers.0/Slice_5",
+        "type": "Slice",
+        "compute_unit": "CPU",
+        "execution_time": 52,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 48,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_3",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 48,
+        "execution_cycles": 0
+      },
+      {
+        "name": "node_Split_22",
+        "type": "Split",
+        "compute_unit": "CPU",
+        "execution_time": 46,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_2",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 41,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_1",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 42,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat_1",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 44,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_4",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 38,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_1",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 36,
+        "execution_cycles": 0
+      },
+      {
+        "name": "fused_/layers.0/Slice_7_/layers.0/Slice_10",
+        "type": "Slice",
+        "compute_unit": "CPU",
+        "execution_time": 50,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Neg_1",
+        "type": "Neg",
+        "compute_unit": "CPU",
+        "execution_time": 37,
+        "execution_cycles": 0
+      },
+      {
+        "name": "fused_/layers.0/Slice_7_/layers.0/Slice_9",
+        "type": "Slice",
+        "compute_unit": "CPU",
+        "execution_time": 46,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat_2",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 43,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_5",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 44,
+        "execution_cycles": 0
+      },
+      {
+        "name": "node_Split_24",
+        "type": "Split",
+        "compute_unit": "CPU",
+        "execution_time": 45,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_4",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 38,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_2",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 39,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat_3",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 44,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat_4",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 309,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/MatMul/MatmulTransposeFusion//MatMulScaleFusion/",
+        "type": "FusedMatMul",
+        "compute_unit": "CPU",
+        "execution_time": 578,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_3",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 78,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Softmax",
+        "type": "Softmax",
+        "compute_unit": "CPU",
+        "execution_time": 95,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_2",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 45,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Concat_5",
+        "type": "Concat",
+        "compute_unit": "CPU",
+        "execution_time": 324,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/MatMul_1",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 616,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_5",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 45,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/g_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 71,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Sigmoid",
+        "type": "Sigmoid",
+        "compute_unit": "CPU",
+        "execution_time": 40,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_3",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 36,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_7",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 51,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Reshape_6",
+        "type": "Reshape",
+        "compute_unit": "CPU",
+        "execution_time": 38,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/out_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 1716,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_4",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 64,
+        "execution_cycles": 0
+      },
+      {
+        "name": "node_Mul_1",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 41,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/ReduceMean_1",
+        "type": "ReduceMean",
+        "compute_unit": "CPU",
+        "execution_time": 51,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_5",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 38,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Sqrt_1",
+        "type": "Sqrt",
+        "compute_unit": "CPU",
+        "execution_time": 36,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Div_1",
+        "type": "Div",
+        "compute_unit": "CPU",
+        "execution_time": 43,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_9",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 52,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/up_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 4437,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/gate_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 4404,
+        "execution_cycles": 0
+      },
+      {
+        "name": "node_Gelu_2",
+        "type": "Gelu",
+        "compute_unit": "CPU",
+        "execution_time": 147,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Mul_12",
+        "type": "Mul",
+        "compute_unit": "CPU",
+        "execution_time": 62,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/down_proj/MatMul",
+        "type": "MatMul",
+        "compute_unit": "CPU",
+        "execution_time": 4396,
+        "execution_cycles": 0
+      },
+      {
+        "name": "/layers.0/Add_7",
+        "type": "Add",
+        "compute_unit": "CPU",
+        "execution_time": 74,
+        "execution_cycles": 0
+      }
+    ]
+  }
+}

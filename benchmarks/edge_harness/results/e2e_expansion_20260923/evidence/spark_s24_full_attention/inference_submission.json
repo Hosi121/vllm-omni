@@ -1,0 +1,9 @@
+{
+  "timestamp_utc": "2026-09-23T21:15:46.475323+00:00",
+  "job_id": "j57e4k9lp",
+  "url": "https://workbench.aihub.qualcomm.com/jobs/j57e4k9lp/",
+  "target_model_id": "mq9y70k0n",
+  "device": "Samsung Galaxy S24",
+  "input_dataset_id": "d7m83gjy2",
+  "options": "--compute_unit npu"
+}

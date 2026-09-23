@@ -13,6 +13,8 @@ three-stage text-to-speech functional pass after correcting request embeddings,
 and an InternVLA real-weight synthetic action forward. Model-quality and device gates
 remain open; the 2026-09-22 audit remains the historical baseline.
 
+The [Spark hosted Qualcomm component expansion](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_s24_full_attention/README.md) advances M1 only to one real fixed-shape decoder attention layer. The same W8A16 QNN DLC ran on S24, Snapdragon X Elite CRD and SA8775P ADP NPUs with identical outputs on one pinned fixture; S25 had prior separate component evidence. On [RB3 Gen 2](../../benchmarks/edge_harness/results/e2e_expansion_20260923/evidence/spark_rb3_full_attention/README.md), the tested W8A16 graph failed QNN loading even after an exact-device compile. FP32 ONNX ran on CPU with near-source parity, while calibrated W8A8 ran on NPU but had 20.9% hidden-state relative L2 and remains numerically unqualified. These are component C results, not full M1: device-local 28-layer prefill/continuous decode, KV/ring, sampling, token quality, admission/cancellation, complete-request timing and sustained power/thermal gates remain open. AI Hub is the test facility, not a deployment dependency.
+
 The [WSL CPU expansion](../../benchmarks/edge_harness/results/e2e_expansion_20260923/README.md)
 adds constrained three-stage MiniCPM-o text-to-speech requests and a CPU-only
 InternVLA synthetic policy forward. A subsequent 20-request serial MiniCPM-o

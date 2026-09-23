@@ -1,0 +1,79 @@
+{
+  "scope": "one real Spark-X2.5 attention layer at one static 1024-token cache shape; no generation E2E",
+  "status": "component_executed_on_cpu_quality_unqualified",
+  "device": {
+    "name": "Dragonwing RB3 Gen 2 Vision Kit",
+    "os": "1.6",
+    "attributes": [
+      "os:qc_linux",
+      "framework:tflite",
+      "framework:onnx",
+      "vendor:qualcomm",
+      "abi:aarch64-oe-linux-gcc11",
+      "format:iot",
+      "chipset:qualcomm-qcs6490",
+      "chipset:qcs6490",
+      "chipset:qualcomm-dragonwing-qcs6490",
+      "hexagon:v68",
+      "soc-model:93",
+      "framework:qnn"
+    ]
+  },
+  "compile_job_id": "jglyxowj5",
+  "inference_job_id": "jgolrodqg",
+  "profile_job_id": "jpvldemk5",
+  "target_model_id": "mmxj02ljq",
+  "input_dataset_id": "d7m83gjy2",
+  "compile_options": "--target_runtime onnx",
+  "files": {
+    "source_onnx": {
+      "bytes": 205618089,
+      "sha256": "4e2b1c8d791b1ee0e9b75f3322a20a743c0bf8c40f9b98edd963f2944d6300bb"
+    },
+    "fixture": {
+      "bytes": 3901238,
+      "sha256": "5a439e6c6d148f1720938770daa110039a39edde014f1c1592c823c7d7dfc8ed"
+    },
+    "source_cpu_output": {
+      "bytes": 12103,
+      "sha256": "6bbfb8e6ccb09475391ce1dbd2e855205720f4367c038a0d5be35e7dfeb2f768"
+    },
+    "device_output": {
+      "bytes": 12128,
+      "sha256": "442d3a8fef165584c853daf87592e4dc7ed3bc9788eee93b2fc6c67cbc6770b4"
+    }
+  },
+  "source_cpu_vs_device": {
+    "hidden": {
+      "relative_l2": 8.726789979684891e-07,
+      "max_abs": 3.2782554626464844e-07,
+      "cosine": 0.9999999999996264
+    },
+    "k_new_0": {
+      "relative_l2": 2.984418086993196e-07,
+      "max_abs": 2.384185791015625e-06,
+      "cosine": 0.9999999999999881
+    },
+    "v_new_0": {
+      "relative_l2": 3.3724649115031866e-07,
+      "max_abs": 8.344650268554688e-07,
+      "cosine": 0.9999999999999739
+    }
+  },
+  "profile": {
+    "sample_count": 100,
+    "sample_min_us": 19104,
+    "nearest_rank_p50_us": 19304,
+    "nearest_rank_p95_us": 21113,
+    "reported_estimated_inference_time_us": 19104,
+    "reported_peak_memory_bytes": 227733504,
+    "compute_unit_row_counts": {
+      "CPU": 56
+    }
+  },
+  "limits": [
+    "No next-token or task-level numerical tolerance is established.",
+    "No complete prefill, KV/ring, sampling, continuous generation or Omni deployment is tested.",
+    "Hosted component latency is not a complete request or sustained thermal profile."
+  ]
+}
