@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM-Omni project
 
-"""Compare BAGEL VAE tile merging. Decoder compute and communication are not timed."""
+"""Compare BAGEL VAE tile merging. Decoder compute and communication are not timed.
+
+Use an empty TRITON_CACHE_DIR to include compilation in the first merge time.
+"""
 
 import argparse
 import json
@@ -68,8 +71,13 @@ def main() -> None:
         )
         reference = models["main"].decode_tile_merge(tiles, spec)
         packed.copy_(source)
-        assert torch.equal(reference, models["PR"].decode_tile_merge(tiles, spec))
-        del reference
+        torch.accelerator.synchronize()
+        start = time.perf_counter()
+        output = models["PR"].decode_tile_merge(tiles, spec)
+        torch.accelerator.synchronize()
+        first_pr_merge_ms = (time.perf_counter() - start) * 1000
+        assert torch.equal(reference, output)
+        del reference, output
         samples: dict[str, list[float]] = {name: [] for name in models}
         peaks = {}
         for name, model in models.items():
@@ -98,6 +106,7 @@ def main() -> None:
             json.dumps(
                 {
                     "size": size,
+                    "first_pr_merge_ms": first_pr_merge_ms,
                     "extra_peak_MiB": peaks,
                     "results": {
                         name: {"median_ms": statistics.median(values), "samples_ms": values}

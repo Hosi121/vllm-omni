@@ -10,17 +10,17 @@ from vllm.platforms import current_platform
 from vllm.triton_utils import HAS_TRITON, tl, triton
 
 
-@triton.jit
+@triton.jit(do_not_specialize=("shape", "source_strides", "current_strides", "extent", "source_start", "count"))
 def _blend_kernel(
     source,
     current,
-    shape: tl.constexpr,
-    source_strides: tl.constexpr,
-    current_strides: tl.constexpr,
+    shape,
+    source_strides,
+    current_strides,
     axis: tl.constexpr,
-    extent: tl.constexpr,
-    source_start: tl.constexpr,
-    count: tl.constexpr,
+    extent,
+    source_start,
+    count,
     block_size: tl.constexpr,
 ):
     index = tl.program_id(0).to(tl.int64) * block_size + tl.arange(0, block_size)
@@ -36,9 +36,10 @@ def _blend_kernel(
             coordinate = position
             position += source_start
         source_offset += position * source_strides[dim]
-    alpha = tl.div_rn(coordinate.to(tl.float32), float(extent))
+    denominator = extent.to(tl.float32)
+    alpha = tl.div_rn(coordinate.to(tl.float32), denominator)
     # Do not subtract the rounded alpha from 1. Python first subtracts in FP64.
-    complement = tl.div_rn((extent - coordinate).to(tl.float32), float(extent))
+    complement = tl.div_rn((extent - coordinate).to(tl.float32), denominator)
     a = tl.load(source + source_offset, index < count, other=0).to(tl.float32)
     b = tl.load(current + current_offset, index < count, other=0).to(tl.float32)
     dtype: tl.constexpr = current.dtype.element_ty
